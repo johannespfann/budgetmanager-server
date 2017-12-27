@@ -14,10 +14,10 @@ public class Main {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
 
-            Entry user = new Entry();
-            user.name = "asdf";
+            Entry entry = new Entry();
+            entry.setMemo("test memo");
 
-            session.save(user);
+            session.save(entry);
 
             session.getTransaction().commit();
             session.close();
