@@ -1,9 +1,6 @@
 package de.pfann.budgetmanager.server.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Tag {
@@ -12,7 +9,8 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private User user;
+    @ManyToOne
+    private AppUser appUser;
 
     private String name;
 }

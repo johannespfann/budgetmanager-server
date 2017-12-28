@@ -12,7 +12,8 @@ public class Category {
     @Column(unique = true)
     private String hash;
 
-    private User user;
+    @ManyToOne
+    private AppUser appUser;
 
     private String name;
 

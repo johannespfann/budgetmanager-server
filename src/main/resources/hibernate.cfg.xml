@@ -22,7 +22,10 @@
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
         <!-- Annotated entity classes -->
-        <mapping class="de.pfann.budgetmanager.server.Entry"/>
+        <mapping class="de.pfann.budgetmanager.server.model.Entry"/>
+        <mapping class="de.pfann.budgetmanager.server.model.AppUser"/>
+        <mapping class="de.pfann.budgetmanager.server.model.Category"/>
+        <mapping class="de.pfann.budgetmanager.server.model.Tag"/>
 
     </session-factory>
 </hibernate-configuration>

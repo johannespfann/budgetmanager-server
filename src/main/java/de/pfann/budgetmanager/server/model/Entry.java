@@ -12,8 +12,10 @@ public class Entry {
     @Column(unique = true)
     private String hash;
 
-    private User user;
+    @ManyToOne
+    private AppUser appUser;
 
+    @ManyToOne
     private Category category;
 
     private double amount;
@@ -28,7 +30,7 @@ public class Entry {
         Entry entry = new Entry();
         entry.id = aEntry.id;
         entry.amount = aEntry.amount;
-        entry.user = aEntry.user;
+        entry.appUser = aEntry.appUser;
         entry.category = aEntry.category;
         entry.hash = aEntry.hash;
         entry.memo = aEntry.memo;
@@ -41,8 +43,8 @@ public class Entry {
         return hash;
     }
 
-    public User getUser() {
-        return user;
+    public AppUser getAppUser() {
+        return appUser;
     }
 
     public Category getCategory() {
@@ -68,8 +70,8 @@ public class Entry {
         this.hash = hash;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     public void setCategory(Category category) {

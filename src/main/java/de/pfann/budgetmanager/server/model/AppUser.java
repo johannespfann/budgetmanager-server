@@ -4,23 +4,24 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "appUser")
     private List<Tag> tags;
 
-    @OneToMany
+    @OneToMany(mappedBy = "appUser")
     private List<Category> categories;
 
-    @OneToMany
+    @OneToMany(mappedBy = "appUser")
     private List<Entry> entries;
 
     private String name;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
