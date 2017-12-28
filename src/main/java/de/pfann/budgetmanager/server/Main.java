@@ -2,10 +2,7 @@ package de.pfann.budgetmanager.server;
 
 import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.persistens.EntryDao;
-import de.pfann.budgetmanager.server.persistens.SessionDistributor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+
 
 public class Main {
 
@@ -42,7 +39,7 @@ public class Main {
 
         EntryDao dao = EntryDao.create();
         System.out.println("Start saving object");
-        //System.out.println("anzahl entries: " + dao.countAll());
+        System.out.println("anzahl entries: " + dao.countAll());
 
         Entry entry = new Entry();
         entry.setHash("asdfasdf");

@@ -1,0 +1,12 @@
+postgres:
+
+
+psql postgres
+
+CREATE USER budgetmaster WITH PASSWORD 'keymaster'
+
+
+CREATE DATABASE budgetdb
+
+
+GRANT ALL PRIVILEGES ON DATABASE budgetdb to budgetmaster;
