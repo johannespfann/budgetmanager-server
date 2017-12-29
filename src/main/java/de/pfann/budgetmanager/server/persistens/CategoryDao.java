@@ -1,6 +1,11 @@
 package de.pfann.budgetmanager.server.persistens;
 
+import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+
+import java.util.List;
 
 public class CategoryDao extends AbstractDao {
 
@@ -15,5 +20,11 @@ public class CategoryDao extends AbstractDao {
     @Override
     protected Class<?> getEntityClass() {
         return Category.class;
+    }
+
+    public List<Category> getAllByUser(AppUser aUser){
+        DetachedCriteria criteria = getCriteria();
+        criteria.add(Restrictions.eq("appUser", aUser));
+        return (List<Category>) doGet(criteria);
     }
 }

@@ -1,7 +1,6 @@
 package de.pfann.budgetmanager.server.persistens;
 
 import de.pfann.budgetmanager.server.model.AppUser;
-import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Tag;
 import org.junit.After;
 import org.junit.Assert;
@@ -23,7 +22,8 @@ public class TagDaoIT {
      */
 
     private AppUserDao userDao;
-    private AppUser user;
+    private AppUser firstUser;
+    private AppUser secondUser;
 
     /**
      * class under test
@@ -41,12 +41,19 @@ public class TagDaoIT {
         tagDao = TagDao.create();
 
         // Create default User
-        user = new AppUser();
-        user.setName(NAME);
-        user.setEmail(EMAIL);
-        user.setPassword(PASSWORD);
+        firstUser = new AppUser();
+        firstUser.setName(NAME);
+        firstUser.setEmail(EMAIL);
+        firstUser.setPassword(PASSWORD);
 
-        userDao.save(user);
+        userDao.save(firstUser);
+
+        secondUser = new AppUser();
+        secondUser.setName("franz");
+        secondUser.setEmail("franz@muster.com");
+        secondUser.setPassword(PASSWORD);
+
+        userDao.save(secondUser);
     }
 
     @After
@@ -60,14 +67,43 @@ public class TagDaoIT {
         // preparing
         Tag tag = new Tag();
         tag.setName("defaultTag");
-        tag.setAppUser(user);
+        tag.setAppUser(firstUser);
 
         // execute
         tagDao.save(tag);
 
         // validate
         Assert.assertEquals(1, tagDao.doGetAll().size());
+    }
 
+    @Test
+    public void testDeleteTagsByUser(){
+        // preparing
+        Tag firstTag = new Tag();
+        String firstTagName = "defaultTag";
+        firstTag.setName(firstTagName);
+        firstTag.setAppUser(firstUser);
+
+        tagDao.save(firstTag);
+
+        Tag secondTag = new Tag();
+        secondTag.setName("defaultTag");
+        secondTag.setAppUser(secondUser);
+
+        tagDao.save(secondTag);
+
+        Tag thirdTag = new Tag();
+        thirdTag.setName("defaultTag");
+        thirdTag.setAppUser(secondUser);
+
+        tagDao.save(thirdTag);
+
+        // execute
+        tagDao.deleteAllByUser(secondUser);
+
+        // validate
+        Assert.assertEquals(firstTagName, tagDao.getAllByUser(firstUser).get(0).getName());
+        Assert.assertEquals(0, tagDao.getAllByUser(secondUser).size());
     }
 
 }
