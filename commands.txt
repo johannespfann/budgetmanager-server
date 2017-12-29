@@ -1,12 +1,16 @@
 postgres:
 
+DATABASE:
 
 psql postgres
 
-CREATE USER budgetmaster WITH PASSWORD 'keymaster'
+1) CREATE USER budgetmaster WITH PASSWORD 'keymaster';
+2) CREATE DATABASE budgetdb;
+3) GRANT ALL PRIVILEGES ON DATABASE budgetdb to budgetmaster;
 
 
-CREATE DATABASE budgetdb
+TEST-DATABASE
 
-
-GRANT ALL PRIVILEGES ON DATABASE budgetdb to budgetmaster;
+1) CREATE USER budgetmaster_test WITH PASSWORD 'keymaster';
+2) CREATE DATABASE budgetdb_test;
+3) GRANT ALL PRIVILEGES ON DATABASE budgetdb_test to budgetmaster_test;

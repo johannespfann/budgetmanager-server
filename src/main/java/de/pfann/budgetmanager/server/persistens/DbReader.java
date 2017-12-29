@@ -17,29 +17,29 @@ public class DbReader {
 		return new DbReader(SessionDistributor.create());
 	}
 
-	public DbReader(SessionDistributor _sessionDistributor) {
-		sessionDistributor = _sessionDistributor;
+	public DbReader(SessionDistributor aSessionDistributor) {
+		sessionDistributor = aSessionDistributor;
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List get(DetachedCriteria _criteria) {
+	public List get(DetachedCriteria aCriteria) {
 		Session session = doPrepareSession();
-		List results = _criteria.getExecutableCriteria(session).list();
+		List results = aCriteria.getExecutableCriteria(session).list();
 		doCloseSession(session);
 		return results;
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List get(Class<?> _class, String _query, Map<String, Object> _parameters) {
+	public List get(Class<?> aClass, String aQuery, Map<String, Object> aParameters) {
 		Session session = doPrepareSession();
 
-		SQLQuery query = session.createSQLQuery(_query);
-		query.addEntity(_class);
+		SQLQuery query = session.createSQLQuery(aQuery);
+		query.addEntity(aClass);
 
 		// Iterate through Map and add parameters
-		if (_parameters != null) {
-			for (String key : _parameters.keySet()) {
-				query.setParameter(key, _parameters.get(key));
+		if (aParameters != null) {
+			for (String key : aParameters.keySet()) {
+				query.setParameter(key, aParameters.get(key));
 			}
 		}
 
@@ -48,23 +48,23 @@ public class DbReader {
 		return results;
 	}
 
-	public Object getUnique(DetachedCriteria _criteria) {
+	public Object getUnique(DetachedCriteria aCriteria) {
 		Session session = doPrepareSession();
-		Object result = _criteria.getExecutableCriteria(session).uniqueResult();
+		Object result = aCriteria.getExecutableCriteria(session).uniqueResult();
 		doCloseSession(session);
 		return result;
 	}
 
-	public long count(DetachedCriteria _criteria) {
+	public long count(DetachedCriteria aCriteria) {
 		Session session = doPrepareSession();
-		Criteria criteria = _criteria.getExecutableCriteria(session).setProjection(Projections.rowCount());
+		Criteria criteria = aCriteria.getExecutableCriteria(session).setProjection(Projections.rowCount());
 		long result = (long) criteria.uniqueResult();
 		doCloseSession(session);
 		return result;
 	}
 
-	protected void doCloseSession(Session _session) {
-		_session.getTransaction().commit();
+	protected void doCloseSession(Session aSession) {
+		aSession.getTransaction().commit();
 	}
 
 	protected Session doPrepareSession() {

@@ -9,21 +9,24 @@ public class Entry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String hash;
 
     @ManyToOne
+    @Column(nullable = false)
     private AppUser appUser;
 
     @ManyToOne
+    @Column(nullable = false)
     private Category category;
 
+    @Column(nullable = false)
     private double amount;
 
     private String memo;
 
     public Entry(){
-
+        // hibernate
     }
 
     public Entry(Entry aEntry){
@@ -37,7 +40,6 @@ public class Entry {
     }
 
     // getter
-
 
     public String getHash() {
         return hash;
@@ -60,7 +62,6 @@ public class Entry {
     }
 
     // setter
-
 
     public void setId(long id) {
         this.id = id;

@@ -13,6 +13,7 @@ public class Category {
     private String hash;
 
     @ManyToOne
+    @Column(nullable = false)
     private AppUser appUser;
 
     private String name;
