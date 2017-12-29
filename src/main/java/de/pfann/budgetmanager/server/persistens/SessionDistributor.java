@@ -27,10 +27,9 @@ public class SessionDistributor {
 	public static SessionDistributor createForIT() {
 		Configuration configuration = getBaseConfig();
 
-		//ConfigManager cm = ConfigManager.getInstance();
-		//configuration.setProperty("hibernate.connection.url", cm.get(SessionDistributor.class, "iturl"));
-		//configuration.setProperty("hibernate.connection.username", cm.get(SessionDistributor.class, "itusername"));
-		//configuration.setProperty("hibernate.connection.password", cm.get(SessionDistributor.class, "itpassword"));
+		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost/budgetdb_test");
+		configuration.setProperty("hibernate.connection.username", "budgetmaster_test");
+		configuration.setProperty("hibernate.connection.password", "keymaster");
 
 		return new SessionDistributor(configuration);
 	}
@@ -46,7 +45,6 @@ public class SessionDistributor {
 			synchronized (this) {
 				if (sessionFactory == null) {
 					sessionFactory = buildSessionFactory(_configuration);
-
 				}
 			}
 		}
