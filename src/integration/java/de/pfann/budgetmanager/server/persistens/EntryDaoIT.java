@@ -3,10 +3,12 @@ package de.pfann.budgetmanager.server.persistens;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 
 public class EntryDaoIT {
 
@@ -20,6 +22,8 @@ public class EntryDaoIT {
     public static final String Name_SECOND = "franz";
     public static final String NAME_SECOND = Name_SECOND;
     public static final String EMAIL_SECOND = "franz@muster.de";
+    public static final String HASH_FIRST_ENTRY = "hash123";
+    public static final String MEMO = "memo";
 
     /**
      * Helper
@@ -102,9 +106,10 @@ public class EntryDaoIT {
         entryDao.save(entry);
 
         // validate
-        Assert.assertEquals(1, entryDao.doGetAll().size());
+        Assert.assertEquals(1, entryDao.getAll().size());
     }
 
+    @Test
     public void testGetAllByUser(){
         // Preparing entry of firstUser
         Entry entry = new Entry();
@@ -130,6 +135,71 @@ public class EntryDaoIT {
         // execute
         Assert.assertEquals(1, entryDao.getAllByUser(secondUser).size());
         Assert.assertEquals("hash223", entryDao.getAllByUser(secondUser).get(0).getHash());
+    }
+
+    @Test
+    public void testGetEntryByHash(){
+        // Preparing entry of firstUser
+        Entry entry = new Entry();
+        entry.setAmount(123);
+        entry.setHash(HASH_FIRST_ENTRY);
+        entry.setMemo("memo");
+        entry.setCategory(firstCategory);
+        entry.setAppUser(firstUser);
+
+        // execute
+        entryDao.save(entry);
+        Entry newEntry = entryDao.getEntryByHash(HASH_FIRST_ENTRY).get(0);
+
+        // validate
+        Assert.assertEquals(HASH_FIRST_ENTRY, newEntry.getHash());
+        Assert.assertEquals(true, entryDao.getEntryByHash(HASH_FIRST_ENTRY).size() == 1);
+    }
+
+    @Test
+    public void testUpdateEntry(){
+        // Preparing
+        Entry entry = new Entry();
+        entry.setAmount(123);
+        entry.setHash(HASH_FIRST_ENTRY);
+        entry.setMemo(MEMO);
+        entry.setCategory(firstCategory);
+        entry.setAppUser(firstUser);
+
+        // execute
+        entryDao.save(entry);
+        Entry newEntry = entryDao.getEntryByHash(HASH_FIRST_ENTRY).get(0);
+
+        String new_memo = "new memo";
+        newEntry.setMemo(new_memo);
+
+        entryDao.save(newEntry);
+
+        // validate
+        Assert.assertEquals(true, entryDao.getEntryByHash(HASH_FIRST_ENTRY).size() == 1);
+        Assert.assertEquals(new_memo, entryDao.getEntryByHash(HASH_FIRST_ENTRY).get(0).getMemo());
+    }
+
+    @Test(expected = DataHandlerException.class)
+    public void testUniqueHash() throws DataHandlerException{
+        // Preparing
+        Entry entry = new Entry();
+        entry.setAmount(123);
+        entry.setHash(HASH_FIRST_ENTRY);
+        entry.setMemo(MEMO);
+        entry.setCategory(firstCategory);
+        entry.setAppUser(firstUser);
+
+        Entry entryDuplicate = new Entry();
+        entryDuplicate.setAmount(123);
+        entryDuplicate.setHash(HASH_FIRST_ENTRY);
+        entryDuplicate.setMemo(MEMO);
+        entryDuplicate.setCategory(firstCategory);
+        entryDuplicate.setAppUser(firstUser);
+
+        // execute && validate
+        entryDao.save(entry);
+        entryDao.save(entryDuplicate);
     }
 
 }
