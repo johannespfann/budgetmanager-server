@@ -17,16 +17,21 @@ public class EntryDaoIT {
     private static final String NAME = "max muster";
     private static final String EMAIL = "max@muster.de";
     private static final String PASSWORD = "keymuster";
+    public static final String Name_SECOND = "franz";
+    public static final String NAME_SECOND = Name_SECOND;
+    public static final String EMAIL_SECOND = "franz@muster.de";
 
     /**
      * Helper
      */
 
     private AppUserDao userDao;
-    private AppUser user;
+    private AppUser firstUser;
+    private AppUser secondUser;
 
     private CategoryDao categoryDao;
-    private Category category;
+    private Category firstCategory;
+    private Category secondCategory;
 
     /**
      * class under test
@@ -44,22 +49,37 @@ public class EntryDaoIT {
         categoryDao = CategoryDao.create();
         entryDao = EntryDao.create();
 
-        // Create and save User
-        user = new AppUser();
-        user.setName(NAME);
-        user.setEmail(EMAIL);
-        user.setPassword(PASSWORD);
+        // Create and save Users
+        firstUser = new AppUser();
+        firstUser.setName(NAME);
+        firstUser.setEmail(EMAIL);
+        firstUser.setPassword(PASSWORD);
 
-        userDao.save(user);
+        userDao.save(firstUser);
 
-        // Create and save Category
+        secondUser = new AppUser();
+        secondUser.setName(NAME_SECOND);
+        secondUser.setEmail(EMAIL_SECOND);
+        secondUser.setPassword(PASSWORD);
 
-        category = new Category();
-        category.setName("category");
-        category.setHash("hash123");
-        category.setAppUser(user);
+        userDao.save(secondUser);
 
-        categoryDao.save(category);
+
+        // Create and save Categories
+
+        firstCategory = new Category();
+        firstCategory.setName("firstCategory");
+        firstCategory.setHash("hash123");
+        firstCategory.setAppUser(firstUser);
+
+        categoryDao.save(firstCategory);
+
+        secondCategory = new Category();
+        secondCategory.setHash("hash234");
+        secondCategory.setName("secondCategory");
+        secondCategory.setAppUser(secondUser);
+
+        categoryDao.save(secondCategory);
     }
 
     @After
@@ -75,14 +95,41 @@ public class EntryDaoIT {
         entry.setAmount(123);
         entry.setHash("hash123");
         entry.setMemo("memo");
-        entry.setCategory(category);
-        entry.setAppUser(user);
+        entry.setCategory(firstCategory);
+        entry.setAppUser(firstUser);
 
         // execute
         entryDao.save(entry);
 
         // validate
         Assert.assertEquals(1, entryDao.doGetAll().size());
+    }
+
+    public void testGetAllByUser(){
+        // Preparing entry of firstUser
+        Entry entry = new Entry();
+        entry.setAmount(123);
+        entry.setHash("hash123");
+        entry.setMemo("memo");
+        entry.setCategory(firstCategory);
+        entry.setAppUser(firstUser);
+
+        entryDao.save(entry);
+
+        // Praparing entry of secondUser
+
+        Entry secondEntry = new Entry();
+        secondEntry.setAmount(123);
+        secondEntry.setHash("hash223");
+        secondEntry.setMemo("memo");
+        secondEntry.setCategory(secondCategory);
+        secondEntry.setAppUser(secondUser);
+
+        entryDao.save(secondEntry);
+
+        // execute
+        Assert.assertEquals(1, entryDao.getAllByUser(secondUser).size());
+        Assert.assertEquals("hash223", entryDao.getAllByUser(secondUser).get(0).getHash());
     }
 
 }
