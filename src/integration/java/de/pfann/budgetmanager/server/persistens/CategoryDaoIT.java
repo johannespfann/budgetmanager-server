@@ -2,6 +2,9 @@ package de.pfann.budgetmanager.server.persistens;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,7 +69,7 @@ public class CategoryDaoIT {
         categoryDao.save(category);
 
         // validate
-        Assert.assertEquals(1, categoryDao.doGetAll().size());
+        Assert.assertEquals(1, categoryDao.getAllByUser(user).size());
 
     }
 

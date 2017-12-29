@@ -2,6 +2,9 @@ package de.pfann.budgetmanager.server.persistens;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Tag;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.persistens.daos.TagDao;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -73,7 +76,7 @@ public class TagDaoIT {
         tagDao.save(tag);
 
         // validate
-        Assert.assertEquals(1, tagDao.doGetAll().size());
+        Assert.assertEquals(1, tagDao.getAllByUser(firstUser).size());
     }
 
     @Test

@@ -1,14 +1,16 @@
-package de.pfann.budgetmanager.server.persistens;
+package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Tag;
+import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
+import de.pfann.budgetmanager.server.persistens.core.DbReader;
+import de.pfann.budgetmanager.server.persistens.core.DbWriter;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class TagDao extends AbstractDao{
+public class TagDao extends AbstractDao {
 
     protected TagDao(DbWriter _dbWriter, DbReader _dbReader) {
         super(_dbWriter, _dbReader);

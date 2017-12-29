@@ -1,7 +1,10 @@
-package de.pfann.budgetmanager.server.persistens;
+package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Entry;
+import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
+import de.pfann.budgetmanager.server.persistens.core.DbReader;
+import de.pfann.budgetmanager.server.persistens.core.DbWriter;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 

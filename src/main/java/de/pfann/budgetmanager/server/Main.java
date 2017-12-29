@@ -2,8 +2,8 @@ package de.pfann.budgetmanager.server;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Entry;
-import de.pfann.budgetmanager.server.persistens.AppUserDao;
-import de.pfann.budgetmanager.server.persistens.EntryDao;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.persistens.daos.EntryDao;
 
 
 public class Main {

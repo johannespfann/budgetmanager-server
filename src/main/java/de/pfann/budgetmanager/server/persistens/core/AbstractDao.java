@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.persistens;
+package de.pfann.budgetmanager.server.persistens.core;
 
 import org.hibernate.criterion.DetachedCriteria;
 

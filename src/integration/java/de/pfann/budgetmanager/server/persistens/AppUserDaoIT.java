@@ -1,6 +1,8 @@
 package de.pfann.budgetmanager.server.persistens;
 
 import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -49,7 +51,7 @@ public class AppUserDaoIT {
         userDao.save(user);
 
         // validate
-        Assert.assertEquals(1, userDao.doGetAll().size());
+        Assert.assertEquals(1, userDao.countAll());
     }
 
 

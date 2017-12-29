@@ -1,6 +1,9 @@
 package de.pfann.budgetmanager.server.persistens;
 
 import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.core.DbReader;
+import de.pfann.budgetmanager.server.persistens.core.DbWriter;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.junit.After;

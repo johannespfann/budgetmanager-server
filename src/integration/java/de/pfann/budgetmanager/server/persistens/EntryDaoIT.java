@@ -4,6 +4,11 @@ import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
 
+import de.pfann.budgetmanager.server.persistens.core.DataHandlerException;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
+import de.pfann.budgetmanager.server.persistens.daos.EntryDao;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
