@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Entry {
@@ -13,11 +14,11 @@ public class Entry {
     private String hash;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private AppUser appUser;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Category category;
 
     @Column(nullable = false)

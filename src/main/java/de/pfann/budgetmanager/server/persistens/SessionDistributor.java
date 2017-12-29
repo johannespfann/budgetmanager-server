@@ -21,6 +21,8 @@ public class SessionDistributor {
 		configuration.setProperty("hibernate.connection.username", "budgetmaster");
 		configuration.setProperty("hibernate.connection.password", "keymaster");
 
+		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+
 		return new SessionDistributor(configuration);
 	}
 
@@ -30,6 +32,8 @@ public class SessionDistributor {
 		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost/budgetdb_test");
 		configuration.setProperty("hibernate.connection.username", "budgetmaster_test");
 		configuration.setProperty("hibernate.connection.password", "keymaster");
+
+		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
 		return new SessionDistributor(configuration);
 	}
@@ -66,4 +70,10 @@ public class SessionDistributor {
 		return sessionFactory.getCurrentSession();
 	}
 
+    public static void closeSessions() {
+		if(sessionFactory != null){
+			sessionFactory.close();
+		}
+		sessionFactory = null;
+    }
 }

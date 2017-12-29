@@ -1,5 +1,7 @@
 package de.pfann.budgetmanager.server.persistens;
 
+import de.pfann.budgetmanager.server.model.Category;
+
 public class CategoryDao extends AbstractDao {
 
     public static CategoryDao create(){
@@ -12,6 +14,6 @@ public class CategoryDao extends AbstractDao {
 
     @Override
     protected Class<?> getEntityClass() {
-        return null;
+        return Category.class;
     }
 }
