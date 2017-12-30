@@ -14,9 +14,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 
 public class EntryDaoIT {
 
+    public static final String HASH_SECOND_ENTRY = "hash_second_entry";
     /**
      * properties
      */
@@ -205,6 +208,75 @@ public class EntryDaoIT {
         // execute && validate
         entryDao.save(entry);
         entryDao.save(entryDuplicate);
+    }
+
+    @Test
+    public void testGetAllByCategory(){
+        Entry firstEntry = new Entry();
+        firstEntry.setAmount(123);
+        firstEntry.setHash(HASH_FIRST_ENTRY);
+        firstEntry.setMemo(MEMO);
+        firstEntry.setCategory(firstCategory);
+        firstEntry.setAppUser(firstUser);
+
+        entryDao.save(firstEntry);
+
+        Entry secondEntry = new Entry();
+        secondEntry.setAmount(123);
+        secondEntry.setHash(HASH_SECOND_ENTRY);
+        secondEntry.setMemo(MEMO);
+        secondEntry.setCategory(secondCategory);
+        secondEntry.setAppUser(firstUser);
+
+        entryDao.save(secondEntry);
+
+        // execute
+
+        List<Entry> entries = entryDao.getAllByCategory(secondCategory);
+
+        // validate
+
+        Assert.assertEquals(1,entries.size());
+    }
+
+    @Test
+    public void testDeleteByCategory(){
+        Entry firstEntry = new Entry();
+        firstEntry.setAmount(123);
+        firstEntry.setHash(HASH_FIRST_ENTRY);
+        firstEntry.setMemo(MEMO);
+        firstEntry.setCategory(firstCategory);
+        firstEntry.setAppUser(firstUser);
+
+        entryDao.save(firstEntry);
+
+        Entry secondEntry = new Entry();
+        secondEntry.setAmount(123);
+        secondEntry.setHash(HASH_SECOND_ENTRY);
+        secondEntry.setMemo(MEMO);
+        secondEntry.setCategory(secondCategory);
+        secondEntry.setAppUser(firstUser);
+
+        //
+    }
+
+    @Test
+    public void testDeleteByUser(){
+        Entry firstEntry = new Entry();
+        firstEntry.setAmount(123);
+        firstEntry.setHash(HASH_FIRST_ENTRY);
+        firstEntry.setMemo(MEMO);
+        firstEntry.setCategory(firstCategory);
+        firstEntry.setAppUser(firstUser);
+
+        entryDao.save(firstEntry);
+
+        Entry secondEntry = new Entry();
+        secondEntry.setAmount(123);
+        secondEntry.setHash(HASH_SECOND_ENTRY);
+        secondEntry.setMemo(MEMO);
+        secondEntry.setCategory(secondCategory);
+        secondEntry.setAppUser(secondUser);
     }
 
 }
