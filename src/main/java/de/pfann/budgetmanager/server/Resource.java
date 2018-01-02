@@ -22,8 +22,8 @@ public class Resource {
     public Response helloWorld() {
         return Response.ok()
                 .entity("{\"name\" : \"hello\"}")
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", ACCESS_CONTROL_ALLOW_METHODS_VALUE)
+                .header(ACCESS_CONTROL_ALLOW_ORIGIN_PROPERTY, ACCESS_CONTROL_ALLOW_ORIGIN_VALUE)
+                .header(ACCESS_CONTROL_ALLOW_METHODS_PROPERTY, ACCESS_CONTROL_ALLOW_METHODS_VALUE)
                 .build();
     }
 }
