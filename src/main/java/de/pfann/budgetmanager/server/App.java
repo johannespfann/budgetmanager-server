@@ -14,7 +14,7 @@ import java.net.URI;
  */
 public class App 
 {
-    public static final String BASE_URI = "http://localhost:8081/myapp/";
+    public static final String BASE_URI = "http://localhost:8081/budget/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -23,7 +23,7 @@ public class App
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server");
+        final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server.resources");
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
