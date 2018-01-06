@@ -2,7 +2,7 @@ postgres:
 
 DATABASE:
 
-psql postgres
+postgres psql 
 
 1) CREATE USER budgetmaster WITH PASSWORD 'keymaster';
 2) CREATE DATABASE budgetdb;
