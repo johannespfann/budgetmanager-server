@@ -1,11 +1,25 @@
 package de.pfann.budgetmanager.server.resources;
 
+import de.pfann.budgetmanager.server.email.EmailService;
+import de.pfann.budgetmanager.server.login.*;
+import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("user/")
 public class UserResource implements UserApi {
+
+    private AppUserDao userDao;
+
+    private EmailService emailService;
+
+    public UserResource(){
+        userDao = AppUserDao.create();
+        emailService = new EmailService();
+    }
 
     @GET
     @Path("login/{username}")
@@ -26,19 +40,30 @@ public class UserResource implements UserApi {
             @PathParam("username") String aUsername,
             @PathParam("email") String aEmail,
             String aBody) {
-        // TODO
-        System.out.println(aUsername);
-        System.out.println(aEmail);
-        System.out.println(aBody);
 
-        Response response = Response.ok()
-                .entity("{\"name\" : \"hello\"}")
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
-                .build();
-        return response;
+        AppUser user = new AppUser();
+        user.setName(aUsername);
+        user.setEmail(aEmail);
+        user.setPassword(getPassword(aBody));
+
+        userDao.save(user);
+
+        String activationCode = Util.getActivationCode();
+
+        try {
+            ActivationPool.create().addActivationTicket(aUsername,aEmail,activationCode);
+        } catch (ActivationCodeAlreadyExistsException e) {
+            e.printStackTrace();
+        }
+
+        emailService.sendActivationEmail(aUsername,aEmail,activationCode);
+
+        return RestUtil.prepareDefaultHeader(Response.ok()).build();
     }
 
+    private String getPassword(String aBody) {
+        return aBody;
+    }
 
     public Response unregister(@PathParam("username") String aUsername) {
         return null;
@@ -49,13 +74,39 @@ public class UserResource implements UserApi {
     public Response activateUser(
             @PathParam("username") String aUsername,
             String aBody) {
-        System.out.println(aUsername);
-        System.out.println(aBody);
-        Response response = Response.ok()
-                .entity("{\"name\" : \"hello\"}")
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+
+        String activationCode = getActivationCode(aBody);
+
+        ActivationTicket ticket = null;
+
+        try {
+            ActivationPool.create().getActivationTicket(activationCode);
+
+            if(aUsername.equals(ticket.getUsername())){
+                AppUser appUser = userDao.getUser(aUsername);
+                appUser.setEmail(ticket.getEmail());
+                appUser.activate();
+                userDao.save(appUser);
+            }
+            else{
+                return RestUtil.prepareDefaultHeader(
+                        Response.status(Response.Status.BAD_REQUEST))
+                        .build();
+            }
+
+        } catch (ActivationTicketNotFoundException e) {
+            e.printStackTrace();
+            return RestUtil.prepareDefaultHeader(
+                    Response.status(Response.Status.BAD_REQUEST))
+                    .build();
+        }
+
+        return RestUtil.prepareDefaultHeader(Response.ok())
                 .build();
-        return response;
     }
+
+    private String getActivationCode(String aBody) {
+        return aBody;
+    }
+
 }

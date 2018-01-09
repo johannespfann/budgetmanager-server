@@ -20,6 +20,7 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser")
     private List<Entry> entries;
 
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false, unique = true)
@@ -27,8 +28,9 @@ public class AppUser {
 
     private String password;
 
+    private boolean activated = false;
 
-    public AppUser(){
+    public AppUser() {
         tags = new LinkedList<>();
         entries = new LinkedList<>();
         categories = new LinkedList<>();
@@ -89,5 +91,17 @@ public class AppUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void activate() {
+        this.activated = true;
+    }
+
+    public void deactivate() {
+        this.activated = false;
     }
 }
