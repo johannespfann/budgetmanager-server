@@ -42,23 +42,25 @@ public class UserResource implements UserApi {
             String aBody) {
 
         AppUser user = new AppUser();
-        user.setName(aUsername);
+        user.setName(LoginUtil.getUserNameWithUnique(aUsername));
         user.setEmail(aEmail);
         user.setPassword(getPassword(aBody));
 
         userDao.save(user);
 
-        String activationCode = Util.getActivationCode();
+        String activationCode = LoginUtil.getActivationCode();
 
         try {
-            ActivationPool.create().addActivationTicket(aUsername,aEmail,activationCode);
+            ActivationPool.create().addActivationTicket(user.getName(),aEmail,activationCode);
         } catch (ActivationCodeAlreadyExistsException e) {
             e.printStackTrace();
         }
 
-        emailService.sendActivationEmail(aUsername,aEmail,activationCode);
+        emailService.sendActivationEmail(user.getName(),aEmail,activationCode);
 
-        return RestUtil.prepareDefaultHeader(Response.ok()).build();
+        return RestUtil.prepareDefaultHeader(Response.ok())
+                .entity("{\"username\" : \""+user.getName()+"\"}")
+                .build();
     }
 
     private String getPassword(String aBody) {
