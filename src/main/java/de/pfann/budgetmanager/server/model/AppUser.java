@@ -28,7 +28,7 @@ public class AppUser {
 
     private String password;
 
-    private boolean activated = false;
+    private boolean activated;
 
     public AppUser() {
         tags = new LinkedList<>();
@@ -98,6 +98,7 @@ public class AppUser {
     }
 
     public void activate() {
+        System.out.println("activate user");
         this.activated = true;
     }
 

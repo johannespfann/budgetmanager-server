@@ -1,5 +1,7 @@
 package de.pfann.budgetmanager.server.login;
 
+import sun.rmi.server.Activation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +35,14 @@ public class ActivationPool {
     }
 
     public ActivationTicket getActivationTicket(String aCode) throws ActivationTicketNotFoundException{
+        // TODO delete showPool() + Method
+        showPool();
+        System.out.println("Look for Tickets:" + ticketPool.size());
         for(ActivationTicket ticket : ticketPool){
-            if( ticket.equals(aCode)){
+            System.out.println("durchlauf forschleife ... " + ticket.getActivationCode() + " and " + aCode);
+            if( ticket.getActivationCode().equals(aCode)){
+                System.out.println("Found Ticket!!!!!");
+                System.out.println(ticket.getActivationCode());
                 return ticket;
             }
         }
@@ -42,11 +50,19 @@ public class ActivationPool {
     }
 
     public void addActivationTicket(String aUsername, String aEmail, String aCode) throws ActivationCodeAlreadyExistsException{
-        ActivationTicket ticket = new ActivationTicket(aUsername,aEmail,aCode);
+        ActivationTicket ticket = new ActivationTicket(aUsername,aCode,aEmail);
         if(codeExists(aCode)){
             throw new ActivationCodeAlreadyExistsException("ActivationCode already exists: " + aCode);
         }
         ticketPool.add(ticket);
+        // TODO Delete show Pool
+        showPool();
+    }
+
+    private void showPool(){
+        for(ActivationTicket ticket : ticketPool){
+            System.out.println(ticket.toString());
+        }
     }
 
 

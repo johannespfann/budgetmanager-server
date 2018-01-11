@@ -72,30 +72,41 @@ public class UserResource implements UserApi {
     }
 
     @POST
+    @Path("activate/resendemail/username/{username}/email{email}")
+    public Response resendEmail(
+            @PathParam("username") String aUsername,
+            @PathParam("email") String aEmail,
+            String aBody){
+
+        String activationCode = LoginUtil.getActivationCode();
+
+        try {
+            ActivationPool.create().addActivationTicket(aUsername,aEmail,activationCode);
+        } catch (ActivationCodeAlreadyExistsException e) {
+            e.printStackTrace();
+        }
+
+        emailService.sendActivationEmail(aUsername,aEmail,activationCode);
+
+        return RestUtil.prepareDefaultHeader(Response.ok())
+                .entity("{\"username\" : \""+aUsername+"\"}")
+                .build();
+    }
+
+    @POST
     @Path("activate/{username}")
     public Response activateUser(
             @PathParam("username") String aUsername,
             String aBody) {
+        System.out.println("Incomming activate user: " + aUsername);
+        System.out.println("with Body:  " + aBody);
 
         String activationCode = getActivationCode(aBody);
 
         ActivationTicket ticket = null;
 
         try {
-            ActivationPool.create().getActivationTicket(activationCode);
-
-            if(aUsername.equals(ticket.getUsername())){
-                AppUser appUser = userDao.getUser(aUsername);
-                appUser.setEmail(ticket.getEmail());
-                appUser.activate();
-                userDao.save(appUser);
-            }
-            else{
-                return RestUtil.prepareDefaultHeader(
-                        Response.status(Response.Status.BAD_REQUEST))
-                        .build();
-            }
-
+            ticket = ActivationPool.create().getActivationTicket(activationCode);
         } catch (ActivationTicketNotFoundException e) {
             e.printStackTrace();
             return RestUtil.prepareDefaultHeader(
@@ -103,8 +114,23 @@ public class UserResource implements UserApi {
                     .build();
         }
 
-        return RestUtil.prepareDefaultHeader(Response.ok())
+        System.out.println("Got Ticket => " + ticket.toString());
+        // TODO fail with User compare username vs username#123123
+        if(aUsername.equals(ticket.getUsername())){
+            System.out.println("Persist User");
+            AppUser appUser = userDao.getUser(aUsername);
+            appUser.setEmail(ticket.getEmail());
+            appUser.activate();
+            userDao.save(appUser);
+        }
+
+        System.out.println("Prepare Response");
+        Response response = RestUtil.prepareDefaultHeader(Response.ok())
+                .entity("{\"email\" : \""+ticket.getEmail()+"\"}")
                 .build();
+        System.out.println("Versende response.ok");
+        System.out.println(response.toString());
+        return response;
     }
 
     private String getActivationCode(String aBody) {

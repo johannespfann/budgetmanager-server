@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class LoginUtil {
 
-    private static final String USERNAME_SEPERATOR = "#";
+    private static final String USERNAME_SEPERATOR = "-";
 
     /**
      * Create a random integer
