@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.resources;
+package de.pfann.budgetmanager.server.login;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 
