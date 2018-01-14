@@ -4,8 +4,13 @@ import de.pfann.budgetmanager.server.email.EmailService;
 import de.pfann.budgetmanager.server.login.*;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 
-import javax.ws.rs.*;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,15 +26,34 @@ public class UserResource implements UserApi {
         emailService = new EmailService();
     }
 
-    @GET
-    @Path("login/{username}")
+    @POST
+    @Path("login/{accessor}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(@PathParam("username") String aUsername) {
-        System.out.println(aUsername);
-        Response response = Response.ok()
-                .entity("{\"name\" : \"hello\"}")
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+    public Response login(
+            @PathParam("accessor") String aAccessor,
+            String body) {
+        System.out.println("Login: " + aAccessor + "with" + getPassword(body));
+
+        AppUser user = null;
+
+        try {
+            userDao.getUserByNameOrEmail(aAccessor);
+        } catch (NoUserFoundException e) {
+            // return error response
+            return null;
+        }
+
+        if (!user.getPassword().equals(getPassword(body))) {
+            // TODO error no access
+            return null;
+        }
+
+        String accessToken = LoginUtil.getAccessTocken();
+
+        AccessPool.getInstance().register(user, accessToken);
+
+        Response response = RestUtil.prepareDefaultHeader(Response.ok())
+                .entity("{\"accesstoken\" : \""+accessToken+"\"}")
                 .build();
         return response;
     }
@@ -118,7 +142,13 @@ public class UserResource implements UserApi {
         // TODO fail with User compare username vs username#123123
         if(aUsername.equals(ticket.getUsername())){
             System.out.println("Persist User");
-            AppUser appUser = userDao.getUser(aUsername);
+            AppUser appUser = null;
+            try {
+                appUser = userDao.getUserByName(aUsername);
+            } catch (NoUserFoundException e) {
+                // TODO Return errorresponse
+                e.printStackTrace();
+            }
             appUser.setEmail(ticket.getEmail());
             appUser.activate();
             userDao.save(appUser);

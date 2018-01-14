@@ -24,10 +24,52 @@ public class AppUserDao extends AbstractDao {
         return AppUser.class;
     }
 
-    public AppUser getUser(String aUserName){
+    public AppUser getUserByName(String aUserName) throws NoUserFoundException{
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("name", aUserName));
-        return (AppUser) doGet(criteria).get(0);
+        List<AppUser> appUsers = (List<AppUser>) doGet(criteria);
+        if(appUsers.size() == 0){
+            throw new NoUserFoundException("No user found with name: " + aUserName);
+        } // TODO What happens when more then two user were found
+        return appUsers.get(0);
+    }
+
+    public AppUser getUserByEmail(String aEmail) throws NoUserFoundException {
+        DetachedCriteria criteria = getCriteria();
+        criteria.add(Restrictions.eq("email", aEmail));
+        List<AppUser> appUsers = (List<AppUser>) doGet(criteria);
+        if(appUsers.size() == 0){
+            throw new NoUserFoundException("No user found with email: " + aEmail);
+        } // TODO What happens when more then two user were found
+        return appUsers.get(0);
+    }
+
+    public AppUser getUserByNameOrEmail(String aIdentifier) throws NoUserFoundException {
+        DetachedCriteria nameCriteria = getCriteria();
+        nameCriteria.add(Restrictions.eq("name", aIdentifier));
+        List<AppUser> appUsers = (List<AppUser>) doGet(nameCriteria);
+
+        if(appUsers.size() > 0){
+            return appUsers.get(0);
+        }
+
+        DetachedCriteria emailCriteria = getCriteria();
+        emailCriteria.add(Restrictions.eq("email", aIdentifier));
+        appUsers = (List<AppUser>) doGet(emailCriteria);
+
+        if(appUsers.size() > 0){
+            return appUsers.get(0);
+        }
+
+        throw new NoUserFoundException("Dont find any user by email or name: " + aIdentifier);
+
+    }
+
+    public List<AppUser> getUsersByEmail(String aEmail) {
+        DetachedCriteria criteria = getCriteria();
+        criteria.add(Restrictions.eq("email", aEmail));
+        List<AppUser> appUsers = (List<AppUser>) doGet(criteria);
+        return appUsers;
     }
 
     public List<AppUser> getAll(){

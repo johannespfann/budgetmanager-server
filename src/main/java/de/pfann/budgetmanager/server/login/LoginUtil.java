@@ -28,4 +28,13 @@ public class LoginUtil {
         Random rand = new Random();
         return rand.nextInt(aMax - aMin);
     }
+
+    /**
+     *
+     * @return a unique access token
+     */
+    public static String getAccessTocken(){
+        return String.valueOf(getRandomInteger(1000000,99999999));
+    }
+
 }
