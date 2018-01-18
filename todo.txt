@@ -1,0 +1,5 @@
+# Login
+
+* Ein Job, der nach einiger Zeit die alten ActivationTickets wieder löscht
+* User ist nicht aktiviert in der Datenbank
+
