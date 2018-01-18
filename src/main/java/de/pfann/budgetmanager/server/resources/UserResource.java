@@ -29,24 +29,22 @@ public class UserResource implements UserApi {
     @Path("hello")
     @Produces(MediaType.APPLICATION_JSON)
     public Response sayhello(){
-        Response response = RestUtil.prepareDefaultHeader(Response.ok())
+        Response response = Response.ok()
                 .entity("{\"accesstoken\" : \"" +"johannes123"+"\"," +
                         "\"username\" : \" johannes \"," +
                         "\"email\" : \" email \" }")
                 .build();
-        System.out.println("return response: " + response.getEntity().toString());
         return response;
     }
 
     @POST
     @Logged
+    @ModifyCrossOrigin
     @Path("login/{accessor}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(
             @PathParam("accessor") String aAccessor,
             String body) {
-        System.out.println("Login: " + aAccessor + " with " + getPassword(body));
-
         AppUser user = null;
 
 
@@ -77,7 +75,7 @@ public class UserResource implements UserApi {
 
         System.out.println("Login: registered");
 
-        Response response = RestUtil.prepareDefaultHeader(Response.ok())
+        Response response = Response.ok()
                 .entity("{\"accesstoken\" : \"" +accessToken+"\"," +
                         "\"username\" : \"" +user.getName()+"\"," +
                         "\"email\" : \"" +user.getEmail()+"\" }")
@@ -87,6 +85,8 @@ public class UserResource implements UserApi {
     }
 
     @POST
+    @Logged
+    @ModifyCrossOrigin
     @Path("register/{username}/email/{email}")
     public Response register(
             @PathParam("username") String aUsername,
@@ -110,7 +110,7 @@ public class UserResource implements UserApi {
 
         emailService.sendActivationEmail(user.getName(),aEmail,activationCode);
 
-        return RestUtil.prepareDefaultHeader(Response.ok())
+        return Response.ok()
                 .entity("{\"username\" : \""+user.getName()+"\"}")
                 .build();
     }
@@ -124,6 +124,8 @@ public class UserResource implements UserApi {
     }
 
     @POST
+    @Logged
+    @ModifyCrossOrigin
     @Path("activate/resendemail/username/{username}/email{email}")
     public Response resendEmail(
             @PathParam("username") String aUsername,
@@ -140,18 +142,18 @@ public class UserResource implements UserApi {
 
         emailService.sendActivationEmail(aUsername,aEmail,activationCode);
 
-        return RestUtil.prepareDefaultHeader(Response.ok())
+        return Response.ok()
                 .entity("{\"username\" : \""+aUsername+"\"}")
                 .build();
     }
 
     @POST
+    @Logged
+    @ModifyCrossOrigin
     @Path("activate/{username}")
     public Response activateUser(
             @PathParam("username") String aUsername,
             String aBody) {
-        System.out.println("Incomming activate user: " + aUsername);
-        System.out.println("with Body:  " + aBody);
 
         String activationCode = getActivationCode(aBody);
 
@@ -161,8 +163,7 @@ public class UserResource implements UserApi {
             ticket = ActivationPool.create().getActivationTicket(activationCode);
         } catch (ActivationTicketNotFoundException e) {
             e.printStackTrace();
-            return RestUtil.prepareDefaultHeader(
-                    Response.status(Response.Status.BAD_REQUEST))
+            return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }
 
@@ -183,11 +184,9 @@ public class UserResource implements UserApi {
         }
 
         System.out.println("Prepare Response");
-        Response response = RestUtil.prepareDefaultHeader(Response.ok())
+        Response response = Response.ok()
                 .entity("{\"email\" : \""+ticket.getEmail()+"\"}")
                 .build();
-        System.out.println("Versende response.ok");
-        System.out.println(response.toString());
         return response;
     }
 

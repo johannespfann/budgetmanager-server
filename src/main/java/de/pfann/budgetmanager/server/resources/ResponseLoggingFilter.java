@@ -1,5 +1,7 @@
 package de.pfann.budgetmanager.server.resources;
 
+import de.pfann.budgetmanager.server.util.LogUtil;
+
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
@@ -12,8 +14,8 @@ public class ResponseLoggingFilter implements ContainerResponseFilter{
 
     @Override
     public void filter(ContainerRequestContext aContainerRequestContext, ContainerResponseContext aContainerResponseContext) throws IOException {
-        System.out.println(" --> " + aContainerResponseContext.getStatus());
-        aContainerResponseContext.setEntity("Hallo");
+        LogUtil.info(this.getClass(),"Filter Response");
+        LogUtil.info(this.getClass(), "Status: " + aContainerResponseContext.getStatusInfo().toString());
     }
 
 }
