@@ -12,17 +12,20 @@ public class AccessPool {
     List<AccessTicket> accessTickets;
 
     private AccessPool(){
+        System.out.println("Init AccessPool");
         accessTickets = new LinkedList<>();
     }
 
     public static AccessPool getInstance() {
         if(instance == null){
-            return instance;
+            return new AccessPool();
         }
+        System.out.println("Return AccessPool");
         return instance;
     }
 
     public void register(AppUser appUser, String aAccessToken) {
+        System.out.println("Register: " + appUser.getName() + " : " + aAccessToken);
         accessTickets.add(new AccessTicket(appUser,aAccessToken));
     }
 

@@ -7,10 +7,7 @@ import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -26,35 +23,65 @@ public class UserResource implements UserApi {
         emailService = new EmailService();
     }
 
+    @GET
+    @Logged
+    @Path("hello")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response sayhello(){
+        Response response = RestUtil.prepareDefaultHeader(Response.ok())
+                .entity("{\"accesstoken\" : \"" +"johannes123"+"\"," +
+                        "\"username\" : \" johannes \"," +
+                        "\"email\" : \" email \" }")
+                .build();
+        System.out.println("return response: " + response.getEntity().toString());
+        return response;
+    }
+
     @POST
+    @Logged
     @Path("login/{accessor}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(
             @PathParam("accessor") String aAccessor,
             String body) {
-        System.out.println("Login: " + aAccessor + "with" + getPassword(body));
+        System.out.println("Login: " + aAccessor + " with " + getPassword(body));
 
         AppUser user = null;
 
+
         try {
-            userDao.getUserByNameOrEmail(aAccessor);
+            System.out.println("Login: Try to get User");
+            user = userDao.getUserByNameOrEmail(aAccessor);
+            System.out.println("Login: User: " + user.getName());
         } catch (NoUserFoundException e) {
             // return error response
             return null;
         }
 
-        if (!user.getPassword().equals(getPassword(body))) {
-            // TODO error no access
+        if(user == null){
+            System.out.println("Login: user was null");
             return null;
         }
 
-        String accessToken = LoginUtil.getAccessTocken();
+        System.out.println("Login: compare pw: " + user.getPassword() + " and " + getPassword(body));
+        if (!user.getPassword().equals(getPassword(body))) {
+            System.out.println("Login: user pw was wrong");
+            return null;
+        }
 
+
+        String accessToken = LoginUtil.getAccessTocken();
+        System.out.println("Login: access: " + accessToken);
         AccessPool.getInstance().register(user, accessToken);
 
+        System.out.println("Login: registered");
+
         Response response = RestUtil.prepareDefaultHeader(Response.ok())
-                .entity("{\"accesstoken\" : \""+accessToken+"\"}")
+                .entity("{\"accesstoken\" : \"" +accessToken+"\"," +
+                        "\"username\" : \"" +user.getName()+"\"," +
+                        "\"email\" : \"" +user.getEmail()+"\" }")
                 .build();
+        System.out.println("return response: " + response.getEntity().toString());
         return response;
     }
 
