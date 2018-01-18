@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.resources;
+package de.pfann.budgetmanager.server.resources.core;
 
 import de.pfann.budgetmanager.server.util.LogUtil;
 

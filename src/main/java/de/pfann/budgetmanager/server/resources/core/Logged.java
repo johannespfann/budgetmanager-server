@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.resources;
+package de.pfann.budgetmanager.server.resources.core;
 
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.Retention;

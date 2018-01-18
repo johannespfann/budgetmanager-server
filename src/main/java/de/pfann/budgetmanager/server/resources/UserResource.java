@@ -5,6 +5,8 @@ import de.pfann.budgetmanager.server.login.*;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
+import de.pfann.budgetmanager.server.resources.core.Logged;
+import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
 
 
 import javax.ws.rs.*;
