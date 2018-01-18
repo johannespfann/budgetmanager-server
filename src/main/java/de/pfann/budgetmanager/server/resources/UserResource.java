@@ -25,6 +25,7 @@ public class UserResource implements UserApi {
 
     @GET
     @Logged
+    @ModifyCrossOrigin
     @Path("hello")
     @Produces(MediaType.APPLICATION_JSON)
     public Response sayhello(){

@@ -14,8 +14,9 @@ import java.net.URI;
  */
 public class App 
 {
-    public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
+    //public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
     //public static final String BASE_URI = "http://192.168.2.106:8081/budget/";
+    public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
