@@ -17,6 +17,9 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser")
     private List<Category> categories;
 
+    @OneToOne
+    private Category defaultCategory;
+
     @OneToMany(mappedBy = "appUser")
     private List<Entry> entries;
 

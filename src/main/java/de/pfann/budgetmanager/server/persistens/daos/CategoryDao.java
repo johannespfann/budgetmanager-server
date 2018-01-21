@@ -5,6 +5,7 @@ import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
+import de.pfann.budgetmanager.server.util.Util;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -29,5 +30,14 @@ public class CategoryDao extends AbstractDao {
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("appUser", aUser));
         return (List<Category>) doGet(criteria);
+    }
+
+    public Category createDefaultCategory(){
+        Category category = new Category();
+        category.setName("Allgemein");
+        category.setHash(Util.getUniueHash(10000000,999999999));
+        category = (Category) save(category);
+        return category;
+
     }
 }

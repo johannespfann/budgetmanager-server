@@ -1,5 +1,10 @@
 package de.pfann.budgetmanager.server;
 
+import de.pfann.budgetmanager.server.login.LoginUtil;
+import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.model.Category;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.util.LogUtil;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -14,9 +19,9 @@ import java.net.URI;
  */
 public class App 
 {
-    //public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
+    public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
     //public static final String BASE_URI = "http://192.168.2.106:8081/budget/";
-    public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
+    //public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -39,6 +44,22 @@ public class App
      */
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
+
+        AppUserDao userDao = AppUserDao.create();
+
+        AppUser user = new AppUser();
+        user.setEmail("johannes@pfann.de");
+        user.setName(LoginUtil.getUserNameWithUnique("johannes"));
+        user.setPassword("key");
+        user.activate();
+
+        userDao.save(user);
+
+        Category category = new Category();
+        category.setAppUser(user);
+        category.setName("Allgemein");
+
+
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
         System.in.read();

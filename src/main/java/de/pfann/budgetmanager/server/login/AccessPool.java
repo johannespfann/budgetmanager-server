@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.login;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 
+import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,8 +25,22 @@ public class AccessPool {
         return instance;
     }
 
+    public void unregister(AppUser appUser, String aAccessToken){
+        if(isValid(appUser, aAccessToken)){
+
+            AccessTicket ticket = null;
+
+            try {
+                ticket = getAccessTicket(appUser);
+            } catch (AccessTicketNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            accessTickets.remove(ticket);
+        }
+    }
+
     public void register(AppUser appUser, String aAccessToken) {
-        System.out.println("Register: " + appUser.getName() + " : " + aAccessToken);
         accessTickets.add(new AccessTicket(appUser,aAccessToken));
     }
 
@@ -69,6 +84,15 @@ public class AccessPool {
 
     private boolean isValidAccessToken(String aAccessToken, AccessTicket aTicket) {
         return aAccessToken.equals(aTicket.getAccessToken());
+    }
+
+    private AccessTicket getAccessTicket(AppUser aAppUser) throws AccessTicketNotFoundException {
+        for(AccessTicket ticket : accessTickets){
+            if(aAppUser.getName().equals(ticket.getUser().getName())){
+                return ticket;
+            }
+        }
+        throw new AccessTicketNotFoundException("Dont found any AccessTickets for user: " + aAppUser.toString());
     }
 
 }

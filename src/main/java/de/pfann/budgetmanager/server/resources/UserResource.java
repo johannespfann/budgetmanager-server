@@ -7,7 +7,7 @@ import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
-
+import de.pfann.budgetmanager.server.util.LogUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
 public class UserResource implements UserApi {
 
     private AppUserDao userDao;
-
     private EmailService emailService;
 
     public UserResource(){
@@ -25,18 +24,34 @@ public class UserResource implements UserApi {
         emailService = new EmailService();
     }
 
-    @GET
+    @PUT
     @Logged
     @ModifyCrossOrigin
-    @Path("hello")
+    @Path("logout/{accessor}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response sayhello(){
-        Response response = Response.ok()
-                .entity("{\"accesstoken\" : \"" +"johannes123"+"\"," +
-                        "\"username\" : \" johannes \"," +
-                        "\"email\" : \" email \" }")
+    public Response logout(
+            @PathParam("accessor") String aAccessor,
+            String aBody) {
+
+        String accessCode = getAccessCode(aBody);
+
+        AppUser user = null;
+        try {
+            user = userDao.getUserByNameOrEmail(aAccessor);
+        } catch (NoUserFoundException e) {
+            return Response.serverError()
+                    .build();
+        }
+
+        LogUtil.info(this.getClass(), "Unregister user " + user.getName());
+        AccessPool.getInstance().unregister(user, accessCode);
+
+        return Response.ok()
                 .build();
-        return response;
+    }
+
+    private String getAccessCode(String aBody) {
+        return aBody;
     }
 
     @POST
@@ -47,43 +62,29 @@ public class UserResource implements UserApi {
     public Response login(
             @PathParam("accessor") String aAccessor,
             String body) {
-        AppUser user = null;
 
+        AppUser user;
 
         try {
-            System.out.println("Login: Try to get User");
             user = userDao.getUserByNameOrEmail(aAccessor);
-            System.out.println("Login: User: " + user.getName());
         } catch (NoUserFoundException e) {
-            // return error response
-            return null;
+            return Response.status(403)
+                    .build();
         }
 
-        if(user == null){
-            System.out.println("Login: user was null");
-            return null;
-        }
-
-        System.out.println("Login: compare pw: " + user.getPassword() + " and " + getPassword(body));
         if (!user.getPassword().equals(getPassword(body))) {
-            System.out.println("Login: user pw was wrong");
-            return null;
+            return Response.status(403)
+                    .build();
         }
-
 
         String accessToken = LoginUtil.getAccessTocken();
-        System.out.println("Login: access: " + accessToken);
         AccessPool.getInstance().register(user, accessToken);
 
-        System.out.println("Login: registered");
-
-        Response response = Response.ok()
-                .entity("{\"accesstoken\" : \"" +accessToken+"\"," +
-                        "\"username\" : \"" +user.getName()+"\"," +
-                        "\"email\" : \"" +user.getEmail()+"\" }")
+        return Response.ok()
+                .entity("{\"accesstoken\" : \"" + accessToken +"\"," +
+                        "\"username\" : \"" + user.getName() +"\"," +
+                        "\"email\" : \"" + user.getEmail() +"\" }")
                 .build();
-        System.out.println("return response: " + response.getEntity().toString());
-        return response;
     }
 
     @POST
@@ -119,10 +120,6 @@ public class UserResource implements UserApi {
 
     private String getPassword(String aBody) {
         return aBody;
-    }
-
-    public Response unregister(@PathParam("username") String aUsername) {
-        return null;
     }
 
     @POST
@@ -169,26 +166,23 @@ public class UserResource implements UserApi {
                     .build();
         }
 
-        System.out.println("Got Ticket => " + ticket.toString());
-        // TODO fail with User compare username vs username#123123
         if(aUsername.equals(ticket.getUsername())){
-            System.out.println("Persist User");
             AppUser appUser = null;
             try {
                 appUser = userDao.getUserByName(aUsername);
             } catch (NoUserFoundException e) {
-                // TODO Return errorresponse
                 e.printStackTrace();
             }
+
             appUser.setEmail(ticket.getEmail());
             appUser.activate();
             userDao.save(appUser);
         }
 
-        System.out.println("Prepare Response");
         Response response = Response.ok()
                 .entity("{\"email\" : \""+ticket.getEmail()+"\"}")
                 .build();
+
         return response;
     }
 
