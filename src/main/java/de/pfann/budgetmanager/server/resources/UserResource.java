@@ -28,7 +28,6 @@ public class UserResource implements UserApi {
     @Logged
     @ModifyCrossOrigin
     @Path("logout/{accessor}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response logout(
             @PathParam("accessor") String aAccessor,
             String aBody) {
@@ -46,7 +45,9 @@ public class UserResource implements UserApi {
         LogUtil.info(this.getClass(), "Unregister user " + user.getName());
         AccessPool.getInstance().unregister(user, accessCode);
 
+        LogUtil.info(this.getClass(), "Send request ...");
         return Response.ok()
+                .entity("{\"username\" : \""+user.getName()+"\"}")
                 .build();
     }
 
