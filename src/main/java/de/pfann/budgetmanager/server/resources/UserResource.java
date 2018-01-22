@@ -24,7 +24,8 @@ public class UserResource implements UserApi {
         emailService = new EmailService();
     }
 
-    @PUT
+
+    @POST
     @Logged
     @ModifyCrossOrigin
     @Path("logout/{accessor}")
