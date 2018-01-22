@@ -4,6 +4,7 @@ import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
+import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 import de.pfann.budgetmanager.server.util.Util;
 
 public class AppUserFacade {
@@ -37,5 +38,27 @@ public class AppUserFacade {
         userDao.save(user);
     }
 
+    public void activateUser(AppUser aUser){
+        aUser.activate();
+        userDao.save(aUser);
+    }
 
+    public void deactivateUser(AppUser aUser){
+        aUser.deactivate();
+        userDao.save(aUser);
+    }
+
+    public void deleteUser(AppUser aUser){
+        // TODO NotImplemented
+    }
+
+
+    public AppUser getUserByNameOrEmail(String aIdentifier) {
+        try {
+            return userDao.getUserByNameOrEmail(aIdentifier);
+        } catch (NoUserFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

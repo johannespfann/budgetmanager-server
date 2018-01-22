@@ -3,7 +3,9 @@ package de.pfann.budgetmanager.server;
 import de.pfann.budgetmanager.server.login.LoginUtil;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
+import de.pfann.budgetmanager.server.persistens.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.util.LogUtil;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -45,19 +47,14 @@ public class App
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
 
-        AppUserDao userDao = AppUserDao.create();
+        AppUserFacade userFacade = new AppUserFacade(AppUserDao.create(), CategoryDao.create());
+        userFacade.createNewUser(
+                LoginUtil.getUserNameWithUnique("johannes"),
+                "johannes@pfann.de",
+                "key");
+        AppUser user = userFacade.getUserByNameOrEmail("johannes@pfann.de");
 
-        AppUser user = new AppUser();
-        user.setEmail("johannes@pfann.de");
-        user.setName(LoginUtil.getUserNameWithUnique("johannes"));
-        user.setPassword("key");
-        user.activate();
-
-        userDao.save(user);
-
-        Category category = new Category();
-        category.setAppUser(user);
-        category.setName("Allgemein");
+        userFacade.activateUser(user);
 
 
         System.out.println(String.format("Jersey app started with WADL available at "
