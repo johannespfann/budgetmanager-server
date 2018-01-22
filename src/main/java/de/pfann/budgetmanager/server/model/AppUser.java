@@ -39,6 +39,13 @@ public class AppUser {
         categories = new LinkedList<>();
     }
 
+    public Category getDefaultCategory() {
+        return defaultCategory;
+    }
+
+    public void setDefaultCategory(Category defaultCategory) {
+        this.defaultCategory = defaultCategory;
+    }
 
     public long getId() {
         return id;
