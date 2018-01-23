@@ -52,6 +52,7 @@ public class App
                 LoginUtil.getUserNameWithUnique("johannes"),
                 "johannes@pfann.de",
                 "key");
+
         AppUser user = userFacade.getUserByNameOrEmail("johannes@pfann.de");
 
         userFacade.activateUser(user);

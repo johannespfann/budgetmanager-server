@@ -7,6 +7,7 @@ import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
+import de.pfann.budgetmanager.server.resources.core.Secured;
 import de.pfann.budgetmanager.server.util.LogUtil;
 
 import javax.ws.rs.*;
@@ -26,14 +27,15 @@ public class UserResource implements UserApi {
 
 
     @POST
-    @Logged
     @ModifyCrossOrigin
+    @Secured
+    @Logged
     @Path("logout/{accessor}")
     public Response logout(
-            @PathParam("accessor") String aAccessor,
-            String aBody) {
+            @PathParam("accessor") String aAccessor
+            ) {
 
-        String accessCode = getAccessCode(aBody);
+        String accessCode = "asdf"; //getAccessCode(aBody);
 
         AppUser user = null;
         try {
