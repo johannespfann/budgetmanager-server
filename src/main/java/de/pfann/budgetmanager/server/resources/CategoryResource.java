@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.resources;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
@@ -8,11 +9,9 @@ import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
 import de.pfann.budgetmanager.server.util.LogUtil;
-import org.codehaus.jackson.map.ObjectMapper;
+
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -44,8 +43,6 @@ public class CategoryResource {
     public Response getCategories(
             @PathParam("accessor") String aAccessor){
 
-        LogUtil.info(this.getClass(),"Init accessor");
-        LogUtil.info(this.getClass(),"- " + aAccessor);
         AppUser user = null;
 
         try {
@@ -56,15 +53,16 @@ public class CategoryResource {
                     .build();
         }
 
-        List<Category> categories = categoryDao.getAllByUser(user);
-
-        Category category = categories.get(0);
-        category.setAppUser(user);
         String result = "{}";
+
+        List<Category> categories = categoryDao.getAllByUser(user);
         try {
-            result = mapper.writeValueAsString(category);
+
+            result = mapper.writeValueAsString(categories);
         } catch (IOException e) {
             e.printStackTrace();
+            Response.serverError()
+                    .build();
         }
 
         return Response.ok()

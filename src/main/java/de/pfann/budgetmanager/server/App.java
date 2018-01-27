@@ -7,6 +7,7 @@ import de.pfann.budgetmanager.server.persistens.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.util.LogUtil;
+import de.pfann.budgetmanager.server.util.Util;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -21,9 +22,9 @@ import java.net.URI;
  */
 public class App 
 {
-    public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
+    //public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
     //public static final String BASE_URI = "http://192.168.2.106:8081/budget/";
-    //public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
+    public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -55,7 +56,19 @@ public class App
 
         AppUser user = userFacade.getUserByNameOrEmail("johannes@pfann.de");
 
+
+
+        Category category = new Category();
+        category.setHash(Util.getUniueHash(100000,99999999));
+        category.setAppUser(user);
+        category.setName("Neue Category");
+
+        CategoryDao categoryDao = CategoryDao.create();
+        categoryDao.save(category);
+
         userFacade.activateUser(user);
+
+
 
 
         System.out.println(String.format("Jersey app started with WADL available at "
@@ -63,4 +76,6 @@ public class App
         System.in.read();
         server.stop();
     }
+
+
 }

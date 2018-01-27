@@ -1,5 +1,8 @@
 package de.pfann.budgetmanager.server.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -8,6 +11,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
 
     @Column(unique = true)
@@ -15,6 +19,7 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(nullable = false)
+    @JsonIgnore
     private AppUser appUser;
 
     private String name;

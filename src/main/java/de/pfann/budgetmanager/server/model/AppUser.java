@@ -1,5 +1,8 @@
 package de.pfann.budgetmanager.server.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,19 +12,24 @@ public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
 
     @OneToMany(mappedBy = "appUser")
-    private List<Tag> tags;
-
-    @OneToMany(mappedBy = "appUser")
+    @JsonIgnore
     private List<Category> categories;
 
-    @OneToOne
-    private Category defaultCategory;
+    @OneToMany(mappedBy = "appUser")
+    @JsonIgnore
+    private List<Entry> entries;
 
     @OneToMany(mappedBy = "appUser")
-    private List<Entry> entries;
+    @JsonIgnore
+    private List<Tag> tags;
+
+    @OneToOne
+    @JsonIgnore
+    private Category defaultCategory;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -29,8 +37,10 @@ public class AppUser {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     private boolean activated;
 
     public AppUser() {
