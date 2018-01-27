@@ -14,11 +14,6 @@ public class RequestBasicAuthenticationFilter implements ContainerRequestFilter 
     @Override
     public void filter(ContainerRequestContext aContainerRequestContext) throws IOException {
         LogUtil.info(this.getClass(), "------> In Secured");
-        //LogUtil.info(this.getClass(),"1) " + aContainerRequestContext.getHeaderString("Authorization"));
-        //List<String> header = aContainerRequestContext.getHeaders().get("Authorization");
 
-        //for(String value : header) {
-        //    System.out.println(value);
-        //}
     }
 }

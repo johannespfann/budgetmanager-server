@@ -55,6 +55,13 @@
       <artifactId>jersey-media-json-binding</artifactId>
     </dependency>
 
+    <!-- TODO nochmal ueberlegen ob doch nicht anders-->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
