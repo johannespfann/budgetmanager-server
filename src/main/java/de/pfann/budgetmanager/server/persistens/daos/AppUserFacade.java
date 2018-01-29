@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.persistens;
+package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
@@ -12,6 +12,17 @@ public class AppUserFacade {
     private AppUserDao userDao;
 
     private CategoryDao categoryDao;
+
+    private EntryDao entryDao;
+
+    private TagDao tagDao;
+
+    public AppUserFacade(){
+        userDao = AppUserDao.create();
+        categoryDao = CategoryDao.create();
+        entryDao = EntryDao.create();
+        tagDao = TagDao.create();
+    }
 
     public AppUserFacade(AppUserDao aUserDao, CategoryDao aCategoryDao){
         userDao = aUserDao;
@@ -59,6 +70,7 @@ public class AppUserFacade {
         } catch (NoUserFoundException e) {
             e.printStackTrace();
         }
+        // TODO dont use null as return value
         return null;
     }
 }

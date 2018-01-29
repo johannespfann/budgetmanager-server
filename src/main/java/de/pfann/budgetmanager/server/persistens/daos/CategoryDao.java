@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CategoryDao extends AbstractDao {
 
-    public static CategoryDao create(){
+    protected static CategoryDao create(){
         return new CategoryDao(DbWriter.create(), DbReader.create());
     }
 
@@ -39,5 +39,11 @@ public class CategoryDao extends AbstractDao {
         category = (Category) save(category);
         return category;
 
+    }
+
+    public List<Category> getCategory(String aHash) {
+        DetachedCriteria criteria = getCriteria();
+        criteria.add(Restrictions.eq("hash", aHash));
+        return (List<Category>) doGet(criteria);
     }
 }

@@ -3,10 +3,8 @@ package de.pfann.budgetmanager.server;
 import de.pfann.budgetmanager.server.login.LoginUtil;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
-import de.pfann.budgetmanager.server.persistens.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
-import de.pfann.budgetmanager.server.util.LogUtil;
 import de.pfann.budgetmanager.server.util.Util;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -48,7 +46,7 @@ public class App
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
 
-        AppUserFacade userFacade = new AppUserFacade(AppUserDao.create(), CategoryDao.create());
+        AppUserFacade userFacade = new AppUserFacade();
         userFacade.createNewUser(
                 LoginUtil.getUserNameWithUnique("johannes"),
                 "johannes@pfann.de",

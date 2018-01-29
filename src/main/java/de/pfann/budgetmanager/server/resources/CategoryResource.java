@@ -3,12 +3,13 @@ package de.pfann.budgetmanager.server.resources;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
-import de.pfann.budgetmanager.server.util.LogUtil;
 
 
 import javax.ws.rs.*;
@@ -20,18 +21,15 @@ import java.util.List;
 @Path("category/")
 public class CategoryResource {
 
-    private static final String AUTHORIZATION_KEY = "Authorization";
-
-
     private ObjectMapper mapper;
 
-    private AppUserDao userDao;
+    private CategoryFacade categoryFacade;
 
-    private CategoryDao categoryDao;
+    private AppUserFacade userFacade;
 
     public CategoryResource(){
-        userDao = AppUserDao.create();
-        categoryDao = CategoryDao.create();
+        categoryFacade = new CategoryFacade();
+        userFacade = new AppUserFacade();
         mapper = new ObjectMapper();
     }
 
@@ -43,19 +41,11 @@ public class CategoryResource {
     public Response getCategories(
             @PathParam("accessor") String aAccessor){
 
-        AppUser user = null;
-
-        try {
-            user = AppUserDao.create().getUserByNameOrEmail(aAccessor);
-        } catch (NoUserFoundException e) {
-            e.printStackTrace();
-            return Response.serverError()
-                    .build();
-        }
+        AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
 
         String result = "{}";
 
-        List<Category> categories = categoryDao.getAllByUser(user);
+        List<Category> categories = categoryFacade.getAllByUser(user);
         try {
 
             result = mapper.writeValueAsString(categories);
@@ -69,4 +59,41 @@ public class CategoryResource {
                 .entity(result)
                 .build();
     }
+
+    @DELETE
+    @Logged
+    @ModifyCrossOrigin
+    @Path("delete/{deletehash}/alternativ/{alterhash}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response delete(
+            @PathParam("deletehash") String aDeleteHash,
+            @PathParam("alterhash") String AlternativHash){
+
+                return null;
+    }
+
+    @PUT
+    @Logged
+    @ModifyCrossOrigin
+    @Path("add/{accessor}")
+    private Response add(
+            @PathParam("accessor") String aAccessor, String aBody){
+
+
+                return null;
+    }
+
+    @POST
+    @Path("update/{hash}")
+    public Response update(
+            @PathParam("hash") String aHash){
+
+            Category category = categoryFacade.getCategory(aHash);
+
+
+
+        return null;
+    }
+
+
 }
