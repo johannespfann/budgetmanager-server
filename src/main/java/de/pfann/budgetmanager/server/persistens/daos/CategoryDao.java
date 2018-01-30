@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CategoryDao extends AbstractDao {
 
-    protected static CategoryDao create(){
+    public static CategoryDao create(){
         return new CategoryDao(DbWriter.create(), DbReader.create());
     }
 
@@ -38,7 +38,6 @@ public class CategoryDao extends AbstractDao {
         category.setHash(Util.getUniueHash(10000000,999999999));
         category = (Category) save(category);
         return category;
-
     }
 
     public List<Category> getCategory(String aHash) {

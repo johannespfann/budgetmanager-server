@@ -29,24 +29,19 @@ public class AppUserFacade {
         categoryDao = aCategoryDao;
     }
 
-    public void createNewUser(String aName, String aEmail, String aPassword){
-        AppUser user = new AppUser();
-        user.setName(aName);
-        user.setEmail(aEmail);
-        user.setPassword(aPassword);
-
-        userDao.save(user);
+    public void createNewUser(AppUser aUser){
+        userDao.save(aUser);
 
         Category defaultCategory = new Category();
         defaultCategory.setHash(Util.getUniueHash(100000,99999999));
         defaultCategory.setName("Allgemein");
-        defaultCategory.setAppUser(user);
+        defaultCategory.setAppUser(aUser);
 
         categoryDao.save(defaultCategory);
 
-        user.setDefaultCategory(defaultCategory);
+        aUser.setDefaultCategory(defaultCategory);
 
-        userDao.save(user);
+        userDao.save(aUser);
     }
 
     public void activateUser(AppUser aUser){
@@ -72,5 +67,9 @@ public class AppUserFacade {
         }
         // TODO dont use null as return value
         return null;
+    }
+
+    public void updateUser(AppUser aAppUser) {
+        userDao.save(aAppUser);
     }
 }

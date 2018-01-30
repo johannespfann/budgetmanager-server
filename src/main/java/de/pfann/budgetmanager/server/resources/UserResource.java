@@ -3,8 +3,7 @@ package de.pfann.budgetmanager.server.resources;
 import de.pfann.budgetmanager.server.email.EmailService;
 import de.pfann.budgetmanager.server.login.*;
 import de.pfann.budgetmanager.server.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
-import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
 import de.pfann.budgetmanager.server.resources.core.Secured;
@@ -17,11 +16,12 @@ import javax.ws.rs.core.Response;
 @Path("user/")
 public class UserResource implements UserApi {
 
-    private AppUserDao userDao;
+    private AppUserFacade userFacade;
+
     private EmailService emailService;
 
     public UserResource(){
-        userDao = AppUserDao.create();
+        userFacade = new AppUserFacade();
         emailService = new EmailService();
     }
 
@@ -37,13 +37,7 @@ public class UserResource implements UserApi {
 
         String accessCode = "asdf"; //getAccessCode(aBody);
 
-        AppUser user = null;
-        try {
-            user = userDao.getUserByNameOrEmail(aAccessor);
-        } catch (NoUserFoundException e) {
-            return Response.serverError()
-                    .build();
-        }
+        AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
 
         LogUtil.info(this.getClass(), "Unregister user " + user.getName());
         AccessPool.getInstance().unregister(user, accessCode);
@@ -67,14 +61,7 @@ public class UserResource implements UserApi {
             @PathParam("accessor") String aAccessor,
             String body) {
 
-        AppUser user;
-
-        try {
-            user = userDao.getUserByNameOrEmail(aAccessor);
-        } catch (NoUserFoundException e) {
-            return Response.status(403)
-                    .build();
-        }
+        AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
 
         if (!user.getPassword().equals(getPassword(body))) {
             return Response.status(403)
@@ -105,7 +92,7 @@ public class UserResource implements UserApi {
         user.setEmail(aEmail);
         user.setPassword(getPassword(aBody));
 
-        userDao.save(user);
+        userFacade.createNewUser(user);
 
         String activationCode = LoginUtil.getActivationCode();
 
@@ -170,17 +157,13 @@ public class UserResource implements UserApi {
                     .build();
         }
 
-        if(aUsername.equals(ticket.getUsername())){
-            AppUser appUser = null;
-            try {
-                appUser = userDao.getUserByName(aUsername);
-            } catch (NoUserFoundException e) {
-                e.printStackTrace();
-            }
+        if(aUsername.equals(ticket.getUsername())) {
+            AppUser appUser = userFacade.getUserByNameOrEmail(aUsername);
 
             appUser.setEmail(ticket.getEmail());
             appUser.activate();
-            userDao.save(appUser);
+
+            userFacade.updateUser(appUser);
         }
 
         Response response = Response.ok()

@@ -84,7 +84,7 @@ public class CategoryResource {
     }
 
     @POST
-    @Path("update/{hash}")
+    @Path("updateUser/{hash}")
     public Response update(
             @PathParam("hash") String aHash){
 

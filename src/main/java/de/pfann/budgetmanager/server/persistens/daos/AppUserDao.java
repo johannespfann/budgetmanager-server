@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AppUserDao extends AbstractDao {
 
-    protected static AppUserDao create() {
+    public static AppUserDao create() {
         return new AppUserDao(DbWriter.create(), DbReader.create());
     }
 

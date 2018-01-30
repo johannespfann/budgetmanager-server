@@ -5,6 +5,7 @@ import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
+import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
 import de.pfann.budgetmanager.server.util.Util;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -46,28 +47,25 @@ public class App
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
 
+        AppUser user = new AppUser();
+        user.setName(LoginUtil.getUserNameWithUnique("johannes"));
+        user.setEmail("johannes@pfann.de");
+        user.setPassword("key");
+
         AppUserFacade userFacade = new AppUserFacade();
-        userFacade.createNewUser(
-                LoginUtil.getUserNameWithUnique("johannes"),
-                "johannes@pfann.de",
-                "key");
+        userFacade.createNewUser(user);
 
-        AppUser user = userFacade.getUserByNameOrEmail("johannes@pfann.de");
-
-
+        user = userFacade.getUserByNameOrEmail("johannes@pfann.de");
 
         Category category = new Category();
         category.setHash(Util.getUniueHash(100000,99999999));
         category.setAppUser(user);
         category.setName("Neue Category");
 
-        CategoryDao categoryDao = CategoryDao.create();
-        categoryDao.save(category);
+        CategoryFacade facade = new CategoryFacade();
+        facade.addCategory(category);
 
         userFacade.activateUser(user);
-
-
-
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
