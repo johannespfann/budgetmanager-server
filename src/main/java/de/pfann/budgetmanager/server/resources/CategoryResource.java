@@ -10,6 +10,7 @@ import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
+import de.pfann.budgetmanager.server.util.LogUtil;
 
 
 import javax.ws.rs.*;
@@ -41,6 +42,7 @@ public class CategoryResource {
     public Response getCategories(
             @PathParam("accessor") String aAccessor){
 
+        LogUtil.info(this.getClass(), "User: " + aAccessor);
         AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
 
         String result = "{}";
