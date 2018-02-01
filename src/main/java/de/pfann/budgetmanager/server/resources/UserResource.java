@@ -159,10 +159,8 @@ public class UserResource implements UserApi {
 
         if(aUsername.equals(ticket.getUsername())) {
             AppUser appUser = userFacade.getUserByNameOrEmail(aUsername);
-
             appUser.setEmail(ticket.getEmail());
             appUser.activate();
-
             userFacade.updateUser(appUser);
         }
 
