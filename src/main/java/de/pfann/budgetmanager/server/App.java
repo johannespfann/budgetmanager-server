@@ -14,6 +14,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -21,8 +23,8 @@ import java.net.URI;
  */
 public class App 
 {
+    //public static final String BASE_URI = "http://localhost:8081/budget/";
     public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
-    //public static final String BASE_URI = "http://192.168.2.106:8081/budget/";
     //public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
 
     /**
@@ -45,27 +47,13 @@ public class App
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+
+
+
         final HttpServer server = startServer();
 
-        AppUser user = new AppUser();
-        user.setName("johannes-1234");
-        user.setEmail("johannes@pfann.de");
-        user.setPassword("key");
-
-        AppUserFacade userFacade = new AppUserFacade();
-        userFacade.createNewUser(user);
-
-        user = userFacade.getUserByNameOrEmail("johannes@pfann.de");
-
-        Category category = new Category();
-        category.setHash(Util.getUniueHash(100000,99999999));
-        category.setAppUser(user);
-        category.setName("Neue Category");
-
-        CategoryFacade facade = new CategoryFacade();
-        facade.addCategory(category);
-
-        userFacade.activateUser(user);
+        TestClass environmentObjects = new TestClass();
+        environmentObjects.persistEnviroment();
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
