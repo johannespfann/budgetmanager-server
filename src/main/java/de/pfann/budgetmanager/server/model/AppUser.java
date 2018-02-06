@@ -15,18 +15,6 @@ public class AppUser {
     @JsonIgnore
     private long id;
 
-    @OneToMany(mappedBy = "appUser")
-    @JsonIgnore
-    private List<Category> categories;
-
-    @OneToMany(mappedBy = "appUser")
-    @JsonIgnore
-    private List<Entry> entries;
-
-    @OneToMany(mappedBy = "appUser")
-    @JsonIgnore
-    private List<Tag> tags;
-
     @OneToOne
     @JsonIgnore
     private Category defaultCategory;
@@ -44,9 +32,6 @@ public class AppUser {
     private boolean activated;
 
     public AppUser() {
-        tags = new LinkedList<>();
-        entries = new LinkedList<>();
-        categories = new LinkedList<>();
     }
 
     public Category getDefaultCategory() {
@@ -63,30 +48,6 @@ public class AppUser {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<Entry> getEntries() {
-        return entries;
-    }
-
-    public void setEntries(List<Entry> entries) {
-        this.entries = entries;
     }
 
     public String getName() {

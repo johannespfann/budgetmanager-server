@@ -3,9 +3,6 @@ package de.pfann.budgetmanager.server.persistens.daos;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
-import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
-import de.pfann.budgetmanager.server.persistens.daos.EntryDao;
 
 import java.util.List;
 
@@ -15,9 +12,12 @@ public class CategoryFacade {
 
     private EntryDao entryDao;
 
+    private AppUserDao userDao;
+
     public CategoryFacade(){
         categoryDao = CategoryDao.create();
         entryDao = EntryDao.create();
+        userDao = AppUserDao.create();
     }
 
     public CategoryFacade(CategoryDao aCategoryDao, EntryDao aEntryDao){
@@ -49,19 +49,26 @@ public class CategoryFacade {
         categoryDao.save(aCategory);
     }
 
-    public void deleteCategory(Category aCategory){
+    public void deleteCategory(Category aCategoryToDelete, Category aCategoryToReplace) {
 
-        List<Entry> entries = entryDao.getAllByCategory(aCategory);
+        // 1 Get all Entries to replace categories
 
+        List<Entry> entries = entryDao.getAllByCategory(aCategoryToDelete);
+
+        // 2 Replace all entries with new Category
         for(Entry entry : entries){
-            entryDao.delete(entry);
+            entry.setCategory(aCategoryToReplace);
+            entryDao.save(entry);
         }
 
-        categoryDao.delete(aCategory);
+        // 3 Delete all entries
+
+        categoryDao.delete(aCategoryToDelete);
     }
 
 
-
-
-
+    public Category getDefaultCategory(AppUser aUser) {
+        Category defaultCategory = aUser.getDefaultCategory();
+        return defaultCategory;
+    }
 }
