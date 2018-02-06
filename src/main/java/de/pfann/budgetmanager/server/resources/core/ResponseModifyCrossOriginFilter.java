@@ -25,14 +25,14 @@ public class ResponseModifyCrossOriginFilter implements ContainerResponseFilter 
         LogUtil.info(this.getClass(),"Filter response and manipulate header");
 
         aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-        aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_HEADERS,"origin, content-type, accept, authorization");
-        aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-        aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_METHODS,"GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        //aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_HEADERS,"origin, content-type, accept, authorization");
+        //aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+        aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_METHODS,"PATCH, GET, POST, PUT, DELETE, OPTIONS, HEAD");
 
-        LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_METHODS + "  : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_METHODS));
-        LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_ORIGIN + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_ORIGIN));
-        LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_CREDENTIALS + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_CREDENTIALS));
-        LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_HEADERS + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_HEADERS));
+        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_METHODS + "  : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_METHODS));
+        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_ORIGIN + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_ORIGIN));
+        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_CREDENTIALS + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_CREDENTIALS));
+        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_HEADERS + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_HEADERS));
     }
 
 
