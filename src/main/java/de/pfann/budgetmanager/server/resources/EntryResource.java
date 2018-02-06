@@ -9,12 +9,10 @@ import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
 import de.pfann.budgetmanager.server.util.LogUtil;
 import jdk.nashorn.internal.runtime.logging.Logger;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.List;
 
 @Path("entries/")
@@ -59,5 +57,34 @@ public class EntryResource {
         }
 
         return Response.ok().entity(entriesJSON).build();
+    }
+
+    @POST
+    @Logger
+    @ModifyCrossOrigin
+    @Path("add/{accessor}")
+    public Response addEntry(@PathParam("accessor") String aAccessor, String aBody){
+
+        String entryJSON = getEntry(aBody);
+        AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
+
+        Entry entry = new Entry();
+
+        try {
+            entry = mapper.readValue(entryJSON,Entry.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        entry.setAppUser(user);
+
+        entryFacade.addEntry(entry);
+
+        return Response.ok()
+                .build();
+    }
+
+    private String getEntry(String aBody) {
+        return aBody;
     }
 }
