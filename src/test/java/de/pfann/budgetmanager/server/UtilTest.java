@@ -12,4 +12,6 @@ public class UtilTest {
         Assert.assertTrue(LoginUtil.getUserNameWithUnique("johannes").contains("-"));
         Assert.assertTrue(LoginUtil.getUserNameWithUnique("johannes").contains("johannes"));
     }
+
+
 }
