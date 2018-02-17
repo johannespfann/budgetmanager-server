@@ -14,11 +14,6 @@ public class ResponseLoggingFilter implements ContainerResponseFilter{
 
     @Override
     public void filter(ContainerRequestContext aContainerRequestContext, ContainerResponseContext aContainerResponseContext) throws IOException {
-        LogUtil.info(this.getClass(),"Filter Response");
-        LogUtil.info(this.getClass(), "Status: " + aContainerResponseContext.getStatusInfo().toString());
-        //LogUtil.info(this.getClass(), "Entry: " + aContainerResponseContext.getEntity().toString());
-
-
 
     }
 

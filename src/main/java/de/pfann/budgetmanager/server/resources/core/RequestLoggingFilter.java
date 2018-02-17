@@ -14,8 +14,7 @@ public class RequestLoggingFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(final ContainerRequestContext aContainerRequestContext) throws IOException {
-        LogUtil.info(this.getClass(),"Filter Request");
-        LogUtil.info(this.getClass(),aContainerRequestContext.getUriInfo().getAbsolutePath().toString());
+        LogUtil.info(this.getClass(),"Request with URL: " + aContainerRequestContext.getUriInfo().getAbsolutePath().toString());
     }
 
 }

@@ -6,7 +6,7 @@ import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.resources.core.Logged;
-import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
+import de.pfann.budgetmanager.server.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.util.LogUtil;
 
 
@@ -33,7 +33,7 @@ public class EntryResource {
 
     @GET
     @Logged
-    @ModifyCrossOrigin
+    @AllowCrossOrigin
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all/{accessor}")
     public Response getEntries(
@@ -59,7 +59,7 @@ public class EntryResource {
 
     @POST
     @Logged
-    @ModifyCrossOrigin
+    @AllowCrossOrigin
     @Path("add/{accessor}")
     public Response addEntry(
             @PathParam("accessor") String aAccessor,
