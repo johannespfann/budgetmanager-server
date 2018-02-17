@@ -20,12 +20,13 @@ public class ResponseModifyCrossOriginFilter implements ContainerResponseFilter 
     public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 
 
+
     @Override
     public void filter(ContainerRequestContext aContainerRequestContext, ContainerResponseContext aResponseCxt) throws IOException {
         LogUtil.info(this.getClass(),"Filter response and manipulate header");
 
         aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-        //aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_HEADERS,"origin, content-type, accept, authorization");
+        aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_HEADERS,"origin, content-type, accept, authorization");
         //aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
         aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_METHODS,"PATCH, GET, POST, PUT, DELETE, OPTIONS, HEAD");
 

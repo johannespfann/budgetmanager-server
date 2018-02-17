@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("user/")
-public class UserResource implements UserApi {
+public class UserResource {
 
     private AppUserFacade userFacade;
 
@@ -35,7 +35,7 @@ public class UserResource implements UserApi {
             @PathParam("accessor") String aAccessor
             ) {
 
-        String accessCode = "asdf"; //getAccessCode(aBody);
+        String accessCode = getAccessCode("placeholder");
 
         AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
 

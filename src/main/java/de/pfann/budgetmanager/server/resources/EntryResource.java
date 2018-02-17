@@ -5,9 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.persistens.daos.*;
+import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.ModifyCrossOrigin;
 import de.pfann.budgetmanager.server.util.LogUtil;
-import jdk.nashorn.internal.runtime.logging.Logger;
+
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,24 +21,21 @@ public class EntryResource {
 
     private AppUserFacade userFacade;
 
-    private CategoryFacade categoryFacade;
-
     private EntryFacade entryFacade;
 
     private ObjectMapper mapper;
 
     public EntryResource(){
-        categoryFacade = new CategoryFacade();
         userFacade = new AppUserFacade();
         entryFacade = new EntryFacade();
         mapper = new ObjectMapper();
     }
 
     @GET
-    @Logger
+    @Logged
     @ModifyCrossOrigin
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("all/{accessor")
+    @Path("all/{accessor}")
     public Response getEntries(
             @PathParam("accessor") String aAccessor){
 
@@ -60,10 +58,12 @@ public class EntryResource {
     }
 
     @POST
-    @Logger
+    @Logged
     @ModifyCrossOrigin
     @Path("add/{accessor}")
-    public Response addEntry(@PathParam("accessor") String aAccessor, String aBody){
+    public Response addEntry(
+            @PathParam("accessor") String aAccessor,
+            String aBody){
 
         String entryJSON = getEntry(aBody);
         AppUser user = userFacade.getUserByNameOrEmail(aAccessor);

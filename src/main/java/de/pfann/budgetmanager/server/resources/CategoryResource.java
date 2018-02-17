@@ -102,7 +102,7 @@ public class CategoryResource {
         String categoryJson = getCategory(aBody);
 
         LogUtil.info(this.getClass(),"CategoryJson: " + categoryJson);
-        Category category = null;
+        Category category;
 
         try {
             category = mapper.readValue(aBody, Category.class);
@@ -144,7 +144,7 @@ public class CategoryResource {
         Category updatedCategory = new Category();
 
         try {
-            updatedCategory = mapper.readValue(aBody,Category.class);
+            updatedCategory = mapper.readValue(categoryJson,Category.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
