@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.resources;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.pfann.budgetmanager.server.App;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
@@ -65,6 +66,22 @@ public class EntryResource {
         entryFacade.addEntry(aEntry);
 
     }
+
+    @DELETE
+    @Logged
+    @AllowCrossOrigin
+    @Path("owner/{owner}/delete/{hash}")
+    public void deleteEntry(
+            @PathParam("owner") String aOwner,
+            @PathParam("hash") String aHash){
+
+        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
+        // TODO compare owner and entry-user
+        Entry entry = entryFacade.getEntry(aHash);
+
+        entryFacade.deleteEntry(entry);
+    }
+
 
     private String getEntry(String aBody) {
         return aBody;

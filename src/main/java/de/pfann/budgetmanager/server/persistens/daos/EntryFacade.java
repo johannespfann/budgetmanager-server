@@ -30,4 +30,8 @@ public class EntryFacade {
     public void deleteEntry(Entry aEntry){
         entryDao.delete(aEntry);
     }
+
+    public Entry getEntry(String aHash) {
+        return entryDao.getEntryByHash(aHash).get(0);
+    }
 }
