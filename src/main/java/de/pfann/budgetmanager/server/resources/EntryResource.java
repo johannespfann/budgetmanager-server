@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.resources;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.resources.core.Logged;
@@ -23,11 +24,14 @@ public class EntryResource {
 
     private EntryFacade entryFacade;
 
+    private CategoryFacade categoryFacade;
+
     private ObjectMapper mapper;
 
     public EntryResource(){
         userFacade = new AppUserFacade();
         entryFacade = new EntryFacade();
+        categoryFacade = new CategoryFacade();
         mapper = new ObjectMapper();
     }
 
@@ -38,49 +42,28 @@ public class EntryResource {
     @Path("owner/{owner}/all")
     public List<Entry> getEntries(
             @PathParam("owner") String aOwner){
-
-        System.out.println("Start getEntry");
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
         List<Entry> entries = entryFacade.getEntries(user);
-
-        entries.forEach( data -> {
-            System.out.println(data.getHash());
-        });
-
-
         return entries;
     }
 
     @POST
     @Logged
     @AllowCrossOrigin
-    @Path("add/owner/{owner}")
-    //@Consumes(MediaType.APPLICATION_JSON)
+    @Path("owner/{owner}/add")
+    @Consumes(MediaType.APPLICATION_JSON)
     public void addEntry(
-            @PathParam("owner") String aAccessor,
-            String aEntry){
+            @PathParam("owner") String aOwner,
+            Entry aEntry){
+        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
 
-        //String entryJSON = getEntry(aEntry);
+        Category category = categoryFacade.getCategory(aEntry.getCategory().getHash());
 
-        System.out.println(aEntry);
-        AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
+        aEntry.setAppUser(user);
+        aEntry.setCategory(category);
 
-        /*Entry entry = new Entry();
+        entryFacade.addEntry(aEntry);
 
-        try {
-            entry = mapper.readValue(entryJSON,Entry.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        entry.setAppUser(user);
-
-        entryFacade.addEntry(entry);
-
-        return Response.ok()
-                .build();
-                */
     }
 
     private String getEntry(String aBody) {

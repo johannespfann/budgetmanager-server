@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class Entry  implements Serializable {
@@ -31,7 +33,6 @@ public class Entry  implements Serializable {
     private String memo;
 
     public Entry(){
-
         // hibernate
     }
 
@@ -46,6 +47,7 @@ public class Entry  implements Serializable {
     }
 
     // getter
+
 
     public String getHash() {
         return hash;
@@ -68,6 +70,7 @@ public class Entry  implements Serializable {
     }
 
     // setter
+
 
     public void setId(long id) {
         this.id = id;
