@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 @Path("category/")
@@ -34,36 +35,18 @@ public class CategoryResource {
     @GET
     @Logged
     @AllowCrossOrigin
-    @Path("all/{accessor}")
+    @Path("owner/{accessor}/all")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getCategories(
+    public List<Category> getCategories(
             @PathParam("accessor") String aAccessor){
-
-        LogUtil.info(this.getClass(), "User: " + aAccessor);
-        AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
-
-        String result = "{}";
-
-        List<Category> categories = categoryFacade.getAllByUser(user);
-        try {
-
-            result = mapper.writeValueAsString(categories);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Response.serverError()
-                    .build();
-        }
-
-        return Response.ok()
-                .entity(result)
-                .build();
+        return categoryFacade.getAllByUser(userFacade.getUserByNameOrEmail(aAccessor));
     }
 
     @DELETE
     @Logged
     @AllowCrossOrigin
     @Path("delete/{deletehash}/replace/{alterhash}")
-    public Response delete(
+    public void delete(
             @PathParam("deletehash") String aDeleteHash,
             @PathParam("alterhash") String aAlternativHash){
 
@@ -79,104 +62,53 @@ public class CategoryResource {
 
         categoryFacade.deleteCategory(categoryToDelete,categoryToReplace);
 
-        return Response.noContent()
-                .build();
     }
 
     @POST
     @Logged
     @AllowCrossOrigin
-    @Path("add/{accessor}")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response add(
-            @PathParam("accessor") String aAccessor, String aBody){
+    @Path("owner/{accessor}/add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void add(
+            @PathParam("accessor") String aAccessor, Category aCategory){
 
         LogUtil.info(this.getClass(), "Accessor: " + aAccessor);
-        LogUtil.info(this.getClass(), "Body: " + aBody);
-
+        LogUtil.info(this.getClass(), "Body: " + aCategory);
 
         AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
 
         LogUtil.info(this.getClass(),"Found User: " + user.getName());
-
-        String categoryJson = getCategory(aBody);
-
-        LogUtil.info(this.getClass(),"CategoryJson: " + categoryJson);
-        Category category;
-
-        try {
-            category = mapper.readValue(aBody, Category.class);
-            LogUtil.info(this.getClass(),"Map category: " + category.getHash() + " and " + category.getName());
-        } catch (IOException e) {
-            LogUtil.info(this.getClass(),e.getMessage());
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .build();
-        }
-
         LogUtil.info(this.getClass(),"Set User to category");
-        category.setAppUser(user);
+
+        aCategory.setAppUser(user);
 
         LogUtil.info(this.getClass(),"Save Category");
-        categoryFacade.addCategory(category);
+        categoryFacade.addCategory(aCategory);
 
-        return Response.ok().entity("")
-                .build();
     }
 
-    private String getCategory(String aBody) {
-        return aBody;
-    }
-
-    @POST
+    @PATCH
     @Logged
     @AllowCrossOrigin
-    @Path("update/{hash}")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response update(
-            @PathParam("hash") String aHash,
-            String aBody){
+    @Path("update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update(
+            Category aCategory){
+        Category persistedCategory = categoryFacade.getCategory(aCategory.getHash());
+        persistedCategory.setName(aCategory.getName());
+        categoryFacade.updateCategoryName(persistedCategory);
 
-        LogUtil.info(this.getClass(),"Get Body: " + aBody);
-
-        String categoryJson = getCategory(aBody);
-        Category updatedCategory = new Category();
-
-        try {
-            updatedCategory = mapper.readValue(categoryJson,Category.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Category category = categoryFacade.getCategory(aHash);
-        category.setName(updatedCategory.getName());
-
-        categoryFacade.updateCategoryName(category);
-
-        return Response.noContent().build();
     }
 
     @GET
     @Logged
     @AllowCrossOrigin
-    @Path("default/{accessor}")
+    @Path("owner/{accessor}/default")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDefaultCategory(
+    public Category getDefaultCategory(
             @PathParam("accessor") String aAccessor){
-
         AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
-
-        Category category = categoryFacade.getDefaultCategory(user);
-
-        String categoryString = null;
-        try {
-            categoryString = mapper.writeValueAsString(category);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return Response.ok().entity(categoryString).build();
+        return categoryFacade.getDefaultCategory(user);
     }
 
 

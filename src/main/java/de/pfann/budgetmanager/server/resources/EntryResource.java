@@ -35,40 +35,38 @@ public class EntryResource {
     @Logged
     @AllowCrossOrigin
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("all/{accessor}")
-    public Response getEntries(
-            @PathParam("accessor") String aAccessor){
+    @Path("owner/{owner}/all")
+    public List<Entry> getEntries(
+            @PathParam("owner") String aOwner){
 
-        LogUtil.info(this.getClass(),"Accessor:" + aAccessor);
-
-        AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
+        System.out.println("Start getEntry");
+        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
 
         List<Entry> entries = entryFacade.getEntries(user);
 
-        LogUtil.info(this.getClass(),"Accessor:" + aAccessor);
+        entries.forEach( data -> {
+            System.out.println(data.getHash());
+        });
 
-        String entriesJSON = "[ ]";
-        try {
-            entriesJSON = mapper.writeValueAsString(entries);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
 
-        return Response.ok().entity(entriesJSON).build();
+        return entries;
     }
 
     @POST
     @Logged
     @AllowCrossOrigin
-    @Path("add/{accessor}")
-    public Response addEntry(
-            @PathParam("accessor") String aAccessor,
-            String aBody){
+    @Path("add/owner/{owner}")
+    //@Consumes(MediaType.APPLICATION_JSON)
+    public void addEntry(
+            @PathParam("owner") String aAccessor,
+            String aEntry){
 
-        String entryJSON = getEntry(aBody);
+        //String entryJSON = getEntry(aEntry);
+
+        System.out.println(aEntry);
         AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
 
-        Entry entry = new Entry();
+        /*Entry entry = new Entry();
 
         try {
             entry = mapper.readValue(entryJSON,Entry.class);
@@ -82,6 +80,7 @@ public class EntryResource {
 
         return Response.ok()
                 .build();
+                */
     }
 
     private String getEntry(String aBody) {

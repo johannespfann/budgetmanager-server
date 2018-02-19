@@ -1,9 +1,10 @@
 package de.pfann.budgetmanager.server.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Tag {
+public class Tag implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

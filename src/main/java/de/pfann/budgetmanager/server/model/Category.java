@@ -1,13 +1,14 @@
 package de.pfann.budgetmanager.server.model;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class Category {
+public class Category implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +19,8 @@ public class Category {
     private String hash;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
     @JsonIgnore
+    @JoinColumn(nullable = false)
     private AppUser appUser;
 
     private String name;

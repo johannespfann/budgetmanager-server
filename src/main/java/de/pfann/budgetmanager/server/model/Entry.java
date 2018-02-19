@@ -1,10 +1,13 @@
 package de.pfann.budgetmanager.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class Entry {
+public class Entry  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +17,7 @@ public class Entry {
     private String hash;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(nullable = false)
     private AppUser appUser;
 
@@ -27,6 +31,7 @@ public class Entry {
     private String memo;
 
     public Entry(){
+
         // hibernate
     }
 

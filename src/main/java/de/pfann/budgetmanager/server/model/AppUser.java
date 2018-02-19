@@ -4,11 +4,10 @@ package de.pfann.budgetmanager.server.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
-public class AppUser {
+public class AppUser  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
