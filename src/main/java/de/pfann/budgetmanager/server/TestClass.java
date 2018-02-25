@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
+import de.pfann.budgetmanager.server.model.Tag;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
@@ -50,9 +51,20 @@ public class TestClass {
         johannesUser = persistUser("johannes-1234","johannes@pfann.de","key");
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
+        Tag tagLuxus = new Tag("luxus");
+        Tag tagFix = new Tag("fixkosten");
+
+        tagFix.setAppUser(johannesUser);
+        tagLuxus.setAppUser(johannesUser);
+
+
+
+
         defaultCategory = categoryFacade.getDefaultCategory(johannesUser);
         gehaltFeb = peristEntry(johannesUser,defaultCategory,450,"ohne steuern");
         urlaubWinter = peristEntry(johannesUser,defaultCategory,120,"urlaub für den Winter");
+
+        urlaubWinter.set
 
         haushaltCategory = persistCategory(johannesUser,"Haushalt");
         putzmittel = peristEntry(johannesUser,haushaltCategory,3.50,"fürs putzen");

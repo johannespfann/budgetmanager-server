@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.persistens.daos;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Entry;
 
+import java.util.Date;
 import java.util.List;
 
 public class EntryFacade {
@@ -24,6 +25,7 @@ public class EntryFacade {
     }
 
     public void addEntry(Entry aEntry) {
+        aEntry.setCreated_at(new Date());
         entryDao.save(aEntry);
     }
 
