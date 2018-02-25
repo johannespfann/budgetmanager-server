@@ -2,9 +2,14 @@ package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Entry;
+import de.pfann.budgetmanager.server.model.Tag;
+import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EntryFacade {
 
@@ -20,11 +25,24 @@ public class EntryFacade {
         userDao = AppUserDao.create();
     }
 
-    public List<Entry> getEntries(AppUser aUser) {
-        return entryDao.getAllByUser(aUser);
+    public Set<Entry> getEntries(AppUser aUser) {
+        List<Entry> entries = entryDao.getAllByUser(aUser);
+        System.out.println("Anzahl aller Entries:  " +  entries.size());
+
+        Set<Entry> entrySet = new HashSet<>(entries);
+
+        System.out.println("Anzahl aller Entries in Set " + entrySet.size());
+
+        return entrySet;
+
+
     }
 
-    public void addEntry(Entry aEntry) {
+    public List<Entry> getEntries(Tag aTag){
+        return entryDao.getAllByTag(aTag);
+    }
+
+    public void persistEntry(Entry aEntry) {
         aEntry.setCreated_at(new Date());
         entryDao.save(aEntry);
     }

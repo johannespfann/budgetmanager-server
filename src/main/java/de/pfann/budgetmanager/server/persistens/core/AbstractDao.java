@@ -51,6 +51,10 @@ public abstract class AbstractDao {
 		return DetachedCriteria.forClass(getEntityClass());
 	}
 
+	protected DetachedCriteria getCriteria(String aliasName) {
+		return DetachedCriteria.forClass(getEntityClass(),aliasName);
+	}
+
 	/*
 	 * doGet***() methods
 	 */

@@ -3,10 +3,12 @@ package de.pfann.budgetmanager.server.persistens.daos;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
+import de.pfann.budgetmanager.server.model.Tag;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
@@ -48,4 +50,14 @@ public class EntryDao extends AbstractDao {
         return (List<Entry>) doGet(criteria);
     }
 
+    //https://stackoverflow.com/questions/18339421/query-many-to-many-relationship-with-detachedcriteria
+    public List<Entry> getAllByTag(Tag aTag) {
+        DetachedCriteria criteria = getCriteria("entry");
+
+        criteria.createAlias("entry.tags","tag");
+        criteria.add(Restrictions.eq("tag.id", aTag.getId()));
+        //criteria.setProjection(Projections.distinct(Projections.property("id")));
+        return (List<Entry>) doGet(criteria);
+
+    }
 }

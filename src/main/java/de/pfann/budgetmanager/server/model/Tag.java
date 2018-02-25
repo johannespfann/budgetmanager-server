@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,13 +21,22 @@ public class Tag implements Serializable {
     private AppUser appUser;
 
     @ManyToMany(mappedBy="tags")
+    @JsonIgnore
     private List<Entry> entries;
 
     @Column(nullable = false)
     private String name;
 
     public Tag(){
-        // default
+        entries = new ArrayList<Entry>();
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
     }
 
     public Tag(String aName){
@@ -58,11 +68,11 @@ public class Tag implements Serializable {
     }
 
     public void addEntry(Entry aEntry){
-        entries.add(aEntry);
     }
 
     public void removeEntry(Entry aEntry){
         entries.remove(aEntry);
     }
+
 }
 

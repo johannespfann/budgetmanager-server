@@ -30,6 +30,7 @@ public class AppUser  implements Serializable {
     @JsonIgnore
     private boolean activated;
 
+
     public AppUser() {
     }
 

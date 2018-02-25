@@ -1,22 +1,19 @@
 package de.pfann.budgetmanager.server.resources;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.pfann.budgetmanager.server.App;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
+import de.pfann.budgetmanager.server.model.Tag;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.AllowCrossOrigin;
-import de.pfann.budgetmanager.server.util.LogUtil;
 
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Path("entries/")
 public class EntryResource {
@@ -27,12 +24,15 @@ public class EntryResource {
 
     private CategoryFacade categoryFacade;
 
+    private TagFacade tagFacade;
+
     private ObjectMapper mapper;
 
     public EntryResource(){
         userFacade = new AppUserFacade();
         entryFacade = new EntryFacade();
         categoryFacade = new CategoryFacade();
+        tagFacade = new TagFacade();
         mapper = new ObjectMapper();
     }
 
@@ -41,10 +41,10 @@ public class EntryResource {
     @AllowCrossOrigin
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
-    public List<Entry> getEntries(
+    public Set<Entry> getEntries(
             @PathParam("owner") String aOwner){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        List<Entry> entries = entryFacade.getEntries(user);
+        Set<Entry> entries = entryFacade.getEntries(user);
         return entries;
     }
 
@@ -63,7 +63,13 @@ public class EntryResource {
         aEntry.setAppUser(user);
         aEntry.setCategory(category);
 
-        entryFacade.addEntry(aEntry);
+        tagFacade.updateTagsWithUser(user,aEntry.getTags());
+
+        List<Tag> persistedTagObjects = tagFacade.getPersistedTagObjects(user,aEntry.getTags());
+
+        aEntry.setTags(persistedTagObjects);
+
+        entryFacade.persistEntry(aEntry);
 
     }
 

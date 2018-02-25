@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Set;
 
 public class MappingTest {
 
@@ -47,7 +48,7 @@ public class MappingTest {
         System.out.println(user.getName());
         System.out.println(user.getDefaultCategory().getName());
 
-        List<Entry> entries = entryFacade.getEntries(user);
+        Set<Entry> entries = entryFacade.getEntries(user);
 
         String entriesJSON = "";
 

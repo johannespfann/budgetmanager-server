@@ -21,16 +21,16 @@ public class Entry  implements Serializable {
     private String hash;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(nullable = false)
+    @JsonIgnore
     private AppUser appUser;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="entry_tag",
             joinColumns=@JoinColumn(name="ENTRY_ID", referencedColumnName="id"),
             inverseJoinColumns=@JoinColumn(name="TAG_ID", referencedColumnName="id"))
-    private List<Tag> tags = new ArrayList<>();
+    private List<Tag> tags;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -44,7 +44,7 @@ public class Entry  implements Serializable {
     private String memo;
 
     public Entry(){
-        // hibernate
+        tags = new ArrayList<>();
     }
 
     public Entry(Entry aEntry){
@@ -56,9 +56,18 @@ public class Entry  implements Serializable {
         entry.hash = aEntry.hash;
         entry.memo = aEntry.memo;
         entry.created_at = aEntry.created_at;
+        entry.tags = aEntry.tags;
     }
 
-    // getter
+    public long getId() {
+        return id;
+    }
+
+// getter
+
+    public List<Tag> getTags() {
+        return tags;
+    }
 
     public String getHash() {
         return hash;
@@ -120,5 +129,9 @@ public class Entry  implements Serializable {
 
     public void remove(Tag aTag){
         tags.remove(aTag);
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }
