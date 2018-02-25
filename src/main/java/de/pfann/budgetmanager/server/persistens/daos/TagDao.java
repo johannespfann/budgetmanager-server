@@ -24,10 +24,10 @@ public class TagDao extends AbstractDao {
         return Tag.class;
     }
 
-    public List<Tag> getAllByUser(AppUser aUser){
+    public Set<Tag> getAllByUser(AppUser aUser){
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("appUser", aUser));
-        return (List<Tag>) doGet(criteria);
+        return new HashSet<>((List<Tag>) doGet(criteria));
     }
 
     public static TagDao create() {
@@ -42,6 +42,7 @@ public class TagDao extends AbstractDao {
         for(Tag tag : tags){
             delete(tag);
         }
+
     }
 
     public Tag getTag(AppUser aUser, String aName) {

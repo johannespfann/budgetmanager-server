@@ -73,6 +73,40 @@ public class EntryResource {
 
     }
 
+    @PATCH
+    @Logged
+    @AllowCrossOrigin
+    @Path("owner/{owner}/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateEntry(
+            @PathParam("owner") String aOwner,
+            Entry aEntry){
+
+        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
+
+        Entry persistedEntry = entryFacade.getEntry(aEntry.getHash());
+
+        persistedEntry.setAmount(aEntry.getAmount());
+        persistedEntry.setMemo(aEntry.getMemo());
+
+        if(persistedEntry.getCategory().getHash() != aEntry.getCategory().getHash()){
+            Category newCategory = categoryFacade.getCategory(aEntry.getHash());
+            persistedEntry.setCategory(newCategory);
+        }
+
+        List<Tag> persistedTags = persistedEntry.getTags();
+
+
+
+
+
+
+
+
+
+    }
+
+
     @DELETE
     @Logged
     @AllowCrossOrigin
@@ -89,7 +123,4 @@ public class EntryResource {
     }
 
 
-    private String getEntry(String aBody) {
-        return aBody;
-    }
 }

@@ -17,7 +17,7 @@ public class TagFacade {
     }
 
     public void updateTagsWithUser(AppUser aAppUser, List<Tag> aEntryTags) {
-        List<Tag> persistedTags = tagDao.getAllByUser(aAppUser);
+        Set<Tag> persistedTags = tagDao.getAllByUser(aAppUser);
         for(Tag tag : aEntryTags){
             if(!alreadyExists(tag,persistedTags)){
                 tagDao.save(tag);
@@ -25,18 +25,10 @@ public class TagFacade {
         }
     }
 
+
+
     public void persistTag(Tag aTag){
         tagDao.save(aTag);
-    }
-
-
-    private boolean alreadyExists(Tag aTag, List<Tag> aTags){
-        for(Tag tag : aTags){
-            if(tag.getName() == aTag.getName()){
-                return true;
-            }
-        }
-        return false;
     }
 
     public List<Tag> getPersistedTagObjects(AppUser aUser, List<Tag> aTags) {
@@ -52,4 +44,18 @@ public class TagFacade {
     public Set<Tag> getTags(Entry aEntry) {
         return tagDao.getTags(aEntry);
     }
+
+    public Set<Tag> getTags(AppUser aUser) {
+        return tagDao.getAllByUser(aUser);
+    }
+
+    private boolean alreadyExists(Tag aTag, Set<Tag> aTags){
+        for(Tag tag : aTags){
+            if(tag.getName() == aTag.getName()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

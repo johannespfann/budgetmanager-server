@@ -62,15 +62,19 @@ public class TestClass {
         tagFix = new Tag("fixkosten");
         tagGoodIdea = new Tag("guteidee");
 
+
+
         tagFix.setAppUser(johannesUser);
         tagLuxus.setAppUser(johannesUser);
         tagGoodIdea.setAppUser(johannesUser);
+
+        System.out.println("before: " + tagFix.getId());
 
         tagFacade.persistTag(tagFix);
         tagFacade.persistTag(tagLuxus);
         tagFacade.persistTag(tagGoodIdea);
 
-
+        System.out.println("after: " + tagFix.getId());
 
         defaultCategory = categoryFacade.getDefaultCategory(johannesUser);
         gehaltFeb = peristEntry(johannesUser,defaultCategory,450,"ohne steuern");
@@ -83,11 +87,6 @@ public class TestClass {
         entryFacade.persistEntry(gehaltFeb);
 
 
-
-
-
-
-
         urlaubWinter = peristEntry(johannesUser,defaultCategory,120,"urlaub für den Winter");
         //urlaubWinter.addTag(tagLuxus);
 
@@ -96,9 +95,11 @@ public class TestClass {
         putzmittel = peristEntry(johannesUser,haushaltCategory,3.50,"fürs putzen");
         staubsauger = peristEntry(johannesUser,haushaltCategory,300,"einmaliger Kauf - zu teuer");
 
+        putzmittel.addTag(tagFix);
+        entryFacade.persistEntry(putzmittel);
 
         // Alle Entries von einem Tag
-        List<Entry> entries = entryFacade.getEntries(tagFix);
+        Set<Entry> entries = entryFacade.getEntries(tagFix);
 
         for (Entry entry: entries){
             System.out.println(entry.getHash() + " : " + entry.getMemo());
@@ -110,6 +111,7 @@ public class TestClass {
         for(Tag tag : tags){
             System.out.println(tag.getName());
         }
+
 
     }
 

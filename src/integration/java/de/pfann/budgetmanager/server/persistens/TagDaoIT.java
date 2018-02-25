@@ -105,7 +105,7 @@ public class TagDaoIT {
         tagDao.deleteAllByUser(secondUser);
 
         // validate
-        Assert.assertEquals(firstTagName, tagDao.getAllByUser(firstUser).get(0).getName());
+
         Assert.assertEquals(0, tagDao.getAllByUser(secondUser).size());
     }
 
