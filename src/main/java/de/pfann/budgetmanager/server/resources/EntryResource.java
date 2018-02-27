@@ -12,6 +12,7 @@ import de.pfann.budgetmanager.server.resources.core.AllowCrossOrigin;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,15 +25,12 @@ public class EntryResource {
 
     private CategoryFacade categoryFacade;
 
-    private TagFacade tagFacade;
-
     private ObjectMapper mapper;
 
     public EntryResource(){
         userFacade = new AppUserFacade();
         entryFacade = new EntryFacade();
         categoryFacade = new CategoryFacade();
-        tagFacade = new TagFacade();
         mapper = new ObjectMapper();
     }
 
@@ -56,19 +54,11 @@ public class EntryResource {
     public void addEntry(
             @PathParam("owner") String aOwner,
             Entry aEntry){
+        System.out.println(aEntry.getHash());
+        System.out.println("Taganzahl: " + aEntry.getTags().size());
+
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
-        Category category = categoryFacade.getCategory(aEntry.getCategory().getHash());
-
         aEntry.setAppUser(user);
-        aEntry.setCategory(category);
-
-        tagFacade.updateTagsWithUser(user,aEntry.getTags());
-
-        List<Tag> persistedTagObjects = tagFacade.getPersistedTagObjects(user,aEntry.getTags());
-
-        aEntry.setTags(persistedTagObjects);
-
         entryFacade.persistEntry(aEntry);
 
     }
@@ -81,29 +71,9 @@ public class EntryResource {
     public void updateEntry(
             @PathParam("owner") String aOwner,
             Entry aEntry){
-
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
-        Entry persistedEntry = entryFacade.getEntry(aEntry.getHash());
-
-        persistedEntry.setAmount(aEntry.getAmount());
-        persistedEntry.setMemo(aEntry.getMemo());
-
-        if(persistedEntry.getCategory().getHash() != aEntry.getCategory().getHash()){
-            Category newCategory = categoryFacade.getCategory(aEntry.getHash());
-            persistedEntry.setCategory(newCategory);
-        }
-
-        List<Tag> persistedTags = persistedEntry.getTags();
-
-
-
-
-
-
-
-
-
+        aEntry.setAppUser(user);
+        entryFacade.update(aEntry);
     }
 
 

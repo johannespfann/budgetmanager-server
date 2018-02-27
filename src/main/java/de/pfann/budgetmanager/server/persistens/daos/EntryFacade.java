@@ -4,7 +4,9 @@ import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.model.Tag;
+import de.pfann.budgetmanager.server.util.LogUtil;
 import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,13 +43,83 @@ public class EntryFacade {
 
     public void persistEntry(Entry aEntry) {
         aEntry.setCreated_at(new Date());
+        LogUtil.info(this.getClass(),"Persist      : " + aEntry.getHash());
 
-        // TODO update tags with user and delete TagFacade
+        AppUser user = null;
+        try {
+            user = userDao.getUserByNameOrEmail(aEntry.getAppUser().getName());
+        } catch (NoUserFoundException e) {
+            e.printStackTrace();
+        }
+
+        List<Tag> tagsfromUser = new ArrayList<>(tagDao.getAllByUser(user));
+        List<Tag> tagsfromEntity = distinct(aEntry.getTags());
+        List<Tag> preparedTagsToSave = new LinkedList<>();
+
+        LogUtil.info(this.getClass(),"TagsfromUser      : " + tagsfromUser.size());
+        LogUtil.info(this.getClass(),"TagsfromEntity    : " + tagsfromEntity.size());
+        LogUtil.info(this.getClass(),"PreparedTagsToSave: " + preparedTagsToSave.size());
+
+        for(Tag tag : tagsfromEntity){
+            if(exists(tag, tagsfromUser)){
+                // tag existiert bereits und muss nur noch in entity gehaengt werden
+
+                Tag persistedTag = tagDao.getTag(user,tag.getName());
+
+                LogUtil.info(this.getClass(),
+                        "Tag "
+                        + persistedTag.getName()
+                        + " existiert mit Anzahl: "
+                        + persistedTag.getCount());
+
+                persistedTag.increaseCount();
+                tagDao.save(persistedTag);
+                preparedTagsToSave.add(persistedTag);
+
+            }
+            else {
+
+                LogUtil.info(this.getClass(),"Tag " + tag.getName() + " existiert noch nicht!");
+                // tag existiert noch nicht -> zuerst grundsaetzlich speichern, mit User verbinden und Entity
+                Tag newTag = tag;
+                newTag.setAppUser(user);
+                newTag.increaseCount();
+                tagDao.save(newTag);
+                preparedTagsToSave.add(tag);
+            }
+        }
+
+        Category persistedCategory = categoryDao.getCategory(aEntry.getCategory().getHash()).get(0);
+        aEntry.setCategory(persistedCategory);
+        aEntry.setTags(preparedTagsToSave);
+
         entryDao.save(aEntry);
     }
 
+    private List<Tag> distinct(List<Tag> tags) {
+        Set<Tag> uniqueSet = new HashSet<>(tags);
+        return new ArrayList<>(uniqueSet);
+    }
+
     public void deleteEntry(Entry aEntry){
+
+        List<Tag> tags = aEntry.getTags();
+
         entryDao.delete(aEntry);
+
+        for(Tag tag : tags){
+            tag.descreaseCount();
+
+            if(tag.getCount() == 0){
+                tagDao.delete(tag);
+            }
+
+            if(tag.getCount() > 0){
+                tagDao.save(tag);
+            }
+
+        }
+
     }
 
     public Entry getEntry(String aHash) {
@@ -125,12 +197,12 @@ public class EntryFacade {
 
     private boolean exists(Tag aTag, List<Tag> tags){
         for(Tag tag : tags){
-            if(aTag.getName() == tag.getName()){
+            LogUtil.info(this.getClass(),"Compare: " + aTag.getName() + " : " + tag.getName());
+            if(aTag.getName().equals(tag.getName())){
+                LogUtil.info(this.getClass(),"-> same ");
                 return true;
             }
         }
         return false;
     }
-
-
 }

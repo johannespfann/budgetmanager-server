@@ -16,29 +16,8 @@ public class TagFacade {
         tagDao = TagDao.create();
     }
 
-    public void updateTagsWithUser(AppUser aAppUser, List<Tag> aEntryTags) {
-        Set<Tag> persistedTags = tagDao.getAllByUser(aAppUser);
-        for(Tag tag : aEntryTags){
-            if(!alreadyExists(tag,persistedTags)){
-                tagDao.save(tag);
-            }
-        }
-    }
-
-
-
     public void persistTag(Tag aTag){
         tagDao.save(aTag);
-    }
-
-    public List<Tag> getPersistedTagObjects(AppUser aUser, List<Tag> aTags) {
-        List<Tag> persistedTags = new LinkedList<>();
-
-        aTags.forEach(tag -> {
-            persistedTags.add(tagDao.getTag(aUser, tag.getName()));
-        });
-
-        return persistedTags;
     }
 
     public Set<Tag> getTags(Entry aEntry) {
@@ -47,15 +26,6 @@ public class TagFacade {
 
     public Set<Tag> getTags(AppUser aUser) {
         return tagDao.getAllByUser(aUser);
-    }
-
-    private boolean alreadyExists(Tag aTag, Set<Tag> aTags){
-        for(Tag tag : aTags){
-            if(tag.getName() == aTag.getName()){
-                return true;
-            }
-        }
-        return false;
     }
 
 }

@@ -27,8 +27,28 @@ public class Tag implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    private int count;
+
     public Tag(){
         entries = new ArrayList<Entry>();
+    }
+
+    public void increaseCount(){
+        count++;
+    }
+
+    public void descreaseCount(){
+        if(count > 0) {
+            count--;
+        }
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public List<Entry> getEntries() {
@@ -74,5 +94,33 @@ public class Tag implements Serializable {
         entries.remove(aEntry);
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+
+        if (this == obj)
+            return true;
+
+        if (getClass() != obj.getClass())
+            return false;
+
+        Tag other = (Tag) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
 }
 

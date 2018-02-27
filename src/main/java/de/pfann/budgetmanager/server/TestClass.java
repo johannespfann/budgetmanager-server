@@ -10,6 +10,8 @@ import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.TagFacade;
 import de.pfann.budgetmanager.server.util.Util;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -63,40 +65,28 @@ public class TestClass {
         tagGoodIdea = new Tag("guteidee");
 
 
+        AppUser testUser = userFacade.getUserByNameOrEmail("johannes-1234");
 
-        tagFix.setAppUser(johannesUser);
-        tagLuxus.setAppUser(johannesUser);
-        tagGoodIdea.setAppUser(johannesUser);
-
-        System.out.println("before: " + tagFix.getId());
-
-        tagFacade.persistTag(tagFix);
-        tagFacade.persistTag(tagLuxus);
-        tagFacade.persistTag(tagGoodIdea);
-
-        System.out.println("after: " + tagFix.getId());
 
         defaultCategory = categoryFacade.getDefaultCategory(johannesUser);
-        gehaltFeb = peristEntry(johannesUser,defaultCategory,450,"ohne steuern");
 
-        // Entry added Tag
-        gehaltFeb.addTag(tagFix);
-        gehaltFeb.addTag(tagLuxus);
-        gehaltFeb.addTag(tagGoodIdea);
-        // Entry wird gespeichert
-        entryFacade.persistEntry(gehaltFeb);
+        List<Tag> gehaltFebTags = new LinkedList<>();
+        gehaltFebTags.add(tagFix);
+        gehaltFebTags.add(tagGoodIdea);
 
+        gehaltFeb = peristEntry(johannesUser,defaultCategory,gehaltFebTags, 450,"ohne steuern");
 
-        urlaubWinter = peristEntry(johannesUser,defaultCategory,120,"urlaub für den Winter");
-        //urlaubWinter.addTag(tagLuxus);
+        List<Tag> urlaubWinterTags = new LinkedList<>();
+        urlaubWinterTags.add(tagLuxus);
+        urlaubWinterTags.add(tagGoodIdea);
+        urlaubWinter = peristEntry(johannesUser,defaultCategory, urlaubWinterTags, 120,"urlaub für den Winter");
+
 
 
         haushaltCategory = persistCategory(johannesUser,"Haushalt");
-        putzmittel = peristEntry(johannesUser,haushaltCategory,3.50,"fürs putzen");
-        staubsauger = peristEntry(johannesUser,haushaltCategory,300,"einmaliger Kauf - zu teuer");
+        putzmittel = peristEntry(johannesUser,haushaltCategory, new ArrayList<>(), 3.50,"fürs putzen");
+        staubsauger = peristEntry(johannesUser,haushaltCategory, new ArrayList<>(), 300,"einmaliger Kauf - zu teuer");
 
-        putzmittel.addTag(tagFix);
-        entryFacade.persistEntry(putzmittel);
 
         // Alle Entries von einem Tag
         Set<Entry> entries = entryFacade.getEntries(tagFix);
@@ -115,13 +105,14 @@ public class TestClass {
 
     }
 
-    private Entry peristEntry(AppUser appUser, Category aCategory, double aAmount, String aMemo) {
+    private Entry peristEntry(AppUser appUser, Category aCategory, List<Tag> gehaltFebTags, double aAmount, String aMemo) {
         Entry entry = new Entry();
         entry.setAppUser(appUser);
         entry.setCategory(aCategory);
         entry.setAmount(aAmount);
         entry.setMemo(aMemo);
         entry.setHash(Util.getUniueHash(100000,99999999));
+        entry.setTags(gehaltFebTags);
         entryFacade.persistEntry(entry);
         return entry;
     }

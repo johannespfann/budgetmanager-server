@@ -46,10 +46,15 @@ public class TagDao extends AbstractDao {
     }
 
     public Tag getTag(AppUser aUser, String aName) {
+        System.out.println("getTags ...");
+        System.out.println("Name: " + aName);
+        System.out.println("Id: " + aUser.getId());
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("name", aName));
-        criteria.add(Restrictions.eq("appUser", aUser.getId()));
+        criteria.add(Restrictions.eq("appUser", aUser));
+
         List<Tag> tags = (List<Tag>) doGet(criteria);
+        System.out.println("get Tag: " + tags.get(0).getName());
         return tags.get(0);
     }
 

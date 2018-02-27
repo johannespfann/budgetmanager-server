@@ -33,11 +33,9 @@ public class CategoryFacade {
 
     public Category getCategory(String aHash) {
         List<Category> categories = categoryDao.getCategory(aHash);
-
         if(categories.size() != 0){
             // TODO Exception
         }
-
         return categories.get(0);
     }
 
