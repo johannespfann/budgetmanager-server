@@ -8,6 +8,7 @@ import de.pfann.budgetmanager.server.model.Tag;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.resources.core.AllowCrossOrigin;
+import de.pfann.budgetmanager.server.util.LogUtil;
 
 
 import javax.ws.rs.*;
@@ -73,6 +74,15 @@ public class EntryResource {
             Entry aEntry){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         aEntry.setAppUser(user);
+
+        LogUtil.info(this.getClass(),"Entry: ");
+        LogUtil.info(this.getClass()," - " + aEntry.getHash());
+        LogUtil.info(this.getClass()," - " + aEntry.getMemo());
+        LogUtil.info(this.getClass()," - " + aEntry.getAmount());
+        LogUtil.info(this.getClass()," - " + aEntry.getCreated_at());
+        LogUtil.info(this.getClass()," - " + aEntry.getCategory().getName());
+
+
         entryFacade.update(aEntry);
     }
 

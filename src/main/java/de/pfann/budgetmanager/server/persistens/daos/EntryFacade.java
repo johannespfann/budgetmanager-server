@@ -119,7 +119,6 @@ public class EntryFacade {
             }
 
         }
-
     }
 
     public Entry getEntry(String aHash) {
@@ -129,40 +128,55 @@ public class EntryFacade {
     public void update(Entry aEntry){
         Entry persistedEntry = getEntry(aEntry.getHash());
 
+        LogUtil.info(this.getClass(),"Update Entry -> " + persistedEntry.getHash());
         persistedEntry.setAmount(aEntry.getAmount());
         persistedEntry.setMemo(aEntry.getMemo());
 
-        if(persistedEntry.getCategory().getHash() != aEntry.getCategory().getHash()){
-            Category newCategory = categoryDao.getCategory(aEntry.getHash()).get(0);
+        LogUtil.info(this.getClass(),"# Look for category change ...(" + aEntry.getCategory().getName() + " : " + aEntry.getCategory().getHash() + ")");
+        if(!persistedEntry.getCategory().getHash().equals(aEntry.getCategory().getHash())){
+            LogUtil.info(this.getClass()," -> yes it changed ... compare ->"
+                    + persistedEntry.getCategory().getHash() + " and "
+                    + aEntry.getCategory().getHash());
+            Category newCategory = categoryDao.getCategory(aEntry.getCategory().getHash()).get(0);
+            LogUtil.info(this.getClass()," -> set new category: " + newCategory.getName());
             persistedEntry.setCategory(newCategory);
         }
 
+        LogUtil.info(this.getClass(),"# Look for tags change ...");
         List<Tag> persistedTags = persistedEntry.getTags();
-        List<Tag> updatedTags = aEntry.getTags();
+        List<Tag> currentTags = aEntry.getTags();
+
+        LogUtil.info(this.getClass()," -> persistedTags: " + persistedTags.size());
+        LogUtil.info(this.getClass()," -> currentTags      : " + currentTags.size());
 
         // added Tags
 
         List<Tag> newTags = new LinkedList<>();
 
-        for(Tag tag : updatedTags){
+        for(Tag tag : currentTags){
             if(!exists(tag, persistedTags)){
                 newTags.add(tag);
             }
         }
+
+        LogUtil.info(this.getClass(),"Found  " + newTags.size() + " new tags");
 
         // deleted Tags
 
         List<Tag> deletedTags = new LinkedList<>();
 
         for(Tag tag : persistedTags){
-            if(!exists(tag, updatedTags)){
+            if(!exists(tag, currentTags)){
                 deletedTags.add(tag);
             }
         }
 
+        LogUtil.info(this.getClass(),"Found  " + deletedTags.size() + " tags for delete");
+
         // remove Tags
 
         for(Tag tag: deletedTags){
+            LogUtil.info(this.getClass(),"Remove tag: " + tag.getName());
             persistedTags.remove(tag);
         }
 
@@ -172,34 +186,58 @@ public class EntryFacade {
         AppUser user = new AppUser();
         try {
             user = userDao.getUserByNameOrEmail(aEntry.getAppUser().getEmail());
+
         } catch (NoUserFoundException e) {
             e.printStackTrace();
         }
 
         Set<Tag> persistedUserTags = tagDao.getAllByUser(aEntry.getAppUser());
-
+        LogUtil.info(this.getClass(), "All tags for user: " + persistedUserTags.size());
         for(Tag tag : newTags){
+            LogUtil.info(this.getClass(),"Bearbeite tag: " + tag.getName());
             if(!exists(tag,new LinkedList<>(persistedUserTags))){
                 tag.setAppUser(user);
+                LogUtil.info(this.getClass(), "- save tag: " + tag.getName());
+                tag.increaseCount();
                 tagDao.save(tag);
+                persistedTags.add(tag);
+            }
+            else
+            {
+                LogUtil.info(this.getClass(),"- increment tag: " + tag.getName());
+                Tag persistedTag = tagDao.getTag(user,tag.getName());
+                persistedTag.increaseCount();
+                tagDao.save(persistedTag);
+                persistedTags.add(persistedTag);
             }
         }
 
-        // add new tags
+        List<Tag> tagsToDelete = new LinkedList<>();
 
-        for(Tag tag: newTags){
-            persistedTags.add(tag);
+        // deincrement tags
+        LogUtil.info(this.getClass(), "Behandel deleted tags ...");
+        for(Tag tag: persistedUserTags){
+            if(exists(tag, deletedTags)){
+                tag.descreaseCount();
+                tagDao.save(tag);
+                if(tag.getCount() == 0){
+                    tagsToDelete.add(tag);
+                }
+
+            }
         }
 
         persistedEntry.setTags(persistedTags);
         entryDao.save(persistedEntry);
+
+        for(Tag tag :tagsToDelete){
+            tagDao.delete(tag);
+        }
     }
 
     private boolean exists(Tag aTag, List<Tag> tags){
         for(Tag tag : tags){
-            LogUtil.info(this.getClass(),"Compare: " + aTag.getName() + " : " + tag.getName());
             if(aTag.getName().equals(tag.getName())){
-                LogUtil.info(this.getClass(),"-> same ");
                 return true;
             }
         }

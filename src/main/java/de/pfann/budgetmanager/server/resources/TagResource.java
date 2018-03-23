@@ -35,7 +35,6 @@ public class TagResource {
             @PathParam("owner") String aOwner){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         return tagFacade.getTags(user);
-
     }
 
 }
