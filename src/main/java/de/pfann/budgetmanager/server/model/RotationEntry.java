@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,12 +49,12 @@ public class RotationEntry  implements Serializable {
     @JoinColumn(nullable = false)
     private Category category;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name="rotation_tag",
-            joinColumns=@JoinColumn(name="ROTATIONENTRY_ID", referencedColumnName="id"),
-            inverseJoinColumns=@JoinColumn(name="TAG_ID", referencedColumnName="id"))
-    private List<Tag> tags;
+    private String tags;
+
+
+    public RotationEntry(){
+    }
+
 
     public String getHash() {
         return hash;
@@ -119,11 +120,15 @@ public class RotationEntry  implements Serializable {
         this.category = category;
     }
 
-    public List<Tag> getTags() {
-        return tags;
+    public String getTags() {return tags;}
+
+    public void setTags(String tags) {this.tags = tags;}
+
+    public Date getLast_executed() {
+        return last_executed;
     }
 
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
+    public void setLast_executed(Date last_executed) {
+        this.last_executed = last_executed;
     }
 }
