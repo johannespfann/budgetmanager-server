@@ -7,6 +7,8 @@ import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.persistens.daos.NoUserFoundException;
 import de.pfann.budgetmanager.server.util.Util;
 
+import java.util.List;
+
 public class AppUserFacade {
 
     private AppUserDao userDao;
@@ -71,5 +73,9 @@ public class AppUserFacade {
 
     public void updateUser(AppUser aAppUser) {
         userDao.save(aAppUser);
+    }
+
+    public List<AppUser> getAllUser(){
+        return userDao.getAll();
     }
 }
