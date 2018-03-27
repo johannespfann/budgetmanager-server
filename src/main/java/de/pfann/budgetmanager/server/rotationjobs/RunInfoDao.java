@@ -4,6 +4,8 @@ import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
 
+import java.util.List;
+
 public class RunInfoDao extends AbstractDao {
 
     public static RunInfoDao create(){
@@ -16,7 +18,11 @@ public class RunInfoDao extends AbstractDao {
 
     @Override
     protected Class<?> getEntityClass() {
-        return null;
+        return RunInfo.class;
+    }
+
+    public List<RunInfo> getAll(){
+        return (List<RunInfo>) doGetAll();
     }
 
 }

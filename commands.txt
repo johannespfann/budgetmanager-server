@@ -10,7 +10,7 @@ postgres psql
 
 
 TEST-DATABASE
-
+1a) for mysql user=budgetmaster_it
 1) CREATE USER budgetmaster_test WITH PASSWORD 'keymaster';
 2) CREATE DATABASE budgetdb_test;
 3) GRANT ALL PRIVILEGES ON DATABASE budgetdb_test to budgetmaster_test;
