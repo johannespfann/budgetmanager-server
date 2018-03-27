@@ -22,7 +22,7 @@ public class MonthlyRotationEntry implements RotationEntryPattern {
     }
 
     @Override
-    public boolean isExecutable(Date aToday, RotationEntry aEntry) {
+    public boolean isExecutable(LocalDate aToday, RotationEntry aEntry) {
 
         if(!isValidPattern(aEntry)){
             return false;
