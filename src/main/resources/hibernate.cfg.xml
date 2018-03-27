@@ -28,7 +28,7 @@
         <mapping class="de.pfann.budgetmanager.server.model.AppUser"/>
         <mapping class="de.pfann.budgetmanager.server.model.Category"/>
         <mapping class="de.pfann.budgetmanager.server.model.Tag"/>
-        <mapping class="de.pfann.budgetmanager.server.model.RotationEntry"/>
+        <mapping class="de.pfann.budgetmanager.server.rotationjobs.RotationEntry"/>
         <mapping class="de.pfann.budgetmanager.server.rotationjobs.Run"/>
         <mapping class="de.pfann.budgetmanager.server.rotationjobs.RunInfo"/>
 

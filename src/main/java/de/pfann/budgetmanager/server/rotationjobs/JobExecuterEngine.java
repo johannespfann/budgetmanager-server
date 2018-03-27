@@ -17,7 +17,7 @@ public class JobExecuterEngine {
         // default
     }
 
-    public JobExecuterEngine(List<Job> aRotationjobs, RunFacade aRunFacade) {
+    private JobExecuterEngine(List<Job> aRotationjobs, RunFacade aRunFacade) {
         rotationJobs = aRotationjobs;
         runFacade = aRunFacade;
     }
@@ -25,11 +25,15 @@ public class JobExecuterEngine {
 
     public void start(){
 
+        System.out.println("Start engine");
         List<Run> runs = prepareRuns();
 
         for(Run run : runs){
+            System.out.println(" - Execute for run: " + run.getExecuted_at());
             executeRotationJobs(run);
         }
+
+        System.out.println("Finished runs");
 
     }
 
@@ -66,15 +70,20 @@ public class JobExecuterEngine {
         Run run = runFacade.getLastRun();
 
         LocalDate today = LocalDate.now();
-        LocalDate dayOfLastRun = run.getExecuted_at();
+        LocalDate dayOfLastRun = null;
 
-        if(dayOfLastRun == null){
-            dayOfLastRun = dayOfLastRun.minusDays(1);
+        if(run != null) {
+            dayOfLastRun = run.getExecuted_at();
         }
 
-        Period distance = Period.between(today,dayOfLastRun);
+        if(dayOfLastRun == null){
+            dayOfLastRun = today.minusDays(1);
+        }
+
+        Period distance = Period.between(dayOfLastRun,today);
 
         int daysBetween = distance.getDays();
+
 
         for(int index = 1; index == daysBetween; index++){
             dayOfLastRun = dayOfLastRun.plusDays(1);
@@ -85,6 +94,10 @@ public class JobExecuterEngine {
         return runs;
     }
 
+    public static JobExecuterEngineBuilder builder(){
+        return new JobExecuterEngineBuilder();
+    }
+
 
     public static class JobExecuterEngineBuilder {
 
@@ -92,7 +105,7 @@ public class JobExecuterEngine {
 
         private RunFacade runFacade;
 
-        public JobExecuterEngineBuilder(){
+        private JobExecuterEngineBuilder(){
             rotationjobs = new LinkedList<>();
         }
 

@@ -23,10 +23,10 @@ public class RunDao extends AbstractDao {
         return Run.class;
     }
 
-    public Run getYoungesRun(){
+    public List<Run> getYoungesRun(){
         List<Run> runs = (List<Run>) doGetAll();
         Collections.sort(runs);
-        return runs.get(0);
+        return runs;
 
     }
 

@@ -1,7 +1,6 @@
 package de.pfann.budgetmanager.server.rotationjobs;
 
 import de.pfann.budgetmanager.server.model.Entry;
-import de.pfann.budgetmanager.server.model.RotationEntry;
 import de.pfann.budgetmanager.server.model.Tag;
 import de.pfann.budgetmanager.server.util.Util;
 
