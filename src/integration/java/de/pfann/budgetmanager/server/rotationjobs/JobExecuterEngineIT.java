@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.rotationjobs;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 public class JobExecuterEngineIT {
 
@@ -20,6 +21,11 @@ public class JobExecuterEngineIT {
     public void setUp() {
         // Setup db befor each test
         SessionDistributor.createForIT();
+    }
+
+    @Test
+    public void testTest(){
+        System.out.println("works!");
     }
 
 
