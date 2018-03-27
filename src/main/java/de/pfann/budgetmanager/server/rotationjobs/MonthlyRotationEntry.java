@@ -22,7 +22,8 @@ public class MonthlyRotationEntry implements RotationEntryPattern {
     }
 
     @Override
-public boolean isExecutable(LocalDate aToday, RotationEntry aRotationEntry) {
+    public boolean isExecutable(LocalDate aToday, RotationEntry aRotationEntry) {
+
 
     if(!isValidPattern(aRotationEntry)){
         return false;
@@ -39,6 +40,7 @@ public boolean isExecutable(LocalDate aToday, RotationEntry aRotationEntry) {
      * Startzeit muss bereits erreicht sein
      */
     if(isBeforStartTime(startDate,aToday)){
+        System.out.println("beginnt noch nicht");
         return false;
     }
 
@@ -53,13 +55,18 @@ public boolean isExecutable(LocalDate aToday, RotationEntry aRotationEntry) {
      * In diesem Monat wurde es bereits ausgeführt
      */
     if(isAlreadyExecuted(lastExecuted,aToday)){
+        System.out.println("wurde bereits ausgefuehrt");
         return false;
     }
 
     /**
      * Heute vor einem oder x-Monate
      */
+    System.out.println(lastExecuted.getDayOfMonth());
+    System.out.println(aToday.getDayOfMonth());
+
     if(lastExecuted.getDayOfMonth() == aToday.getDayOfMonth()){
+        System.out.println("was true");
         return true;
     }
 
@@ -75,9 +82,9 @@ public boolean isExecutable(LocalDate aToday, RotationEntry aRotationEntry) {
 
 private boolean isAlreadyExecuted(LocalDate lastExecuted, LocalDate aToday) {
     if(lastExecuted.getMonth().equals(aToday.getMonth()) && lastExecuted.getYear() == aToday.getYear()){
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 private boolean isValidPattern(RotationEntry aEntry) {
@@ -91,4 +98,5 @@ private boolean isBeforStartTime(LocalDate startDate, LocalDate aToday) {
 private LocalDate convert(Date aDate){
     return aDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 }
+    
 }
