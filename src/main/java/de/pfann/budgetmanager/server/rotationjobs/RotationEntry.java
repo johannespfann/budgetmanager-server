@@ -1,6 +1,8 @@
-package de.pfann.budgetmanager.server.model;
+package de.pfann.budgetmanager.server.rotationjobs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.model.Category;
 
 import javax.persistence.*;
 import java.io.Serializable;

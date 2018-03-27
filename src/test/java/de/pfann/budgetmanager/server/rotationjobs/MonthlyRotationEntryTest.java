@@ -1,6 +1,5 @@
 package de.pfann.budgetmanager.server.rotationjobs;
 
-import de.pfann.budgetmanager.server.model.RotationEntry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

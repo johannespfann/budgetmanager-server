@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.model.AppUser;
-import de.pfann.budgetmanager.server.model.RotationEntry;
+import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
@@ -9,7 +9,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
-import java.util.Set;
 
 public class RotationEntryDao extends AbstractDao {
 

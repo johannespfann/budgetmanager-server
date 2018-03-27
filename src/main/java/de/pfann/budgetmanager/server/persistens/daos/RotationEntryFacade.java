@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.model.AppUser;
-import de.pfann.budgetmanager.server.model.RotationEntry;
+import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
 
 import java.util.List;
 

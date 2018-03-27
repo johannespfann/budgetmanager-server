@@ -2,7 +2,6 @@ package de.pfann.budgetmanager.server.rotationjobs;
 
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Entry;
-import de.pfann.budgetmanager.server.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
