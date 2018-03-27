@@ -3,9 +3,17 @@ package de.pfann.budgetmanager.server;
 import de.pfann.budgetmanager.server.login.LoginUtil;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.model.Category;
+import de.pfann.budgetmanager.server.persistens.core.DbWriter;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
+import de.pfann.budgetmanager.server.rotationjobs.JobExecuterEngine;
+import de.pfann.budgetmanager.server.rotationjobs.MonthlyRotationEntry;
+import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
+import de.pfann.budgetmanager.server.rotationjobs.RotationEntryJob;
+import de.pfann.budgetmanager.server.rotationjobs.RunDao;
+import de.pfann.budgetmanager.server.rotationjobs.RunFacade;
+import de.pfann.budgetmanager.server.rotationjobs.RunInfoDao;
 import de.pfann.budgetmanager.server.util.Util;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -23,8 +31,8 @@ import java.util.logging.Logger;
  */
 public class App 
 {
-    //public static final String BASE_URI = "http://localhost:8081/budget/";
-    public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
+    public static final String BASE_URI = "http://localhost:8081/budget/";
+    //public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
     //public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
 
     /**
@@ -52,6 +60,21 @@ public class App
 
         TestClass environmentObjects = new TestClass();
         environmentObjects.persistEnviroment();
+
+        RotationEntryJob rotationEntryJob = new RotationEntryJob();
+
+
+        RunInfoDao runInfoDao = RunInfoDao.create();
+        RunDao runDao = RunDao.create();
+        RunFacade runFacade = new RunFacade(runInfoDao,runDao);
+
+        JobExecuterEngine engine = JobExecuterEngine.builder()
+                .addJob(rotationEntryJob)
+                .withRunFacade(runFacade)
+                .build();
+
+        engine.start();
+
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));

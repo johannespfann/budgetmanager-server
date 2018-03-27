@@ -1,5 +1,7 @@
 package de.pfann.budgetmanager.server.rotationjobs;
 
+import java.util.List;
+
 public class RunFacade {
 
     private RunDao runDao;
@@ -25,7 +27,11 @@ public class RunFacade {
     }
 
     public Run getLastRun() {
-        return runDao.getYoungesRun();
+        List<Run> runList = runDao.getYoungesRun();
+        if(runList.size() == 0){
+            return null;
+        }
+        return runList.get(0);
     }
 
 
