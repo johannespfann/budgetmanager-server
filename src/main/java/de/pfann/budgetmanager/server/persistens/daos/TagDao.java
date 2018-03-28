@@ -37,7 +37,7 @@ public class TagDao extends AbstractDao {
     public void deleteAllByUser(AppUser aUser){
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("appUser", aUser));
-        Set<Tag> tags = (Set<Tag>) doGet(criteria);
+        List<Tag> tags = (List<Tag>) doGet(criteria);
 
         for(Tag tag : tags){
             delete(tag);

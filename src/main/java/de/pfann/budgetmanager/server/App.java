@@ -7,13 +7,7 @@ import de.pfann.budgetmanager.server.persistens.core.DbWriter;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
-import de.pfann.budgetmanager.server.rotationjobs.JobExecuterEngine;
-import de.pfann.budgetmanager.server.rotationjobs.MonthlyRotationEntry;
-import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
-import de.pfann.budgetmanager.server.rotationjobs.RotationEntryJob;
-import de.pfann.budgetmanager.server.rotationjobs.RunDao;
-import de.pfann.budgetmanager.server.rotationjobs.RunFacade;
-import de.pfann.budgetmanager.server.rotationjobs.RunInfoDao;
+import de.pfann.budgetmanager.server.rotationjobs.*;
 import de.pfann.budgetmanager.server.util.Util;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -22,6 +16,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,22 +54,12 @@ public class App
 
         final HttpServer server = startServer();
 
-        TestClass environmentObjects = new TestClass();
-        environmentObjects.persistEnviroment();
-
-        RotationEntryJob rotationEntryJob = new RotationEntryJob();
+        //TestClass environmentObjects = new TestClass();
+        //environmentObjects.persistEnviroment();
 
 
-        RunInfoDao runInfoDao = RunInfoDao.create();
-        RunDao runDao = RunDao.create();
-        RunFacade runFacade = new RunFacade(runInfoDao,runDao);
-
-        JobExecuterEngine engine = JobExecuterEngine.builder()
-                .addJob(rotationEntryJob)
-                .withRunFacade(runFacade)
-                .build();
-
-        engine.start();
+        DailyExecutor executor = new DailyExecutor();
+        executor.start();
 
 
         System.out.println(String.format("Jersey app started with WADL available at "

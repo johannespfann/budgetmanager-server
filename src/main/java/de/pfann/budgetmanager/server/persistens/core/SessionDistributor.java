@@ -17,11 +17,11 @@ public class SessionDistributor {
 	public static SessionDistributor create() {
 		Configuration configuration = getBaseConfig();
 		;
-		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost/budgetdb");
+		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/budgetdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
 		configuration.setProperty("hibernate.connection.username", "budgetmaster");
 		configuration.setProperty("hibernate.connection.password", "keymaster");
 
-		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		configuration.setProperty("hibernate.hbm2ddl.auto", "validate");
 
 		return new SessionDistributor(configuration);
 	}
@@ -29,8 +29,8 @@ public class SessionDistributor {
 	public static SessionDistributor createForIT() {
 		Configuration configuration = getBaseConfig();
 
-		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost/budgetdb_test");
-		configuration.setProperty("hibernate.connection.username", "budgetmaster_test");
+		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/budgetdb_test?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+		configuration.setProperty("hibernate.connection.username", "budgetmaster");
 		configuration.setProperty("hibernate.connection.password", "keymaster");
 
 		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");

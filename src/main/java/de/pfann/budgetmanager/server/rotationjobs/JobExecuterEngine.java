@@ -6,8 +6,9 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimerTask;
 
-public class JobExecuterEngine {
+public class JobExecuterEngine extends TimerTask {
 
     private List<Job> rotationJobs;
 
@@ -15,6 +16,11 @@ public class JobExecuterEngine {
 
     private JobExecuterEngine(){
         // default
+    }
+
+    @Override
+    public void run() {
+        start();
     }
 
     private JobExecuterEngine(List<Job> aRotationjobs, RunFacade aRunFacade) {
