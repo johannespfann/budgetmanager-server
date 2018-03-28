@@ -23,7 +23,6 @@ public class MonthlyRotationEntry implements RotationEntryPattern {
     @Override
     public boolean isExecutable(LocalDate aToday, RotationEntry aRotationEntry) {
 
-
         LocalDate startDate = convert(aRotationEntry.getStart_at());
         LocalDate lastExecuted = null;
 

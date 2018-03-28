@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.rotationjobs;
 
+import de.pfann.budgetmanager.server.util.LogUtil;
 import sun.awt.image.ImageWatched;
 
 import java.time.LocalDate;
@@ -31,15 +32,16 @@ public class JobExecuterEngine extends TimerTask {
 
     public void start(){
 
-        System.out.println("Start engine");
+        LogUtil.info(this.getClass(),"[Start engine]");
         List<Run> runs = prepareRuns();
 
         for(Run run : runs){
-            System.out.println(" - Execute for run: " + run.getExecuted_at());
+
+            LogUtil.info(this.getClass(),"[Execute for run: " +run.getExecuted_at() +"]");
             executeRotationJobs(run);
         }
 
-        System.out.println("Finished runs");
+        LogUtil.info(this.getClass(),"[Finished runs]");
 
     }
 

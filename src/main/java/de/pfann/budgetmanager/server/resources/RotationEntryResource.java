@@ -3,7 +3,7 @@ package de.pfann.budgetmanager.server.resources;
 import de.pfann.budgetmanager.server.model.AppUser;
 import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
+import de.pfann.budgetmanager.server.rotationjobs.RotationEntryFacade;
 import de.pfann.budgetmanager.server.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 

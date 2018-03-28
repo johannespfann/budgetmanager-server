@@ -68,7 +68,7 @@ public class Examiner {
         }
 
         private void assertNotEmpty(List<RotationEntryPattern> pattern) throws IllegalArgumentException {
-            if(pattern == null || pattern.size() > 0){
+            if(pattern == null || pattern.size() <= 0){
                 throw new IllegalArgumentException("No pattern to validate found!");
             }
         }

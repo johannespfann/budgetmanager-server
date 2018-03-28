@@ -1,7 +1,6 @@
-package de.pfann.budgetmanager.server.persistens.daos;
+package de.pfann.budgetmanager.server.rotationjobs;
 
 import de.pfann.budgetmanager.server.model.AppUser;
-import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
@@ -27,7 +26,7 @@ public class RotationEntryDao extends AbstractDao {
 
     public List<RotationEntry> getRotationEntries(AppUser aUser) {
         DetachedCriteria criteria = getCriteria();
-        criteria.add(Restrictions.eq("appUser", aUser));
+        criteria.add(Restrictions.eq("user", aUser));
         return (List<RotationEntry>) doGet(criteria);
     }
 }
