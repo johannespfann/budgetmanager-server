@@ -1,7 +1,34 @@
 package de.pfann.budgetmanager.server.rotationjobs;
 
+import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.model.Entry;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
+import de.pfann.budgetmanager.server.util.LogUtil;
+import sun.rmi.runtime.Log;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 public class RotationEntryJob implements Job {
 
+    private List<RotationEntryPattern> patterns;
+
+    private EntryFacade entryFacade;
+
+    private AppUserFacade userFacade;
+
+    private RotationEntryFacade rotationEntryFacade;
+
+
+    public RotationEntryJob(List<RotationEntryPattern> aPatterns, AppUserFacade aUserFacade, EntryFacade aEntryFacade, RotationEntryFacade aRotationEntryFacade){
+        patterns = aPatterns;
+        entryFacade = aEntryFacade;
+        userFacade = aUserFacade;
+        rotationEntryFacade = aRotationEntryFacade;
+    }
 
     @Override
     public String getIdentifier() {
@@ -10,12 +37,41 @@ public class RotationEntryJob implements Job {
 
     @Override
     public void preExecution(Run aRun) {
-        System.out.println("####[Start Run]#####");
+        LogUtil.info(this.getClass(),"####[Start Run]#####");
+        LogUtil.info(this.getClass(),"-> " + getIdentifier());
+        LogUtil.info(this.getClass(),"-> with " + patterns.size() + " pattern");
     }
 
     @Override
     public void execute(Run aRun) {
-        System.out.println("-> execute run: " + aRun.getExecuted_at());
+        System.out.println("execute run for: " + aRun.getExecuted_at());
+
+        Examiner examiner = Examiner.builder()
+                .withPattern(patterns)
+                .forDate(aRun.getExecuted_at())
+                .build();
+
+        List<AppUser> users = userFacade.getAllUser();
+
+        for(AppUser user : users){
+            LogUtil.info(this.getClass()," - for user: " + user.getName());
+            List<RotationEntry> rotationEntries = rotationEntryFacade.getRotationEntries(user);
+
+            for(RotationEntry rotationEntry : rotationEntries){
+
+                if(examiner.executeable(rotationEntry)){
+                    LogUtil.info(this.getClass(),"generate entry");
+                    Entry entry = EntryTransformer.builder()
+                            .forDate(new Date())
+                            .build()
+                            .createEntry(rotationEntry);
+
+
+                    entryFacade.persistEntry(entry);
+                }
+
+            }
+        }
     }
 
     @Override

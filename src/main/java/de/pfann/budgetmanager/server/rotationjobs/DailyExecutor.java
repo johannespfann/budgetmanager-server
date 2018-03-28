@@ -1,5 +1,11 @@
 package de.pfann.budgetmanager.server.rotationjobs;
 
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
+
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 
 public class DailyExecutor {
@@ -11,7 +17,18 @@ public class DailyExecutor {
 
 
     public void start(){
-        RotationEntryJob rotationEntryJob = new RotationEntryJob();
+
+
+        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntry();
+
+        List<RotationEntryPattern> patternList = new LinkedList<>();
+        patternList.add(monthlyRotationEntry);
+
+        Job rotationEntryJob = new RotationEntryJob(
+                patternList,
+                new AppUserFacade(),
+                new EntryFacade(),
+                new RotationEntryFacade());
 
         RunInfoDao runInfoDao = RunInfoDao.create();
         RunDao runDao = RunDao.create();
