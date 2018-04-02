@@ -25,13 +25,10 @@ public class RotationEntry  implements Serializable {
     @JsonIgnore
     private AppUser user;
 
-    @Column(nullable = false)
     private Date start_at;
 
-    @Column(nullable = false)
     private Date end_at;
 
-    @Column(nullable = false)
     private Date last_executed;
 
     @Column(nullable = false)

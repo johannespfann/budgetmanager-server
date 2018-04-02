@@ -8,12 +8,11 @@ import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.TagFacade;
+import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
+import de.pfann.budgetmanager.server.rotationjobs.RotationEntryFacade;
 import de.pfann.budgetmanager.server.util.Util;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +27,7 @@ public class TestClass {
     private CategoryFacade categoryFacade;
     private EntryFacade entryFacade;
     private TagFacade tagFacade;
+    private RotationEntryFacade rotationEntryFacade;
 
 
     /**
@@ -54,6 +54,7 @@ public class TestClass {
         categoryFacade = new CategoryFacade();
         entryFacade = new EntryFacade();
         tagFacade = new TagFacade();
+        rotationEntryFacade = new RotationEntryFacade();
     }
 
     public void persistEnviroment(){
@@ -102,6 +103,8 @@ public class TestClass {
             System.out.println(tag.getName());
         }
 
+        RotationEntry rotationEntry = persistRotationEntry(johannesUser, haushaltCategory);
+
 
     }
 
@@ -134,6 +137,23 @@ public class TestClass {
         userFacade.createNewUser(user);
         userFacade.activateUser(user);
         return user;
+    }
+
+    private RotationEntry persistRotationEntry(AppUser aUser, Category aCategory){
+        RotationEntry entry = new RotationEntry();
+        entry.setUser(aUser);
+        entry.setStart_at(new Date());
+        entry.setLast_executed(null);
+        entry.setAmount(2300);
+        entry.setCategory(aCategory);
+        entry.setMemo("monatliches Gehalt");
+        entry.setEnd_at(null);
+        entry.setTags("bla;luxus");
+        entry.setRotation_strategy("66122");
+        entry.setHash(Util.getUniueHash(100,123123123));
+
+        rotationEntryFacade.save(entry);
+        return entry;
     }
 
 

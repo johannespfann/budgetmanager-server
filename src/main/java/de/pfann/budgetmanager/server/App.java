@@ -28,8 +28,8 @@ import java.util.logging.Logger;
 public class App 
 {
     //public static final String BASE_URI = "http://localhost:8081/budget/";
-    public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
-    //public static final String BASE_URI = "http://192.168.2.101:8081/budget/";
+    public static final String BASE_URI = "http://0.0.0.0:8081/budget/";
+    //public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -54,8 +54,8 @@ public class App
 
         final HttpServer server = startServer();
 
-        //TestClass environmentObjects = new TestClass();
-        //environmentObjects.persistEnviroment();
+        TestClass environmentObjects = new TestClass();
+        environmentObjects.persistEnviroment();
 
 
         DailyExecutor executor = new DailyExecutor();

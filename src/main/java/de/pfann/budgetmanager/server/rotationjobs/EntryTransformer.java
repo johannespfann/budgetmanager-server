@@ -44,8 +44,11 @@ public class EntryTransformer {
     private List<Tag> transformTags(String aTags){
         List<Tag> tags = new ArrayList<>();
 
-        String[] values = aTags.split(TAG_SEPERATOR);
+        String[] values = new String[]{};
 
+        if(aTags != null) {
+            values = aTags.split(TAG_SEPERATOR);
+        }
         for(String value : values){
             tags.add(new Tag(value));
         }

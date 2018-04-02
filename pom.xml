@@ -15,18 +15,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.glassfish.jersey</groupId>
-        <artifactId>jersey-bom</artifactId>
-        <version>${jersey.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -50,17 +38,19 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-grizzly2-http</artifactId>
+      <version>2.26</version>
     </dependency>
 
     <dependency>
       <groupId>org.glassfish.jersey.inject</groupId>
       <artifactId>jersey-hk2</artifactId>
+      <version>2.26</version>
     </dependency>
 
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-json-jackson</artifactId>
-      <version>2.22.1</version>
+      <version>2.26</version>
     </dependency>
 
     <dependency>
@@ -69,14 +59,6 @@
       <version>4.9</version>
       <scope>test</scope>
     </dependency>
-
-    <!--
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.9.3</version>
-    </dependency>
-    -->
 
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -104,21 +86,52 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib</classpathPrefix>
+              <mainClass>de.pfann.budgetmanager.server.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4.1</version>
+        <configuration>
+
+          <descriptors>
+            <descriptor>src/assembly/dist.xml</descriptor>
+
+          </descriptors>
+          <!-- get all project dependencies
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          -->
+          <!-- MainClass in mainfest make a executable jar -->
+
+
+        </configuration>
         <executions>
           <execution>
+            <id>make-assembly</id>
+            <!-- bind to the packaging phase -->
+            <phase>package</phase>
             <goals>
-              <goal>java</goal>
+              <goal>single</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <mainClass>de.pfann.budgetmanager.server.App</mainClass>
-        </configuration>
       </plugin>
+
     </plugins>
   </build>
 

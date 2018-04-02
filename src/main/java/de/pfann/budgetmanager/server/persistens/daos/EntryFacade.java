@@ -143,8 +143,10 @@ public class EntryFacade {
         }
 
         LogUtil.info(this.getClass(),"# Look for tags change ...");
+
+        // hier set
         List<Tag> persistedTags = persistedEntry.getTags();
-        List<Tag> currentTags = aEntry.getTags();
+        List<Tag> currentTags = distinct(aEntry.getTags());
 
         LogUtil.info(this.getClass()," -> persistedTags: " + persistedTags.size());
         LogUtil.info(this.getClass()," -> currentTags      : " + currentTags.size());
