@@ -130,4 +130,21 @@ public class RotationEntry  implements Serializable {
     public void setLast_executed(Date last_executed) {
         this.last_executed = last_executed;
     }
+
+
+    @Override
+    public String toString() {
+        return "RotationEntry{" +
+                "hash='" + hash + '\'' +
+                ", user=" + user +
+                ", start_at=" + start_at +
+                ", end_at=" + end_at +
+                ", last_executed=" + last_executed +
+                ", rotation_strategy='" + rotation_strategy + '\'' +
+                ", amount=" + amount +
+                ", memo='" + memo + '\'' +
+                ", category=" + category +
+                ", tags='" + tags + '\'' +
+                '}';
+    }
 }

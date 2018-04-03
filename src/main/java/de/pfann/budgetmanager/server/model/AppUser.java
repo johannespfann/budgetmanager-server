@@ -86,4 +86,15 @@ public class AppUser  implements Serializable {
     public void deactivate() {
         this.activated = false;
     }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "defaultCategory=" + defaultCategory +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", activated=" + activated +
+                '}';
+    }
 }
