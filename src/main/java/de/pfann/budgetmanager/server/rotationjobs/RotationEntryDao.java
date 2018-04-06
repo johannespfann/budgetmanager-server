@@ -33,6 +33,6 @@ public class RotationEntryDao extends AbstractDao {
     public RotationEntry getRotationEntryByHash(String aHash) {
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("hash", aHash));
-        return (RotationEntry) doGet(criteria);
+        return (RotationEntry) doGet(criteria).get(0);
     }
 }

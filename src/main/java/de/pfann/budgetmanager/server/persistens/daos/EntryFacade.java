@@ -43,7 +43,7 @@ public class EntryFacade {
 
     public void persistEntry(Entry aEntry) {
         aEntry.setCreated_at(new Date());
-        LogUtil.info(this.getClass(),"Persist      : " + aEntry.getHash());
+        LogUtil.info(this.getClass(),"Persist: " + aEntry.getHash());
 
         AppUser user = null;
         try {

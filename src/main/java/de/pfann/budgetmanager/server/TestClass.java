@@ -148,7 +148,7 @@ public class TestClass {
         entry.setCategory(aCategory);
         entry.setMemo("monatliches Gehalt");
         entry.setEnd_at(null);
-        entry.setTags("bla;luxus");
+        entry.setTags("bla:luxus");
         entry.setRotation_strategy("66122");
         entry.setHash(Util.getUniueHash(100,123123123));
 

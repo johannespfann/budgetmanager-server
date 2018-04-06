@@ -78,6 +78,8 @@ public class RotationEntryResource {
         LogUtil.info(this.getClass(),"Hash: " + aHash);
 
         RotationEntry rotationEntry = rotationEntryFacade.getRotationEntryByHash(aHash);
+        LogUtil.info(this.getClass(),"get entry: " + rotationEntry);
+
         rotationEntryFacade.delete(rotationEntry);
 
         LogUtil.info(this.getClass(),"Deleted entry: " + aHash);
