@@ -1,7 +1,9 @@
 package de.pfann.budgetmanager.server.resources;
 
 import de.pfann.budgetmanager.server.model.AppUser;
+import de.pfann.budgetmanager.server.model.Category;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
 import de.pfann.budgetmanager.server.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.resources.core.Logged;
 import de.pfann.budgetmanager.server.rotationjobs.RotationEntry;
@@ -20,10 +22,13 @@ public class RotationEntryResource {
 
     private RotationEntryFacade rotationEntryFacade;
 
+    private CategoryFacade categoryFacade;
+
 
     public RotationEntryResource(){
         userFacade = new AppUserFacade();
         rotationEntryFacade = new RotationEntryFacade();
+        categoryFacade = new CategoryFacade();
     }
 
     @GET
@@ -36,11 +41,8 @@ public class RotationEntryResource {
             ){
 
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
-
-
-
-        return null;
+        List<RotationEntry> rotationEntries = this.rotationEntryFacade.getRotationEntries(user);
+        return rotationEntries;
     }
 
     @POST
@@ -51,11 +53,16 @@ public class RotationEntryResource {
     public void addRotationEntry(
             @PathParam("owner") String aOwner,
             RotationEntry aRotationEntry){
-
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
+
         aRotationEntry.setUser(user);
+
         LogUtil.info(this.getClass(),"Owner: " + user);
         LogUtil.info(this.getClass(),"Roten: " + aRotationEntry);
+        rotationEntryFacade.save(aRotationEntry);
+
+        LogUtil.info(this.getClass(),"Saved rotationEntry " + aRotationEntry);
+
 
     }
 
@@ -70,6 +77,11 @@ public class RotationEntryResource {
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         LogUtil.info(this.getClass(),"Hash: " + aHash);
 
+        RotationEntry rotationEntry = rotationEntryFacade.getRotationEntryByHash(aHash);
+        rotationEntryFacade.delete(rotationEntry);
+
+        LogUtil.info(this.getClass(),"Deleted entry: " + aHash);
+
     }
 
     @PATCH
@@ -78,10 +90,17 @@ public class RotationEntryResource {
     @Path("owner/{owner}/update")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateRotationEntry(
-            @PathParam("owner") String aOwner){
+            @PathParam("owner") String aOwner,
+            RotationEntry aRotationEntry){
 
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
+        aRotationEntry.setUser(user);
 
+        LogUtil.info(this.getClass(),"Owner: " + user);
+        LogUtil.info(this.getClass(),"Roten: " + aRotationEntry);
+        rotationEntryFacade.update(aRotationEntry);
+
+        LogUtil.info(this.getClass(),"Updated rotationEntry " + aRotationEntry);
     }
 
 }

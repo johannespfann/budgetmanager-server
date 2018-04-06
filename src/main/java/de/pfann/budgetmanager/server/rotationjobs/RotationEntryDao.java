@@ -29,4 +29,10 @@ public class RotationEntryDao extends AbstractDao {
         criteria.add(Restrictions.eq("user", aUser));
         return (List<RotationEntry>) doGet(criteria);
     }
+
+    public RotationEntry getRotationEntryByHash(String aHash) {
+        DetachedCriteria criteria = getCriteria();
+        criteria.add(Restrictions.eq("hash", aHash));
+        return (RotationEntry) doGet(criteria);
+    }
 }
