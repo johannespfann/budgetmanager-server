@@ -5,134 +5,13 @@
 
   <groupId>de.pfann.budgetmanager.server</groupId>
   <artifactId>budgetmanager-server</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>budgetmanager-server</name>
 
-  <properties>
-    <jersey.version>2.26</jersey.version>
-    <hibernate.version>4.3.8.Final</hibernate.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <modules>
+    <module>core</module>
+  </modules>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
-
-    <!-- The tutorials use the PostgreSQL 9.3.5 database -->
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>9.3-1102-jdbc41</version>
-    </dependency>
-
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.9-rc</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-grizzly2-http</artifactId>
-      <version>2.26</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.glassfish.jersey.inject</groupId>
-      <artifactId>jersey-hk2</artifactId>
-      <version>2.26</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-json-jackson</artifactId>
-      <version>2.26</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.9</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.12</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.7.12</version>
-    </dependency>
-
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <inherited>true</inherited>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib</classpathPrefix>
-              <mainClass>de.pfann.budgetmanager.server.App</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.4.1</version>
-        <configuration>
-
-          <descriptors>
-            <descriptor>src/assembly/dist.xml</descriptor>
-
-          </descriptors>
-          <!-- get all project dependencies
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          -->
-          <!-- MainClass in mainfest make a executable jar -->
-
-
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <!-- bind to the packaging phase -->
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
 
 </project>
