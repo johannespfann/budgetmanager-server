@@ -2,12 +2,12 @@ package de.pfann.budgetmanager.server.core.resources;
 
 import de.pfann.budgetmanager.server.core.email.EmailService;
 import de.pfann.budgetmanager.server.core.login.*;
-import de.pfann.budgetmanager.server.core.model.AppUser;
-import de.pfann.budgetmanager.server.core.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
 import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.core.resources.core.Secured;
-import de.pfann.budgetmanager.server.core.util.LogUtil;
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

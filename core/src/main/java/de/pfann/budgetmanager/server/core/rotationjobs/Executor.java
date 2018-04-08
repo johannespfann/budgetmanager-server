@@ -1,9 +1,11 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
-import de.pfann.budgetmanager.server.core.model.AppUser;
-import de.pfann.budgetmanager.server.core.model.Entry;
-import de.pfann.budgetmanager.server.core.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.core.persistens.daos.EntryFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.model.Entry;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
+import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 
 import java.util.Date;
 import java.util.List;

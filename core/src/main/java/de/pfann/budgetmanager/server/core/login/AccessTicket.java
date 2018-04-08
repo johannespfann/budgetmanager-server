@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.core.login;
 
-import de.pfann.budgetmanager.server.core.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
 
 import java.util.Date;
 

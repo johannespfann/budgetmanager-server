@@ -1,12 +1,12 @@
 package de.pfann.budgetmanager.server.core.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.pfann.budgetmanager.server.core.model.AppUser;
-import de.pfann.budgetmanager.server.core.model.Entry;
-import de.pfann.budgetmanager.server.core.persistens.daos.*;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.model.Entry;
+import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
 import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
-import de.pfann.budgetmanager.server.core.util.LogUtil;
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 
 import javax.ws.rs.*;

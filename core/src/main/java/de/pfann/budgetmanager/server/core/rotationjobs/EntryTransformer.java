@@ -1,8 +1,10 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
-import de.pfann.budgetmanager.server.core.model.Entry;
-import de.pfann.budgetmanager.server.core.model.Tag;
-import de.pfann.budgetmanager.server.core.util.Util;
+import de.pfann.budgetmanager.server.common.util.Util;
+import de.pfann.budgetmanager.server.persistens.model.Entry;
+import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
+import de.pfann.budgetmanager.server.persistens.model.Tag;
+
 
 import java.util.ArrayList;
 import java.util.Date;

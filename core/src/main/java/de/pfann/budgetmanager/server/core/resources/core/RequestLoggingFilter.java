@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.core.resources.core;
 
-import de.pfann.budgetmanager.server.core.util.LogUtil;
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;

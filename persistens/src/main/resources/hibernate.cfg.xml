@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Connection settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Print executed SQL to stdout -->
+        <property name="show_sql">false</property>
+
+        <!-- Drop and re-create all database on startup -->
+        <!--<property name="hibernate.hbm2ddl.auto">create-drop</property>-->
+
+        <!-- Annotated entity classes -->
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.Entry"/>
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.AppUser"/>
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.Category"/>
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.Tag"/>
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.RotationEntry"/>
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.Run"/>
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.RunInfo"/>
+
+    </session-factory>
+</hibernate-configuration>

@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.core.persistens;
 
-import de.pfann.budgetmanager.server.core.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import org.junit.After;
 import org.junit.Test;
 

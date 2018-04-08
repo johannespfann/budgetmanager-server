@@ -11,6 +11,9 @@
 
   <modules>
     <module>core</module>
+    <module>restservices</module>
+    <module>persistens</module>
+    <module>common</module>
   </modules>
 
 

@@ -1,7 +1,6 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
-import de.pfann.budgetmanager.server.core.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.core.persistens.daos.EntryFacade;
+import de.pfann.budgetmanager.server.persistens.daos.*;
 
 import java.util.LinkedList;
 import java.util.List;

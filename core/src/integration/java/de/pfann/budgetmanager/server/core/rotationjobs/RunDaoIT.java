@@ -1,12 +1,13 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
-import de.pfann.budgetmanager.server.core.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.daos.RunDao;
+import de.pfann.budgetmanager.server.persistens.model.Run;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.validation.constraints.AssertTrue;
 import java.time.LocalDate;
 import java.util.List;
 

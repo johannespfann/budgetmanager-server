@@ -1,5 +1,7 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
+import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;

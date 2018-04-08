@@ -1,6 +1,10 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
-import de.pfann.budgetmanager.server.core.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.daos.RunDao;
+import de.pfann.budgetmanager.server.persistens.daos.RunInfoDao;
+import de.pfann.budgetmanager.server.persistens.model.Run;
+import de.pfann.budgetmanager.server.persistens.model.RunInfo;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

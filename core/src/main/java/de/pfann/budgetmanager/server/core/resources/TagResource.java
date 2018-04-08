@@ -1,10 +1,10 @@
 package de.pfann.budgetmanager.server.core.resources;
 
 
-import de.pfann.budgetmanager.server.core.model.AppUser;
-import de.pfann.budgetmanager.server.core.model.Tag;
-import de.pfann.budgetmanager.server.core.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.core.persistens.daos.TagFacade;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.model.Tag;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.daos.TagFacade;
 import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
 
