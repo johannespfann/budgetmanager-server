@@ -1,12 +1,12 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Category;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class RotationEntry  implements Serializable {
@@ -46,12 +46,21 @@ public class RotationEntry  implements Serializable {
     @JoinColumn(nullable = false)
     private Category category;
 
-    private String tags;
+    @OneToMany(mappedBy = "rotationEntry")
+    private List<TagTemplate> tags;
 
 
     public RotationEntry(){
+        tags = new ArrayList<>();
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getHash() {
         return hash;
@@ -117,9 +126,9 @@ public class RotationEntry  implements Serializable {
         this.category = category;
     }
 
-    public String getTags() {return tags;}
+    public List<TagTemplate> getTags() {return tags;}
 
-    public void setTags(String tags) {this.tags = tags;}
+    public void setTags(List<TagTemplate> tags) {this.tags = tags;}
 
     public Date getLast_executed() {
         return last_executed;
@@ -128,7 +137,6 @@ public class RotationEntry  implements Serializable {
     public void setLast_executed(Date last_executed) {
         this.last_executed = last_executed;
     }
-
 
     @Override
     public String toString() {
@@ -142,7 +150,7 @@ public class RotationEntry  implements Serializable {
                 ", amount=" + amount +
                 ", memo='" + memo + '\'' +
                 ", category=" + category +
-                ", tags='" + tags + '\'' +
+                ", tags=" + tags +
                 '}';
     }
 }

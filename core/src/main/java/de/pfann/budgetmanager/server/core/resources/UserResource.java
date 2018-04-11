@@ -2,10 +2,10 @@ package de.pfann.budgetmanager.server.core.resources;
 
 import de.pfann.budgetmanager.server.core.email.EmailService;
 import de.pfann.budgetmanager.server.core.login.*;
+import de.pfann.budgetmanager.server.core.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
-import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.core.resources.core.Secured;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 
@@ -27,7 +27,7 @@ public class UserResource {
 
 
     @POST
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Secured
     @Logged
     @Path("logout/{accessor}")
@@ -54,7 +54,7 @@ public class UserResource {
 
     @POST
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("login/{accessor}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(
@@ -80,7 +80,7 @@ public class UserResource {
 
     @POST
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("register/{username}/email/{email}")
     public Response register(
             @PathParam("username") String aUsername,
@@ -115,7 +115,7 @@ public class UserResource {
 
     @POST
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("activate/resendemail/username/{username}/email{email}")
     public Response resendEmail(
             @PathParam("username") String aUsername,
@@ -139,7 +139,7 @@ public class UserResource {
 
     @POST
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("activate/{username}")
     public Response activateUser(
             @PathParam("username") String aUsername,

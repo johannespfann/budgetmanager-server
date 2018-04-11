@@ -1,10 +1,11 @@
 package de.pfann.budgetmanager.server.core.resources;
 
+import de.pfann.budgetmanager.server.core.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
-import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
+import de.pfann.budgetmanager.server.persistens.model.Category;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
@@ -32,7 +33,7 @@ public class RotationEntryResource {
 
     @GET
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
     public List<RotationEntry> getRotationEntries(
@@ -46,7 +47,7 @@ public class RotationEntryResource {
 
     @POST
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{owner}/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public void addRotationEntry(
@@ -67,7 +68,7 @@ public class RotationEntryResource {
 
     @DELETE
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{owner}/delete/{hash}")
     public void deleteRotationEntry(
             @PathParam("owner") String aOwner,
@@ -87,7 +88,7 @@ public class RotationEntryResource {
 
     @PATCH
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{owner}/update")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateRotationEntry(

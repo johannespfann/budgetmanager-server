@@ -1,16 +1,8 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.util.Util;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Category;
-import de.pfann.budgetmanager.server.persistens.model.Entry;
-import de.pfann.budgetmanager.server.persistens.model.Tag;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
-import de.pfann.budgetmanager.server.persistens.daos.TagFacade;
-import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
+import de.pfann.budgetmanager.server.persistens.daos.*;
+import de.pfann.budgetmanager.server.persistens.model.*;
 
 
 import java.util.*;
@@ -29,6 +21,7 @@ public class TestClass {
     private EntryFacade entryFacade;
     private TagFacade tagFacade;
     private RotationEntryFacade rotationEntryFacade;
+    private TagTemplateFacade tagTemplateFacade;
 
 
     /**
@@ -56,6 +49,7 @@ public class TestClass {
         entryFacade = new EntryFacade();
         tagFacade = new TagFacade();
         rotationEntryFacade = new RotationEntryFacade();
+        tagTemplateFacade = new TagTemplateFacade();
     }
 
     public void persistEnviroment(){
@@ -107,6 +101,8 @@ public class TestClass {
         RotationEntry rotationEntry = persistRotationEntry(johannesUser, haushaltCategory);
 
 
+
+
     }
 
     private Entry peristEntry(AppUser appUser, Category aCategory, List<Tag> gehaltFebTags, double aAmount, String aMemo) {
@@ -149,13 +145,36 @@ public class TestClass {
         entry.setCategory(aCategory);
         entry.setMemo("monatliches Gehalt");
         entry.setEnd_at(null);
-        entry.setTags("bla:luxus");
+
+        TagTemplate tagTemplate01 = new TagTemplate("datev");
+        TagTemplate tagTemplate02 = new TagTemplate("einnahmen");
+
+
+        List<TagTemplate> tags = new ArrayList<>();
+
+        tags.add(tagTemplate01);
+        tags.add(tagTemplate02);
+
+
         entry.setRotation_strategy("66122");
         entry.setHash(Util.getUniueHash(100,123123123));
 
+
         rotationEntryFacade.save(entry);
+
+        tagTemplate01.setRotationEntry(entry);
+        tagTemplateFacade.save(tagTemplate01);
+
+        tagTemplate02.setRotationEntry(entry);
+        tagTemplateFacade.save(tagTemplate02);
+
+
+        entry.setTags(tags);
+        rotationEntryFacade.save(entry);
+
+
         return entry;
-    }
+}
 
 
 }

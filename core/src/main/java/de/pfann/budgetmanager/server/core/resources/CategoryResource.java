@@ -1,12 +1,12 @@
 package de.pfann.budgetmanager.server.core.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.pfann.budgetmanager.server.core.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.model.Category;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
-import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import javax.ws.rs.*;
@@ -30,7 +30,7 @@ public class CategoryResource {
 
     @GET
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{accessor}/all")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Category> getCategories(
@@ -40,7 +40,7 @@ public class CategoryResource {
 
     @DELETE
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("delete/{deletehash}/replace/{alterhash}")
     public void delete(
             @PathParam("deletehash") String aDeleteHash,
@@ -62,7 +62,7 @@ public class CategoryResource {
 
     @POST
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{accessor}/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public void add(
@@ -85,7 +85,7 @@ public class CategoryResource {
 
     @PATCH
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("update")
     @Consumes(MediaType.APPLICATION_JSON)
     public void update(
@@ -98,7 +98,7 @@ public class CategoryResource {
 
     @GET
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{accessor}/default")
     @Produces(MediaType.APPLICATION_JSON)
     public Category getDefaultCategory(

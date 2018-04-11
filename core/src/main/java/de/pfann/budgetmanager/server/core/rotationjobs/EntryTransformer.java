@@ -4,6 +4,7 @@ import de.pfann.budgetmanager.server.common.util.Util;
 import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.Tag;
+import de.pfann.budgetmanager.server.persistens.model.TagTemplate;
 
 
 import java.util.ArrayList;
@@ -32,7 +33,17 @@ public class EntryTransformer {
         newEntry.setHash(Util.getUniueHash(10000000,999999999));
         newEntry.setCategory(aRotationEntry.getCategory());
         newEntry.setMemo(aRotationEntry.getMemo());
-        newEntry.setTags(transformTags(aRotationEntry.getTags()));
+
+        List<Tag> tags = new ArrayList<>();
+
+        for(TagTemplate tagTemplate : aRotationEntry.getTags()){
+            Tag tag = new Tag();
+            tag.setAppUser(aRotationEntry.getUser());
+            tag.setName(tagTemplate.getName());
+            tags.add(tag);
+        }
+
+        newEntry.setTags(tags);
         newEntry.setCreated_at(new Date());
 
         return newEntry;

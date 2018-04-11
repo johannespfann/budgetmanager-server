@@ -1,11 +1,11 @@
 package de.pfann.budgetmanager.server.core.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.pfann.budgetmanager.server.core.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
-import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 
@@ -33,7 +33,7 @@ public class EntryResource {
 
     @GET
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
     public Set<Entry> getEntries(
@@ -45,7 +45,7 @@ public class EntryResource {
 
     @POST
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{owner}/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public void addEntry(
@@ -62,7 +62,7 @@ public class EntryResource {
 
     @PATCH
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{owner}/update")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateEntry(
@@ -85,7 +85,7 @@ public class EntryResource {
 
     @DELETE
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{owner}/delete/{hash}")
     public void deleteEntry(
             @PathParam("owner") String aOwner,

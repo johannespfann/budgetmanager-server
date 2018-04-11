@@ -1,11 +1,11 @@
 package de.pfann.budgetmanager.server.core.resources;
 
 
+import de.pfann.budgetmanager.server.core.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.model.Tag;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.TagFacade;
-import de.pfann.budgetmanager.server.core.resources.core.AllowCrossOrigin;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
 
 import javax.ws.rs.GET;
@@ -28,7 +28,7 @@ public class TagResource {
 
     @GET
     @Logged
-    @AllowCrossOrigin
+    @CrossOriginFilter
     @Path("owner/{owner}/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Set<Tag> getTagsByUser(

@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
@@ -32,8 +33,10 @@ public class RotationEntryDao extends AbstractDao {
     }
 
     public RotationEntry getRotationEntryByHash(String aHash) {
+        LogUtil.info(this.getClass(),"get RotationEntryByHash: " +aHash);
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("hash", aHash));
+        LogUtil.info(this.getClass(),"found");
         return (RotationEntry) doGet(criteria).get(0);
     }
 }
