@@ -31,7 +31,6 @@ public class EntryTransformer {
         newEntry.setAppUser(aRotationEntry.getUser());
         newEntry.setAmount(aRotationEntry.getAmount());
         newEntry.setHash(Util.getUniueHash(10000000,999999999));
-        newEntry.setCategory(aRotationEntry.getCategory());
         newEntry.setMemo(aRotationEntry.getMemo());
 
         List<Tag> tags = new ArrayList<>();

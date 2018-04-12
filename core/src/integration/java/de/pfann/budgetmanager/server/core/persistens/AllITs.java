@@ -6,12 +6,12 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        DbReaderIT.class,
-        SessionDistributorIT.class ,
-        AppUserDaoIT.class ,
-        CategoryDaoIT.class,
+        //DbReaderIT.class,
+        //SessionDistributorIT.class,
+        //AppUserDaoIT.class,
         EntryDaoIT.class,
-        TagDaoIT.class})
+        //TagDaoIT.class
+        })
 public class AllITs {
 
 }

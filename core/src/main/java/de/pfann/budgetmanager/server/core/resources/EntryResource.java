@@ -20,14 +20,11 @@ public class EntryResource {
 
     private EntryFacade entryFacade;
 
-    private CategoryFacade categoryFacade;
-
     private ObjectMapper mapper;
 
     public EntryResource(){
         userFacade = new AppUserFacade();
         entryFacade = new EntryFacade();
-        categoryFacade = new CategoryFacade();
         mapper = new ObjectMapper();
     }
 
@@ -76,7 +73,6 @@ public class EntryResource {
         LogUtil.info(this.getClass()," - " + aEntry.getMemo());
         LogUtil.info(this.getClass()," - " + aEntry.getAmount());
         LogUtil.info(this.getClass()," - " + aEntry.getCreated_at());
-        LogUtil.info(this.getClass()," - " + aEntry.getCategory().getName());
 
 
         entryFacade.update(aEntry);

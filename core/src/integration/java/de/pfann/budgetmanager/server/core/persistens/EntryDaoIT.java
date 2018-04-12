@@ -1,13 +1,11 @@
 package de.pfann.budgetmanager.server.core.persistens;
 
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Category;
 import de.pfann.budgetmanager.server.persistens.model.Entry;
 
 import de.pfann.budgetmanager.server.persistens.core.DataHandlerException;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
-import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.persistens.daos.EntryDao;
 import org.junit.After;
 import org.junit.Assert;
@@ -41,10 +39,6 @@ public class EntryDaoIT {
     private AppUser firstUser;
     private AppUser secondUser;
 
-    private CategoryDao categoryDao;
-    private Category firstCategory;
-    private Category secondCategory;
-
     /**
      * class under test
      */
@@ -58,7 +52,6 @@ public class EntryDaoIT {
         SessionDistributor.createForIT();
 
         userDao = AppUserDao.create();
-        categoryDao = CategoryDao.create();
         entryDao = EntryDao.create();
 
         // Create and save Users
@@ -76,22 +69,6 @@ public class EntryDaoIT {
 
         userDao.save(secondUser);
 
-
-        // Create and save Categories
-
-        firstCategory = new Category();
-        firstCategory.setName("firstCategory");
-        firstCategory.setHash("hash123");
-        firstCategory.setAppUser(firstUser);
-
-        categoryDao.save(firstCategory);
-
-        secondCategory = new Category();
-        secondCategory.setHash("hash234");
-        secondCategory.setName("secondCategory");
-        secondCategory.setAppUser(secondUser);
-
-        categoryDao.save(secondCategory);
     }
 
     @After
@@ -107,7 +84,6 @@ public class EntryDaoIT {
         entry.setAmount(123);
         entry.setHash("hash123");
         entry.setMemo("memo");
-        entry.setCategory(firstCategory);
         entry.setAppUser(firstUser);
 
         // execute
@@ -124,7 +100,6 @@ public class EntryDaoIT {
         entry.setAmount(123);
         entry.setHash("hash123");
         entry.setMemo("memo");
-        entry.setCategory(firstCategory);
         entry.setAppUser(firstUser);
 
         entryDao.save(entry);
@@ -135,7 +110,6 @@ public class EntryDaoIT {
         secondEntry.setAmount(123);
         secondEntry.setHash("hash223");
         secondEntry.setMemo("memo");
-        secondEntry.setCategory(secondCategory);
         secondEntry.setAppUser(secondUser);
 
         entryDao.save(secondEntry);
@@ -152,7 +126,6 @@ public class EntryDaoIT {
         entry.setAmount(123);
         entry.setHash(HASH_FIRST_ENTRY);
         entry.setMemo("memo");
-        entry.setCategory(firstCategory);
         entry.setAppUser(firstUser);
 
         // execute
@@ -171,7 +144,6 @@ public class EntryDaoIT {
         entry.setAmount(123);
         entry.setHash(HASH_FIRST_ENTRY);
         entry.setMemo(MEMO);
-        entry.setCategory(firstCategory);
         entry.setAppUser(firstUser);
 
         // execute
@@ -195,14 +167,12 @@ public class EntryDaoIT {
         entry.setAmount(123);
         entry.setHash(HASH_FIRST_ENTRY);
         entry.setMemo(MEMO);
-        entry.setCategory(firstCategory);
         entry.setAppUser(firstUser);
 
         Entry entryDuplicate = new Entry();
         entryDuplicate.setAmount(123);
         entryDuplicate.setHash(HASH_FIRST_ENTRY);
         entryDuplicate.setMemo(MEMO);
-        entryDuplicate.setCategory(firstCategory);
         entryDuplicate.setAppUser(firstUser);
 
         // execute && validate
@@ -211,62 +181,11 @@ public class EntryDaoIT {
     }
 
     @Test
-    public void testGetAllByCategory(){
-        Entry firstEntry = new Entry();
-        firstEntry.setAmount(123);
-        firstEntry.setHash(HASH_FIRST_ENTRY);
-        firstEntry.setMemo(MEMO);
-        firstEntry.setCategory(firstCategory);
-        firstEntry.setAppUser(firstUser);
-
-        entryDao.save(firstEntry);
-
-        Entry secondEntry = new Entry();
-        secondEntry.setAmount(123);
-        secondEntry.setHash(HASH_SECOND_ENTRY);
-        secondEntry.setMemo(MEMO);
-        secondEntry.setCategory(secondCategory);
-        secondEntry.setAppUser(firstUser);
-
-        entryDao.save(secondEntry);
-
-        // execute
-
-        List<Entry> entries = entryDao.getAllByCategory(secondCategory);
-
-        // validate
-
-        Assert.assertEquals(1,entries.size());
-    }
-
-    @Test
-    public void testDeleteByCategory(){
-        Entry firstEntry = new Entry();
-        firstEntry.setAmount(123);
-        firstEntry.setHash(HASH_FIRST_ENTRY);
-        firstEntry.setMemo(MEMO);
-        firstEntry.setCategory(firstCategory);
-        firstEntry.setAppUser(firstUser);
-
-        entryDao.save(firstEntry);
-
-        Entry secondEntry = new Entry();
-        secondEntry.setAmount(123);
-        secondEntry.setHash(HASH_SECOND_ENTRY);
-        secondEntry.setMemo(MEMO);
-        secondEntry.setCategory(secondCategory);
-        secondEntry.setAppUser(firstUser);
-
-        //
-    }
-
-    @Test
     public void testDeleteByUser(){
         Entry firstEntry = new Entry();
         firstEntry.setAmount(123);
         firstEntry.setHash(HASH_FIRST_ENTRY);
         firstEntry.setMemo(MEMO);
-        firstEntry.setCategory(firstCategory);
         firstEntry.setAppUser(firstUser);
 
         entryDao.save(firstEntry);
@@ -275,7 +194,6 @@ public class EntryDaoIT {
         secondEntry.setAmount(123);
         secondEntry.setHash(HASH_SECOND_ENTRY);
         secondEntry.setMemo(MEMO);
-        secondEntry.setCategory(secondCategory);
         secondEntry.setAppUser(secondUser);
     }
 

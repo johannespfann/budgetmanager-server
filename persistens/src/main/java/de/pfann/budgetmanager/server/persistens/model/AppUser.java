@@ -14,10 +14,6 @@ public class AppUser  implements Serializable {
     @JsonIgnore
     private Long id;
 
-    @OneToOne
-    @JsonIgnore
-    private Category defaultCategory;
-
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -32,14 +28,6 @@ public class AppUser  implements Serializable {
 
 
     public AppUser() {
-    }
-
-    public Category getDefaultCategory() {
-        return defaultCategory;
-    }
-
-    public void setDefaultCategory(Category defaultCategory) {
-        this.defaultCategory = defaultCategory;
     }
 
     public long getId() {
@@ -90,7 +78,6 @@ public class AppUser  implements Serializable {
     @Override
     public String toString() {
         return "AppUser{" +
-                "defaultCategory=" + defaultCategory +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

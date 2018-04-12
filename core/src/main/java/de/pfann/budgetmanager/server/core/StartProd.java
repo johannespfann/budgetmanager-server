@@ -36,7 +36,7 @@ public class StartProd {
      */
     public static void main(String[] args) throws IOException {
 
-        SessionDistributor.createForProd();
+
 
         final HttpServer server = startServer();
 

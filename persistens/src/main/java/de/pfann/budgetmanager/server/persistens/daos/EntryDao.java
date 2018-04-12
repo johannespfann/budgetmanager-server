@@ -1,7 +1,6 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Category;
 import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.model.Tag;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
@@ -40,12 +39,6 @@ public class EntryDao extends AbstractDao {
     public List<Entry> getEntryByHash(String aHash){
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("hash", aHash));
-        return (List<Entry>) doGet(criteria);
-    }
-
-    public List<Entry> getAllByCategory(Category aCategory){
-        DetachedCriteria criteria = getCriteria();
-        criteria.add(Restrictions.eq("category", aCategory));
         return (List<Entry>) doGet(criteria);
     }
 

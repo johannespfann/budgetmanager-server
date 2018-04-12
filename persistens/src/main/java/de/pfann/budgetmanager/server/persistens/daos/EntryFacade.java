@@ -2,7 +2,6 @@ package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Category;
 import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.model.Tag;
 
@@ -16,7 +15,6 @@ import java.util.Set;
 
 public class EntryFacade {
 
-    private CategoryDao categoryDao;
 
     private EntryDao entryDao;
 
@@ -26,7 +24,6 @@ public class EntryFacade {
 
 
     public EntryFacade(){
-        categoryDao = CategoryDao.create();
         entryDao = EntryDao.create();
         userDao = AppUserDao.create();
         tagDao = TagDao.create();
@@ -88,8 +85,6 @@ public class EntryFacade {
             }
         }
 
-        Category persistedCategory = categoryDao.getCategory(aEntry.getCategory().getHash()).get(0);
-        aEntry.setCategory(persistedCategory);
         aEntry.setTags(preparedTagsToSave);
 
         entryDao.save(aEntry);
@@ -130,16 +125,6 @@ public class EntryFacade {
         LogUtil.info(this.getClass(),"Update Entry -> " + persistedEntry.getHash());
         persistedEntry.setAmount(aEntry.getAmount());
         persistedEntry.setMemo(aEntry.getMemo());
-
-        LogUtil.info(this.getClass(),"# Look for category change ...(" + aEntry.getCategory().getName() + " : " + aEntry.getCategory().getHash() + ")");
-        if(!persistedEntry.getCategory().getHash().equals(aEntry.getCategory().getHash())){
-            LogUtil.info(this.getClass()," -> yes it changed ... compare ->"
-                    + persistedEntry.getCategory().getHash() + " and "
-                    + aEntry.getCategory().getHash());
-            Category newCategory = categoryDao.getCategory(aEntry.getCategory().getHash()).get(0);
-            LogUtil.info(this.getClass()," -> set new category: " + newCategory.getName());
-            persistedEntry.setCategory(newCategory);
-        }
 
         LogUtil.info(this.getClass(),"# Look for tags change ...");
 

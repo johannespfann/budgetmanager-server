@@ -42,6 +42,7 @@ public class App
 
         final HttpServer server = startServer();
 
+
         TestClass environmentObjects = new TestClass();
         environmentObjects.persistEnviroment();
 

@@ -42,10 +42,6 @@ public class RotationEntry  implements Serializable {
 
     private String memo;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Category category;
-
     @OneToMany(mappedBy = "rotationEntry")
     private List<TagTemplate> tags;
 
@@ -118,14 +114,6 @@ public class RotationEntry  implements Serializable {
         this.memo = memo;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public List<TagTemplate> getTags() {return tags;}
 
     public void setTags(List<TagTemplate> tags) {this.tags = tags;}
@@ -149,7 +137,6 @@ public class RotationEntry  implements Serializable {
                 ", rotation_strategy='" + rotation_strategy + '\'' +
                 ", amount=" + amount +
                 ", memo='" + memo + '\'' +
-                ", category=" + category +
                 ", tags=" + tags +
                 '}';
     }

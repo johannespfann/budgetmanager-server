@@ -23,7 +23,6 @@
         <!-- Annotated entity classes -->
         <mapping class="de.pfann.budgetmanager.server.persistens.model.Entry"/>
         <mapping class="de.pfann.budgetmanager.server.persistens.model.AppUser"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.Category"/>
         <mapping class="de.pfann.budgetmanager.server.persistens.model.Tag"/>
         <mapping class="de.pfann.budgetmanager.server.persistens.model.RotationEntry"/>
         <mapping class="de.pfann.budgetmanager.server.persistens.model.Run"/>

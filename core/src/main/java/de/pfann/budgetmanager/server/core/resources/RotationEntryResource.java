@@ -3,9 +3,7 @@ package de.pfann.budgetmanager.server.core.resources;
 import de.pfann.budgetmanager.server.core.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.CategoryFacade;
 import de.pfann.budgetmanager.server.core.resources.core.Logged;
-import de.pfann.budgetmanager.server.persistens.model.Category;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
@@ -22,13 +20,10 @@ public class RotationEntryResource {
 
     private RotationEntryFacade rotationEntryFacade;
 
-    private CategoryFacade categoryFacade;
-
 
     public RotationEntryResource(){
         userFacade = new AppUserFacade();
         rotationEntryFacade = new RotationEntryFacade();
-        categoryFacade = new CategoryFacade();
     }
 
     @GET

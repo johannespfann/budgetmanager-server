@@ -1,15 +1,10 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntryDao;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Category;
-import de.pfann.budgetmanager.server.persistens.daos.CategoryDao;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.TagTemplate;
-import sun.rmi.runtime.Log;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,13 +13,10 @@ public class RotationEntryFacade {
 
     private RotationEntryDao roationEntryDao;
 
-    private CategoryDao categoryDao;
-
     private TagTemplateDao tagTemplateDao;
 
     public RotationEntryFacade(){
         roationEntryDao = RotationEntryDao.create();
-        categoryDao = CategoryDao.create();
         tagTemplateDao = TagTemplateDao.create();
     }
 
@@ -33,9 +25,6 @@ public class RotationEntryFacade {
     }
 
     public void save(RotationEntry aEntry){
-        Category category = categoryDao.getCategory(aEntry.getCategory().getHash()).get(0);
-        aEntry.setCategory(category);
-
         roationEntryDao.save(aEntry);
 
         Set<TagTemplate> uniqueTags = new HashSet<>(aEntry.getTags());
@@ -49,7 +38,6 @@ public class RotationEntryFacade {
     public void update(RotationEntry aEntry){
         LogUtil.info(this.getClass(),"Update RotationEntry");
         RotationEntry persistedEntry = roationEntryDao.getRotationEntryByHash(aEntry.getHash());
-        Category category = categoryDao.getCategory(aEntry.getCategory().getHash()).get(0);
 
         LogUtil.info(this.getClass(),"Get all existing tags");
         // getallPersistedTags and delete them
@@ -63,7 +51,6 @@ public class RotationEntryFacade {
 
         persistedEntry.setAmount(aEntry.getAmount());
         persistedEntry.setMemo(aEntry.getMemo());
-        persistedEntry.setCategory(category);
         persistedEntry.setRotation_strategy(aEntry.getRotation_strategy());
         persistedEntry.setStart_at(aEntry.getStart_at());
         persistedEntry.setLast_executed(aEntry.getLast_executed());
@@ -112,9 +99,4 @@ public class RotationEntryFacade {
 
         roationEntryDao.delete(aRotationEntry);
     }
-
-
-
-
-
 }

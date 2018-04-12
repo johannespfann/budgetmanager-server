@@ -30,10 +30,6 @@ public class Entry  implements Serializable {
             inverseJoinColumns=@JoinColumn(name="TAG_ID", referencedColumnName="id"))
     private List<Tag> tags;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Category category;
-
     @Column(nullable = false)
     private double amount;
 
@@ -50,7 +46,6 @@ public class Entry  implements Serializable {
         entry.id = aEntry.id;
         entry.amount = aEntry.amount;
         entry.appUser = aEntry.appUser;
-        entry.category = aEntry.category;
         entry.hash = aEntry.hash;
         entry.memo = aEntry.memo;
         entry.created_at = aEntry.created_at;
@@ -73,10 +68,6 @@ public class Entry  implements Serializable {
 
     public AppUser getAppUser() {
         return appUser;
-    }
-
-    public Category getCategory() {
-        return category;
     }
 
     public double getAmount() {
@@ -107,10 +98,6 @@ public class Entry  implements Serializable {
 
     public void setAppUser(AppUser appUser) {
         this.appUser = appUser;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public void setAmount(double amount) {
