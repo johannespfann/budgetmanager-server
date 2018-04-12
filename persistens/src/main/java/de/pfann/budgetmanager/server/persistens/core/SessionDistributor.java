@@ -38,6 +38,18 @@ public class SessionDistributor {
 		return new SessionDistributor(configuration);
 	}
 
+	public static SessionDistributor createForProd(){
+		Configuration configuration = getBaseConfig();
+
+		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/budgetdb_prod?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+		configuration.setProperty("hibernate.connection.username", "budgetmaster");
+		configuration.setProperty("hibernate.connection.password", "keymaster");
+
+		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+
+		return new SessionDistributor(configuration);
+	}
+
 	private static Configuration getBaseConfig() {
 		Configuration configuration = new Configuration();
 		configuration.configure();

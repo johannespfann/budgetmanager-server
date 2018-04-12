@@ -63,6 +63,7 @@ public class TestClass {
 
         AppUser testUser = userFacade.getUserByNameOrEmail("johannes-1234");
 
+        /*
 
         defaultCategory = categoryFacade.getDefaultCategory(johannesUser);
 
@@ -98,9 +99,9 @@ public class TestClass {
             System.out.println(tag.getName());
         }
 
-        RotationEntry rotationEntry = persistRotationEntry(johannesUser, haushaltCategory);
+        //RotationEntry rotationEntry = persistRotationEntry(johannesUser, haushaltCategory);
 
-
+    */
 
 
     }
