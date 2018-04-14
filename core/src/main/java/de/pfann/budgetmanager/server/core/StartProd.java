@@ -36,8 +36,6 @@ public class StartProd {
      */
     public static void main(String[] args) throws IOException {
 
-
-
         final HttpServer server = startServer();
 
         TestClass environmentObjects = new TestClass();

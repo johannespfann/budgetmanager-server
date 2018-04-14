@@ -49,7 +49,7 @@ public class TestClass {
     }
 
     public void persistEnviroment(){
-        System.out.println("Starte");
+
         johannesUser = persistUser("johannes-1234","johannes@pfann.de","key");
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
