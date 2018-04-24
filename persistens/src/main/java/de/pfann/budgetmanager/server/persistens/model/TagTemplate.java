@@ -13,7 +13,7 @@ public class TagTemplate implements Serializable {
     @JsonIgnore
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String name;
 
     @ManyToOne

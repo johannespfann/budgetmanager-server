@@ -69,10 +69,10 @@ public class RunDaoIT {
         runDao.save(oldesRun);
 
         // execute
-        List<Run> result = runDao.getYoungesRun();
+        Run result = runDao.getYoungesRun();
 
         // validate
-        Assert.assertEquals(youngest.toEpochDay(),result.get(0).getExecuted_at().toEpochDay());
+        Assert.assertEquals(youngest.toEpochDay(),result.getExecuted_at().toEpochDay());
 
     }
 

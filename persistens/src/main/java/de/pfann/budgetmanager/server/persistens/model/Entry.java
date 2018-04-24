@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,6 +36,7 @@ public class Entry  implements Serializable {
 
     private Date created_at;
 
+    @Type(type="text")
     private String memo;
 
     public Entry(){

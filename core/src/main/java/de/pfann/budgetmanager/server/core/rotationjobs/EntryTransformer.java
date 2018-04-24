@@ -43,7 +43,7 @@ public class EntryTransformer {
         }
 
         newEntry.setTags(tags);
-        newEntry.setCreated_at(new Date());
+        newEntry.setCreated_at(createdDate);
 
         return newEntry;
     }

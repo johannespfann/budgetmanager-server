@@ -109,6 +109,22 @@ public class MonthlyRotationEntryTest {
         Assert.assertTrue(executable);
     }
 
+    @Test
+    public void testLastDaysConflictOfMonth(){
+        // prepare
+        LocalDate today = LocalDate.of(2018,2,28);
+        LocalDate startDate = LocalDate.of(2017,1,1);
+        LocalDate lastExecuted = LocalDate.of(2018,1,30);
+
+        RotationEntry entry = new RotationEntry();
+        entry.setStart_at(convert(startDate));
+        entry.setLast_executed(convert(lastExecuted));
+        // execute
+        boolean executable = new MonthlyRotationEntry().isExecutable(today,entry);
+
+        // validate
+        Assert.assertTrue(executable);
+    }
 
 
     public Date convert(LocalDate aLocalDate){

@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.core;
 
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.Util;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.persistens.model.*;
@@ -53,6 +54,7 @@ public class TestClass {
         johannesUser = persistUser("johannes-1234","johannes@pfann.de","key");
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
+
         tagLuxus = new Tag("luxus");
         tagFix = new Tag("fixkosten");
         tagGoodIdea = new Tag("guteidee");
@@ -74,7 +76,7 @@ public class TestClass {
 
 
         putzmittel = peristEntry(johannesUser, new ArrayList<>(), 3.50,"fürs putzen");
-        staubsauger = peristEntry(johannesUser, new ArrayList<>(), 300,"einmaliger Kauf - zu teuer");
+        staubsauger = peristEntry(johannesUser, new ArrayList<>(), -999999999,"einmaliger Kauf - zu teuer");
 
 
         // Alle Entries von einem Tag
@@ -91,8 +93,59 @@ public class TestClass {
             System.out.println(tag.getName());
         }
 
-        RotationEntry rotationEntry = persistRotationEntry(johannesUser);
+        RotationEntry rotationEntryGehalt = RotationEntry.generate();
+        List<TagTemplate> gehaltTags = new LinkedList<>();
+        gehaltTags.add(new TagTemplate("gehalt"));
+        gehaltTags.add(new TagTemplate("datev"));
+        rotationEntryGehalt.setTags(gehaltTags);
+        rotationEntryGehalt.setStart_at(DateUtil.firstDayOfYear(2018));
+        //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
+        rotationEntryGehalt.setMemo("monatliches Gehalt von der Datev");
+        rotationEntryGehalt.setUser(johannesUser);
+        rotationEntryGehalt.setAmount(2472.97);
+        rotationEntryGehalt.setRotation_strategy("66122");
+        rotationEntryFacade.save(rotationEntryGehalt);
 
+        RotationEntry rotatiofahrtkostenGehalt = RotationEntry.generate();
+        List<TagTemplate> fahrtkostenTags = new LinkedList<>();
+        fahrtkostenTags.add(new TagTemplate("fahrtkosten"));
+        fahrtkostenTags.add(new TagTemplate("fixkosten"));
+        fahrtkostenTags.add(new TagTemplate("datev"));
+        rotatiofahrtkostenGehalt.setTags(fahrtkostenTags);
+        rotatiofahrtkostenGehalt.setStart_at(DateUtil.firstDayOfYear(2018));
+        //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
+        rotatiofahrtkostenGehalt.setMemo("Firmen-Abo VGN");
+        rotatiofahrtkostenGehalt.setUser(johannesUser);
+        rotatiofahrtkostenGehalt.setAmount(-27.93);
+        rotatiofahrtkostenGehalt.setRotation_strategy("66122");
+        rotationEntryFacade.save(rotatiofahrtkostenGehalt);
+
+        RotationEntry rotationNetflix = RotationEntry.generate();
+        List<TagTemplate> netflixTags = new LinkedList<>();
+        netflixTags.add(new TagTemplate("netflix"));
+        fahrtkostenTags.add(new TagTemplate("fixkosten"));
+        rotationNetflix.setTags(netflixTags);
+        rotationNetflix.setStart_at(DateUtil.getDateOfYYMMDD(2018,2,7));
+        //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
+        rotationNetflix.setMemo("Netflix");
+        rotationNetflix.setUser(johannesUser);
+        rotationNetflix.setAmount(-13.99);
+        rotationNetflix.setRotation_strategy("66122");
+        rotationEntryFacade.save(rotationNetflix);
+
+
+        RotationEntry rotationNetflixMax = RotationEntry.generate();
+        List<TagTemplate> netflixMaxTags = new LinkedList<>();
+        netflixMaxTags.add(new TagTemplate("netflix"));
+        netflixMaxTags.add(new TagTemplate("fixkosten"));
+        rotationNetflixMax.setTags(netflixMaxTags);
+        rotationNetflixMax.setStart_at(DateUtil.getDateOfYYMMDD(2018,2,7));
+        //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
+        rotationNetflixMax.setMemo("Netflix");
+        rotationNetflixMax.setUser(johannesUser);
+        rotationNetflixMax.setAmount(3.50);
+        rotationNetflixMax.setRotation_strategy("66122");
+        rotationEntryFacade.save(rotationNetflixMax);
 
 
 
@@ -122,7 +175,11 @@ public class TestClass {
     private RotationEntry persistRotationEntry(AppUser aUser){
         RotationEntry entry = new RotationEntry();
         entry.setUser(aUser);
-        entry.setStart_at(new Date());
+
+
+
+
+        //entry.setStart_at(startDate);
         entry.setLast_executed(null);
         entry.setAmount(2300);
         entry.setMemo("monatliches Gehalt");

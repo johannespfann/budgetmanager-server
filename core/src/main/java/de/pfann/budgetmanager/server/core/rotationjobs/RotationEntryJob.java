@@ -9,6 +9,7 @@ import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -59,15 +60,18 @@ public class RotationEntryJob implements Job {
             for(RotationEntry rotationEntry : rotationEntries){
 
                 if(examiner.executeable(rotationEntry)){
+
+                    Date dateOfRun = Date.from(aRun.getExecuted_at().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
                     LogUtil.info(this.getClass(),"generate entry");
                     Entry entry = EntryTransformer.builder()
-                            .forDate(new Date())
+                            .forDate(dateOfRun)
                             .build()
                             .createEntry(rotationEntry);
-
+                    LogUtil.info(this.getClass(),"persistEntry");
                     entryFacade.persistEntry(entry);
 
-                    rotationEntry.setLast_executed(new Date());
+                    rotationEntry.setLast_executed(dateOfRun);
                     rotationEntryFacade.save(rotationEntry);
                 }
             }

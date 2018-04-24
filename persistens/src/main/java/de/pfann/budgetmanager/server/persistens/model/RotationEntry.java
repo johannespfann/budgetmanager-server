@@ -1,6 +1,8 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.pfann.budgetmanager.server.common.util.Util;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,6 +42,7 @@ public class RotationEntry  implements Serializable {
     @Column(nullable = false)
     private double amount;
 
+    @Type(type="text")
     private String memo;
 
     @OneToMany(mappedBy = "rotationEntry")
@@ -48,6 +51,12 @@ public class RotationEntry  implements Serializable {
 
     public RotationEntry(){
         tags = new ArrayList<>();
+    }
+
+    public static RotationEntry generate(){
+        RotationEntry rotationEntry = new RotationEntry();
+        rotationEntry.setHash(Util.getUniueHash(10000,999999999));
+        return rotationEntry;
     }
 
     public long getId() {

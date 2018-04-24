@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entryset>
+    <header>
+        <user>
+            <name>johannes-1234</name>
+            <email>johannes@pfann.de</email>
+        </user>
+    </header>
+    <content>
+        <entry>
+            <amount>109</amount>
+            <memo>Schuhe und vier T-shirts bei Modelpark</memo>
+            <created_at>2018-04-20</created_at>
+            <tags>
+                <tag>kleidung</tag>
+            </tags>
+        </entry>
+        <entry>
+            <amount>59</amount>
+            <memo>Benzin</memo>
+            <created_at>2018-04-20</created_at>
+            <tags>
+                <tag>auto</tag>
+                <tag>bezin</tag>
+            </tags>
+        </entry>
+        <entry>
+            <amount></amount>
+            <memo></memo>
+            <created_at></created_at>
+            <tags>
+                <tag></tag>
+            </tags>
+        </entry>
+    </content>
+</entryset>

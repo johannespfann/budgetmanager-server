@@ -5,11 +5,15 @@ import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 import de.pfann.budgetmanager.server.persistens.model.RunInfo;
 
+import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimerTask;
+
+import static java.time.temporal.ChronoUnit.DAYS;
+
 
 public class JobExecuterEngine extends TimerTask {
 
@@ -78,7 +82,7 @@ public class JobExecuterEngine extends TimerTask {
         List<Run> runs = new LinkedList<>();
 
         Run run = runFacade.getLastRun();
-
+        LogUtil.info(this.getClass(),"[LastRun: " + run.getExecuted_at() + "]");
         LocalDate today = LocalDate.now();
         LocalDate dayOfLastRun = null;
 
@@ -89,18 +93,21 @@ public class JobExecuterEngine extends TimerTask {
         if(dayOfLastRun == null){
             dayOfLastRun = today.minusDays(1);
         }
-
+        LogUtil.info(this.getClass(),"[dayOfLastRun: " + run.getExecuted_at() + "]");
+        LogUtil.info(this.getClass(),"[today: " + today + "]");
         Period distance = Period.between(dayOfLastRun,today);
+        LogUtil.info(this.getClass(),"[distance: " + distance.getDays() + "]");
+        int daysBetween = (int) DAYS.between(dayOfLastRun, today);
+        LogUtil.info(this.getClass(),"[duration: " + daysBetween + "]");
 
-        int daysBetween = distance.getDays();
+        for(int index = 0; index != daysBetween; index++){
 
-
-        for(int index = 1; index == daysBetween; index++){
             dayOfLastRun = dayOfLastRun.plusDays(1);
             Run newRun = new Run(dayOfLastRun);
+            LogUtil.info(this.getClass(),"[create: " + newRun.getExecuted_at() + "]");
             runs.add(newRun);
         }
-
+        LogUtil.info(this.getClass(),"[RunsToToday: " + runs.size() + "]");
         return runs;
     }
 

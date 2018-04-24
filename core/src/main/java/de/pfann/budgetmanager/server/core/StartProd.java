@@ -22,7 +22,9 @@ public class StartProd {
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server.core.resources");
+        final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server.restservices.resources");
+        //final ResourceConfig rc = new ResourceConfig();
+        //rc.register(new EntryResource());
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
@@ -38,9 +40,7 @@ public class StartProd {
 
         final HttpServer server = startServer();
 
-        TestClass environmentObjects = new TestClass();
-        environmentObjects.persistEnviroment();
-
+        SessionDistributor.createForProd();
 
         DailyExecutor executor = new DailyExecutor();
         executor.start();

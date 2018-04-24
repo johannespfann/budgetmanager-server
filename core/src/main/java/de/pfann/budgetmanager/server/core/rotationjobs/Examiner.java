@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 
 import java.time.LocalDate;
@@ -14,17 +15,28 @@ public class Examiner {
 
     public boolean executeable(RotationEntry aRotationEntry){
 
+        LogUtil.info(this.getClass(),"  [DecideExecution]");
+        if(aRotationEntry.getLast_executed() != null) {
+            LogUtil.info(this.getClass(), "     [LastExecuted:] " + aRotationEntry.getLast_executed().toString());
+        }
+        else{
+            LogUtil.info(this.getClass(), "     [LastExecuted:]" + " was null");
+        }
+        LogUtil.info(this.getClass(), "     [ExamineForDay: ]" +  examineDate);
+
         for(RotationEntryPattern pattern : patterns){
 
             if(pattern.isValidPattern(aRotationEntry)){
 
                 if(pattern.isExecutable(examineDate,aRotationEntry)){
+                    LogUtil.info(this.getClass(),"     [Was for today] " + examineDate);
+
                     return true;
                 }
 
             }
         }
-
+        LogUtil.info(this.getClass(),"     [Was not for today] " + examineDate);
         return false;
     }
 

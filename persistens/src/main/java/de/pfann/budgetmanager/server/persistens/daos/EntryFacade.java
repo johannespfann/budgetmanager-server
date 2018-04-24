@@ -38,7 +38,9 @@ public class EntryFacade {
     }
 
     public void persistEntry(Entry aEntry) {
-        aEntry.setCreated_at(new Date());
+        if(aEntry.getCreated_at() == null) {
+            aEntry.setCreated_at(new Date());
+        }
         LogUtil.info(this.getClass(),"Persist: " + aEntry.getHash());
 
         AppUser user = null;
