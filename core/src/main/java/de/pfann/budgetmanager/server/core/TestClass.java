@@ -66,17 +66,17 @@ public class TestClass {
         gehaltFebTags.add(tagFix);
         gehaltFebTags.add(tagGoodIdea);
 
-        gehaltFeb = peristEntry(johannesUser,gehaltFebTags, 450,"ohne steuern");
+        gehaltFeb = peristEntry(johannesUser,gehaltFebTags, "450","ohne steuern");
 
         List<Tag> urlaubWinterTags = new LinkedList<>();
         urlaubWinterTags.add(tagLuxus);
         urlaubWinterTags.add(tagGoodIdea);
-        urlaubWinter = peristEntry(johannesUser, urlaubWinterTags, 120,"urlaub für den Winter");
+        urlaubWinter = peristEntry(johannesUser, urlaubWinterTags, "120","urlaub für den Winter");
 
 
 
-        putzmittel = peristEntry(johannesUser, new ArrayList<>(), 3.50,"fürs putzen");
-        staubsauger = peristEntry(johannesUser, new ArrayList<>(), -999999999,"einmaliger Kauf - zu teuer");
+        putzmittel = peristEntry(johannesUser, new ArrayList<>(), "3.50","fürs putzen");
+        staubsauger = peristEntry(johannesUser, new ArrayList<>(), "-99","einmaliger Kauf - zu teuer");
 
 
         // Alle Entries von einem Tag
@@ -102,7 +102,7 @@ public class TestClass {
         //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
         rotationEntryGehalt.setMemo("monatliches Gehalt von der Datev");
         rotationEntryGehalt.setUser(johannesUser);
-        rotationEntryGehalt.setAmount(2472.97);
+        rotationEntryGehalt.setAmount("2472.97");
         rotationEntryGehalt.setRotation_strategy("66122");
         rotationEntryFacade.save(rotationEntryGehalt);
 
@@ -116,7 +116,7 @@ public class TestClass {
         //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
         rotatiofahrtkostenGehalt.setMemo("Firmen-Abo VGN");
         rotatiofahrtkostenGehalt.setUser(johannesUser);
-        rotatiofahrtkostenGehalt.setAmount(-27.93);
+        rotatiofahrtkostenGehalt.setAmount("-27.93");
         rotatiofahrtkostenGehalt.setRotation_strategy("66122");
         rotationEntryFacade.save(rotatiofahrtkostenGehalt);
 
@@ -129,7 +129,7 @@ public class TestClass {
         //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
         rotationNetflix.setMemo("Netflix");
         rotationNetflix.setUser(johannesUser);
-        rotationNetflix.setAmount(-13.99);
+        rotationNetflix.setAmount("-13.99");
         rotationNetflix.setRotation_strategy("66122");
         rotationEntryFacade.save(rotationNetflix);
 
@@ -143,7 +143,7 @@ public class TestClass {
         //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
         rotationNetflixMax.setMemo("Netflix");
         rotationNetflixMax.setUser(johannesUser);
-        rotationNetflixMax.setAmount(3.50);
+        rotationNetflixMax.setAmount("3.50");
         rotationNetflixMax.setRotation_strategy("66122");
         rotationEntryFacade.save(rotationNetflixMax);
 
@@ -151,7 +151,7 @@ public class TestClass {
 
     }
 
-    private Entry peristEntry(AppUser appUser, List<Tag> gehaltFebTags, double aAmount, String aMemo) {
+    private Entry peristEntry(AppUser appUser, List<Tag> gehaltFebTags, String aAmount, String aMemo) {
         Entry entry = new Entry();
         entry.setAppUser(appUser);
         entry.setAmount(aAmount);
@@ -171,49 +171,5 @@ public class TestClass {
         userFacade.activateUser(user);
         return user;
     }
-
-    private RotationEntry persistRotationEntry(AppUser aUser){
-        RotationEntry entry = new RotationEntry();
-        entry.setUser(aUser);
-
-
-
-
-        //entry.setStart_at(startDate);
-        entry.setLast_executed(null);
-        entry.setAmount(2300);
-        entry.setMemo("monatliches Gehalt");
-        entry.setEnd_at(null);
-
-        TagTemplate tagTemplate01 = new TagTemplate("datev");
-        TagTemplate tagTemplate02 = new TagTemplate("einnahmen");
-
-
-        List<TagTemplate> tags = new ArrayList<>();
-
-        tags.add(tagTemplate01);
-        tags.add(tagTemplate02);
-
-
-        entry.setRotation_strategy("66122");
-        entry.setHash(Util.getUniueHash(100,123123123));
-
-
-        rotationEntryFacade.save(entry);
-
-        tagTemplate01.setRotationEntry(entry);
-        tagTemplateFacade.save(tagTemplate01);
-
-        tagTemplate02.setRotationEntry(entry);
-        tagTemplateFacade.save(tagTemplate02);
-
-
-        entry.setTags(tags);
-        rotationEntryFacade.save(entry);
-
-
-        return entry;
-}
-
 
 }

@@ -32,7 +32,8 @@ public class Entry  implements Serializable {
     private List<Tag> tags;
 
     @Column(nullable = false)
-    private double amount;
+    @Type(type="text")
+    private String amount;
 
     private Date created_at;
 
@@ -72,7 +73,7 @@ public class Entry  implements Serializable {
         return appUser;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
@@ -102,7 +103,7 @@ public class Entry  implements Serializable {
         this.appUser = appUser;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 

@@ -40,7 +40,8 @@ public class RotationEntry  implements Serializable {
      */
 
     @Column(nullable = false)
-    private double amount;
+    @Type(type="text")
+    private String amount;
 
     @Type(type="text")
     private String memo;
@@ -107,11 +108,11 @@ public class RotationEntry  implements Serializable {
         this.end_at = end_at;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
