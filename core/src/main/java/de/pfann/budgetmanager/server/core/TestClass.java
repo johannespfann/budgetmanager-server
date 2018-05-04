@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.Util;
+import de.pfann.budgetmanager.server.common.util.HashUtil;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.persistens.model.*;
 
@@ -146,9 +146,6 @@ public class TestClass {
         rotationNetflixMax.setAmount("3.50");
         rotationNetflixMax.setRotation_strategy("66122");
         rotationEntryFacade.save(rotationNetflixMax);
-
-
-
     }
 
     private Entry peristEntry(AppUser appUser, List<Tag> gehaltFebTags, String aAmount, String aMemo) {
@@ -156,7 +153,7 @@ public class TestClass {
         entry.setAppUser(appUser);
         entry.setAmount(aAmount);
         entry.setMemo(aMemo);
-        entry.setHash(Util.getUniueHash(100000,99999999));
+        entry.setHash(HashUtil.getUniueHash());
         entry.setTags(gehaltFebTags);
         entryFacade.persistEntry(entry);
         return entry;

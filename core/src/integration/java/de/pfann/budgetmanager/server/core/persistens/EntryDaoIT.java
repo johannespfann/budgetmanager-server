@@ -81,7 +81,7 @@ public class EntryDaoIT {
     public void testCreateCategory(){
         // preparing
         Entry entry = new Entry();
-        entry.setAmount(123);
+        entry.setAmount("123");
         entry.setHash("hash123");
         entry.setMemo("memo");
         entry.setAppUser(firstUser);
@@ -97,7 +97,7 @@ public class EntryDaoIT {
     public void testGetAllByUser(){
         // Preparing entry of firstUser
         Entry entry = new Entry();
-        entry.setAmount(123);
+        entry.setAmount("123");
         entry.setHash("hash123");
         entry.setMemo("memo");
         entry.setAppUser(firstUser);
@@ -107,7 +107,7 @@ public class EntryDaoIT {
         // Praparing entry of secondUser
 
         Entry secondEntry = new Entry();
-        secondEntry.setAmount(123);
+        secondEntry.setAmount("123");
         secondEntry.setHash("hash223");
         secondEntry.setMemo("memo");
         secondEntry.setAppUser(secondUser);
@@ -123,7 +123,7 @@ public class EntryDaoIT {
     public void testGetEntryByHash(){
         // Preparing entry of firstUser
         Entry entry = new Entry();
-        entry.setAmount(123);
+        entry.setAmount("123");
         entry.setHash(HASH_FIRST_ENTRY);
         entry.setMemo("memo");
         entry.setAppUser(firstUser);
@@ -141,7 +141,7 @@ public class EntryDaoIT {
     public void testUpdateEntry(){
         // Preparing
         Entry entry = new Entry();
-        entry.setAmount(123);
+        entry.setAmount("123");
         entry.setHash(HASH_FIRST_ENTRY);
         entry.setMemo(MEMO);
         entry.setAppUser(firstUser);
@@ -164,13 +164,13 @@ public class EntryDaoIT {
     public void testUniqueHash() throws DataHandlerException{
         // Preparing
         Entry entry = new Entry();
-        entry.setAmount(123);
+        entry.setAmount("123");
         entry.setHash(HASH_FIRST_ENTRY);
         entry.setMemo(MEMO);
         entry.setAppUser(firstUser);
 
         Entry entryDuplicate = new Entry();
-        entryDuplicate.setAmount(123);
+        entryDuplicate.setAmount("123");
         entryDuplicate.setHash(HASH_FIRST_ENTRY);
         entryDuplicate.setMemo(MEMO);
         entryDuplicate.setAppUser(firstUser);
@@ -183,7 +183,7 @@ public class EntryDaoIT {
     @Test
     public void testDeleteByUser(){
         Entry firstEntry = new Entry();
-        firstEntry.setAmount(123);
+        firstEntry.setAmount("123");
         firstEntry.setHash(HASH_FIRST_ENTRY);
         firstEntry.setMemo(MEMO);
         firstEntry.setAppUser(firstUser);
@@ -191,7 +191,7 @@ public class EntryDaoIT {
         entryDao.save(firstEntry);
 
         Entry secondEntry = new Entry();
-        secondEntry.setAmount(123);
+        secondEntry.setAmount("123");
         secondEntry.setHash(HASH_SECOND_ENTRY);
         secondEntry.setMemo(MEMO);
         secondEntry.setAppUser(secondUser);

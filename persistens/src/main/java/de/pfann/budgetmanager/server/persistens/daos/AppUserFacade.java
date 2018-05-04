@@ -27,7 +27,6 @@ public class AppUserFacade {
     public void createNewUser(AppUser aUser){
         LogUtil.info(this.getClass(),"##### Save user" + aUser.getName());
         userDao.save(aUser);
-        LogUtil.info(this.getClass(),"asdfasdfasdf");
     }
 
     public void activateUser(AppUser aUser){

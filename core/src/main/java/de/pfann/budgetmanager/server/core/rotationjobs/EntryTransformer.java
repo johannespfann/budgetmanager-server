@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
-import de.pfann.budgetmanager.server.common.util.Util;
+import de.pfann.budgetmanager.server.common.util.HashUtil;
 import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.Tag;
@@ -30,7 +30,7 @@ public class EntryTransformer {
 
         newEntry.setAppUser(aRotationEntry.getUser());
         newEntry.setAmount(aRotationEntry.getAmount());
-        newEntry.setHash(Util.getUniueHash(10000000,999999999));
+        newEntry.setHash(HashUtil.getUniueHash());
         newEntry.setMemo(aRotationEntry.getMemo());
 
         List<Tag> tags = new ArrayList<>();

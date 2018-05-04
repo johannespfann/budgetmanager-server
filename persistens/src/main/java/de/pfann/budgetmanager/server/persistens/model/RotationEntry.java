@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.pfann.budgetmanager.server.common.util.Util;
+import de.pfann.budgetmanager.server.common.util.HashUtil;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -56,7 +56,7 @@ public class RotationEntry  implements Serializable {
 
     public static RotationEntry generate(){
         RotationEntry rotationEntry = new RotationEntry();
-        rotationEntry.setHash(Util.getUniueHash(10000,999999999));
+        rotationEntry.setHash(HashUtil.getUniueHash());
         return rotationEntry;
     }
 
