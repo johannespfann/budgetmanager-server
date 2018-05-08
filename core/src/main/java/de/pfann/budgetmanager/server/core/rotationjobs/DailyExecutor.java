@@ -16,7 +16,6 @@ public class DailyExecutor {
 
     public void start(){
 
-
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntry();
 
         List<RotationEntryPattern> patternList = new LinkedList<>();

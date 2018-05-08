@@ -12,7 +12,6 @@ public class AccessPool {
     List<AccessTicket> accessTickets;
 
     private AccessPool(){
-        System.out.println("Init AccessPool");
         accessTickets = new LinkedList<>();
     }
 
@@ -20,7 +19,6 @@ public class AccessPool {
         if(instance == null){
             return new AccessPool();
         }
-        System.out.println("Return AccessPool");
         return instance;
     }
 
@@ -77,7 +75,6 @@ public class AccessPool {
     }
 
     private boolean istTicketAbgelaufen(AccessTicket aTicket) {
-        // TODO Zeit läuft ab
         return false;
     }
 

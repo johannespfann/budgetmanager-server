@@ -1,18 +1,15 @@
 package de.pfann.budgetmanager.server.core.persistens;
 
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Entry;
-
 import de.pfann.budgetmanager.server.persistens.core.DataHandlerException;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserDao;
 import de.pfann.budgetmanager.server.persistens.daos.EntryDao;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.model.Entry;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 
 public class EntryDaoIT {

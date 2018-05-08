@@ -1,11 +1,11 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Entry;
-import de.pfann.budgetmanager.server.persistens.model.Tag;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.model.Entry;
+import de.pfann.budgetmanager.server.persistens.model.Tag;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -42,19 +42,13 @@ public class TagDao extends AbstractDao {
         for(Tag tag : tags){
             delete(tag);
         }
-
     }
 
     public Tag getTag(AppUser aUser, String aName) {
-        System.out.println("getTags ...");
-        System.out.println("Name: " + aName);
-        System.out.println("Id: " + aUser.getId());
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("name", aName));
         criteria.add(Restrictions.eq("appUser", aUser));
-
         List<Tag> tags = (List<Tag>) doGet(criteria);
-        System.out.println("get Tag: " + tags.get(0).getName());
         return tags.get(0);
     }
 

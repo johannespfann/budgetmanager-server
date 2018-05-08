@@ -5,8 +5,10 @@ import de.pfann.budgetmanager.server.common.util.HashUtil;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.persistens.model.*;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,16 +84,8 @@ public class TestClass {
         // Alle Entries von einem Tag
         Set<Entry> entries = entryFacade.getEntries(tagFix);
 
-        for (Entry entry: entries){
-            System.out.println(entry.getHash() + " : " + entry.getMemo());
-        }
-
         // Alle Tags von einem Entry
         Set<Tag> tags = tagFacade.getTags(gehaltFeb);
-        System.out.println("Alle Tags ... ");
-        for(Tag tag : tags){
-            System.out.println(tag.getName());
-        }
 
         RotationEntry rotationEntryGehalt = RotationEntry.generate();
         List<TagTemplate> gehaltTags = new LinkedList<>();

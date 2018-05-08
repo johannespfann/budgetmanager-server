@@ -5,7 +5,6 @@ import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 import de.pfann.budgetmanager.server.persistens.model.RunInfo;
 
-import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.LinkedList;
@@ -39,6 +38,14 @@ public class JobExecuterEngine extends TimerTask {
     public void start(){
 
         LogUtil.info(this.getClass(),"[Start engine]");
+
+        if(isFirstExecution()){
+            LocalDate today = LocalDate.now();
+            Run run = new Run(today.minusDays(1));
+            LogUtil.info(this.getClass(),"Persist first Run: " + run.toString());
+            runFacade.persist(run);
+        }
+
         List<Run> runs = prepareRuns();
 
         for(Run run : runs){
@@ -48,7 +55,15 @@ public class JobExecuterEngine extends TimerTask {
         }
 
         LogUtil.info(this.getClass(),"[Finished runs]");
+    }
 
+    private boolean isFirstExecution() {
+        Run run = runFacade.getLastRun();
+
+        if(run == null){
+            return true;
+        }
+        return false;
     }
 
     private void executeRotationJobs(Run aRun) {

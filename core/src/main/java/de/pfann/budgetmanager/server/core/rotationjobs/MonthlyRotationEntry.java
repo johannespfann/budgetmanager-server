@@ -36,7 +36,6 @@ public class MonthlyRotationEntry implements RotationEntryPattern {
          * Startzeit muss bereits erreicht sein
          */
         if (isBeforStartTime(startDate, aToday)) {
-            System.out.println("beginnt noch nicht");
             return false;
         }
 
@@ -51,18 +50,14 @@ public class MonthlyRotationEntry implements RotationEntryPattern {
          * In diesem Monat wurde es bereits ausgeführt
          */
         if (isAlreadyExecuted(lastExecuted, aToday)) {
-            System.out.println("wurde bereits ausgefuehrt");
             return false;
         }
 
         /**
          * Heute vor einem oder x-Monate
          */
-        System.out.println(lastExecuted.getDayOfMonth());
-        System.out.println(aToday.getDayOfMonth());
 
         if (lastExecuted.getDayOfMonth() == aToday.getDayOfMonth()) {
-            System.out.println("was true");
             return true;
         }
 

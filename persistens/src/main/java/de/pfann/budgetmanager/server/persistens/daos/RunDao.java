@@ -6,7 +6,6 @@ import de.pfann.budgetmanager.server.persistens.core.DbWriter;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RunDao extends AbstractDao {
@@ -26,12 +25,13 @@ public class RunDao extends AbstractDao {
 
     public Run getYoungesRun(){
         List<Run> runs = (List<Run>) doGetAll();
-        Collections.sort(runs);
-        if(runs.size() > 1){
-            return runs.get(runs.size() -1);
-        }
-        return runs.get(0);
 
+        if(runs.size() <= 0){
+            return null;
+        }
+
+        Collections.sort(runs);
+        return runs.get(0);
     }
 
     public List<Run> getAll(){

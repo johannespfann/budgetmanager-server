@@ -6,7 +6,6 @@ import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.Tag;
 import de.pfann.budgetmanager.server.persistens.model.TagTemplate;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

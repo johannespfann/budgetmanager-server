@@ -1,6 +1,5 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -67,7 +66,6 @@ public class AppUser  implements Serializable {
     }
 
     public void activate() {
-        System.out.println("activate user");
         this.activated = true;
     }
 

@@ -1,18 +1,12 @@
 package de.pfann.budgetmanager.server.core;
 
-import de.pfann.budgetmanager.server.core.rotationjobs.*;
-import de.pfann.budgetmanager.server.persistens.daos.RunDao;
-import de.pfann.budgetmanager.server.persistens.model.Run;
+import de.pfann.budgetmanager.server.core.rotationjobs.DailyExecutor;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-
 import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDate;
-
-import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 
 /**
  * Hello world!
@@ -47,11 +41,11 @@ public class StartDev
 
         final HttpServer server = startServer();
 
+        /*
         LocalDate firstDayOfYear2018 =  LocalDate.now().with(firstDayOfYear());
-
-
         Run lastRun = new Run(firstDayOfYear2018);
         RunDao.create().save(lastRun);
+        */
 
         TestClass environmentObjects = new TestClass();
         environmentObjects.persistEnviroment();

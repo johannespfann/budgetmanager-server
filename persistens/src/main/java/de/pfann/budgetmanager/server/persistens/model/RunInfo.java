@@ -1,7 +1,5 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
-import de.pfann.budgetmanager.server.persistens.model.Run;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 

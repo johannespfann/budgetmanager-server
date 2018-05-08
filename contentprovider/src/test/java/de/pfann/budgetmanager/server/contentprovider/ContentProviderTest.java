@@ -1,6 +1,5 @@
 package de.pfann.budgetmanager.server.contentprovider;
 
-import org.hibernate.annotations.SelectBeforeUpdate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -5,23 +5,15 @@ import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.model.Tag;
 
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class EntryFacade {
-
 
     private EntryDao entryDao;
 
     private AppUserDao userDao;
 
     private TagDao tagDao;
-
 
     public EntryFacade(){
         entryDao = EntryDao.create();
@@ -113,7 +105,6 @@ public class EntryFacade {
             if(tag.getCount() > 0){
                 tagDao.save(tag);
             }
-
         }
     }
 

@@ -48,9 +48,6 @@ public class EntryResource {
     public void addEntry(
             @PathParam("owner") String aOwner,
             Entry aEntry){
-        System.out.println(aEntry.getHash());
-        System.out.println("Taganzahl: " + aEntry.getTags().size());
-
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         aEntry.setAppUser(user);
         entryFacade.persistEntry(aEntry);

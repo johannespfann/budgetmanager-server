@@ -14,7 +14,9 @@
     <module>restservices</module>
     <module>persistens</module>
     <module>common</module>
-      <module>contentprovider</module>
+    <module>contentprovider</module>
+    <module>deployment</module>
+    <module>parent</module>
   </modules>
 
   <build>

@@ -35,12 +35,8 @@ public class ActivationPool {
     public ActivationTicket getActivationTicket(String aCode) throws ActivationTicketNotFoundException{
         // TODO delete showPool() + Method
         showPool();
-        System.out.println("Look for Tickets:" + ticketPool.size());
         for(ActivationTicket ticket : ticketPool){
-            System.out.println("durchlauf forschleife ... " + ticket.getActivationCode() + " and " + aCode);
             if( ticket.getActivationCode().equals(aCode)){
-                System.out.println("Found Ticket!!!!!");
-                System.out.println(ticket.getActivationCode());
                 return ticket;
             }
         }

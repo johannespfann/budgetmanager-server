@@ -2,6 +2,8 @@ package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.core.rotationjobs.DailyExecutor;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -31,12 +33,26 @@ public class Application {
 
         SessionDistributor.createForProd();
 
+        AppUserFacade facade = new AppUserFacade();
+
+        /*
+        AppUser user = new AppUser();
+        user.setEmail("jopfann@gmail.com");
+        user.setName("johannes-8274");
+        user.setPassword("keymaster");
+        user.activate();
+
+        facade.createNewUser(user);
+        */
+
         DailyExecutor executor = new DailyExecutor();
         executor.start();
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
 
+
+        System.out.println("All Users: " + facade.getAllUser().size());
         System.in.read();
         server.stop();
 
