@@ -6,7 +6,9 @@ import de.pfann.budgetmanager.server.persistens.model.Run;
 import de.pfann.budgetmanager.server.persistens.model.RunInfo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimerTask;
@@ -40,7 +42,7 @@ public class JobExecuterEngine extends TimerTask {
         LogUtil.info(this.getClass(),"[Start engine]");
 
         if(isFirstExecution()){
-            LocalDate today = LocalDate.now();
+            LocalDateTime today = LocalDateTime.now();
             Run run = new Run(today.minusDays(1));
             LogUtil.info(this.getClass(),"Persist first Run: " + run.toString());
             runFacade.persist(run);
@@ -79,7 +81,7 @@ public class JobExecuterEngine extends TimerTask {
             job.execute(aRun);
             job.postExecution(aRun);
 
-            runInfo.stop();
+            runInfo.stop("asdf");
 
             runInfosDone.add(runInfo);
 
@@ -98,8 +100,8 @@ public class JobExecuterEngine extends TimerTask {
 
         Run run = runFacade.getLastRun();
         LogUtil.info(this.getClass(),"[LastRun: " + run.getExecuted_at() + "]");
-        LocalDate today = LocalDate.now();
-        LocalDate dayOfLastRun = null;
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime dayOfLastRun = null;
 
         if(run != null) {
             dayOfLastRun = run.getExecuted_at();
@@ -110,8 +112,7 @@ public class JobExecuterEngine extends TimerTask {
         }
         LogUtil.info(this.getClass(),"[dayOfLastRun: " + run.getExecuted_at() + "]");
         LogUtil.info(this.getClass(),"[today: " + today + "]");
-        Period distance = Period.between(dayOfLastRun,today);
-        LogUtil.info(this.getClass(),"[distance: " + distance.getDays() + "]");
+
         int daysBetween = (int) DAYS.between(dayOfLastRun, today);
         LogUtil.info(this.getClass(),"[duration: " + daysBetween + "]");
 

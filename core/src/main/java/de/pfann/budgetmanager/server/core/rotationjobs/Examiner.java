@@ -3,7 +3,7 @@ package de.pfann.budgetmanager.server.core.rotationjobs;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class Examiner {
 
     private List<RotationEntryPattern> patterns;
 
-    private LocalDate examineDate;
+    private LocalDateTime examineDate;
 
     public boolean executeable(RotationEntry aRotationEntry){
 
@@ -40,7 +40,7 @@ public class Examiner {
         return false;
     }
 
-    private Examiner(List<RotationEntryPattern> aPattern, LocalDate aExamineDate){
+    private Examiner(List<RotationEntryPattern> aPattern, LocalDateTime aExamineDate){
         patterns = aPattern;
         examineDate = aExamineDate;
     }
@@ -54,7 +54,7 @@ public class Examiner {
 
         private List<RotationEntryPattern> pattern;
 
-        private LocalDate date;
+        private LocalDateTime date;
 
         public ExaminerBuilder(){
             pattern = new LinkedList<>();
@@ -70,7 +70,7 @@ public class Examiner {
             return this;
         }
 
-        public ExaminerBuilder forDate(LocalDate aDate){
+        public ExaminerBuilder forDate(LocalDateTime aDate){
             date = aDate;
             return this;
         }
@@ -87,7 +87,7 @@ public class Examiner {
             }
         }
 
-        private void assertNotNull(LocalDate date) throws IllegalArgumentException{
+        private void assertNotNull(LocalDateTime date) throws IllegalArgumentException{
             if(date == null){
                 throw new IllegalArgumentException("No date found!");
             }

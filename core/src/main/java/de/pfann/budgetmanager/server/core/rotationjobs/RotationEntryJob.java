@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
@@ -61,7 +62,7 @@ public class RotationEntryJob implements Job {
 
                 if(examiner.executeable(rotationEntry)){
 
-                    Date dateOfRun = Date.from(aRun.getExecuted_at().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    Date dateOfRun = DateUtil.asDate(aRun.getExecuted_at());
 
                     LogUtil.info(this.getClass(),"generate entry");
                     Entry entry = EntryTransformer.builder()

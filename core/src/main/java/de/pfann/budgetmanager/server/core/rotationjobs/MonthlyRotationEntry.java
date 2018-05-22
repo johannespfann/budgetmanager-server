@@ -1,8 +1,10 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -23,10 +25,10 @@ public class MonthlyRotationEntry implements RotationEntryPattern {
     }
 
     @Override
-    public boolean isExecutable(LocalDate aToday, RotationEntry aRotationEntry) {
+    public boolean isExecutable(LocalDateTime aToday, RotationEntry aRotationEntry) {
 
-        LocalDate startDate = convert(aRotationEntry.getStart_at());
-        LocalDate lastExecuted = null;
+        LocalDateTime startDate = convert(aRotationEntry.getStart_at());
+        LocalDateTime lastExecuted = null;
 
         if (aRotationEntry.getLast_executed() != null) {
             lastExecuted = convert(aRotationEntry.getLast_executed());
@@ -71,19 +73,19 @@ public class MonthlyRotationEntry implements RotationEntryPattern {
         return false;
     }
 
-    private boolean isAlreadyExecuted(LocalDate lastExecuted, LocalDate aToday) {
+    private boolean isAlreadyExecuted(LocalDateTime lastExecuted, LocalDateTime aToday) {
         if (lastExecuted.getMonth().equals(aToday.getMonth()) && lastExecuted.getYear() == aToday.getYear()) {
             return true;
         }
         return false;
     }
 
-    private boolean isBeforStartTime(LocalDate startDate, LocalDate aToday) {
+    private boolean isBeforStartTime(LocalDateTime startDate, LocalDateTime aToday) {
         return startDate.isAfter(aToday);
     }
 
-    private LocalDate convert(Date aDate) {
-        return aDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    private LocalDateTime convert(Date aDate) {
+        return DateUtil.asLocalDateTime(aDate);
     }
 
 }

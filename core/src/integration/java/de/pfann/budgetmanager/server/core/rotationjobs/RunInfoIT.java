@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RunInfoIT {
@@ -54,12 +55,12 @@ public class RunInfoIT {
     @Test
     public void testSaveRunDao(){
         // prepare
-        Run run = new Run(LocalDate.now());
+        Run run = new Run(LocalDateTime.now());
         runDao.save(run);
         test_identifier = "test_identifier";
         runInfo = new RunInfo(run, test_identifier);
         runInfo.start();
-        runInfo.stop();
+        runInfo.stop("asdf");
         runInfoDao.save(runInfo);
 
         // execute

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RunDaoIT {
@@ -50,15 +51,15 @@ public class RunDaoIT {
         List<Run> runs = runDao.getAll();
 
         // validate
-        Assert.assertEquals(run.getExecuted_at().toEpochDay(),runs.get(0).getExecuted_at().toEpochDay());
+        Assert.assertEquals(run.getExecuted_at().toLocalDate().toEpochDay(),runs.get(0).getExecuted_at().toLocalDate().toEpochDay());
     }
 
     @Test
     public void testGetYoungesRun(){
         // prepare
-        LocalDate origin = LocalDate.now();
-        LocalDate youngest = origin.minusDays(1);
-        LocalDate oldest = origin.plusDays(1);
+        LocalDateTime origin = LocalDateTime.now();
+        LocalDateTime youngest = origin.minusDays(1);
+        LocalDateTime oldest = origin.plusDays(1);
 
         youngesRun = new Run(youngest);
         middleOldRun = new Run(origin);
@@ -72,7 +73,7 @@ public class RunDaoIT {
         Run result = runDao.getYoungesRun();
 
         // validate
-        Assert.assertEquals(youngest.toEpochDay(),result.getExecuted_at().toEpochDay());
+        Assert.assertEquals(youngest.toLocalDate().toEpochDay(),result.getExecuted_at().toLocalDate().toEpochDay());
 
     }
 
