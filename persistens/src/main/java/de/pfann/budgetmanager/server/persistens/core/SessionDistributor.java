@@ -17,7 +17,7 @@ public class SessionDistributor {
 	public static SessionDistributor create() {
 		Configuration configuration = getBaseConfig();
 		;
-		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/budgetdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/budgetdb_dev?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
 		configuration.setProperty("hibernate.connection.username", "budgetmaster");
 		configuration.setProperty("hibernate.connection.password", "keymaster");
 
@@ -43,7 +43,7 @@ public class SessionDistributor {
 		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/budgetdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
 		configuration.setProperty("hibernate.connection.username", "budgetmaster");
 		configuration.setProperty("hibernate.connection.password", "keymaster");
-
+		configuration.setProperty("hibernate.show_sql","false");
 		configuration.setProperty("hibernate.hbm2ddl.auto", "validate");
 
 		return new SessionDistributor(configuration);

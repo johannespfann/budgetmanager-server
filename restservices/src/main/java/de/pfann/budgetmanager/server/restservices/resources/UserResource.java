@@ -29,7 +29,6 @@ public class UserResource {
         emailService = new EmailService();
     }
 
-
     @POST
     @CrossOriginFilter
     @Secured

@@ -3,6 +3,8 @@ package de.pfann.budgetmanager.server.persistens.daos;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 import de.pfann.budgetmanager.server.persistens.model.RunInfo;
 
+import java.util.List;
+
 public class RunFacade {
 
     private RunDao runDao;
@@ -31,4 +33,7 @@ public class RunFacade {
         return  runDao.getYoungesRun();
     }
 
+    public List<Run> getAllRuns() {
+        return runDao.getAll();
+    }
 }

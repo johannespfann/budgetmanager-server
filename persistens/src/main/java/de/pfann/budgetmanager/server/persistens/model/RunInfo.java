@@ -15,6 +15,9 @@ public class RunInfo {
     private Run run;
 
     @Column(nullable = false)
+    private String state;
+
+    @Column(nullable = false)
     private LocalDate start_at;
 
     @Column(nullable = false)
@@ -38,8 +41,9 @@ public class RunInfo {
         }
     }
 
-    public void stop(){
+    public void stop(String aState){
         if(end_at == null){
+            state = aState;
             end_at = LocalDate.now();
         }
     }
@@ -63,4 +67,7 @@ public class RunInfo {
     public String getIdentifier() {
         return identifier;
     }
+
+    public String getState() { return state; }
+
 }

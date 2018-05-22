@@ -25,6 +25,27 @@ public class AppUser  implements Serializable {
     @JsonIgnore
     private boolean activated;
 
+    @JsonIgnore
+    private String encryptTest;
+
+    public String getEncryptTest() {
+        return encryptTest;
+    }
+
+    public void setEncryptTest(String encryptTest) {
+        this.encryptTest = encryptTest;
+    }
+
+    public boolean isEncrypted() {
+        return isEncrypted;
+    }
+
+    public void setEncrypted(boolean encrypted) {
+        isEncrypted = encrypted;
+    }
+
+    @JsonIgnore
+    private boolean isEncrypted;
 
     public AppUser() {
     }

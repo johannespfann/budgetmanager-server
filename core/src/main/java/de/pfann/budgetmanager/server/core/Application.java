@@ -10,6 +10,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Application {
 
@@ -35,18 +37,11 @@ public class Application {
 
         AppUserFacade facade = new AppUserFacade();
 
-        /*
-        AppUser user = new AppUser();
-        user.setEmail("jopfann@gmail.com");
-        user.setName("johannes-8274");
-        user.setPassword("keymaster");
-        user.activate();
-
-        facade.createNewUser(user);
-        */
 
         DailyExecutor executor = new DailyExecutor();
         executor.start();
+
+        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
@@ -57,6 +52,4 @@ public class Application {
         server.stop();
 
     }
-
-
 }
