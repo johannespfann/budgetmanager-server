@@ -1,13 +1,22 @@
 package de.pfann.budgetmanager.server.core;
 
+import de.pfann.budgetmanager.server.core.jobengine.*;
+import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationEntryPattern;
+import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryJob;
+import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryPattern;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
+import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,9 +42,36 @@ public class Application {
 
         SessionDistributor.createForProd();
 
-        AppUserFacade facade = new AppUserFacade();
+
+        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntryPattern();
+
+        List<RotationEntryPattern> patternList = new LinkedList<>();
+        patternList.add(monthlyRotationEntry);
+
+        Job rotationEntryJob = new RotationEntryJob(
+                patternList,
+                new AppUserFacade(),
+                new EntryFacade(),
+                new RotationEntryFacade());
 
 
+        TimeInterval timeInterval = new MinuteInterval(1);
+        RunProvider provider = new RunProviderImpl(timeInterval);
+
+        List<JobRunner> jobRunners = new LinkedList<>();
+        JobRunner jobRunner = new JobRunner(rotationEntryJob);
+        jobRunners.add(jobRunner);
+
+        RunFacade runFacade = new RunFacade();
+        JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
+
+        //jobEngine.start();
+
+        ExecutionTime startTime = new SecStartTime(1);
+        TimeInterval timeInterval1 = new MinuteInterval(5);
+
+        JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
+        scheduler.start();
 
 
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
@@ -44,6 +80,7 @@ public class Application {
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
 
 
+        AppUserFacade facade = new AppUserFacade();
         System.out.println("All Users: " + facade.getAllUser().size());
         System.in.read();
         server.stop();

@@ -39,27 +39,4 @@ public class JobScheduler extends TimerTask {
 
     }
 
-
-    public static void main(String[] args){
-        SecStartTime startTime = new SecStartTime(5);
-        MinuteInterval interval = new MinuteInterval(2);
-
-
-        RunFacade runFacade = new RunFacade();
-
-        TimeInterval timeInterval = new MinuteInterval(1);
-        RunProvider provider = new RunProviderImpl(timeInterval);
-
-        List<Job> jobs = new ArrayList<>();
-        jobs.add(new DummyJob());
-
-        JobEngine jobEngine = new JobEngine(runFacade,provider, jobs);
-
-        JobScheduler scheduler = new JobScheduler(startTime,interval,jobEngine);
-
-        scheduler.start();
-    }
-
-
-
 }

@@ -39,8 +39,8 @@ public class JobEngineTest {
         runProvider = mock(RunProvider.class);
 
         dummyJob = mock(DummyJob.class);
-        List<Job> jobs = new ArrayList<>();
-        jobs.add(dummyJob);
+        List<JobRunner> jobs = new ArrayList<>();
+        jobs.add(new JobRunner(dummyJob));
 
         jobEngine = new JobEngine(runFacade, runProvider, jobs);
     }

@@ -76,11 +76,12 @@ public class StartDev
         TimeInterval timeInterval = new MinuteInterval(1);
         RunProvider provider = new RunProviderImpl(timeInterval);
 
-        List<Job> jobs = new ArrayList<>();
-        jobs.add(rotationEntryJob);
+        List<JobRunner> jobRunners = new LinkedList<>();
+        JobRunner jobRunner = new JobRunner(rotationEntryJob);
+        jobRunners.add(jobRunner);
 
         RunFacade runFacade = new RunFacade();
-        JobEngine jobEngine = new JobEngine(runFacade,provider, jobs);
+        JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
         //jobEngine.start();
 

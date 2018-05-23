@@ -88,12 +88,11 @@ public class MonthlyRotationEntryTest {
         entry.setLast_executed(lastExecuted);
 
         LocalDateTime now = LocalDateTime.of(2018,Month.MARCH,20,1,1);
-
         // execute
         boolean executable = new MonthlyRotationEntryPattern().isExecutable(now ,entry);
 
         // validate
-        Assert.assertFalse(executable);
+        Assert.assertTrue(executable);
     }
 
     @Test
