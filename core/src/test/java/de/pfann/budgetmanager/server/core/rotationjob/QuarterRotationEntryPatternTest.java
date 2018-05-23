@@ -120,4 +120,14 @@ public class QuarterRotationEntryPatternTest {
         Assert.assertFalse(result);
     }
 
+    /*
+[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - Now       : 2018-05-23T23:14:14.183
+[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - StartTime : 2018-05-23T23:11:42
+[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - EndTime   : 3500-07-04T12:30
+[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - LastExe   : 2018-05-23T23:12:14
+[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - NextTime  : 2018-08-23T23:12:14
+[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - default -> false
+
+     */
+
 }

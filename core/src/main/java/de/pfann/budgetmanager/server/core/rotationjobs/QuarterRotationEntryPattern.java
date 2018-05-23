@@ -64,8 +64,8 @@ public class QuarterRotationEntryPattern implements RotationEntryPattern {
         }
 
         // wurde in diesem quartal bereits ausgeführt
-        if(nextTime.isBefore(now)){
-            LogUtil.info(this.getClass(),"wurde in diesem quartal wurde bereits ausgeführt -> false");
+        if(nextTime.isAfter(now)){
+            LogUtil.info(this.getClass(),"wurde in diesem quartal bereits ausgeführt -> false");
             return false;
         }
 
