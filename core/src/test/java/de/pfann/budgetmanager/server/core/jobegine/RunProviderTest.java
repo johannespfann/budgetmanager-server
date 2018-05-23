@@ -42,10 +42,10 @@ public class RunProviderTest {
     @Test
     public void test_prepareRuns_With_Daily(){
         // prepare
-        runProvider = new RunProviderImpl(lastRun,currentRun,daily);
+        runProvider = new RunProviderImpl(daily);
 
         // exceute
-        List<Run> runs = runProvider.prepareRuns();
+        List<Run> runs = runProvider.prepareRuns(lastRun.getExecuted_at(),currentRun.getExecuted_at());
 
         // validate
         Assert.assertEquals(runs.size(),4);
@@ -54,10 +54,10 @@ public class RunProviderTest {
     @Test
     public void test_prepareRuns_With_Hourly(){
         // prepare
-        runProvider = new RunProviderImpl(lastRun,currentRun,hourly);
+        runProvider = new RunProviderImpl(hourly);
 
         // exceute
-        List<Run> runs = runProvider.prepareRuns();
+        List<Run> runs = runProvider.prepareRuns(lastRun.getExecuted_at(),currentRun.getExecuted_at());
 
         // validate
         Assert.assertEquals(runs.size(),119);

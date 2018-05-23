@@ -31,7 +31,7 @@ public class RunDao extends AbstractDao {
         }
 
         Collections.sort(runs);
-        return runs.get(0);
+        return runs.get(runs.size()-1);
     }
 
     public List<Run> getAll(){

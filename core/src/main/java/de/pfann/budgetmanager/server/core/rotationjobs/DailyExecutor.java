@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
+import de.pfann.budgetmanager.server.core.jobengine.Job;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 
 import java.util.LinkedList;
@@ -16,7 +17,7 @@ public class DailyExecutor {
 
     public void start(){
 
-        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntry();
+        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntryPattern();
 
         List<RotationEntryPattern> patternList = new LinkedList<>();
         patternList.add(monthlyRotationEntry);

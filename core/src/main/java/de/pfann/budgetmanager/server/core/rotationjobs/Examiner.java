@@ -13,6 +13,11 @@ public class Examiner {
 
     private LocalDateTime examineDate;
 
+    private Examiner(List<RotationEntryPattern> aPattern, LocalDateTime aExamineDate){
+        patterns = aPattern;
+        examineDate = aExamineDate;
+    }
+
     public boolean executeable(RotationEntry aRotationEntry){
 
         LogUtil.info(this.getClass(),"  [DecideExecution]");
@@ -40,10 +45,7 @@ public class Examiner {
         return false;
     }
 
-    private Examiner(List<RotationEntryPattern> aPattern, LocalDateTime aExamineDate){
-        patterns = aPattern;
-        examineDate = aExamineDate;
-    }
+
 
 
     public static ExaminerBuilder builder(){

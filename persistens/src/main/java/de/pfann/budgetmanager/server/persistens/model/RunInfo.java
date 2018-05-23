@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.persistens.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class RunInfo {
@@ -18,10 +19,10 @@ public class RunInfo {
     private String state;
 
     @Column(nullable = false)
-    private LocalDate start_at;
+    private LocalDateTime start_at;
 
     @Column(nullable = false)
-    private LocalDate end_at;
+    private LocalDateTime end_at;
 
     @Column(nullable = false)
     private String identifier;
@@ -37,22 +38,22 @@ public class RunInfo {
 
     public void start(){
         if(start_at == null){
-            start_at = LocalDate.now();
+            start_at = LocalDateTime.now();
         }
     }
 
     public void stop(String aState){
         if(end_at == null){
             state = aState;
-            end_at = LocalDate.now();
+            end_at = LocalDateTime.now();
         }
     }
 
-    public LocalDate getStart_at() {
+    public LocalDateTime getStart_at() {
         return start_at;
     }
 
-    public LocalDate getEnd_at() {
+    public LocalDateTime getEnd_at() {
         return end_at;
     }
 

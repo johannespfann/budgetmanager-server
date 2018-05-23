@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.core.jobengine;
 
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -9,20 +10,17 @@ import java.util.List;
 public class RunProviderImpl implements RunProvider {
 
     private TimeInterval timeInterval;
-    private Run lastRun;
-    private Run currentRun;
 
-    public RunProviderImpl(Run aLastRun, Run aCurrentRun, TimeInterval aTimeInterval){
+    public RunProviderImpl(TimeInterval aTimeInterval){
         timeInterval = aTimeInterval;
-        lastRun = aLastRun;
-        currentRun = aCurrentRun;
     }
 
     @Override
-    public List<Run> prepareRuns() {
+    public List<Run> prepareRuns(LocalDateTime timeOfLastRun, LocalDateTime timeOfCurrentRun) {
 
-        LocalDateTime timeOfLastRun = lastRun.getExecuted_at();
-        LocalDateTime timeOfCurrentRun = currentRun.getExecuted_at();
+        LogUtil.info(this.getClass(),"Prepare runs for ");
+        LogUtil.info(this.getClass(),"   " + timeOfLastRun);
+        LogUtil.info(this.getClass(),"   " + timeOfCurrentRun);
 
         long durationInMilli = ChronoUnit.MILLIS.between(timeOfLastRun,timeOfCurrentRun);
 
@@ -37,6 +35,7 @@ public class RunProviderImpl implements RunProvider {
             runs.add(run);
         }
 
+        LogUtil.info(this.getClass(),"dedected " + runs.size() + " runs");
         return runs;
 
     }

@@ -65,4 +65,10 @@ public class DateUtil {
         long timeInMinutes = timeInSeconds / 60;
         return timeInMinutes / 60;
     }
+
+    public static long convertMilliSecondsToMinutes(long timePerMilliSecond) {
+        long timeInSeconds = timePerMilliSecond / 1000;
+        long timeInMinutes = timeInSeconds / 60;
+        return timeInMinutes;
+    }
 }

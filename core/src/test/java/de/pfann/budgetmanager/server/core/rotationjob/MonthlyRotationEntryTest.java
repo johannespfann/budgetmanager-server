@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.core.rotationjob;
 
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationEntry;
+import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationEntryPattern;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,7 +43,7 @@ public class MonthlyRotationEntryTest {
         LocalDateTime now = LocalDateTime.of(2017,Month.APRIL,3,1,1);
 
         // execute
-        boolean executable = new MonthlyRotationEntry().isExecutable(now,entry);
+        boolean executable = new MonthlyRotationEntryPattern().isExecutable(now,entry);
 
         // validate
         Assert.assertFalse(executable);
@@ -59,7 +59,7 @@ public class MonthlyRotationEntryTest {
 
         LocalDateTime now = LocalDateTime.of(2018,Month.FEBRUARY,18,1,1);
         // execute
-        boolean executable = new MonthlyRotationEntry().isExecutable(now ,entry);
+        boolean executable = new MonthlyRotationEntryPattern().isExecutable(now ,entry);
 
         // validate
         Assert.assertFalse(executable);
@@ -74,7 +74,7 @@ public class MonthlyRotationEntryTest {
 
         LocalDateTime now = LocalDateTime.of(2018,Month.FEBRUARY,16,1,1);
         // execute
-        boolean executable = new MonthlyRotationEntry().isExecutable(now ,entry);
+        boolean executable = new MonthlyRotationEntryPattern().isExecutable(now ,entry);
 
         // validate
         Assert.assertFalse(executable);
@@ -90,7 +90,7 @@ public class MonthlyRotationEntryTest {
         LocalDateTime now = LocalDateTime.of(2018,Month.MARCH,20,1,1);
 
         // execute
-        boolean executable = new MonthlyRotationEntry().isExecutable(now ,entry);
+        boolean executable = new MonthlyRotationEntryPattern().isExecutable(now ,entry);
 
         // validate
         Assert.assertFalse(executable);
@@ -105,7 +105,7 @@ public class MonthlyRotationEntryTest {
         LocalDateTime now = LocalDateTime.of(2018,Month.MARCH,16,1,1);
 
         // execute
-        boolean executable = new MonthlyRotationEntry().isExecutable(now ,entry);
+        boolean executable = new MonthlyRotationEntryPattern().isExecutable(now ,entry);
 
         // validate
         Assert.assertTrue(executable);
@@ -122,7 +122,7 @@ public class MonthlyRotationEntryTest {
         entry.setStart_at(DateUtil.asDate(startDate));
         entry.setLast_executed(DateUtil.asDate(lastExecuted));
         // execute
-        boolean executable = new MonthlyRotationEntry().isExecutable(today,entry);
+        boolean executable = new MonthlyRotationEntryPattern().isExecutable(today,entry);
 
         // validate
         Assert.assertTrue(executable);

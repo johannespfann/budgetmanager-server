@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.core.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.budgetmanager.server.core.jobengine.Job;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
@@ -10,7 +11,6 @@ import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 

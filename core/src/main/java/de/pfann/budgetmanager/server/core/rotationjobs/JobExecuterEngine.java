@@ -1,14 +1,12 @@
 package de.pfann.budgetmanager.server.core.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.budgetmanager.server.core.jobengine.Job;
 import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 import de.pfann.budgetmanager.server.persistens.model.RunInfo;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimerTask;
@@ -77,9 +75,9 @@ public class JobExecuterEngine extends TimerTask {
 
             runInfo.start();
 
-            job.preExecution(aRun);
-            job.execute(aRun);
-            job.postExecution(aRun);
+            //job.preExecution(aRun);
+            //job.execute(aRun);
+            //job.postExecution(aRun);
 
             runInfo.stop("asdf");
 
