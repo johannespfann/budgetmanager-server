@@ -71,4 +71,12 @@ public class DateUtil {
         long timeInMinutes = timeInSeconds / 60;
         return timeInMinutes;
     }
+
+    public static Date getMinimumDate(){
+        return new Date(0);
+    }
+
+    public static Date getMaximumDate(){
+        return new Date(Long.MAX_VALUE);
+    }
 }

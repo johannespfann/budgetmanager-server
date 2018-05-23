@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DateUtilTest {
 
@@ -58,4 +60,17 @@ public class DateUtilTest {
         Assert.assertEquals(hours,1);
 
     }
+
+    @Test
+    public void test_getMimimumDate(){
+        System.out.println(DateUtil.getMinimumDate());
+
+    }
+
+    @Test
+    public void test_getMaximumDate(){
+        System.out.println(DateUtil.getMaximumDate());
+    }
+
+
 }

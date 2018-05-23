@@ -11,4 +11,6 @@ public interface RotationEntryPattern {
 
     boolean isExecutable(LocalDateTime aToday, RotationEntry aEntry);
 
+    LocalDateTime getExecutionDate(LocalDateTime aStartTime, LocalDateTime aTimeOfCurrentRun);
+
 }

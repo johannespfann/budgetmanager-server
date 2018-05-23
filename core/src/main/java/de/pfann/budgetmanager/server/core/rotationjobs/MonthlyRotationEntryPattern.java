@@ -86,6 +86,12 @@ public class MonthlyRotationEntryPattern implements RotationEntryPattern {
         return false;
     }
 
+    @Override
+    public LocalDateTime getExecutionDate(LocalDateTime aStartTime, LocalDateTime aTimeOfCurrentRun) {
+        return null;
+    }
+
+
     private boolean isAlreadyExecuted(LocalDateTime lastExecuted, LocalDateTime aToday) {
         if (lastExecuted.getMonth().equals(aToday.getMonth()) && lastExecuted.getYear() == aToday.getYear()) {
             return true;
