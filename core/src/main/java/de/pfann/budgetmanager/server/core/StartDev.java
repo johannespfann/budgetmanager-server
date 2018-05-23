@@ -18,6 +18,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -57,10 +59,10 @@ public class StartDev
         Run lastRun = new Run(firstDayOfYear2018);
         RunDao.create().save(lastRun);
         */
+        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
-        //TestClass environmentObjects = new TestClass();
-        //environmentObjects.persistEnviroment();
-
+        TestClass environmentObjects = new TestClass();
+        environmentObjects.persistEnviroment();
 
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntryPattern();
         QuarterRotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();

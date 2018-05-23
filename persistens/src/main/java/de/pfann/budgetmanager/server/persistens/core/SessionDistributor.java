@@ -21,7 +21,7 @@ public class SessionDistributor {
 		configuration.setProperty("hibernate.connection.username", "budgetmaster");
 		configuration.setProperty("hibernate.connection.password", "keymaster");
 
-		configuration.setProperty("hibernate.hbm2ddl.auto", "validate");
+		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
 		return new SessionDistributor(configuration);
 	}

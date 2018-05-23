@@ -77,6 +77,7 @@ public class DateUtil {
     }
 
     public static Date getMaximumDate(){
-        return new Date(Long.MAX_VALUE);
+        LocalDateTime localDateTime = LocalDateTime.of(3500,1,1,1,1);
+        return asDate(localDateTime);
     }
 }
