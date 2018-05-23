@@ -91,9 +91,6 @@ public class StartDev
         scheduler.start();
 
 
-        //DailyExecutor executor = new DailyExecutor();
-        //executor.start();
-
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));

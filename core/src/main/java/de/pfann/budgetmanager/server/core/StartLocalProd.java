@@ -1,7 +1,6 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.core.rotationjobs.DailyExecutor;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
@@ -10,7 +9,6 @@ import de.pfann.budgetmanager.server.persistens.model.Run;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import sun.plugin2.message.StartAppletAckMessage;
 
 import java.io.IOException;
 import java.net.URI;
@@ -77,8 +75,7 @@ public class StartLocalProd {
         }
 
 
-        DailyExecutor executor = new DailyExecutor();
-        executor.start();
+
 
 
         System.out.println(String.format("Jersey app started with WADL available at "

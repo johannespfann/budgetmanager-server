@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.core.persistens;
+package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import org.junit.After;

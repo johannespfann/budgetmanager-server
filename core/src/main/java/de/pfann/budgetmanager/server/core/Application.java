@@ -1,9 +1,7 @@
 package de.pfann.budgetmanager.server.core;
 
-import de.pfann.budgetmanager.server.core.rotationjobs.DailyExecutor;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -38,8 +36,7 @@ public class Application {
         AppUserFacade facade = new AppUserFacade();
 
 
-        DailyExecutor executor = new DailyExecutor();
-        executor.start();
+
 
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
