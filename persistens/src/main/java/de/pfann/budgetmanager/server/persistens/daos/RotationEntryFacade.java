@@ -98,7 +98,9 @@ public class RotationEntryFacade {
     public RotationEntry getRotationEntryByHash(String aHash){
         LogUtil.info(this.getClass(), "getRotationEntry");
         RotationEntry entry = roationEntryDao.getRotationEntryByHash(aHash);
-        LogUtil.info(this.getClass(), entry.toString());
+        LogUtil.info(this.getClass(), "before Found ");
+        //LogUtil.info(this.getClass(), "Found -> " + entry.toString());
+        LogUtil.info(this.getClass(), "after Found ");
         return entry;
     }
 

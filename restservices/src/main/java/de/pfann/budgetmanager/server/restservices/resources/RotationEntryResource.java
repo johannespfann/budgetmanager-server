@@ -71,9 +71,11 @@ public class RotationEntryResource {
 
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         LogUtil.info(this.getClass(),"Hash: " + aHash);
+        LogUtil.info(this.getClass(),"User: " + aOwner);
 
         RotationEntry rotationEntry = rotationEntryFacade.getRotationEntryByHash(aHash);
-        LogUtil.info(this.getClass(),"get entry: " + rotationEntry);
+        LogUtil.info(this.getClass(), "asdfs");
+        LogUtil.info(this.getClass(),"get entry: " + rotationEntry.getHash());
 
         rotationEntryFacade.delete(rotationEntry);
 

@@ -37,6 +37,8 @@ public class RotationEntryDao extends AbstractDao {
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("hash", aHash));
         LogUtil.info(this.getClass(),"found");
-        return (RotationEntry) doGet(criteria).get(0);
+        RotationEntry entry = (RotationEntry) doGet(criteria).get(0);
+        LogUtil.info(this.getClass(),entry.getHash());
+        return entry;
     }
 }
