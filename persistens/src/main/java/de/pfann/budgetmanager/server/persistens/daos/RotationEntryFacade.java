@@ -1,10 +1,12 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.TagTemplate;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +27,17 @@ public class RotationEntryFacade {
     }
 
     public void save(RotationEntry aEntry){
+
+        if(aEntry.getStart_at() == null){
+            aEntry.setStart_at(DateUtil.getMinimumDate());
+        }
+        if(aEntry.getEnd_at() == null){
+            aEntry.setEnd_at(DateUtil.getMaximumDate());
+        }
+        if(aEntry.getLast_executed() == null){
+            aEntry.setLast_executed(DateUtil.getMinimumDate());
+        }
+
         roationEntryDao.save(aEntry);
 
         Set<TagTemplate> uniqueTags = new HashSet<>(aEntry.getTags());
