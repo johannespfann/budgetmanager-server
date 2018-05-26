@@ -11,6 +11,7 @@ import de.pfann.budgetmanager.server.persistens.model.Entry;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -47,37 +48,52 @@ public class RotationEntryJob implements Job {
     @Override
     public void execute(Run aRun) {
 
-        Examiner examiner = Examiner.builder()
-                .withPattern(patterns)
-                .forDate(aRun.getExecuted_at())
-                .build();
-
         List<AppUser> users = userFacade.getAllUser();
 
-        for(AppUser user : users){
-            LogUtil.info(this.getClass(),"for user: " + user.getName());
+        for(AppUser user: users){
+            LogUtil.info(this.getClass(),"Execute for user: " + user.getName());
             List<RotationEntry> rotationEntries = rotationEntryFacade.getRotationEntries(user);
 
             for(RotationEntry rotationEntry : rotationEntries){
-
-                if(examiner.executeable(rotationEntry)){
-
-                    Date dateOfRun = DateUtil.asDate(aRun.getExecuted_at());
-
-                    LogUtil.info(this.getClass(),"generate entry");
-                    Entry entry = EntryTransformer.builder()
-                            .forDate(dateOfRun)
-                            .build()
-                            .createEntry(rotationEntry);
-                    LogUtil.info(this.getClass(),"persistEntry");
-                    entryFacade.persistEntry(entry);
-
-                    rotationEntry.setLast_executed(dateOfRun);
-                    rotationEntryFacade.save(rotationEntry);
-                }
+                executeRotationEntry(aRun,rotationEntry);
             }
         }
     }
+
+    private void executeRotationEntry(Run currentRun,RotationEntry rotationEntry){
+
+        for(RotationEntryPattern pattern : patterns){
+
+            if(isExecuteable(currentRun, rotationEntry, pattern)) {
+                LocalDateTime currentDate = currentRun.getExecuted_at();
+                LocalDateTime startDate = DateUtil.asLocalDateTime(rotationEntry.getStart_at());
+                Date executionDate = DateUtil.asDate(pattern.getExecutionDate(startDate, currentDate));
+
+                Entry entry = EntryTransformer.builder()
+                        .forDate(executionDate)
+                        .build()
+                        .createEntry(rotationEntry);
+                entryFacade.persistEntry(entry);
+
+                rotationEntry.setLast_executed(executionDate);
+                rotationEntryFacade.save(rotationEntry);
+            }
+        }
+
+    }
+
+    private boolean isExecuteable(Run currentRun, RotationEntry rotationEntry, RotationEntryPattern pattern) {
+        if(!pattern.isValidPattern(rotationEntry)){
+            return false;
+        }
+
+        if(pattern.isExecutable(currentRun.getExecuted_at(),rotationEntry)){
+           return true;
+        }
+
+        return false;
+    }
+
 
     @Override
     public void postExecution(Run aRun) {
