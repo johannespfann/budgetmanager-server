@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.core.jobengine.*;
-import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationEntryPattern;
+import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationPattern;
 import de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern;
 import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryJob;
 import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryPattern;
@@ -44,7 +44,7 @@ public class Application {
         SessionDistributor.createForProd();
 
 
-        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntryPattern();
+        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
         QuarterRotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
 
         List<RotationEntryPattern> patternList = new LinkedList<>();

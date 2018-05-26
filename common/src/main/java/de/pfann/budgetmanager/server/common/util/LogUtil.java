@@ -42,11 +42,11 @@ public class LogUtil {
 	 * debug() methods
 	 */
 	public static void debug(Class<?> aClass, String aString) {
-		getLogger(aClass).debug(aString);
+		getLogger(aClass).info(aString);
 	}
 
 	public static void debug(Class<?> aClass, String aString, Object... aArgs) {
-		getLogger(aClass).debug(aString, aArgs);
+		getLogger(aClass).info(aString, aArgs);
 	}
 
 	private static Logger getLogger(Class<?> aClass) {

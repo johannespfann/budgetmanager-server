@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.core.jobengine.*;
-import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationEntryPattern;
+import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationPattern;
 import de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern;
 import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryJob;
 import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryPattern;
@@ -15,7 +15,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -59,12 +58,12 @@ public class StartDev
         Run lastRun = new Run(firstDayOfYear2018);
         RunDao.create().save(lastRun);
         */
-        //Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
         TestClass environmentObjects = new TestClass();
         environmentObjects.persistEnviroment();
 
-        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationEntryPattern();
+        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
         QuarterRotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
 
         List<RotationEntryPattern> patternList = new LinkedList<>();
