@@ -5,6 +5,8 @@ import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Period;
 import java.util.Date;
 
 public class QuarterRotationEntryPattern implements RotationEntryPattern {
@@ -23,59 +25,198 @@ public class QuarterRotationEntryPattern implements RotationEntryPattern {
     }
 
     @Override
-    public boolean isExecutable(LocalDateTime aToday, RotationEntry aEntry) {
+    public boolean isExecutable(LocalDateTime aCurrentDate, RotationEntry aEntry) {
 
-        LocalDateTime now = aToday;
+        LocalDateTime currentDate = aCurrentDate;
         LocalDateTime startTime = DateUtil.asLocalDateTime(aEntry.getStart_at());
         LocalDateTime endTime = DateUtil.asLocalDateTime(aEntry.getEnd_at());
         LocalDateTime lastExecuted = DateUtil.asLocalDateTime(aEntry.getLast_executed());
-        LocalDateTime nextTime = lastExecuted.plusMonths(3);
+        LocalDateTime executionTimeOfCurrentQuartal = getExecutionDateOfCurrentQuartal(startTime,aCurrentDate);
 
-        LogUtil.info(this.getClass(),"Now       : " + now);
-        LogUtil.info(this.getClass(),"StartTime : " + startTime);
-        LogUtil.info(this.getClass(),"EndTime   : " + endTime);
-        LogUtil.info(this.getClass(),"LastExe   : " + lastExecuted);
-        LogUtil.info(this.getClass(),"NextTime  : " + nextTime);
+        LogUtil.debug(this.getClass(),"Now                            : " + currentDate);
+        LogUtil.debug(this.getClass(),"StartTime                      : " + startTime);
+        LogUtil.debug(this.getClass(),"EndTime                        : " + endTime);
+        LogUtil.debug(this.getClass(),"LastExe                        : " + lastExecuted);
+        LogUtil.debug(this.getClass(),"ExecutionTimeOfCurrentQuartal  : " + executionTimeOfCurrentQuartal);
 
 
         // ist vor startzeit
-        if(startTime.isAfter(now)){
-            LogUtil.info(this.getClass(),"Vor Startzeit -> false");
+        if(currentDate.isBefore(startTime)){
+            LogUtil.debug(this.getClass(),"Vor Startzeit -> false");
             return false;
         }
 
         // ist abgelaufen
-        if(endTime.isBefore(now)){
-            LogUtil.info(this.getClass(),"Ist abgelaufen -> false");
+        if(currentDate.isAfter(endTime)){
+            LogUtil.debug(this.getClass(),"Ist abgelaufen -> false");
             return false;
         }
 
         // wurde noch nie ausgeführt
         if(startTime.isAfter(lastExecuted)){
-            LogUtil.info(this.getClass(),"Noch nie ausgeführt -> true");
+            LogUtil.debug(this.getClass(),"Noch nie ausgeführt -> true");
             return true;
         }
 
-        // ist seit dem letzten mal nicht ausgeführt worden
-
-        if(nextTime.isBefore(now)){
-            LogUtil.info(this.getClass(),"wurde in diesem quartal noch nicht ausgeführt -> true");
-            return true;
-        }
-
-        // wurde in diesem quartal bereits ausgeführt
-        if(nextTime.isAfter(now)){
-            LogUtil.info(this.getClass(),"wurde in diesem quartal bereits ausgeführt -> false");
+        // ist vor der ausführungszeit
+        if(currentDate.isBefore(executionTimeOfCurrentQuartal)){
+            LogUtil.debug(this.getClass(),"Aktuelle zeit ist vor der Ausführungszeit -> false");
             return false;
+        }
+
+        // wurde bereits in diesem Quartal ausgeführt
+        if(isAlreadyExecutedInThisQuartal(lastExecuted,currentDate)){
+            LogUtil.debug(this.getClass(),"urde in diesem quartal bereits ausgeführt -> false");
+            return false;
+        }
+
+        if(currentDate.isAfter(executionTimeOfCurrentQuartal)){
+            LogUtil.debug(this.getClass(),"wurde in diesem quartal noch nicht ausgeführt -> true");
+            return true;
         }
 
         LogUtil.info(this.getClass(),"default -> false");
         return false;
     }
 
+    private boolean isAlreadyExecutedInThisQuartal(LocalDateTime aLastExecuted, LocalDateTime aCurrentDate) {
+        int yearOfCurrentDate = aCurrentDate.getYear();
+        int yearOfLastExecuted = aLastExecuted.getYear();
+
+        if(yearOfCurrentDate != yearOfLastExecuted){
+            return false;
+        }
+
+        int quartalOfCurrentDate = getQuartalNumber(aCurrentDate);
+        int quartalOfLastExecuted = getQuartalNumber(aLastExecuted);
+
+        if(quartalOfCurrentDate == quartalOfLastExecuted){
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
     public LocalDateTime getExecutionDate(LocalDateTime aStartTime, LocalDateTime aTimeOfCurrentRun) {
-        return null;
+        return getExecutionDateOfCurrentQuartal(aStartTime,aTimeOfCurrentRun);
+    }
+
+
+    private LocalDateTime getExecutionDateOfCurrentQuartal(LocalDateTime aSartTime, LocalDateTime aCurrentDate){
+        LocalDateTime executionDateOfCurrentQuartal;
+
+        int mothOfExecutionDate = getMonthOfExecutionDate(aSartTime,aCurrentDate);
+        int dayOfExecutionDate = getDayOfExecutionDate(aSartTime);
+
+        executionDateOfCurrentQuartal = LocalDateTime.of(
+                aCurrentDate.getYear(),
+                mothOfExecutionDate,
+                dayOfExecutionDate,
+                aSartTime.getHour(),
+                aSartTime.getMinute());
+
+        return executionDateOfCurrentQuartal;
+
+    }
+
+    private int getMonthOfExecutionDate(LocalDateTime aSartTime,LocalDateTime aCurrentDate) {
+        int quartalNumberOfStartTime = getQuartalNumber(aSartTime);
+
+        int currentQuartal = getQuartalNumber(aCurrentDate);
+
+        if(quartalNumberOfStartTime == 1){
+            if(currentQuartal == 1){
+                return aSartTime.getMonth().getValue();
+            }
+            if(currentQuartal == 2){
+                return aSartTime.getMonth().getValue() + 3;
+            }
+            if(currentQuartal == 3){
+                return aSartTime.getMonth().getValue() + 6;
+            }
+            if(currentQuartal == 4){
+                return aSartTime.getMonth().getValue() + 9;
+            }
+        }
+        if(quartalNumberOfStartTime == 2){
+            if(currentQuartal == 1){
+                return (aSartTime.getMonth().getValue() + 9 )% 12;
+            }
+            if(currentQuartal == 2){
+                return aSartTime.getMonth().getValue();
+            }
+            if(currentQuartal == 3){
+                return aSartTime.getMonth().getValue() + 3;
+            }
+            if(currentQuartal == 4){
+                return aSartTime.getMonth().getValue() + 6;
+            }
+        }
+        if(quartalNumberOfStartTime == 3){
+            if(currentQuartal == 1){
+                return (aSartTime.getMonth().getValue() + 6 )% 12;
+            }
+            if(currentQuartal == 2){
+                return (aSartTime.getMonth().getValue() + 9 )% 12;
+            }
+            if(currentQuartal == 3){
+                return aSartTime.getMonth().getValue();
+            }
+            if(currentQuartal == 4){
+                return aSartTime.getMonth().getValue() + 3;
+            }
+        }
+        if(quartalNumberOfStartTime == 4){
+            if(currentQuartal == 1){
+                return (aSartTime.getMonth().getValue() + 3 )% 12;
+            }
+            if(currentQuartal == 2){
+                return (aSartTime.getMonth().getValue() + 6 )% 12;
+            }
+            if(currentQuartal == 3){
+                return (aSartTime.getMonth().getValue() + 9 )% 12;
+            }
+            if(currentQuartal == 4){
+                return aSartTime.getMonth().getValue();
+            }
+        }
+        throw new IllegalArgumentException("Quartal could not defined");
+    }
+
+    private int getQuartalNumber(LocalDateTime aDate){
+        int monthOfCurrentDate = aDate.getMonth().getValue();
+
+        if(isBetween(monthOfCurrentDate,1,3)){
+            return 1;
+        }
+
+        if(isBetween(monthOfCurrentDate,4,6)){
+            return 2;
+        }
+
+        if(isBetween(monthOfCurrentDate,7,9)){
+            return 3;
+        }
+
+        if(isBetween(monthOfCurrentDate,10,12)){
+            return 4;
+        }
+        throw new IllegalArgumentException("Current date was out of the year");
+    }
+
+    public boolean isBetween(int aValue,int aFirst,int aSecond){
+        if(aFirst <= aValue && aValue <= aSecond){
+            return true;
+        }
+        return false;
+    }
+
+    private int getDayOfExecutionDate(LocalDateTime aSartTime) {
+        if(aSartTime.getDayOfMonth() > 28){
+            return  28;
+        }
+        return aSartTime.getDayOfMonth();
     }
 
 }

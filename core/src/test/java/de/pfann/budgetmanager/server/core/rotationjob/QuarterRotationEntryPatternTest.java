@@ -86,15 +86,15 @@ public class QuarterRotationEntryPatternTest {
     public void test_was_not_executed_in_quartal(){
 
         LocalDateTime endTime = LocalDateTime.of(2022,12,1,4,4);
-        LocalDateTime startTime = LocalDateTime.of(2018,3,1,4,4);
-        LocalDateTime lastExecuted = LocalDateTime.of(2018,3,2,1,1);
+        LocalDateTime startTime = LocalDateTime.of(2017,7,1,4,4);
+        LocalDateTime lastExecuted = LocalDateTime.of(2018,6,2,1,1);
 
         RotationEntry entry = new RotationEntry();
         entry.setStart_at(DateUtil.asDate(startTime));
         entry.setEnd_at(DateUtil.asDate(endTime));
         entry.setLast_executed(DateUtil.asDate(lastExecuted));
 
-        LocalDateTime now = LocalDateTime.of(2018,6,3,16,10,40);
+        LocalDateTime now = LocalDateTime.of(2018,7,3,16,10,40);
 
         boolean result = quarterRotationEntryPattern.isExecutable(now,entry);
 
@@ -105,8 +105,8 @@ public class QuarterRotationEntryPatternTest {
     public void test_was_executed_in_quartal(){
 
         LocalDateTime endTime = LocalDateTime.of(2022,12,1,4,4);
-        LocalDateTime startTime = LocalDateTime.of(2018,3,1,4,4);
-        LocalDateTime lastExecuted = LocalDateTime.of(2018,3,2,1,1);
+        LocalDateTime startTime = LocalDateTime.of(2017,4,1,4,4);
+        LocalDateTime lastExecuted = LocalDateTime.of(2018,4,2,1,1);
 
         RotationEntry entry = new RotationEntry();
         entry.setStart_at(DateUtil.asDate(startTime));
