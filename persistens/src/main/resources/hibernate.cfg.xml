@@ -29,6 +29,7 @@
         <mapping class="de.pfann.budgetmanager.server.persistens.model.RunInfo"/>
         <mapping class="de.pfann.budgetmanager.server.persistens.model.TagTemplate"/>
         <mapping class="de.pfann.budgetmanager.server.persistens.model.SubTotalEntry"/>
+        <mapping class="de.pfann.budgetmanager.server.persistens.model.TagStatistic" />
 
     </session-factory>
 </hibernate-configuration>

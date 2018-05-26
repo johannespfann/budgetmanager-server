@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+@Entity
 public class TagStatistic {
 
     @Id
@@ -18,9 +19,8 @@ public class TagStatistic {
     private String weight;
 
     @ManyToOne
-    @Column(nullable = false)
     @JsonIgnore
-    public AppUser user;
+    private AppUser user;
 
     public TagStatistic() {
         // default
@@ -49,5 +49,13 @@ public class TagStatistic {
 
     public void setUser(AppUser user) {
         this.user = user;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -59,7 +59,7 @@ public class StartDev
         Run lastRun = new Run(firstDayOfYear2018);
         RunDao.create().save(lastRun);
         */
-        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+        //Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
         TestClass environmentObjects = new TestClass();
         environmentObjects.persistEnviroment();

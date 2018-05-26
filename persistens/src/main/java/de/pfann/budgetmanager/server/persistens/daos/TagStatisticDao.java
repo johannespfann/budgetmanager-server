@@ -24,7 +24,7 @@ public class TagStatisticDao extends AbstractDao {
 
     @Override
     protected Class<?> getEntityClass() {
-        return TagTemplateDao.class;
+        return TagStatistic.class;
     }
 
     public List<TagStatistic> getAllByUser(AppUser aUser){
@@ -33,7 +33,7 @@ public class TagStatisticDao extends AbstractDao {
         return new ArrayList<>((List<TagStatistic>) doGet(criteria));
     }
 
-    public void delete(TagStatistic aTagStatistic){
+    public void remove(TagStatistic aTagStatistic){
         delete(aTagStatistic);
     }
 }
