@@ -194,5 +194,4 @@ public class TestClass {
         userFacade.activateUser(user);
         return user;
     }
-
 }

@@ -65,7 +65,7 @@ public class QuarterRotationEntryPatternTest {
 
 
     @Test
-    public void test_was_nerver_executed(){
+    public void test_is_before_executiontime(){
 
         LocalDateTime startTime = LocalDateTime.of(2018,3,1,4,4);
         LocalDateTime endTime = LocalDateTime.of(2018,7,1,4,4);
@@ -79,7 +79,7 @@ public class QuarterRotationEntryPatternTest {
 
         boolean result = quarterRotationEntryPattern.isExecutable(now,entry);
 
-        Assert.assertTrue(result);
+        Assert.assertFalse(result);
     }
 
     @Test
@@ -119,15 +119,5 @@ public class QuarterRotationEntryPatternTest {
 
         Assert.assertFalse(result);
     }
-
-    /*
-[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - Now       : 2018-05-23T23:14:14.183
-[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - StartTime : 2018-05-23T23:11:42
-[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - EndTime   : 3500-07-04T12:30
-[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - LastExe   : 2018-05-23T23:12:14
-[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - NextTime  : 2018-08-23T23:12:14
-[Timer-0] INFO de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern - default -> false
-
-     */
 
 }
