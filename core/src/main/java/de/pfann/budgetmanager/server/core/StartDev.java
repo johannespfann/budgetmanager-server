@@ -1,10 +1,7 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.core.jobengine.*;
-import de.pfann.budgetmanager.server.core.rotationjobs.MonthlyRotationPattern;
-import de.pfann.budgetmanager.server.core.rotationjobs.QuarterRotationEntryPattern;
-import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryJob;
-import de.pfann.budgetmanager.server.core.rotationjobs.RotationEntryPattern;
+import de.pfann.budgetmanager.server.core.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
@@ -64,11 +61,13 @@ public class StartDev
         environmentObjects.persistEnviroment();
 
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
-        QuarterRotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
+        RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
+        RotationEntryPattern yearlyRotationEntryPattern = new YearlyRotationPattern();
 
         List<RotationEntryPattern> patternList = new LinkedList<>();
         patternList.add(monthlyRotationEntry);
         patternList.add(quarterRotationEntryPattern);
+        patternList.add(yearlyRotationEntryPattern);
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,

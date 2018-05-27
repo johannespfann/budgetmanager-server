@@ -2,9 +2,11 @@ package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.HashUtil;
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.daos.*;
 import de.pfann.budgetmanager.server.persistens.model.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -140,6 +142,36 @@ public class TestClass {
         rotationNetflixMax.setAmount("3.50");
         rotationNetflixMax.setRotation_strategy("66122");
         rotationEntryFacade.save(rotationNetflixMax);
+
+        RotationEntry rotationHaftpflicht = RotationEntry.generate();
+        List<TagTemplate> haftpflichtTags = new LinkedList<>();
+        haftpflichtTags.add(new TagTemplate("versicherung"));
+        rotationHaftpflicht.setTags(haftpflichtTags);
+        LocalDateTime startTimeOfHaftpflicht = LocalDateTime.of(2017,4,7,1,1);
+        rotationHaftpflicht.setStart_at(DateUtil.asDate(startTimeOfHaftpflicht));
+        //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
+        rotationHaftpflicht.setMemo("Haftpflicht");
+        rotationHaftpflicht.setUser(johannesUser);
+        rotationHaftpflicht.setAmount("3.50");
+        rotationHaftpflicht.setRotation_strategy("5679");
+        LogUtil.info(this.getClass(),"HAftpflicht-Startzeit: " + rotationHaftpflicht.getStart_at().toString());
+        rotationEntryFacade.save(rotationHaftpflicht);
+
+        RotationEntry rotationGEZ = RotationEntry.generate();
+        List<TagTemplate> gezTags = new LinkedList<>();
+        gezTags.add(new TagTemplate("medien"));
+        gezTags.add(new TagTemplate("gez"));
+        rotationGEZ.setTags(gezTags);
+        LocalDateTime startTimeOfGEZ = LocalDateTime.of(2018,2,7,1,1);
+        rotationGEZ.setStart_at(DateUtil.asDate(startTimeOfGEZ));
+        //rotationEntryGehalt.setEnd_at(DateUtil.getDateOfYYMMDD(2018,3,17));
+        rotationGEZ.setMemo("GEZ-Gebühr");
+        rotationGEZ.setUser(johannesUser);
+        rotationGEZ.setAmount("56");
+        rotationGEZ.setRotation_strategy("36133");
+        LogUtil.info(this.getClass(),"GEZ-Startzeit: " + rotationGEZ.getStart_at().toString());
+        rotationEntryFacade.save(rotationGEZ);
+
     }
 
     private Entry peristEntry(AppUser appUser, List<Tag> gehaltFebTags, String aAmount, String aMemo) {
