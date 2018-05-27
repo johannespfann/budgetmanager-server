@@ -25,8 +25,6 @@
     </dependencies>
 
     <build>
-        <finalName>budgetmanager</finalName>
-
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -34,111 +32,114 @@
                 <version>3.0.0</version>
             </extension>
         </extensions>
-
-        <plugins>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>wagon-maven-plugin</artifactId>
-                <version>2.0.0</version>
-                <executions>
-
-                    <execution>
-
-                        <id>upload-application</id>
-
-                        <phase>install</phase>
-
-                        <goals>
-                            <goal>upload-single</goal>
-                        </goals>
-                        <configuration>
-                            <serverId>pfann-org-server</serverId>
-                            <fromFile>${project.build.directory}/${project.build.finalName}-dist.zip</fromFile>
-                            <url>scp://pfann.org:/home/johannes/applications</url>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>execute-test-commands</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>sshexec</goal>
-                        </goals>
-                        <configuration>
-                            <serverId>pfann-org-server</serverId>
-                            <url>scp://pfann.org:/home/johannes/</url>
-                            <commands>
-                                <command>unzip -o applications/budgetmanager-dist.zip -d applications</command>
-                            </commands>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>de.pfann.budgetmanager.server</groupId>
-                                    <artifactId>core</artifactId>
-                                    <version>0.0.1-SNAPSHOT</version>
-                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                    <includes>**/*.class,**/*.xml</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib</classpathPrefix>
-                            <mainClass>de.pfann.budgetmanager.server.core.Application</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4.1</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>deployment/src/assembly/dist.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>deploy-server</id>
+
+            <build>
+                <finalName>budgetmanager</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <version>2.0.0</version>
+                        <executions>
+
+                            <execution>
+                                <id>upload-application</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>upload-single</goal>
+                                </goals>
+                                <configuration>
+                                    <serverId>pfann-org-server</serverId>
+                                    <fromFile>${project.build.directory}/${project.build.finalName}-dist.zip</fromFile>
+                                    <url>scp://pfann.org:/home/johannes/applications</url>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>execute-test-commands</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>sshexec</goal>
+                                </goals>
+                                <configuration>
+                                    <serverId>pfann-org-server</serverId>
+                                    <url>scp://pfann.org:/home/johannes/</url>
+                                    <commands>
+                                        <command>unzip -o applications/budgetmanager-dist.zip -d applications</command>
+                                    </commands>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.10</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>de.pfann.budgetmanager.server</groupId>
+                                            <artifactId>core</artifactId>
+                                            <version>0.0.1-SNAPSHOT</version>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <includes>**/*.class,**/*.xml</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib</classpathPrefix>
+                                    <mainClass>de.pfann.budgetmanager.server.core.Application</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>deployment/src/assembly/dist.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
