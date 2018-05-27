@@ -52,11 +52,6 @@ public class QuarterRotationEntryPattern implements RotationEntryPattern {
             return false;
         }
 
-        // wurde noch nie ausgeführt
-        if(startTime.isAfter(lastExecuted)){
-            LogUtil.debug(this.getClass(),"Noch nie ausgeführt -> true");
-            return true;
-        }
 
         // ist vor der ausführungszeit
         if(currentDate.isBefore(executionTimeOfCurrentQuartal)){
