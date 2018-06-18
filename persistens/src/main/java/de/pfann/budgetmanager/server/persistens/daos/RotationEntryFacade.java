@@ -6,10 +6,7 @@ import de.pfann.budgetmanager.server.persistens.model.AppUser;
 import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import de.pfann.budgetmanager.server.persistens.model.TagTemplate;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RotationEntryFacade {
 
@@ -46,19 +43,16 @@ public class RotationEntryFacade {
             tag.setRotationEntry(aEntry);
             tagTemplateDao.save(tag);
         }
+
     }
 
     public void update(RotationEntry aEntry){
-        LogUtil.info(this.getClass(),"Update RotationEntry");
         RotationEntry persistedEntry = roationEntryDao.getRotationEntryByHash(aEntry.getHash());
 
-        LogUtil.info(this.getClass(),"Get all existing tags");
         // getallPersistedTags and delete them
         List<TagTemplate> persistedTags = tagTemplateDao.findAllByRotationEntry(persistedEntry);
 
-        LogUtil.info(this.getClass(),"List all Tags to delete");
         for(TagTemplate tag : persistedTags){
-            LogUtil.info(this.getClass()," - delete " + tag);
             tagTemplateDao.delete(tag);
         }
 
@@ -68,15 +62,11 @@ public class RotationEntryFacade {
         persistedEntry.setStart_at(aEntry.getStart_at());
         persistedEntry.setLast_executed(aEntry.getLast_executed());
         persistedEntry.setEnd_at(aEntry.getEnd_at());
-        // TODO copy constructor
-        LogUtil.info(this.getClass(),"income: " + aEntry);
-        //LogUtil.info(this.getClass(),"merged: " + persistedEntry);
 
         roationEntryDao.save(persistedEntry);
 
         Set<TagTemplate> unquieTags = new HashSet<>(aEntry.getTags());
         for(TagTemplate tag : unquieTags){
-            LogUtil.info(this.getClass(),"Save new Tag: " + tag);
             tag.setRotationEntry(persistedEntry);
             tagTemplateDao.save(tag);
         }
@@ -96,16 +86,11 @@ public class RotationEntryFacade {
     }
 
     public RotationEntry getRotationEntryByHash(String aHash){
-        LogUtil.info(this.getClass(), "getRotationEntry");
         RotationEntry entry = roationEntryDao.getRotationEntryByHash(aHash);
-        LogUtil.info(this.getClass(), "before Found ");
-        //LogUtil.info(this.getClass(), "Found -> " + entry.toString());
-        LogUtil.info(this.getClass(), "after Found ");
         return entry;
     }
 
     public void delete(RotationEntry aRotationEntry){
-        LogUtil.info(this.getClass(),"Delete rotationEntry: " + aRotationEntry.getHash());
         List<TagTemplate> tags = tagTemplateDao.findAllByRotationEntry(aRotationEntry);
 
         for(TagTemplate tag : tags){
@@ -113,5 +98,26 @@ public class RotationEntryFacade {
         }
 
         roationEntryDao.delete(aRotationEntry);
+    }
+
+    // TODO wie mach ich die validierungsgeschichten ll
+    // Wird noch ueberlegt
+    public void validateRotationEntry(RotationEntry aRotationEntry){
+
+        // hash ist bei update dabei und bei save noch nicht ...
+        aRotationEntry.getHash();
+
+        // Entry
+        aRotationEntry.getMemo();
+        aRotationEntry.getAmount();
+        // muss extra geladen werden
+        aRotationEntry.getTags();
+        aRotationEntry.getUser();
+
+        // zeitgeschichten
+        aRotationEntry.getStart_at();
+        aRotationEntry.getEnd_at();
+        aRotationEntry.getLast_executed();
+
     }
 }

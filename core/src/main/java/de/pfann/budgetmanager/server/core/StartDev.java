@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.core;
 
-import de.pfann.budgetmanager.server.core.jobengine.*;
-import de.pfann.budgetmanager.server.core.rotationjobs.*;
+import de.pfann.budgetmanager.server.jobengine.core.*;
+import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
@@ -86,10 +86,9 @@ public class StartDev
         RunFacade runFacade = new RunFacade();
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-        //jobEngine.start();
 
         ExecutionTime startTime = new SecStartTime(1);
-        TimeInterval timeInterval1 = new MinuteInterval(5);
+        TimeInterval timeInterval1 = new MinuteInterval(180);
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
         scheduler.start();

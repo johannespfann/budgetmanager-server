@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.core.jobengine;
 
+import de.pfann.budgetmanager.server.jobengine.core.RunUtil;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
-import de.pfann.budgetmanager.server.persistens.daos.RunDao;
 import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
 import de.pfann.budgetmanager.server.persistens.model.Run;
 import org.junit.After;

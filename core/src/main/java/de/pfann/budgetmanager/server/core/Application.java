@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.core;
 
-import de.pfann.budgetmanager.server.core.jobengine.*;
-import de.pfann.budgetmanager.server.core.rotationjobs.*;
+import de.pfann.budgetmanager.server.jobengine.core.*;
+import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
@@ -39,6 +39,13 @@ public class Application {
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
 
         SessionDistributor.createForProd();
+        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+
+        // Add defaultUser
+
+        AppUserFacade facade = new AppUserFacade();
+
+        // end - Add defaultUser
 
 
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
@@ -56,8 +63,7 @@ public class Application {
                 new EntryFacade(),
                 new RotationEntryFacade());
 
-
-        TimeInterval timeInterval = new MinuteInterval(1);
+        TimeInterval timeInterval = new HourInterval(12);
         RunProvider provider = new RunProviderImpl(timeInterval);
 
         List<JobRunner> jobRunners = new LinkedList<>();
@@ -67,23 +73,17 @@ public class Application {
         RunFacade runFacade = new RunFacade();
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-        //jobEngine.start();
-
-        ExecutionTime startTime = new SecStartTime(1);
-        TimeInterval timeInterval1 = new MinuteInterval(5);
+        ExecutionTime startTime = new OneOClockAM();
+        TimeInterval timeInterval1 = new Daily();
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
         scheduler.start();
 
 
-
-        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
-
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
 
 
-        AppUserFacade facade = new AppUserFacade();
         System.out.println("All Users: " + facade.getAllUser().size());
         System.in.read();
         server.stop();

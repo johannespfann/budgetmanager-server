@@ -65,13 +65,6 @@ public class EntryResource {
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         aEntry.setAppUser(user);
 
-        LogUtil.info(this.getClass(),"Entry: ");
-        LogUtil.info(this.getClass()," - " + aEntry.getHash());
-        LogUtil.info(this.getClass()," - " + aEntry.getMemo());
-        LogUtil.info(this.getClass()," - " + aEntry.getAmount());
-        LogUtil.info(this.getClass()," - " + aEntry.getCreated_at());
-
-
         entryFacade.update(aEntry);
     }
 

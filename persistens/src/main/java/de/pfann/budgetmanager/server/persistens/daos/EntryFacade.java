@@ -33,7 +33,6 @@ public class EntryFacade {
         if(aEntry.getCreated_at() == null) {
             aEntry.setCreated_at(new Date());
         }
-        LogUtil.info(this.getClass(),"Persist: " + aEntry.getHash());
 
         AppUser user = null;
         try {
@@ -46,34 +45,18 @@ public class EntryFacade {
         List<Tag> tagsfromEntity = distinct(aEntry.getTags());
         List<Tag> preparedTagsToSave = new LinkedList<>();
 
-        LogUtil.info(this.getClass(),"TagsfromUser      : " + tagsfromUser.size());
-        LogUtil.info(this.getClass(),"TagsfromEntity    : " + tagsfromEntity.size());
-        LogUtil.info(this.getClass(),"PreparedTagsToSave: " + preparedTagsToSave.size());
+
 
         for(Tag tag : tagsfromEntity){
             if(exists(tag, tagsfromUser)){
-                // tag existiert bereits und muss nur noch in entity gehaengt werden
-
                 Tag persistedTag = tagDao.getTag(user,tag.getName());
-
-                LogUtil.info(this.getClass(),
-                        "Tag "
-                        + persistedTag.getName()
-                        + " existiert mit Anzahl: "
-                        + persistedTag.getCount());
-
-                persistedTag.increaseCount();
                 tagDao.save(persistedTag);
                 preparedTagsToSave.add(persistedTag);
 
             }
             else {
-
-                LogUtil.info(this.getClass(),"Tag " + tag.getName() + " existiert noch nicht!");
-                // tag existiert noch nicht -> zuerst grundsaetzlich speichern, mit User verbinden und Entity
                 Tag newTag = tag;
                 newTag.setAppUser(user);
-                newTag.increaseCount();
                 tagDao.save(newTag);
                 preparedTagsToSave.add(tag);
             }
@@ -96,7 +79,6 @@ public class EntryFacade {
         entryDao.delete(aEntry);
 
         for(Tag tag : tags){
-            tag.descreaseCount();
 
             if(tag.getCount() == 0){
                 tagDao.delete(tag);
@@ -115,18 +97,14 @@ public class EntryFacade {
     public void update(Entry aEntry){
         Entry persistedEntry = getEntry(aEntry.getHash());
 
-        LogUtil.info(this.getClass(),"Update Entry -> " + persistedEntry.getHash());
         persistedEntry.setAmount(aEntry.getAmount());
         persistedEntry.setMemo(aEntry.getMemo());
 
-        LogUtil.info(this.getClass(),"# Look for tags change ...");
+
 
         // hier set
         List<Tag> persistedTags = persistedEntry.getTags();
         List<Tag> currentTags = distinct(aEntry.getTags());
-
-        LogUtil.info(this.getClass()," -> persistedTags: " + persistedTags.size());
-        LogUtil.info(this.getClass()," -> currentTags      : " + currentTags.size());
 
         // added Tags
 
@@ -138,7 +116,6 @@ public class EntryFacade {
             }
         }
 
-        LogUtil.info(this.getClass(),"Found  " + newTags.size() + " new tags");
 
         // deleted Tags
 
@@ -150,12 +127,10 @@ public class EntryFacade {
             }
         }
 
-        LogUtil.info(this.getClass(),"Found  " + deletedTags.size() + " tags for delete");
 
         // remove Tags
 
         for(Tag tag: deletedTags){
-            LogUtil.info(this.getClass(),"Remove tag: " + tag.getName());
             persistedTags.remove(tag);
         }
 
@@ -171,21 +146,15 @@ public class EntryFacade {
         }
 
         Set<Tag> persistedUserTags = tagDao.getAllByUser(aEntry.getAppUser());
-        LogUtil.info(this.getClass(), "All tags for user: " + persistedUserTags.size());
         for(Tag tag : newTags){
-            LogUtil.info(this.getClass(),"Bearbeite tag: " + tag.getName());
             if(!exists(tag,new LinkedList<>(persistedUserTags))){
                 tag.setAppUser(user);
-                LogUtil.info(this.getClass(), "- save tag: " + tag.getName());
-                tag.increaseCount();
                 tagDao.save(tag);
                 persistedTags.add(tag);
             }
             else
             {
-                LogUtil.info(this.getClass(),"- increment tag: " + tag.getName());
                 Tag persistedTag = tagDao.getTag(user,tag.getName());
-                persistedTag.increaseCount();
                 tagDao.save(persistedTag);
                 persistedTags.add(persistedTag);
             }
@@ -194,10 +163,8 @@ public class EntryFacade {
         List<Tag> tagsToDelete = new LinkedList<>();
 
         // deincrement tags
-        LogUtil.info(this.getClass(), "Behandel deleted tags ...");
         for(Tag tag: persistedUserTags){
             if(exists(tag, deletedTags)){
-                tag.descreaseCount();
                 tagDao.save(tag);
                 if(tag.getCount() == 0){
                     tagsToDelete.add(tag);

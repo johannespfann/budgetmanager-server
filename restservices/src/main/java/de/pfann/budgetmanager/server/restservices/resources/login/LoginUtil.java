@@ -5,6 +5,7 @@ import java.util.Random;
 public class LoginUtil {
 
     private static final String USERNAME_SEPERATOR = "-";
+    private static final String HTTP_AUTH_SEPERATOR = ":";
 
     /**
      * Create a random integer
@@ -35,6 +36,16 @@ public class LoginUtil {
      */
     public static String getAccessTocken(){
         return String.valueOf(getRandomInteger(1000000,99999999));
+    }
+
+    public static String extractPassword(String aAuthenticationString){
+        String[] array = aAuthenticationString.split(HTTP_AUTH_SEPERATOR);
+        return array[1];
+    }
+
+    public static String extractUser(String aAuthenticationString){
+        String[] array = aAuthenticationString.split(HTTP_AUTH_SEPERATOR);
+        return array[0];
     }
 
 }

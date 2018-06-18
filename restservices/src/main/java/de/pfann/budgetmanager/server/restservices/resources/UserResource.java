@@ -10,10 +10,7 @@ import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
 import de.pfann.budgetmanager.server.restservices.resources.email.EmailService;
 import de.pfann.budgetmanager.server.restservices.resources.login.*;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -55,30 +52,51 @@ public class UserResource {
         return aBody;
     }
 
-    @POST
+    @GET
     @Logged
     @CrossOriginFilter
     @Path("login/{accessor}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response login(
+    @Produces(MediaType.TEXT_PLAIN)
+    public String login(
             @PathParam("accessor") String aAccessor,
-            String body) {
+            @HeaderParam("Authorization") String authorizationValue) {
 
+        LogUtil.info(this.getClass(),"Authorization: " + authorizationValue);
         AppUser user = userFacade.getUserByNameOrEmail(aAccessor);
+        LogUtil.info(this.getClass(),"Found user: " + user.getName());
 
-        if (!user.getPassword().equals(getPassword(body))) {
-            return Response.status(403)
-                    .build();
+        LogUtil.info(this.getClass(),"user    : " + LoginUtil.extractUser(authorizationValue));
+        LogUtil.info(this.getClass(),"password: " + LoginUtil.extractPassword(authorizationValue));
+
+        String username = LoginUtil.extractUser(authorizationValue);
+        String password = LoginUtil.extractPassword(authorizationValue);
+
+        if(user == null){
+            LogUtil.info(this.getClass(),"user was null");
+            throw new SecurityException();
         }
 
-        String accessToken = LoginUtil.getAccessTocken();
-        AccessPool.getInstance().register(user, accessToken);
+        if(!user.isActivated()){
+            LogUtil.info(this.getClass(),"user was not activated");
+            throw new SecurityException();
+        }
 
-        return Response.ok()
-                .entity("{\"accesstoken\" : \"" + accessToken +"\"," +
-                        "\"username\" : \"" + user.getName() +"\"," +
-                        "\"email\" : \"" + user.getEmail() +"\" }")
-                .build();
+        if(!user.getName().equals(username)){
+            LogUtil.info(this.getClass(),"user was not the same: " + user.getName() + " and " + username);
+            throw new SecurityException();
+        }
+
+        if(!user.getPassword().equals(password)){
+            LogUtil.info(this.getClass(),"password was wrong: " + user.getPassword() + " and " + password);
+            throw new SecurityException();
+        }
+
+
+        String JSON = "{\"accesstoken\" : \"" + LoginUtil.getAccessTocken() +"\"," +
+                "\"username\" : \"" + user.getName() +"\"," +
+                "\"email\" : \"" + user.getEmail() +"\" }";
+        LogUtil.info(this.getClass(),"Return JSON " + JSON);
+        return JSON;
     }
 
     @POST

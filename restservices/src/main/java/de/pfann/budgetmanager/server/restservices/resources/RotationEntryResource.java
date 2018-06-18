@@ -49,16 +49,8 @@ public class RotationEntryResource {
             @PathParam("owner") String aOwner,
             RotationEntry aRotationEntry){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
         aRotationEntry.setUser(user);
-
-        LogUtil.info(this.getClass(),"Owner: " + user);
-        LogUtil.info(this.getClass(),"Roten: " + aRotationEntry);
         rotationEntryFacade.save(aRotationEntry);
-
-        LogUtil.info(this.getClass(),"Saved rotationEntry " + aRotationEntry);
-
-
     }
 
     @DELETE

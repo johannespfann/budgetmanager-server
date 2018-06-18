@@ -44,13 +44,7 @@ public class TagStatisticResource {
     public void persistStatistics(
             @PathParam("owner") String aOwner,
             List<TagStatistic> aTagStatistics){
-        LogUtil.info(this.getClass(),aTagStatistics.size() + "");
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
-        for(TagStatistic tag : aTagStatistics){
-            System.out.println(tag.getName());
-            System.out.println(tag.getWeight());
-        }
 
         tagStatisticFacade.persist(aTagStatistics,user);
     }
