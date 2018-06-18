@@ -29,6 +29,16 @@ public class Tag implements Serializable {
 
     private int count;
 
+    public void increaseCount(){
+        count++;
+    }
+
+    public void descreaseCount(){
+        if(count > 0) {
+            count--;
+        }
+    }
+
     public Tag(){
         entries = new ArrayList<Entry>();
     }

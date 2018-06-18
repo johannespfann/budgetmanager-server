@@ -4,6 +4,7 @@ import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.Tag;
+import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import java.util.*;
 
@@ -36,6 +37,7 @@ public class EntrySQLFacade implements EntryFacade {
         if(aEntry.getCreated_at() == null) {
             aEntry.setCreated_at(new Date());
         }
+        LogUtil.info(this.getClass(),"Persist: " + aEntry.getHash());
 
         AppUser user = null;
         try {
@@ -44,22 +46,38 @@ public class EntrySQLFacade implements EntryFacade {
             e.printStackTrace();
         }
 
-        List<Tag> tagsfromUser = new ArrayList<Tag>(tagDao.getAllByUser(user));
+        List<Tag> tagsfromUser = new ArrayList<>(tagDao.getAllByUser(user));
         List<Tag> tagsfromEntity = distinct(aEntry.getTags());
         List<Tag> preparedTagsToSave = new LinkedList<>();
 
-
+        LogUtil.info(this.getClass(),"TagsfromUser      : " + tagsfromUser.size());
+        LogUtil.info(this.getClass(),"TagsfromEntity    : " + tagsfromEntity.size());
+        LogUtil.info(this.getClass(),"PreparedTagsToSave: " + preparedTagsToSave.size());
 
         for(Tag tag : tagsfromEntity){
             if(exists(tag, tagsfromUser)){
+                // tag existiert bereits und muss nur noch in entity gehaengt werden
+
                 Tag persistedTag = tagDao.getTag(user,tag.getName());
+
+                LogUtil.info(this.getClass(),
+                        "Tag "
+                                + persistedTag.getName()
+                                + " existiert mit Anzahl: "
+                                + persistedTag.getCount());
+
+                persistedTag.increaseCount();
                 tagDao.save(persistedTag);
                 preparedTagsToSave.add(persistedTag);
 
             }
             else {
+
+                LogUtil.info(this.getClass(),"Tag " + tag.getName() + " existiert noch nicht!");
+                // tag existiert noch nicht -> zuerst grundsaetzlich speichern, mit User verbinden und Entity
                 Tag newTag = tag;
                 newTag.setAppUser(user);
+                newTag.increaseCount();
                 tagDao.save(newTag);
                 preparedTagsToSave.add(tag);
             }
@@ -78,24 +96,20 @@ public class EntrySQLFacade implements EntryFacade {
     @Override
     public void deleteEntry(Entry aEntry){
 
-        Entry entry = (Entry) entryDao.getEntryByHash(aEntry.getHash()).get(0);
+        List<Tag> tags = aEntry.getTags();
 
-        Set<Tag> persistedTags = (HashSet<Tag>) tagDao.getTags(entry);
+        entryDao.delete(aEntry);
 
-
-        for(Tag tag : persistedTags){
-
+        for(Tag tag : tags){
+            tag.descreaseCount();
             if(tag.getCount() == 0){
                 tagDao.delete(tag);
             }
 
             if(tag.getCount() > 0){
-
                 tagDao.save(tag);
             }
         }
-
-        entryDao.delete(entry);
     }
 
     @Override
