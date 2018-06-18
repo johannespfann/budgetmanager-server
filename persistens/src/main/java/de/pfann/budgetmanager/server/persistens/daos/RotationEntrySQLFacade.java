@@ -1,28 +1,29 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
+import de.pfann.budgetmanager.server.common.facade.RotationEntryFacade;
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.TagTemplate;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
-import de.pfann.budgetmanager.server.persistens.model.TagTemplate;
 
 import java.util.*;
 
-public class RotationEntryFacade {
+public class RotationEntrySQLFacade implements RotationEntryFacade {
 
     private RotationEntryDao roationEntryDao;
 
     private TagTemplateDao tagTemplateDao;
 
-    public RotationEntryFacade(){
+    public RotationEntrySQLFacade(){
         roationEntryDao = RotationEntryDao.create();
         tagTemplateDao = TagTemplateDao.create();
     }
 
-    public RotationEntryFacade(RotationEntryDao aDao){
+    public RotationEntrySQLFacade(RotationEntryDao aDao){
         roationEntryDao = aDao;
     }
 
+    @Override
     public void save(RotationEntry aEntry){
 
         if(aEntry.getStart_at() == null){
@@ -46,6 +47,7 @@ public class RotationEntryFacade {
 
     }
 
+    @Override
     public void update(RotationEntry aEntry){
         RotationEntry persistedEntry = roationEntryDao.getRotationEntryByHash(aEntry.getHash());
 
@@ -72,6 +74,7 @@ public class RotationEntryFacade {
         }
     }
 
+    @Override
     public List<RotationEntry> getRotationEntries(AppUser aUser) {
 
         List<RotationEntry> entries =  roationEntryDao.getRotationEntries(aUser);
@@ -85,11 +88,13 @@ public class RotationEntryFacade {
 
     }
 
+    @Override
     public RotationEntry getRotationEntryByHash(String aHash){
         RotationEntry entry = roationEntryDao.getRotationEntryByHash(aHash);
         return entry;
     }
 
+    @Override
     public void delete(RotationEntry aRotationEntry){
         List<TagTemplate> tags = tagTemplateDao.findAllByRotationEntry(aRotationEntry);
 
@@ -102,6 +107,7 @@ public class RotationEntryFacade {
 
     // TODO wie mach ich die validierungsgeschichten ll
     // Wird noch ueberlegt
+    @Override
     public void validateRotationEntry(RotationEntry aRotationEntry){
 
         // hash ist bei update dabei und bei save noch nicht ...

@@ -1,10 +1,10 @@
 package de.pfann.budgetmanager.server.core;
 
+import de.pfann.budgetmanager.server.common.model.*;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.HashUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.daos.*;
-import de.pfann.budgetmanager.server.persistens.model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ public class TestClass {
      * Helper
      */
 
-    private AppUserFacade userFacade;
-    private EntryFacade entryFacade;
-    private TagFacade tagFacade;
-    private RotationEntryFacade rotationEntryFacade;
-    private TagTemplateFacade tagTemplateFacade;
+    private AppUserSQLFacade userFacade;
+    private EntrySQLFacade entryFacade;
+    private TagSQLFacade tagFacade;
+    private RotationEntrySQLFacade rotationEntryFacade;
+    private TagTemplateSQLFacade tagTemplateFacade;
 
 
     /**
@@ -46,11 +46,11 @@ public class TestClass {
     private Tag tagGoodIdea;
 
     public TestClass(){
-        userFacade = new AppUserFacade();
-        entryFacade = new EntryFacade();
-        tagFacade = new TagFacade();
-        rotationEntryFacade = new RotationEntryFacade();
-        tagTemplateFacade = new TagTemplateFacade();
+        userFacade = new AppUserSQLFacade();
+        entryFacade = new EntrySQLFacade();
+        tagFacade = new TagSQLFacade();
+        rotationEntryFacade = new RotationEntrySQLFacade();
+        tagTemplateFacade = new TagTemplateSQLFacade();
     }
 
     public void persistEnviroment(){

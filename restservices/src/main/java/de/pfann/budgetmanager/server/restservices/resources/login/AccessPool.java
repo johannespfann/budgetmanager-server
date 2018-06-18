@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources.login;
 
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
+
+import de.pfann.budgetmanager.server.common.model.AppUser;
 
 import java.util.LinkedList;
 import java.util.List;

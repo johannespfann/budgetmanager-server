@@ -1,11 +1,11 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
+import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
-import de.pfann.budgetmanager.server.persistens.model.Entry;
-import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
+import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -14,10 +14,10 @@ import java.util.List;
 public class RotationEntryExecuter {
 
     private List<RotationEntryPattern> patterns;
-    private RotationEntryFacade rotationEntryFacade;
-    private EntryFacade entryFacade;
+    private RotationEntrySQLFacade rotationEntryFacade;
+    private EntrySQLFacade entryFacade;
 
-    public RotationEntryExecuter(List<RotationEntryPattern> aPatterns, RotationEntryFacade aRotationEntryFacade, EntryFacade aEntryFacade){
+    public RotationEntryExecuter(List<RotationEntryPattern> aPatterns, RotationEntrySQLFacade aRotationEntryFacade, EntrySQLFacade aEntryFacade){
         patterns = aPatterns;
         rotationEntryFacade = aRotationEntryFacade;
         entryFacade = aEntryFacade;

@@ -1,13 +1,13 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
-import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Entry;
-import de.pfann.budgetmanager.server.persistens.model.Tag;
+import de.pfann.budgetmanager.server.common.facade.EntryFacade;
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.common.model.Tag;
 
 import java.util.*;
 
-public class EntryFacade {
+public class EntrySQLFacade implements EntryFacade {
 
     private EntryDao entryDao;
 
@@ -15,20 +15,23 @@ public class EntryFacade {
 
     private TagDao tagDao;
 
-    public EntryFacade(){
+    public EntrySQLFacade(){
         entryDao = EntryDao.create();
         userDao = AppUserDao.create();
         tagDao = TagDao.create();
     }
 
+    @Override
     public Set<Entry> getEntries(AppUser aUser) {
         return new HashSet<>(entryDao.getAllByUser(aUser));
     }
 
+    @Override
     public Set<Entry> getEntries(Tag aTag){
         return new HashSet<>(entryDao.getAllByTag(aTag));
     }
 
+    @Override
     public void persistEntry(Entry aEntry) {
         if(aEntry.getCreated_at() == null) {
             aEntry.setCreated_at(new Date());
@@ -41,7 +44,7 @@ public class EntryFacade {
             e.printStackTrace();
         }
 
-        List<Tag> tagsfromUser = new ArrayList<>(tagDao.getAllByUser(user));
+        List<Tag> tagsfromUser = new ArrayList<Tag>(tagDao.getAllByUser(user));
         List<Tag> tagsfromEntity = distinct(aEntry.getTags());
         List<Tag> preparedTagsToSave = new LinkedList<>();
 
@@ -72,28 +75,35 @@ public class EntryFacade {
         return new ArrayList<>(uniqueSet);
     }
 
+    @Override
     public void deleteEntry(Entry aEntry){
 
-        List<Tag> tags = aEntry.getTags();
+        Entry entry = (Entry) entryDao.getEntryByHash(aEntry.getHash()).get(0);
 
-        entryDao.delete(aEntry);
+        Set<Tag> persistedTags = (HashSet<Tag>) tagDao.getTags(entry);
 
-        for(Tag tag : tags){
+
+        for(Tag tag : persistedTags){
 
             if(tag.getCount() == 0){
                 tagDao.delete(tag);
             }
 
             if(tag.getCount() > 0){
+
                 tagDao.save(tag);
             }
         }
+
+        entryDao.delete(entry);
     }
 
+    @Override
     public Entry getEntry(String aHash) {
         return entryDao.getEntryByHash(aHash).get(0);
     }
 
+    @Override
     public void update(Entry aEntry){
         Entry persistedEntry = getEntry(aEntry.getHash());
 

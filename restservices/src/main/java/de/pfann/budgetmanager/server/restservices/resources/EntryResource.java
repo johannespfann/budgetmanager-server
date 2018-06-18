@@ -1,11 +1,10 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Entry;
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
@@ -16,15 +15,15 @@ import java.util.Set;
 @Path("entries/")
 public class EntryResource {
 
-    private AppUserFacade userFacade;
+    private AppUserSQLFacade userFacade;
 
-    private EntryFacade entryFacade;
+    private EntrySQLFacade entryFacade;
 
     private ObjectMapper mapper;
 
     public EntryResource(){
-        userFacade = new AppUserFacade();
-        entryFacade = new EntryFacade();
+        userFacade = new AppUserSQLFacade();
+        entryFacade = new EntrySQLFacade();
         mapper = new ObjectMapper();
     }
 
@@ -77,11 +76,16 @@ public class EntryResource {
             @PathParam("owner") String aOwner,
             @PathParam("hash") String aHash){
 
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        // TODO compare owner and entry-user
-        Entry entry = entryFacade.getEntry(aHash);
+        try {
+            AppUser user = userFacade.getUserByNameOrEmail(aOwner);
+            // TODO compare owner and entry-user
+            Entry entry = entryFacade.getEntry(aHash);
 
-        entryFacade.deleteEntry(entry);
+            entryFacade.deleteEntry(entry);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 

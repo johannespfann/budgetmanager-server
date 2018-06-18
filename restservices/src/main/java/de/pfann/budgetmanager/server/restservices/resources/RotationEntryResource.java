@@ -1,10 +1,10 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
@@ -16,14 +16,14 @@ import java.util.List;
 public class RotationEntryResource {
 
 
-    private AppUserFacade userFacade;
+    private AppUserSQLFacade userFacade;
 
-    private RotationEntryFacade rotationEntryFacade;
+    private RotationEntrySQLFacade rotationEntryFacade;
 
 
     public RotationEntryResource(){
-        userFacade = new AppUserFacade();
-        rotationEntryFacade = new RotationEntryFacade();
+        userFacade = new AppUserSQLFacade();
+        rotationEntryFacade = new RotationEntrySQLFacade();
     }
 
     @GET

@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.jobengine.core;
 
-import de.pfann.budgetmanager.server.persistens.model.Run;
+import de.pfann.budgetmanager.server.common.model.Run;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

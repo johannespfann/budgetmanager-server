@@ -1,11 +1,11 @@
 package de.pfann.budgetmanager.server.core;
 
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Run;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -49,7 +49,7 @@ public class StartLocalProd {
 
         SessionDistributor.createForProd();
 
-        AppUserFacade facade = new AppUserFacade();
+        AppUserSQLFacade facade = new AppUserSQLFacade();
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
         LogUtil.info(StartLocalProd.class,"StartApplication");
         LogUtil.info(StartLocalProd.class,"- Alle user");
@@ -65,7 +65,7 @@ public class StartLocalProd {
 
 
 
-        RunFacade runFacade = new RunFacade();
+        RunSQLFacade runFacade = new RunSQLFacade();
 
         List<Run> runs = runFacade.getAllRuns();
 

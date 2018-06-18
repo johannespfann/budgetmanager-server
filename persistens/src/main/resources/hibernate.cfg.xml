@@ -21,15 +21,15 @@
         <!--<property name="hibernate.hbm2ddl.auto">create-drop</property>-->
 
         <!-- Annotated entity classes -->
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.Entry"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.AppUser"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.Tag"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.RotationEntry"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.Run"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.RunInfo"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.TagTemplate"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.SubTotalEntry"/>
-        <mapping class="de.pfann.budgetmanager.server.persistens.model.TagStatistic" />
+        <mapping class="de.pfann.budgetmanager.server.common.model.Entry"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.AppUser"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.Tag"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.RotationEntry"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.Run"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.RunInfo"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.TagTemplate"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.SubTotalEntry"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.TagStatistic" />
 
     </session-factory>
 </hibernate-configuration>

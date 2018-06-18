@@ -1,23 +1,22 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.awt.*;
 
 @Path("encryption/")
 public class EncryptionResource {
 
-    private AppUserFacade userFacade;
+    private AppUserSQLFacade userFacade;
 
     public EncryptionResource(){
-        userFacade = new AppUserFacade();
+        userFacade = new AppUserSQLFacade();
     }
 
     @GET

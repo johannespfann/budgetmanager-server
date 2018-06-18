@@ -1,10 +1,9 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.TagStatisticFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.TagStatistic;
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.TagStatistic;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.TagStatisticSQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
@@ -17,12 +16,12 @@ import java.util.List;
 public class TagStatisticResource {
 
 
-    private final TagStatisticFacade tagStatisticFacade;
-    private final AppUserFacade userFacade;
+    private final TagStatisticSQLFacade tagStatisticFacade;
+    private final AppUserSQLFacade userFacade;
 
     public TagStatisticResource(){
-        tagStatisticFacade = new TagStatisticFacade();
-        userFacade = new AppUserFacade();
+        tagStatisticFacade = new TagStatisticSQLFacade();
+        userFacade = new AppUserSQLFacade();
     }
 
     @GET

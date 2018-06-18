@@ -1,9 +1,9 @@
 package de.pfann.budgetmanager.server.jobengine.core;
 
+import de.pfann.budgetmanager.server.common.model.Run;
+import de.pfann.budgetmanager.server.common.model.RunInfo;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
-import de.pfann.budgetmanager.server.persistens.model.Run;
-import de.pfann.budgetmanager.server.persistens.model.RunInfo;
+import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ public class JobEngine {
     private static final String JOB_STATUS_SUCCESS = "SUCCESS";
     private static final String JOB_STATUS_FAILD = "FAILD";
 
-    private RunFacade runFacade;
+    private RunSQLFacade runFacade;
     private RunProvider runProvider;
 
     private List<JobRunner> jobRunners;
 
-    public JobEngine(RunFacade aRunFacade, RunProvider aRunProvider, List<JobRunner> aJobRunners) {
+    public JobEngine(RunSQLFacade aRunFacade, RunProvider aRunProvider, List<JobRunner> aJobRunners) {
         runFacade = aRunFacade;
         jobRunners = aJobRunners;
         runProvider = aRunProvider;

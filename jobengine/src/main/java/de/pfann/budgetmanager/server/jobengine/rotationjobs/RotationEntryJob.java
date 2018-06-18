@@ -1,15 +1,15 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.jobengine.core.Job;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Entry;
-import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
-import de.pfann.budgetmanager.server.persistens.model.Run;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,14 +19,14 @@ public class RotationEntryJob implements Job {
 
     private List<RotationEntryPattern> patterns;
 
-    private EntryFacade entryFacade;
+    private EntrySQLFacade entryFacade;
 
-    private AppUserFacade userFacade;
+    private AppUserSQLFacade userFacade;
 
-    private RotationEntryFacade rotationEntryFacade;
+    private RotationEntrySQLFacade rotationEntryFacade;
 
 
-    public RotationEntryJob(List<RotationEntryPattern> aPatterns, AppUserFacade aUserFacade, EntryFacade aEntryFacade, RotationEntryFacade aRotationEntryFacade){
+    public RotationEntryJob(List<RotationEntryPattern> aPatterns, AppUserSQLFacade aUserFacade, EntrySQLFacade aEntryFacade, RotationEntrySQLFacade aRotationEntryFacade){
         patterns = aPatterns;
         entryFacade = aEntryFacade;
         userFacade = aUserFacade;

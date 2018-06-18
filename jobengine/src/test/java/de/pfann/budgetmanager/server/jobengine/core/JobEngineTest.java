@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.jobengine.core;
 
-import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
-import de.pfann.budgetmanager.server.persistens.model.Run;
+import de.pfann.budgetmanager.server.common.model.Run;
+import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 
 
 public class JobEngineTest {
@@ -21,7 +20,7 @@ public class JobEngineTest {
      * mocks
      */
 
-    private RunFacade runFacade;
+    private RunSQLFacade runFacade;
     private Job dummyJob;
     private RunProvider runProvider;
 
@@ -35,7 +34,7 @@ public class JobEngineTest {
     @Before
     public void setUp(){
 
-        runFacade = Mockito.mock(RunFacade.class);
+        runFacade = Mockito.mock(RunSQLFacade.class);
 
         runProvider = Mockito.mock(RunProvider.class);
 

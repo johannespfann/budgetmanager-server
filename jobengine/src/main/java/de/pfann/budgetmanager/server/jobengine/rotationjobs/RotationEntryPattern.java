@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
-import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
+
+import de.pfann.budgetmanager.server.common.model.RotationEntry;
 
 import java.time.LocalDateTime;
 

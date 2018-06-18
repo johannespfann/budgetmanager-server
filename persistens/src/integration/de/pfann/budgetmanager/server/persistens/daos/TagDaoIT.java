@@ -1,8 +1,8 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.Tag;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.Tag;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

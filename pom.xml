@@ -17,52 +17,105 @@
     <module>contentprovider</module>
     <module>deployment</module>
     <module>jobengine</module>
+    <module>persistenscouchdb</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
+
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>core</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
+
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>common</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
+
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>persistens</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
+
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>jobengine</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
+
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>deployment</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
+
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>restservices</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
+
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.9</version>
-        <scope>test</scope>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>9.3-1102-jdbc41</version>
       </dependency>
+
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.9-rc</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>4.3.8.Final</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish.jersey.media</groupId>
+        <artifactId>jersey-media-json-jackson</artifactId>
+        <version>2.26</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.12</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.12</version>
+      </dependency>
+
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
         <version>1.9.5</version>
         <scope>test</scope>
       </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.9</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.9.5</version>
+        <scope>test</scope>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 

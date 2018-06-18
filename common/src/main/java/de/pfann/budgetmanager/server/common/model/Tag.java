@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.persistens.model;
+package de.pfann.budgetmanager.server.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

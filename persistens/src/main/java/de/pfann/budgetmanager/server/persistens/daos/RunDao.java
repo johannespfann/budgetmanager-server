@@ -1,9 +1,9 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
+import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
-import de.pfann.budgetmanager.server.persistens.model.Run;
 
 import java.util.Collections;
 import java.util.List;

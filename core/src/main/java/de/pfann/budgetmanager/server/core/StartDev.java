@@ -2,10 +2,10 @@ package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.jobengine.core.*;
 import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntryFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntryFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
+import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -71,9 +71,9 @@ public class StartDev
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,
-                new AppUserFacade(),
-                new EntryFacade(),
-                new RotationEntryFacade());
+                new AppUserSQLFacade(),
+                new EntrySQLFacade(),
+                new RotationEntrySQLFacade());
 
 
         TimeInterval timeInterval = new MinuteInterval(1);
@@ -83,7 +83,7 @@ public class StartDev
         JobRunner jobRunner = new JobRunner(rotationEntryJob);
         jobRunners.add(jobRunner);
 
-        RunFacade runFacade = new RunFacade();
+        RunSQLFacade runFacade = new RunSQLFacade();
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
 

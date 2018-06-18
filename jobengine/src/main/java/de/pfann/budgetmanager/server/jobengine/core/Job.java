@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.jobengine.core;
 
-import de.pfann.budgetmanager.server.persistens.model.Run;
+
+import de.pfann.budgetmanager.server.common.model.Run;
 
 public interface Job {
 

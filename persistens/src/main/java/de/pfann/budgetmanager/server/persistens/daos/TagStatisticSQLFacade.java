@@ -1,34 +1,39 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
+import de.pfann.budgetmanager.server.common.facade.TagStatisticFacade;
+import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.TagStatistic;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
-import de.pfann.budgetmanager.server.persistens.model.TagStatistic;
 
 import java.util.List;
 
-public class TagStatisticFacade {
+public class TagStatisticSQLFacade implements TagStatisticFacade {
 
     private AppUserDao userDao;
 
     private TagStatisticDao tagStatisticDao;
 
-    public TagStatisticFacade(){
+    public TagStatisticSQLFacade(){
         userDao = AppUserDao.create();
         tagStatisticDao = TagStatisticDao.create();
     }
 
+    @Override
     public void delete(TagStatistic aTagStatistic){
         tagStatisticDao.delete(aTagStatistic);
     }
 
+    @Override
     public List<TagStatistic> getAllByUser(AppUser aUser){
         return tagStatisticDao.getAllByUser(aUser);
     }
 
+    @Override
     public void persist(TagStatistic aTagStatistic) {
         tagStatisticDao.save(tagStatisticDao);
     }
 
+    @Override
     public void persist(List<TagStatistic> aTagStatistics, AppUser aUser) {
 
         AppUser user = aUser;

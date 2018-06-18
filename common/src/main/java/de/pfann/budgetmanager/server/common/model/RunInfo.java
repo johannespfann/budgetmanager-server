@@ -1,7 +1,6 @@
-package de.pfann.budgetmanager.server.persistens.model;
+package de.pfann.budgetmanager.server.common.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

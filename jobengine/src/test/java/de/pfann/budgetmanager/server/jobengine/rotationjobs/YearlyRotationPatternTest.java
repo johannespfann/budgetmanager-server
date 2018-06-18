@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
+import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.persistens.model.RotationEntry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

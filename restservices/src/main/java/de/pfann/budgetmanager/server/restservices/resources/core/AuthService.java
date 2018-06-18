@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources.core;
 
 
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.restservices.resources.login.AccessPool;
 
 public class AuthService {

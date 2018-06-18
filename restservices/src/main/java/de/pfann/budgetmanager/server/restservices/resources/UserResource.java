@@ -1,9 +1,9 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
 
+import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserFacade;
-import de.pfann.budgetmanager.server.persistens.model.AppUser;
+import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
@@ -17,12 +17,12 @@ import javax.ws.rs.core.Response;
 @Path("user/")
 public class UserResource {
 
-    private AppUserFacade userFacade;
+    private AppUserSQLFacade userFacade;
 
     private EmailService emailService;
 
     public UserResource(){
-        userFacade = new AppUserFacade();
+        userFacade = new AppUserSQLFacade();
         emailService = new EmailService();
     }
 

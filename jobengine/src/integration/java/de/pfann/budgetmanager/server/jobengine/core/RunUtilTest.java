@@ -1,9 +1,9 @@
-package de.pfann.budgetmanager.server.core.jobengine;
+package java.de.pfann.budgetmanager.server.jobengine.core;
 
+import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.jobengine.core.RunUtil;
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
-import de.pfann.budgetmanager.server.persistens.daos.RunFacade;
-import de.pfann.budgetmanager.server.persistens.model.Run;
+import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,14 +12,14 @@ import org.junit.Test;
 public class RunUtilTest {
 
     // helper
-    private RunFacade runFacade;
+    private RunSQLFacade runFacade;
 
     @Before
     public void setUp() {
         // Setup db befor each test
         SessionDistributor.createForIT();
 
-        runFacade = new RunFacade();
+        runFacade = new RunSQLFacade();
     }
 
     @Test
