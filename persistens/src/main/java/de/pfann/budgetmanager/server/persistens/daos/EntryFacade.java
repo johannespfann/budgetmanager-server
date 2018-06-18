@@ -33,6 +33,7 @@ public class EntryFacade {
         if(aEntry.getCreated_at() == null) {
             aEntry.setCreated_at(new Date());
         }
+        LogUtil.info(this.getClass(),"Persist: " + aEntry.getHash());
 
         AppUser user = null;
         try {
@@ -45,18 +46,34 @@ public class EntryFacade {
         List<Tag> tagsfromEntity = distinct(aEntry.getTags());
         List<Tag> preparedTagsToSave = new LinkedList<>();
 
-
+        LogUtil.info(this.getClass(),"TagsfromUser      : " + tagsfromUser.size());
+        LogUtil.info(this.getClass(),"TagsfromEntity    : " + tagsfromEntity.size());
+        LogUtil.info(this.getClass(),"PreparedTagsToSave: " + preparedTagsToSave.size());
 
         for(Tag tag : tagsfromEntity){
             if(exists(tag, tagsfromUser)){
+                // tag existiert bereits und muss nur noch in entity gehaengt werden
+
                 Tag persistedTag = tagDao.getTag(user,tag.getName());
+
+                LogUtil.info(this.getClass(),
+                        "Tag "
+                                + persistedTag.getName()
+                                + " existiert mit Anzahl: "
+                                + persistedTag.getCount());
+
+                persistedTag.increaseCount();
                 tagDao.save(persistedTag);
                 preparedTagsToSave.add(persistedTag);
 
             }
             else {
+
+                LogUtil.info(this.getClass(),"Tag " + tag.getName() + " existiert noch nicht!");
+                // tag existiert noch nicht -> zuerst grundsaetzlich speichern, mit User verbinden und Entity
                 Tag newTag = tag;
                 newTag.setAppUser(user);
+                newTag.increaseCount();
                 tagDao.save(newTag);
                 preparedTagsToSave.add(tag);
             }
@@ -79,7 +96,7 @@ public class EntryFacade {
         entryDao.delete(aEntry);
 
         for(Tag tag : tags){
-
+            tag.descreaseCount();
             if(tag.getCount() == 0){
                 tagDao.delete(tag);
             }
