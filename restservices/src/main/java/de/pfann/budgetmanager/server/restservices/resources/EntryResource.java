@@ -1,30 +1,20 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Set;
+import java.util.List;
 
 @Path("entries/")
 public class EntryResource {
 
-    private AppUserSQLFacade userFacade;
-
-    private EntrySQLFacade entryFacade;
-
-    private ObjectMapper mapper;
+    private EntryResourceFacade entryResourceFacade;
 
     public EntryResource(){
-        userFacade = new AppUserSQLFacade();
-        entryFacade = new EntrySQLFacade();
-        mapper = new ObjectMapper();
+        entryResourceFacade = new EntryResourceFacade();
     }
 
     @GET
@@ -32,11 +22,9 @@ public class EntryResource {
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
-    public Set<Entry> getEntries(
+    public List<Entry> getEntries(
             @PathParam("owner") String aOwner){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        Set<Entry> entries = entryFacade.getEntries(user);
-        return entries;
+        return entryResourceFacade.getEntries(aOwner);
     }
 
     @POST
@@ -47,10 +35,7 @@ public class EntryResource {
     public void addEntry(
             @PathParam("owner") String aOwner,
             Entry aEntry){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        aEntry.setAppUser(user);
-        entryFacade.persistEntry(aEntry);
-
+        entryResourceFacade.addEntry(aOwner,aEntry);
     }
 
     @PATCH
@@ -61,10 +46,7 @@ public class EntryResource {
     public void updateEntry(
             @PathParam("owner") String aOwner,
             Entry aEntry){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        aEntry.setAppUser(user);
-
-        entryFacade.update(aEntry);
+        entryResourceFacade.updateEntry(aOwner,aEntry);
     }
 
 
@@ -75,18 +57,7 @@ public class EntryResource {
     public void deleteEntry(
             @PathParam("owner") String aOwner,
             @PathParam("hash") String aHash){
-
-        try {
-            AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-            // TODO compare owner and entry-user
-            Entry entry = entryFacade.getEntry(aHash);
-
-            entryFacade.deleteEntry(entry);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+        entryResourceFacade.deleteEntry(aOwner,aHash);
     }
-
 
 }

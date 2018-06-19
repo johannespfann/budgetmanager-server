@@ -15,13 +15,10 @@ import java.util.List;
 @Path("tagstatistic/")
 public class TagStatisticResource {
 
-
-    private final TagStatisticSQLFacade tagStatisticFacade;
-    private final AppUserSQLFacade userFacade;
+    private TagStatisticResourceFacade tagStatisticResourceFacade;
 
     public TagStatisticResource(){
-        tagStatisticFacade = new TagStatisticSQLFacade();
-        userFacade = new AppUserSQLFacade();
+        tagStatisticResourceFacade = new TagStatisticResourceFacade();
     }
 
     @GET
@@ -31,8 +28,7 @@ public class TagStatisticResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<TagStatistic> getAllTagStatitics(
             @PathParam("owner") String aOwner){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        return tagStatisticFacade.getAllByUser(user);
+        return tagStatisticResourceFacade.getAllTagStatistics(aOwner);
     }
 
     @POST
@@ -43,8 +39,6 @@ public class TagStatisticResource {
     public void persistStatistics(
             @PathParam("owner") String aOwner,
             List<TagStatistic> aTagStatistics){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
-        tagStatisticFacade.persist(aTagStatistics,user);
+        tagStatisticResourceFacade.persistStatistics(aOwner,aTagStatistics);
     }
 }

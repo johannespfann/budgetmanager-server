@@ -1,11 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
-
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -13,10 +9,10 @@ import javax.ws.rs.core.MediaType;
 @Path("encryption/")
 public class EncryptionResource {
 
-    private AppUserSQLFacade userFacade;
+    private EncryptionResourceFacade encryptionResourceFacade;
 
     public EncryptionResource(){
-        userFacade = new AppUserSQLFacade();
+        encryptionResourceFacade = new EncryptionResourceFacade();
     }
 
     @GET
@@ -24,8 +20,7 @@ public class EncryptionResource {
     @CrossOriginFilter
     @Path("owner/{owner}/isencrypted")
     public boolean isEncrypted(@PathParam("owner") String aOwner){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        return user.isEncrypted();
+        return encryptionResourceFacade.isEncrypted(aOwner);
     }
 
     @GET
@@ -34,8 +29,8 @@ public class EncryptionResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/getencrypttext")
     public String getEncryptText(@PathParam("owner") String aOwner){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        String json = "{ \"text\" : \"" + user.getEncryptTest() + "\"}";
+        String encryptionText = encryptionResourceFacade.getEncryptionText(aOwner);
+        String json = "{ \"text\" : \"" + encryptionText + "\"}";
         return json;
     }
 
@@ -44,12 +39,6 @@ public class EncryptionResource {
     @CrossOriginFilter
     @Path("owner/{owner}/setencrypttext")
     public void setEncryptText(@PathParam("owner") String aOwner, String aBody){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
-        LogUtil.info(this.getClass(),"Set text: " + aBody);
-        user.setEncryptTest(aBody);
-        user.setEncrypted(true);
-
-        userFacade.updateUser(user);
+        encryptionResourceFacade.setEncryptionText(aOwner,aBody);
     }
 }
