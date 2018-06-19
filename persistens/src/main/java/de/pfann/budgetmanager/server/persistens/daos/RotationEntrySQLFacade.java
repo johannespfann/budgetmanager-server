@@ -6,7 +6,9 @@ import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.model.TagTemplate;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class RotationEntrySQLFacade implements RotationEntryFacade {
 

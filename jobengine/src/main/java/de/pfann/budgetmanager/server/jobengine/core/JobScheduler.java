@@ -4,7 +4,8 @@ import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class JobScheduler extends TimerTask {
 

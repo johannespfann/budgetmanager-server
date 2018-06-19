@@ -1,9 +1,6 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.TagStatistic;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.TagStatisticSQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
