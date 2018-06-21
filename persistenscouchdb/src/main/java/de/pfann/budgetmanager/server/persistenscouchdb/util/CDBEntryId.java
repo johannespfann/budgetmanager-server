@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class CDBEntryId {
 
-    private static final String SEPERATOR = ":";
-    private static final String TYP_PREFIX = "entry";
+    public static final String SEPERATOR = ":";
+    public static final String TYP_PREFIX = "entry";
 
     private String prefix;
 
@@ -48,7 +48,38 @@ public class CDBEntryId {
         return new CDBEntryIdBuilder();
     }
 
-    private static class CDBEntryIdBuilder {
+
+    /**
+     * getter
+     */
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getKonto() {
+        return konto;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    /**
+     * Builder
+     */
+    public static class CDBEntryIdBuilder {
 
         private String username;
 
@@ -102,9 +133,9 @@ public class CDBEntryId {
             assertPrefixIsValid(values[0]);
             username = values[1];
             konto = values[2];
-            hash = values[3];
-            year = Integer.valueOf(values[4]);
-            month = Integer.valueOf(values[5]);
+            year = Integer.valueOf(values[3]);
+            month = Integer.valueOf(values[4]);
+            hash = values[5];
             return build();
         }
 
