@@ -25,26 +25,6 @@ public class Main {
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
         CouchDbConnector db = new StdCouchDbConnector("bm-johannes-1234-DLWNM", dbInstance, new BMObjectMapperFactory());
 
-        EntryDao entryDao = new EntryDao(db);
-
-        CDBEntry entry = new CDBEntry();
-
-        entry.setAmount("123123");
-        entry.setCreated_at(LocalDateTime.now());
-        entry.setHash("asdfasdf");
-        entry.setKonto("DLWMM");
-        entry.setMemo("meom");
-        entry.setId(generateEntryId("johannes-1234","DLWMM",LocalDateTime.now()));
-
-        entryDao.add(entry);
     }
 
-    private static String generateEntryId(String aUsername, String aKonto, LocalDateTime aCreatedAt){
-        return new StringBuilder("entry").append(":")
-                .append(aUsername).append(":")
-                .append(aKonto).append(":")
-                .append(aCreatedAt.getYear()).append(":")
-                .append(aCreatedAt.getMonth().getValue())
-                .toString();
-    }
 }
