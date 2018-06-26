@@ -7,6 +7,11 @@ import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
+import org.ektorp.CouchDbInstance;
+import org.ektorp.http.HttpClient;
+import org.ektorp.http.StdHttpClient;
+import org.ektorp.impl.ObjectMapperFactory;
+import org.ektorp.impl.StdCouchDbInstance;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -33,6 +38,14 @@ public class Application {
     }
 
     public void start() throws IOException {
+
+        HttpClient httpClient = new StdHttpClient.Builder()
+                .url("http://localhost:5984")
+                .build();
+        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
+        ObjectMapperFactory factory = new BMObjectMapperFactory();
+
+
 
         final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server.restservices.resources");
 
