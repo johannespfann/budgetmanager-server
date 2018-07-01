@@ -17,7 +17,7 @@ public class CDBStandingOrderIdTest {
     private String hash;
 
 
-    String validateString;
+    private String validateString;
 
     /**
      * class under test
@@ -51,12 +51,12 @@ public class CDBStandingOrderIdTest {
     @Test
     public void testParsId(){
         // exucute
-        CDBStandingOrderId entryId = CDBStandingOrderId.createBuilder().build(validateString);
+        cdbStandingOrderId = CDBStandingOrderId.createBuilder().build(validateString);
         // validate
-        Assert.assertTrue(username.equals(entryId.getUsername()));
+        Assert.assertTrue(username.equals(cdbStandingOrderId.getUsername()));
         Assert.assertTrue(prefix.equals("entry"));
-        Assert.assertTrue(hash.equals(entryId.getHash()));
-        Assert.assertTrue(konto.equals(entryId.getKonto()));
+        Assert.assertTrue(hash.equals(cdbStandingOrderId.getHash()));
+        Assert.assertTrue(konto.equals(cdbStandingOrderId.getKonto()));
     }
 
 }

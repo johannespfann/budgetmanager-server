@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
-
 public class CDBKontoDatabaseIdTest {
 
 
@@ -39,7 +37,7 @@ public class CDBKontoDatabaseIdTest {
         // execute
         String generatedId = CDBKontoDatabaseId.builder()
                 .withUsername(username)
-                .withDatabaseName(konto)
+                .withKontoHash(konto)
                 .build()
                 .toString();
 
@@ -55,6 +53,6 @@ public class CDBKontoDatabaseIdTest {
         // validate
         Assert.assertTrue(username.equals(entryId.getUsername()));
         Assert.assertTrue(prefix.equals(prefix));
-        Assert.assertTrue(konto.equals(entryId.getDatabasename()));
+        Assert.assertTrue(konto.equals(entryId.getKontoHash()));
     }
 }

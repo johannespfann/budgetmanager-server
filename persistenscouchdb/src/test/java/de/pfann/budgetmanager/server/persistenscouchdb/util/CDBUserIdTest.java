@@ -1,6 +1,5 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.util;
 
-import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

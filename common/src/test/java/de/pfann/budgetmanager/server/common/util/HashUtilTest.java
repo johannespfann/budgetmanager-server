@@ -10,4 +10,10 @@ public class HashUtilTest {
         String output = HashUtil.getUniueHash();
         Assert.assertTrue(output.length() > 0);
     }
+
+    @Test
+    public void testEightDigitGenerateRandomId(){
+        String output = HashUtil.getEightDigitRandomId();
+        Assert.assertTrue(output.length() == 8);
+    }
 }

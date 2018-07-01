@@ -26,14 +26,14 @@ public class AppUser  implements Serializable {
     private boolean activated;
 
     @JsonIgnore
-    private String encryptTest;
+    private String encryptionText;
 
-    public String getEncryptTest() {
-        return encryptTest;
+    public String getEncryptionText() {
+        return encryptionText;
     }
 
-    public void setEncryptTest(String encryptTest) {
-        this.encryptTest = encryptTest;
+    public void setEncryptionText(String encryptionText) {
+        this.encryptionText = encryptionText;
     }
 
     public boolean isEncrypted() {

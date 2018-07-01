@@ -35,7 +35,7 @@ public class EncryptionResource {
     @Path("owner/{owner}/getencrypttext")
     public String getEncryptText(@PathParam("owner") String aOwner){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        String json = "{ \"text\" : \"" + user.getEncryptTest() + "\"}";
+        String json = "{ \"text\" : \"" + user.getEncryptionText() + "\"}";
         return json;
     }
 
@@ -47,7 +47,7 @@ public class EncryptionResource {
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
 
         LogUtil.info(this.getClass(),"Set text: " + aBody);
-        user.setEncryptTest(aBody);
+        user.setEncryptionText(aBody);
         user.setEncrypted(true);
 
         userFacade.updateUser(user);
