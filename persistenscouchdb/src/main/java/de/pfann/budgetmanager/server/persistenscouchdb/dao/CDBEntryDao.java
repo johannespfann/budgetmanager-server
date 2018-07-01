@@ -4,9 +4,9 @@ import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBEntry;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.support.CouchDbRepositorySupport;
 
-public class EntryDao extends CouchDbRepositorySupport<CDBEntry> {
+public class CDBEntryDao extends CouchDbRepositorySupport<CDBEntry> {
 
-    public EntryDao(CouchDbConnector db) {
+    protected CDBEntryDao(CouchDbConnector db) {
         super(CDBEntry.class, db,true);
     }
 

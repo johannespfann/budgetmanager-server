@@ -1,8 +1,6 @@
 package de.pfann.budgetmanager.server.persistenscouchdb;
 
 import de.pfann.budgetmanager.server.persistenscouchdb.core.BMObjectMapperFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.EntryDao;
-import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBEntry;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
@@ -11,7 +9,6 @@ import org.ektorp.impl.StdCouchDbConnector;
 import org.ektorp.impl.StdCouchDbInstance;
 
 import java.net.MalformedURLException;
-import java.time.LocalDateTime;
 
 public class Main {
 
@@ -25,6 +22,7 @@ public class Main {
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
         CouchDbConnector db = new StdCouchDbConnector("bm-johannes-1234-DLWNM", dbInstance, new BMObjectMapperFactory());
 
-    }
+        db.createDatabaseIfNotExists();
 
+    }
 }
