@@ -11,10 +11,8 @@ public class UserTransformerTest {
     /**
      * attributes
      */
-
     private AppUser appUser;
     private CDBUser cdbUser;
-
 
     private String name;
     private String email;
@@ -59,9 +57,7 @@ public class UserTransformerTest {
         Assert.assertEquals(cdbUser.getEmails().get(0), email);
         Assert.assertEquals(cdbUser.getEncryptiontext(), encryptionText);
         Assert.assertEquals(cdbUser.isActivated(), true);
-
     }
-
 
     @Test
     public void testCreateAppUser() {
