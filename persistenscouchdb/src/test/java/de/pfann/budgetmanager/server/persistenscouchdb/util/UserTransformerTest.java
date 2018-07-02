@@ -49,7 +49,7 @@ public class UserTransformerTest {
         CDBUser cdbUser = new CDBUser();
 
         // execute
-        UserTransformer.updateCDBUser(appUser,cdbUser);
+        CDBUserTransformer.updateCDBUser(appUser,cdbUser);
 
         // validate
         Assert.assertEquals(cdbUser.getUsername(),name);
@@ -62,7 +62,7 @@ public class UserTransformerTest {
     @Test
     public void testCreateAppUser() {
         // execute
-        AppUser appUser = UserTransformer.createAppUser(cdbUser);
+        AppUser appUser = CDBUserTransformer.createAppUser(cdbUser);
 
         // validate
         Assert.assertEquals(appUser.getName(),name);

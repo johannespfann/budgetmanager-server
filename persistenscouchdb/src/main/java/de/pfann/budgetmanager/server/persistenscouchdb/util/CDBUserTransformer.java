@@ -5,7 +5,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
 
 import java.util.List;
 
-public class UserTransformer {
+public class CDBUserTransformer {
 
     public static AppUser createAppUser(CDBUser aUser) {
         AppUser appUser = new AppUser();
