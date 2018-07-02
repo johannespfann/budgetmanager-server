@@ -9,7 +9,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBKonto;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBKontoDatabaseId;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserId;
-import de.pfann.budgetmanager.server.persistenscouchdb.util.UserTransformer;
+import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserTransformer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class CDBUserFacade implements AppUserFacade {
         cdbUser.addEmail(aUser.getEmail());
         cdbUser.setCreatedAt(LocalDateTime.now());
         cdbUser.setUsername(aUser.getName());
-        cdbUser.setEncryptionText("");
+        cdbUser.setEncryptionText(aUser.getEncryptionText());
         cdbUser.setPassword(aUser.getPassword());
 
         CDBKonto konto = new CDBKonto();
@@ -94,7 +94,7 @@ public class CDBUserFacade implements AppUserFacade {
     public AppUser getUserByNameOrEmail(String aIdentifier) {
         CDBUserId userId = CDBUserId.create(aIdentifier);
         CDBUser cdbUser = userDao.get(userId.toString());
-        AppUser appUser = UserTransformer.createAppUser(cdbUser);
+        AppUser appUser = CDBUserTransformer.createAppUser(cdbUser);
         return appUser;
     }
 
@@ -102,7 +102,7 @@ public class CDBUserFacade implements AppUserFacade {
     public void updateUser(AppUser aAppUser) {
         CDBUserId userId = CDBUserId.create(aAppUser.getName());
         CDBUser cdbUser = userDao.get(userId.toString());
-        cdbUser = UserTransformer.updateCDBUser(aAppUser,cdbUser);
+        cdbUser = CDBUserTransformer.updateCDBUser(aAppUser,cdbUser);
         userDao.update(cdbUser);
     }
 
@@ -111,7 +111,7 @@ public class CDBUserFacade implements AppUserFacade {
         List<AppUser> appUsers = new ArrayList<>();
         List<CDBUser> cdbUsers = userDao.getAll();
         for(CDBUser cdbUser : cdbUsers){
-            AppUser appUser = UserTransformer.createAppUser(cdbUser);
+            AppUser appUser = CDBUserTransformer.createAppUser(cdbUser);
             appUsers.add(appUser);
         }
         return appUsers;
