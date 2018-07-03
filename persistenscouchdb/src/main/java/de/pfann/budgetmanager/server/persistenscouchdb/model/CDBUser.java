@@ -96,6 +96,10 @@ public class CDBUser extends AbstractDocument {
         kontos.add(aKonto);
     }
 
+    public void setTagStatistics(List<CDBTagStatistic> tagStatistics) {
+        this.tagStatistics = tagStatistics;
+    }
+
     public List<CDBTagStatistic> getTagStatistics() {
         return tagStatistics;
     }
