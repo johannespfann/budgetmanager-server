@@ -18,7 +18,6 @@ public class CDBUserTransformer {
         if(aUser.isActivated()) {
             appUser.activate();
         }
-
         return appUser;
     }
 

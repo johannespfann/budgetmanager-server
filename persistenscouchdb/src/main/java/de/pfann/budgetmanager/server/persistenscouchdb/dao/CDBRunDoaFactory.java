@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.dao;
 
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBSystemDatabaseId;
 
 public class CDBRunDoaFactory {
 
@@ -10,7 +11,8 @@ public class CDBRunDoaFactory {
         couchDbConnectorFactory = aConnectorFactory;
     }
 
-    public CDBRunDao createDao(String aName){
-        return new CDBRunDao(couchDbConnectorFactory.createCouchDbConnector(aName));
+    public CDBRunDao createDao(){
+        String dbName = CDBSystemDatabaseId.createId();
+        return new CDBRunDao(couchDbConnectorFactory.createCouchDbConnector(dbName));
     }
 }

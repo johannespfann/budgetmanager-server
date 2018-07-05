@@ -1,7 +1,5 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.util;
 
-import java.time.LocalDateTime;
-
 public class CDBStandingOrderId {
 
     private static final String SEPERATOR = ":";
@@ -35,7 +33,6 @@ public class CDBStandingOrderId {
         return stringBuilder.toString();
     }
 
-
     public static CDBStandingOrderBuilder createBuilder(){
         return new CDBStandingOrderBuilder();
     }
@@ -43,7 +40,6 @@ public class CDBStandingOrderId {
     /**
      * Getter
      */
-
     public String getPrefix() {
         return prefix;
     }
@@ -63,7 +59,6 @@ public class CDBStandingOrderId {
     /**
      * Builder
      */
-
     public static class CDBStandingOrderBuilder {
 
         private String username;
@@ -94,7 +89,6 @@ public class CDBStandingOrderId {
 
 
         public CDBStandingOrderId build(){
-
             assertUserNameIsValid(username);
             assertKontoIsValid(konto);
             assertHashIsValid(hash);

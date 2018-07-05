@@ -11,7 +11,6 @@ public class CDBStandigOrderEntry extends AbstractDocument {
      * standingorderinfos
      */
 
-
     private String hash;
 
     private String username;

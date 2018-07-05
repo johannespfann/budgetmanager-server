@@ -27,22 +27,9 @@ public class CDBUserId {
         return username;
     }
 
-    /**
-     * getter
-     */
-
-
-
     public String toString(){
         return TYP_PREFIX + SEPERATOR + username;
     }
-
-
-
-
-    /**
-     * asserts
-     */
 
     private static void assertPrefixIsValid(String value) {
         if(value == null || !value.equals(TYP_PREFIX)){
