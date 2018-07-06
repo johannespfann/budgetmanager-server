@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
-            <artifactId>persistens</artifactId>
+            <artifactId>persistenscouchdb</artifactId>
         </dependency>
 
         <dependency>

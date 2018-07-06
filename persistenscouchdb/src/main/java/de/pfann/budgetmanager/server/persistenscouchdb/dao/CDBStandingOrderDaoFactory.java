@@ -6,7 +6,7 @@ public class CDBStandingOrderDaoFactory {
 
     private CouchDbConnectorFactory couchDbConnectorFactory;
 
-    private CDBStandingOrderDaoFactory(CouchDbConnectorFactory aConnectorFactory){
+    public CDBStandingOrderDaoFactory(CouchDbConnectorFactory aConnectorFactory){
         couchDbConnectorFactory = aConnectorFactory;
     }
     public CDBStandingOrderDao createDao(String aDBName){
