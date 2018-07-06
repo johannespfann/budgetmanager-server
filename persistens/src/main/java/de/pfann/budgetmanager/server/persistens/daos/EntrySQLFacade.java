@@ -23,13 +23,15 @@ public class EntrySQLFacade implements EntryFacade {
     }
 
     @Override
-    public Set<Entry> getEntries(AppUser aUser) {
-        return new HashSet<>(entryDao.getAllByUser(aUser));
+    public List<Entry> getEntries(AppUser aUser) {
+        // TODO was set before ...
+        return entryDao.getAllByUser(aUser);
     }
 
     @Override
-    public Set<Entry> getEntries(Tag aTag){
-        return new HashSet<>(entryDao.getAllByTag(aTag));
+    public List<Entry> getEntries(Tag aTag){
+        // TODO was set before ... tags should be unique
+        return entryDao.getAllByTag(aTag);
     }
 
     @Override

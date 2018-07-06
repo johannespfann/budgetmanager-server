@@ -13,9 +13,31 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.pfann.budgetmanager.server</groupId>
+            <artifactId>persistenscouchdb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ektorp</groupId>
+            <artifactId>org.ektorp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
-            <artifactId>persistens</artifactId>
+            <artifactId>persistenscouchdb</artifactId>
         </dependency>
 
         <dependency>
@@ -56,6 +56,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.ektorp</groupId>
+            <artifactId>org.ektorp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.9</version>
@@ -67,6 +77,11 @@
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.pfann.budgetmanager.server</groupId>
+            <artifactId>persistenscouchdb</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

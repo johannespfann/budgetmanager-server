@@ -7,6 +7,19 @@ import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
+import de.pfann.budgetmanager.server.persistenscouchdb.core.BMObjectMapperFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.facade.*;
+import de.pfann.budgetmanager.server.restservices.resources.UserResource;
+import org.ektorp.CouchDbInstance;
+import org.ektorp.http.HttpClient;
+import org.ektorp.http.StdHttpClient;
+import org.ektorp.impl.ObjectMapperFactory;
+import org.ektorp.impl.StdCouchDbInstance;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -34,7 +47,31 @@ public class Application {
 
     public void start() throws IOException {
 
-        final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server.restservices.resources");
+        HttpClient httpClient = new StdHttpClient.Builder()
+                .url("http://localhost:5984")
+                .build();
+        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
+        ObjectMapperFactory objectMapperFactory = new BMObjectMapperFactory();
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,objectMapperFactory);
+
+        CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
+        CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);
+        CDBEntryDaoFactory entryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactory);
+        CDBStandingOrderDaoFactory standingOrderDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactory);
+        CDBRunDoaFactory runDaoFactory = new CDBRunDoaFactory(couchDbConnectorFactory);
+
+        CDBUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);
+        CDBEntryFacade entryFacade = new CDBEntryFacade(userDaoFactory,entryDaoFactory);
+        CDBStandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(standingOrderDaoFactory,userDaoFactory);
+        CDBRunFacade runFacade = new CDBRunFacade(runDaoFactory);
+
+        UserResource
+
+        //final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server.restservices.resources");
+        final ResourceConfig rc = new ResourceConfig()
+                .register().register();
+
+
 
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
 
