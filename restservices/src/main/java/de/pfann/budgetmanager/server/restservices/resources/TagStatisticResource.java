@@ -14,8 +14,8 @@ public class TagStatisticResource {
 
     private TagStatisticResourceFacade tagStatisticResourceFacade;
 
-    public TagStatisticResource(){
-        tagStatisticResourceFacade = new TagStatisticResourceFacade();
+    public TagStatisticResource(TagStatisticResourceFacade aTagStatisticResourceFacade){
+        tagStatisticResourceFacade = aTagStatisticResourceFacade;
     }
 
     @GET

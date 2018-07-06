@@ -1,10 +1,10 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
 
+import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
+import de.pfann.budgetmanager.server.common.facade.TagFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Tag;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.TagSQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
@@ -18,12 +18,12 @@ import java.util.Set;
 @Path("tags/")
 public class TagResource {
 
-    private AppUserSQLFacade userFacade;
-    private TagSQLFacade tagFacade;
+    private AppUserFacade userFacade;
+    private TagFacade tagFacade;
 
-    public TagResource(){
-        userFacade = new AppUserSQLFacade();
-        tagFacade = new TagSQLFacade();
+    public TagResource(AppUserFacade aAppUserFacade, TagFacade aTagFacade){
+        userFacade = aAppUserFacade;
+        tagFacade = aTagFacade;
     }
 
     @GET

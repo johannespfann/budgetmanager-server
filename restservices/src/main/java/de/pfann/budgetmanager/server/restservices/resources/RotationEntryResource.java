@@ -1,10 +1,6 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 
@@ -15,15 +11,10 @@ import java.util.List;
 @Path("jobs/")
 public class RotationEntryResource {
 
+    private RotationEntryResourceFacade rotationEntryResourceFacade;
 
-    private AppUserSQLFacade userFacade;
-
-    private RotationEntrySQLFacade rotationEntryFacade;
-
-
-    public RotationEntryResource(){
-        userFacade = new AppUserSQLFacade();
-        rotationEntryFacade = new RotationEntrySQLFacade();
+    public RotationEntryResource(RotationEntryResourceFacade aRotationEntryResourceFacade){
+        rotationEntryResourceFacade = aRotationEntryResourceFacade;
     }
 
     @GET
@@ -34,10 +25,7 @@ public class RotationEntryResource {
     public List<RotationEntry> getRotationEntries(
             @PathParam("owner") String aOwner
             ){
-
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        List<RotationEntry> rotationEntries = this.rotationEntryFacade.getRotationEntries(user);
-        return rotationEntries;
+        return rotationEntryResourceFacade.getRotationEntries(aOwner);
     }
 
     @POST
@@ -48,9 +36,7 @@ public class RotationEntryResource {
     public void addRotationEntry(
             @PathParam("owner") String aOwner,
             RotationEntry aRotationEntry){
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        aRotationEntry.setUser(user);
-        rotationEntryFacade.save(aRotationEntry);
+        rotationEntryResourceFacade.addRotationEntry(aOwner,aRotationEntry);
     }
 
     @DELETE
@@ -60,19 +46,7 @@ public class RotationEntryResource {
     public void deleteRotationEntry(
             @PathParam("owner") String aOwner,
             @PathParam("hash") String aHash){
-
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        LogUtil.info(this.getClass(),"Hash: " + aHash);
-        LogUtil.info(this.getClass(),"User: " + aOwner);
-
-        RotationEntry rotationEntry = rotationEntryFacade.getRotationEntryByHash(aHash);
-        LogUtil.info(this.getClass(), "asdfs");
-        LogUtil.info(this.getClass(),"get entry: " + rotationEntry.getHash());
-
-        rotationEntryFacade.delete(rotationEntry);
-
-        LogUtil.info(this.getClass(),"Deleted entry: " + aHash);
-
+        rotationEntryResourceFacade.deleteRotationEntry(aOwner,aHash);
     }
 
     @PATCH
@@ -83,15 +57,6 @@ public class RotationEntryResource {
     public void updateRotationEntry(
             @PathParam("owner") String aOwner,
             RotationEntry aRotationEntry){
-
-        AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-        aRotationEntry.setUser(user);
-
-        LogUtil.info(this.getClass(),"Owner: " + user);
-        LogUtil.info(this.getClass(),"Roten: " + aRotationEntry);
-        rotationEntryFacade.update(aRotationEntry);
-
-        LogUtil.info(this.getClass(),"Updated rotationEntry " + aRotationEntry);
+        rotationEntryResourceFacade.updateRotationEntry(aOwner,aRotationEntry);
     }
-
 }

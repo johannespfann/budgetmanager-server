@@ -1,20 +1,20 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
+import de.pfann.budgetmanager.server.common.facade.TagStatisticFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.TagStatistic;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.TagStatisticSQLFacade;
 
 import java.util.List;
 
 public class TagStatisticResourceFacade {
 
-    private final TagStatisticSQLFacade tagStatisticFacade;
-    private final AppUserSQLFacade userFacade;
+    private final TagStatisticFacade tagStatisticFacade;
+    private final AppUserFacade userFacade;
 
-    public TagStatisticResourceFacade(){
-        tagStatisticFacade = new TagStatisticSQLFacade();
-        userFacade = new AppUserSQLFacade();
+    public TagStatisticResourceFacade(TagStatisticFacade aTagStatisitcFacade, AppUserFacade aAppUserFacade){
+        tagStatisticFacade = aTagStatisitcFacade;
+        userFacade = aAppUserFacade;
     }
 
     public List<TagStatistic> getAllTagStatistics(String aUser){

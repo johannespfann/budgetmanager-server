@@ -1,29 +1,27 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
+import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class EntryResourceFacade {
 
-    private AppUserSQLFacade userFacade;
+    private AppUserFacade userFacade;
+    private EntryFacade entryFacade;
 
-    private EntrySQLFacade entryFacade;
-
-    public EntryResourceFacade(){
-        userFacade = new AppUserSQLFacade();
-        entryFacade = new EntrySQLFacade();
+    public EntryResourceFacade(AppUserFacade aAppUserFacade, EntryFacade aEntryFacade){
+        userFacade = aAppUserFacade;
+        entryFacade = aEntryFacade;
     }
 
     public List<Entry> getEntries(String aOwner){
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-            Set<Entry> entries = entryFacade.getEntries(user);
+            List<Entry> entries = entryFacade.getEntries(user);
 
             List<Entry> convertEntries = new LinkedList<>();
 

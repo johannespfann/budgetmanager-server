@@ -13,8 +13,8 @@ public class UserResource {
 
     private UserResourceFacade userResourceFacade;
 
-    public UserResource(){
-        userResourceFacade = new UserResourceFacade();
+    public UserResource(UserResourceFacade aUserResourceFacade){
+        userResourceFacade = aUserResourceFacade;
     }
 
     @POST

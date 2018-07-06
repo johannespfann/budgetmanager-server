@@ -1,20 +1,19 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 import de.pfann.budgetmanager.server.restservices.resources.email.EmailService;
 import de.pfann.budgetmanager.server.restservices.resources.login.*;
 
 public class UserResourceFacade {
 
-    private AppUserSQLFacade userFacade;
-
+    private AppUserFacade userFacade;
     private EmailService emailService;
 
-    public UserResourceFacade(){
-        userFacade = new AppUserSQLFacade();
-        emailService = new EmailService();
+    public UserResourceFacade(AppUserFacade aAppUserFacade, EmailService aEmailService){
+        userFacade = aAppUserFacade;
+        emailService = aEmailService;
     }
 
     public void logout(String aUser, String aToken){
@@ -113,7 +112,7 @@ public class UserResourceFacade {
 
     public void activeUser(String aUsername, String aActivationCode){
         try{
-            ActivationTicket ticket = null;
+            ActivationTicket ticket;
 
             try {
                 ticket = ActivationPool.create().getActivationTicket(aActivationCode);

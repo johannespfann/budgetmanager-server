@@ -1,15 +1,15 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 
 public class EncryptionResourceFacade {
 
-    private AppUserSQLFacade userFacade;
+    private AppUserFacade userFacade;
 
-    public EncryptionResourceFacade(){
-        userFacade = new AppUserSQLFacade();
+    public EncryptionResourceFacade(AppUserFacade aAppUserFacade){
+        userFacade = aAppUserFacade;
     }
 
     public boolean isEncrypted(String aOwner){
@@ -25,7 +25,7 @@ public class EncryptionResourceFacade {
     public String getEncryptionText(String aOwner){
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-            return user.getEncryptTest();
+            return user.getEncryptionText();
         }catch (Exception e){
             e.printStackTrace();
             throw e;
@@ -37,7 +37,7 @@ public class EncryptionResourceFacade {
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
 
             LogUtil.info(this.getClass(),"Set text: " + aBody);
-            user.setEncryptTest(aBody);
+            user.setEncryptionText(aBody);
             user.setEncrypted(true);
 
             userFacade.updateUser(user);

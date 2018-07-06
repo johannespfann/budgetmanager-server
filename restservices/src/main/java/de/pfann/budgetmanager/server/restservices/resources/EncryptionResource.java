@@ -11,8 +11,8 @@ public class EncryptionResource {
 
     private EncryptionResourceFacade encryptionResourceFacade;
 
-    public EncryptionResource(){
-        encryptionResourceFacade = new EncryptionResourceFacade();
+    public EncryptionResource(EncryptionResourceFacade aEncryptionResourceFacade){
+        encryptionResourceFacade = aEncryptionResourceFacade;
     }
 
     @GET

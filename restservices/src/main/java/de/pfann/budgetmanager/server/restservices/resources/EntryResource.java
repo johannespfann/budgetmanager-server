@@ -13,8 +13,8 @@ public class EntryResource {
 
     private EntryResourceFacade entryResourceFacade;
 
-    public EntryResource(){
-        entryResourceFacade = new EntryResourceFacade();
+    public EntryResource(EntryResourceFacade aEntryResourceFacade){
+        entryResourceFacade = aEntryResourceFacade;
     }
 
     @GET
