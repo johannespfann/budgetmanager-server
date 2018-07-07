@@ -1,8 +1,10 @@
 package de.pfann.budgetmanager.server.restservices.resources.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.common.model.TagStatistic;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -41,7 +43,7 @@ public class EntryJsonMapper {
 
     public static List<Entry> convertToEntries(String aValue){
         try {
-            return objectMapper.readValue(aValue, List.class );
+            return objectMapper.readValue(aValue, new TypeReference<List<Entry>>(){} );
         } catch (IOException e) {
             e.printStackTrace();
         }

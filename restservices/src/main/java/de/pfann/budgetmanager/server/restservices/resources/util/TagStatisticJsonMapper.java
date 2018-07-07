@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.Tag;
@@ -43,7 +44,7 @@ public class TagStatisticJsonMapper {
 
     public static List<TagStatistic> convertToEntries(String aValue){
         try {
-            return objectMapper.readValue(aValue, List.class );
+            return objectMapper.readValue(aValue, new TypeReference<List<TagStatistic>>(){} );
         } catch (IOException e) {
             e.printStackTrace();
         }
