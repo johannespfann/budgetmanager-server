@@ -3,7 +3,6 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.Tag;
-import de.pfann.budgetmanager.server.persistenscouchdb.core.BMObjectMapperFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
@@ -11,6 +10,7 @@ import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
+import org.ektorp.impl.StdObjectMapperFactory;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class Main {
             e.printStackTrace();
         }
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
-        CouchDbConnectorFactory connectorFactory = new CouchDbConnectorFactory(dbInstance, new BMObjectMapperFactory());
+        CouchDbConnectorFactory connectorFactory = new CouchDbConnectorFactory(dbInstance, new StdObjectMapperFactory());
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(connectorFactory);
         CDBEntryDaoFactory entryDaoFactory = new CDBEntryDaoFactory(connectorFactory);
@@ -49,7 +49,7 @@ public class Main {
             e.printStackTrace();
         }
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
-        CouchDbConnectorFactory connectorFactory = new CouchDbConnectorFactory(dbInstance, new BMObjectMapperFactory());
+        CouchDbConnectorFactory connectorFactory = new CouchDbConnectorFactory(dbInstance, new StdObjectMapperFactory());
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(connectorFactory);
         CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(connectorFactory, dbInstance);

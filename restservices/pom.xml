@@ -24,19 +24,16 @@
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>persistens</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
-            <version>2.26</version>
         </dependency>
 
     </dependencies>

@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
 import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.HashUtil;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
@@ -31,9 +32,9 @@ public class CDBUserFacade implements AppUserFacade {
         CDBUserId userId = CDBUserId.create(aUser.getName());
 
         cdbUser.setId(userId.toString());
-        cdbUser.deactivate();
+        cdbUser.activate();
         cdbUser.addEmail(aUser.getEmail());
-        cdbUser.setCreatedAt(LocalDateTime.now());
+        cdbUser.setCreatedAt(DateUtil.asDate(LocalDateTime.now()));
         cdbUser.setUsername(aUser.getName());
         cdbUser.setEncryptionText(aUser.getEncryptionText());
         cdbUser.setPassword(aUser.getPassword());
@@ -49,9 +50,9 @@ public class CDBUserFacade implements AppUserFacade {
                 .withKontoHash(konto.getHash())
                 .build()
                 .toString();
-        kontoDatabaseFactory.createDBIfExists(kontoDBName);
 
         userDao.add(cdbUser);
+        kontoDatabaseFactory.createDBIfExists(kontoDBName);
     }
 
     @Override

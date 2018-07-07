@@ -11,6 +11,6 @@ public class CDBSystemDatabaseId {
     }
 
     public static String createId(){
-        return PREFIX + SEPARATOR + "Application";
+        return PREFIX + SEPARATOR + "application";
     }
 }

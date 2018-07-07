@@ -58,11 +58,6 @@ public class CDBEntryFacade implements EntryFacade {
     }
 
     @Override
-    public List<Entry> getEntries(Tag aTag) {
-        throw new NotImplementedException();
-    }
-
-    @Override
     public void persistEntry(Entry aEntry) {
         CDBUserId userId = CDBUserId.create(aEntry.getAppUser().getName());
         CDBUser cdbUser = userDao.get(userId.toString());
@@ -79,8 +74,6 @@ public class CDBEntryFacade implements EntryFacade {
 
         CDBEntryId entryId = CDBEntryId.createBuilder()
                 .withHash(aEntry.getHash())
-                .withCreatedAt(DateUtil.asLocalDateTime(aEntry.getCreated_at()))
-                .withKonto(konto.getHash())
                 .withUsername(aEntry.getAppUser().getName())
                 .build();
 
@@ -92,8 +85,8 @@ public class CDBEntryFacade implements EntryFacade {
     }
 
     @Override
-    public void deleteEntry(Entry aEntry) {
-        CDBUserId userId = CDBUserId.create(aEntry.getAppUser().getName());
+    public void deleteEntry(AppUser aUser, Entry aEntry) {
+        CDBUserId userId = CDBUserId.create(aUser.getName());
         CDBUser cdbUser = userDao.get(userId.toString());
         CDBKonto konto = cdbUser.getKontos().get(0);
 
@@ -105,21 +98,37 @@ public class CDBEntryFacade implements EntryFacade {
 
         CDBEntryId entryId = CDBEntryId.createBuilder()
                 .withHash(aEntry.getHash())
-                .withCreatedAt(DateUtil.asLocalDateTime(aEntry.getCreated_at()))
-                .withKonto(konto.getHash())
-                .withUsername(aEntry.getAppUser().getName())
+                .withUsername(aUser.getName())
                 .build();
 
-        CDBEntry cdbEntry = new CDBEntry();
-        cdbEntry.setId(entryId.toString());
-
+        CDBEntry cdbEntry = entryDao.get(entryId.toString());
         entryDao.remove(cdbEntry);
     }
 
     @Override
-    public Entry getEntry(String aHash) {
-        throw new NotImplementedException();
+    public Entry getEntry(AppUser aUser, String aHash) {
+        CDBUserId userId = CDBUserId.create(aUser.getName());
+        CDBUser cdbUser = userDao.get(userId.toString());
+        CDBKonto konto = cdbUser.getKontos().get(0);
+
+        CDBKontoDatabaseId kontodbId = CDBKontoDatabaseId.builder()
+                .withUsername(cdbUser.getUsername())
+                .withKontoHash(konto.getHash())
+                .build();
+        CDBEntryDao entryDao = entryDaoFactory.createDao(kontodbId.toString());
+
+        CDBEntryId entryId = CDBEntryId.createBuilder()
+                .withHash(aHash)
+                .withUsername(aUser.getName())
+                .build();
+
+        CDBEntry cdbEntry = entryDao.get(entryId.toString());
+
+        Entry entry = CDBEntryTransformer.createEntry(cdbEntry);
+        return entry;
+
     }
+
 
     @Override
     public void update(Entry aEntry) {
@@ -135,14 +144,10 @@ public class CDBEntryFacade implements EntryFacade {
 
         CDBEntryId entryId = CDBEntryId.createBuilder()
                 .withHash(aEntry.getHash())
-                .withCreatedAt(DateUtil.asLocalDateTime(aEntry.getCreated_at()))
-                .withKonto(konto.getHash())
                 .withUsername(aEntry.getAppUser().getName())
                 .build();
 
-        CDBEntry cdbEntry = new CDBEntry();
-        cdbEntry.setId(entryId.toString());
-
+        CDBEntry cdbEntry = entryDao.get(entryId.toString());
         cdbEntry = CDBEntryTransformer.updateCDBEntry(aEntry,cdbEntry);
 
         entryDao.update(cdbEntry);

@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 import de.pfann.budgetmanager.server.common.model.TagStatistic;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.util.TagStatisticJsonMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,9 +24,10 @@ public class TagStatisticResource {
     @CrossOriginFilter
     @Path("owner/{owner}/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TagStatistic> getAllTagStatitics(
+    public String getAllTagStatitics(
             @PathParam("owner") String aOwner){
-        return tagStatisticResourceFacade.getAllTagStatistics(aOwner);
+        List<TagStatistic> tagStatistics =  tagStatisticResourceFacade.getAllTagStatistics(aOwner);
+        return TagStatisticJsonMapper.convertToJson(tagStatistics);
     }
 
     @POST
@@ -35,7 +37,8 @@ public class TagStatisticResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void persistStatistics(
             @PathParam("owner") String aOwner,
-            List<TagStatistic> aTagStatistics){
-        tagStatisticResourceFacade.persistStatistics(aOwner,aTagStatistics);
+            String aTagStatistics){
+        List<TagStatistic> tagStatistics = TagStatisticJsonMapper.convertToEntries(aTagStatistics);
+        tagStatisticResourceFacade.persistStatistics(aOwner,tagStatistics);
     }
 }

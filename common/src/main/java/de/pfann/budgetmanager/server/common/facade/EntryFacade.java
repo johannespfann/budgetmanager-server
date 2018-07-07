@@ -11,13 +11,11 @@ public interface EntryFacade {
 
     List<Entry> getEntries(AppUser aUser);
 
-    List<Entry> getEntries(Tag aTag);
-
     void persistEntry(Entry aEntry);
 
-    void deleteEntry(Entry aEntry);
+    void deleteEntry(AppUser aAppuser, Entry aEntry);
 
-    Entry getEntry(String aHash);
+    Entry getEntry(AppUser aUser, String aHash);
 
     void update(Entry aEntry);
 }

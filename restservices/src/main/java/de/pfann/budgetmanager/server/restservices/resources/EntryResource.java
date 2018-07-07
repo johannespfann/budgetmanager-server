@@ -1,8 +1,11 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.util.EntryJsonMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,9 +25,11 @@ public class EntryResource {
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
-    public List<Entry> getEntries(
+    public String getEntries(
             @PathParam("owner") String aOwner){
-        return entryResourceFacade.getEntries(aOwner);
+        System.out.println(aOwner);
+        List<Entry> entries = entryResourceFacade.getEntries(aOwner);
+        return EntryJsonMapper.convertToJson(entries);
     }
 
     @POST
@@ -34,8 +39,9 @@ public class EntryResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void addEntry(
             @PathParam("owner") String aOwner,
-            Entry aEntry){
-        entryResourceFacade.addEntry(aOwner,aEntry);
+            String aBody){
+        Entry entry = EntryJsonMapper.convertToEntry(aBody);
+        entryResourceFacade.addEntry(aOwner,entry);
     }
 
     @PATCH
@@ -45,8 +51,9 @@ public class EntryResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateEntry(
             @PathParam("owner") String aOwner,
-            Entry aEntry){
-        entryResourceFacade.updateEntry(aOwner,aEntry);
+            String aEntry){
+        Entry entry = EntryJsonMapper.convertToEntry(aEntry);
+        entryResourceFacade.updateEntry(aOwner,entry);
     }
 
 

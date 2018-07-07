@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 import de.pfann.budgetmanager.server.common.facade.RunFacade;
 import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.model.RunInfo;
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBRun;
@@ -23,7 +24,7 @@ public class CDBRunFacade implements RunFacade {
     @Override
     public void persist(Run aRun) {
         String runId = CDBRunId.createId(aRun.getExecuted_at());
-        CDBRun run = new CDBRun(aRun.getExecuted_at());
+        CDBRun run = new CDBRun(DateUtil.asDate(aRun.getExecuted_at()));
         run.setId(runId);
         cdbRunDao.add(run);
     }
@@ -36,8 +37,8 @@ public class CDBRunFacade implements RunFacade {
         CDBRunAction action = new CDBRunAction(
                 aRunInfo.getIdentifier(),
                 aRunInfo.getState(),
-                aRunInfo.getStart_at(),
-                aRunInfo.getEnd_at());
+                DateUtil.asDate(aRunInfo.getStart_at()),
+                DateUtil.asDate(aRunInfo.getEnd_at()));
 
         cdbRun.addRunAction(action);
         cdbRunDao.update(cdbRun);
@@ -56,7 +57,7 @@ public class CDBRunFacade implements RunFacade {
         List<Run> runList = new LinkedList<>();
 
         for(CDBRun run : runs){
-            Run newRun = new Run(run.getExecutedAt());
+            Run newRun = new Run(DateUtil.asLocalDateTime(run.getExecutedAt()));
             runList.add(newRun);
         }
 

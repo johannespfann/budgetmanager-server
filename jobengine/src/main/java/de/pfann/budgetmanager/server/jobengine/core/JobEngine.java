@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.jobengine.core;
 
+import de.pfann.budgetmanager.server.common.facade.RunFacade;
 import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.model.RunInfo;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
@@ -12,12 +13,12 @@ public class JobEngine {
     private static final String JOB_STATUS_SUCCESS = "SUCCESS";
     private static final String JOB_STATUS_FAILD = "FAILD";
 
-    private RunSQLFacade runFacade;
+    private RunFacade runFacade;
     private RunProvider runProvider;
 
     private List<JobRunner> jobRunners;
 
-    public JobEngine(RunSQLFacade aRunFacade, RunProvider aRunProvider, List<JobRunner> aJobRunners) {
+    public JobEngine(RunFacade aRunFacade, RunProvider aRunProvider, List<JobRunner> aJobRunners) {
         runFacade = aRunFacade;
         jobRunners = aJobRunners;
         runProvider = aRunProvider;

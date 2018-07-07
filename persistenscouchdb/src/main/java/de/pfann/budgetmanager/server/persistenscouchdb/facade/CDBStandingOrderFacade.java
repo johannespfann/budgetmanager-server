@@ -49,8 +49,8 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         standigOrderEntry.setRotation_strategy(aEntry.getRotation_strategy());
         standigOrderEntry.setKonto(cdbUser.getKontos().get(0).getHash());
         standigOrderEntry.setUsername(cdbUser.getUsername());
-        standigOrderEntry.setStart_at(DateUtil.asLocalDateTime(aEntry.getStart_at()));
-        standigOrderEntry.setLast_executed(DateUtil.asLocalDateTime(aEntry.getStart_at()));
+        standigOrderEntry.setStart_at(aEntry.getStart_at());
+        standigOrderEntry.setLast_executed(aEntry.getStart_at());
 
         List<CDBTag> cdbTags = new LinkedList<>();
         for(TagTemplate tagTemplate : aEntry.getTags()){

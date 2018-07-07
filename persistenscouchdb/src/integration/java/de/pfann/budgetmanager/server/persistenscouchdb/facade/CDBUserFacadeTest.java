@@ -1,7 +1,6 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
 import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.persistenscouchdb.core.BMObjectMapperFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
@@ -10,6 +9,7 @@ import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.ObjectMapperFactory;
 import org.ektorp.impl.StdCouchDbInstance;
+import org.ektorp.impl.StdObjectMapperFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,7 +43,7 @@ public class CDBUserFacadeTest {
                 .url("http://localhost:5984")
                 .build();
         dbInstance = new StdCouchDbInstance(httpClient);
-        ObjectMapperFactory objectMapperFactory = new BMObjectMapperFactory();
+        ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
         CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance, objectMapperFactory);
         CDBUserDaoFactory factory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDBFactory = new CDBKontoDatabaseFacade(couchDbConnectorFactory, dbInstance);

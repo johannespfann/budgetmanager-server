@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.model;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.AbstractDocument;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class CDBStandigOrderEntry extends AbstractDocument {
@@ -17,11 +18,11 @@ public class CDBStandigOrderEntry extends AbstractDocument {
 
     private String konto;
 
-    private LocalDateTime start_at;
+    private Date start_at;
 
-    private LocalDateTime end_at;
+    private Date end_at;
 
-    private LocalDateTime last_executed;
+    private Date last_executed;
 
     private String rotation_strategy;
 
@@ -64,27 +65,27 @@ public class CDBStandigOrderEntry extends AbstractDocument {
         this.konto = konto;
     }
 
-    public LocalDateTime getStart_at() {
+    public Date getStart_at() {
         return start_at;
     }
 
-    public void setStart_at(LocalDateTime start_at) {
+    public void setStart_at(Date start_at) {
         this.start_at = start_at;
     }
 
-    public LocalDateTime getEnd_at() {
+    public Date getEnd_at() {
         return end_at;
     }
 
-    public void setEnd_at(LocalDateTime end_at) {
+    public void setEnd_at(Date end_at) {
         this.end_at = end_at;
     }
 
-    public LocalDateTime getLast_executed() {
+    public Date getLast_executed() {
         return last_executed;
     }
 
-    public void setLast_executed(LocalDateTime last_executed) {
+    public void setLast_executed(Date last_executed) {
         this.last_executed = last_executed;
     }
 

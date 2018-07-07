@@ -5,6 +5,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.core.AbstractDocument;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CDBUser extends AbstractDocument {
@@ -22,7 +23,7 @@ public class CDBUser extends AbstractDocument {
 
 
 
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
 
 
@@ -34,6 +35,7 @@ public class CDBUser extends AbstractDocument {
     public CDBUser(){
         kontos = new ArrayList<>();
         emails = new ArrayList<>();
+        tagStatistics = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -80,11 +82,11 @@ public class CDBUser extends AbstractDocument {
         this.encryptiontext = encryptiontext;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class CDBRunAction {
 
@@ -8,11 +9,11 @@ public class CDBRunAction {
 
     private String actionname;
 
-    private LocalDateTime starttime;
+    private Date starttime;
 
-    private LocalDateTime endtime;
+    private Date endtime;
 
-    public CDBRunAction(String aActionName, String aState, LocalDateTime aStartTime, LocalDateTime aEndTime){
+    public CDBRunAction(String aActionName, String aState, Date aStartTime, Date aEndTime){
         state = aState;
         actionname = aActionName;
         starttime = aStartTime;
@@ -27,11 +28,11 @@ public class CDBRunAction {
         return actionname;
     }
 
-    public LocalDateTime getStarttime() {
+    public Date getStarttime() {
         return starttime;
     }
 
-    public LocalDateTime getEndtime() {
+    public Date getEndtime() {
         return endtime;
     }
 }

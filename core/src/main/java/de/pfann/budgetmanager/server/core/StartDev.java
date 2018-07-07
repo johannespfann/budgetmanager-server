@@ -57,8 +57,6 @@ public class StartDev
         */
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
-        TestClass environmentObjects = new TestClass();
-        environmentObjects.persistEnviroment();
 
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
         RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
@@ -86,14 +84,11 @@ public class StartDev
         RunSQLFacade runFacade = new RunSQLFacade();
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-
         ExecutionTime startTime = new SecStartTime(1);
         TimeInterval timeInterval1 = new MinuteInterval(180);
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
         scheduler.start();
-
-
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));

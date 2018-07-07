@@ -18,7 +18,7 @@ public class CDBEntryTransformer {
         entry.setAmount(aCDBEntry.getAmount());
         entry.setMemo(aCDBEntry.getMemo());
         entry.setHash(aCDBEntry.getHash());
-        entry.setCreated_at(DateUtil.asDate(aCDBEntry.getCreated_at()));
+        entry.setCreated_at(aCDBEntry.getCreated_at());
 
         List<Tag> tags = new LinkedList<>();
 
@@ -38,7 +38,7 @@ public class CDBEntryTransformer {
         aCDBEntry.setMemo(aEntry.getMemo());
         aCDBEntry.setHash(aEntry.getHash());
         aCDBEntry.setAmount(aEntry.getAmount());
-        aCDBEntry.setCreated_at(DateUtil.asLocalDateTime(aEntry.getCreated_at()));
+        aCDBEntry.setCreated_at(aEntry.getCreated_at());
 
         List<CDBTag> cdbTags = new LinkedList<>();
 

@@ -73,6 +73,7 @@ public class CDBStatisticFacade implements TagStatisticFacade {
         }
 
         cdbUser.setTagStatistics(cdbTagStatistics);
+        userDao.update(cdbUser);
     }
 
 }

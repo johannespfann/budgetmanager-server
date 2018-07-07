@@ -21,15 +21,11 @@ public class EntryResourceFacade {
     public List<Entry> getEntries(String aOwner){
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
+            System.out.println("found user with name: " + user.getName());
             List<Entry> entries = entryFacade.getEntries(user);
 
-            List<Entry> convertEntries = new LinkedList<>();
-
-            for(Entry entry : entries){
-                convertEntries.add(entry);
-            }
-
-            return convertEntries;
+            System.out.println("found entries: " + entries.size());
+            return entries;
         }catch (Exception e){
             e.printStackTrace();
             throw e;
@@ -63,8 +59,8 @@ public class EntryResourceFacade {
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
             // TODO compare owner and entry-user
-            Entry entry = entryFacade.getEntry(aHash);
-            entryFacade.deleteEntry(entry);
+            Entry entry = entryFacade.getEntry(user, aHash);
+            entryFacade.deleteEntry(user, entry);
         }catch (Exception e){
             e.printStackTrace();
             throw e;

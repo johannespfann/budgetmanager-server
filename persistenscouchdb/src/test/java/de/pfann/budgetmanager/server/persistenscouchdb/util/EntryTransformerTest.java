@@ -75,7 +75,7 @@ public class EntryTransformerTest {
 
         cdbEntry.setTags(cdbTagList);
         cdbCreatedAt = LocalDateTime.now();
-        cdbEntry.setCreated_at(cdbCreatedAt);
+        cdbEntry.setCreated_at(DateUtil.asDate(cdbCreatedAt));
 
         entry = new Entry();
         AppUser appUser = new AppUser();
@@ -112,7 +112,7 @@ public class EntryTransformerTest {
         Assert.assertEquals(newCDBEntry.getMemo(),memo);
         Assert.assertEquals(newCDBEntry.getUsername(),username);
         Assert.assertEquals(newCDBEntry.getTags().get(0).getName(),tagname);
-        Assert.assertEquals(newCDBEntry.getCreated_at().getDayOfMonth(),cdbCreatedAt.getDayOfMonth());
+        Assert.assertEquals(DateUtil.asLocalDateTime(newCDBEntry.getCreated_at()).getDayOfMonth(),cdbCreatedAt.getDayOfMonth());
     }
 
     @Test

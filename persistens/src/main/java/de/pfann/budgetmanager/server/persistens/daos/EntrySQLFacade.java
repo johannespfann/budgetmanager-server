@@ -5,6 +5,7 @@ import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.Tag;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
@@ -26,12 +27,6 @@ public class EntrySQLFacade implements EntryFacade {
     public List<Entry> getEntries(AppUser aUser) {
         // TODO was set before ...
         return entryDao.getAllByUser(aUser);
-    }
-
-    @Override
-    public List<Entry> getEntries(Tag aTag){
-        // TODO was set before ... tags should be unique
-        return entryDao.getAllByTag(aTag);
     }
 
     @Override
@@ -96,7 +91,7 @@ public class EntrySQLFacade implements EntryFacade {
     }
 
     @Override
-    public void deleteEntry(Entry aEntry){
+    public void deleteEntry(AppUser aUser, Entry aEntry){
 
         List<Tag> tags = aEntry.getTags();
 
@@ -115,96 +110,14 @@ public class EntrySQLFacade implements EntryFacade {
     }
 
     @Override
-    public Entry getEntry(String aHash) {
-        return entryDao.getEntryByHash(aHash).get(0);
+    public Entry getEntry(AppUser aUser, String aHash) {
+        throw new NotImplementedException();
     }
+
 
     @Override
     public void update(Entry aEntry){
-        Entry persistedEntry = getEntry(aEntry.getHash());
-
-        persistedEntry.setAmount(aEntry.getAmount());
-        persistedEntry.setMemo(aEntry.getMemo());
-
-
-
-        // hier set
-        List<Tag> persistedTags = persistedEntry.getTags();
-        List<Tag> currentTags = distinct(aEntry.getTags());
-
-        // added Tags
-
-        List<Tag> newTags = new LinkedList<>();
-
-        for(Tag tag : currentTags){
-            if(!exists(tag, persistedTags)){
-                newTags.add(tag);
-            }
-        }
-
-
-        // deleted Tags
-
-        List<Tag> deletedTags = new LinkedList<>();
-
-        for(Tag tag : persistedTags){
-            if(!exists(tag, currentTags)){
-                deletedTags.add(tag);
-            }
-        }
-
-
-        // remove Tags
-
-        for(Tag tag: deletedTags){
-            persistedTags.remove(tag);
-        }
-
-
-        // persist tags with user if not exists
-
-        AppUser user = new AppUser();
-        try {
-            user = userDao.getUserByNameOrEmail(aEntry.getAppUser().getEmail());
-
-        } catch (NoUserFoundException e) {
-            e.printStackTrace();
-        }
-
-        Set<Tag> persistedUserTags = tagDao.getAllByUser(aEntry.getAppUser());
-        for(Tag tag : newTags){
-            if(!exists(tag,new LinkedList<>(persistedUserTags))){
-                tag.setAppUser(user);
-                tagDao.save(tag);
-                persistedTags.add(tag);
-            }
-            else
-            {
-                Tag persistedTag = tagDao.getTag(user,tag.getName());
-                tagDao.save(persistedTag);
-                persistedTags.add(persistedTag);
-            }
-        }
-
-        List<Tag> tagsToDelete = new LinkedList<>();
-
-        // deincrement tags
-        for(Tag tag: persistedUserTags){
-            if(exists(tag, deletedTags)){
-                tagDao.save(tag);
-                if(tag.getCount() == 0){
-                    tagsToDelete.add(tag);
-                }
-
-            }
-        }
-
-        persistedEntry.setTags(persistedTags);
-        entryDao.save(persistedEntry);
-
-        for(Tag tag :tagsToDelete){
-            tagDao.delete(tag);
-        }
+        throw new NotImplementedException();
     }
 
     private boolean exists(Tag aTag, List<Tag> tags){

@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.model;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.AbstractDocument;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class CDBEntry extends AbstractDocument{
@@ -14,7 +15,7 @@ public class CDBEntry extends AbstractDocument{
 
     private String konto;
 
-    private LocalDateTime created_at;
+    private Date created_at;
 
 
     private String memo;
@@ -47,11 +48,11 @@ public class CDBEntry extends AbstractDocument{
         this.konto = konto;
     }
 
-    public LocalDateTime getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 

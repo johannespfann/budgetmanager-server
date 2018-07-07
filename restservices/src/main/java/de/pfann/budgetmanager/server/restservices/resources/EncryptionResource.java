@@ -7,7 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("encryption/")
-public class EncryptionResource {
+public class EncryptionResource   {
 
     private EncryptionResourceFacade encryptionResourceFacade;
 
