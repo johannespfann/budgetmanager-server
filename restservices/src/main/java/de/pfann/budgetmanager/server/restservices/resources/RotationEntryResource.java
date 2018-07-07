@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.util.RotationEntryJsonMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,10 +23,11 @@ public class RotationEntryResource {
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
-    public List<RotationEntry> getRotationEntries(
+    public String getRotationEntries(
             @PathParam("owner") String aOwner
             ){
-        return rotationEntryResourceFacade.getRotationEntries(aOwner);
+        List<RotationEntry> rotationEntries = rotationEntryResourceFacade.getRotationEntries(aOwner);
+        return RotationEntryJsonMapper.convertToJson(rotationEntries);
     }
 
     @POST
@@ -35,8 +37,9 @@ public class RotationEntryResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void addRotationEntry(
             @PathParam("owner") String aOwner,
-            RotationEntry aRotationEntry){
-        rotationEntryResourceFacade.addRotationEntry(aOwner,aRotationEntry);
+            String aRotationEntry){
+        RotationEntry entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
+        rotationEntryResourceFacade.addRotationEntry(aOwner,entry);
     }
 
     @DELETE
@@ -56,7 +59,8 @@ public class RotationEntryResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateRotationEntry(
             @PathParam("owner") String aOwner,
-            RotationEntry aRotationEntry){
-        rotationEntryResourceFacade.updateRotationEntry(aOwner,aRotationEntry);
+            String aRotationEntry){
+        RotationEntry entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
+        rotationEntryResourceFacade.updateRotationEntry(aOwner,entry);
     }
 }
