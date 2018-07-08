@@ -110,9 +110,7 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
 
     @Override
     public void delete(RotationEntry aRotationEntry) {
-        System.out.println("delete entry");
         CDBUser cdbUser = createCDBUser(aRotationEntry.getUser().getName());
-        System.out.println("found user to delete rotationentry: " + cdbUser.getUsername());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
 
@@ -121,9 +119,7 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
                 .withHash(aRotationEntry.getHash())
                 .build();
 
-        System.out.println("Looking for standingOrder with id: " + standingOrderId.toString());
         CDBStandingOrder cdbStandigOrderEntry = standingOrderDao.get(standingOrderId.toString());
-        System.out.println("Found StandingOrder with hash" + cdbStandigOrderEntry.getHash());
         standingOrderDao.remove(cdbStandigOrderEntry);
     }
 
@@ -138,7 +134,6 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
                 .withKontoHash(cdbUser.getKontos().get(0).getHash())
                 .withObjectTyp(CDBKonto.ORDER_KONTO)
                 .build();
-        System.out.println("Get Konto with name: " + kontoDatabaseId.toString());
         return standingOrderDaoFactory.createDao(kontoDatabaseId.toString());
     }
 
