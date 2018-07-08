@@ -9,18 +9,15 @@ public class CDBStandingOrderId {
 
     private String username;
 
-    private String konto;
-
     private String hash;
 
     private CDBStandingOrderId(){
         // default
     }
 
-    private CDBStandingOrderId(String aUsername, String aKonto, String aHash){
+    private CDBStandingOrderId(String aUsername, String aHash){
         prefix = TYP_PREFIX;
         username = aUsername;
-        konto = aKonto;
         hash = aHash;
     }
 
@@ -28,7 +25,6 @@ public class CDBStandingOrderId {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(TYP_PREFIX).append(SEPERATOR)
                 .append(username).append(SEPERATOR)
-                .append(konto).append(SEPERATOR)
                 .append(hash);
         return stringBuilder.toString();
     }
@@ -48,10 +44,6 @@ public class CDBStandingOrderId {
         return username;
     }
 
-    public String getKonto() {
-        return konto;
-    }
-
     public String getHash() {
         return hash;
     }
@@ -62,8 +54,6 @@ public class CDBStandingOrderId {
     public static class CDBStandingOrderBuilder {
 
         private String username;
-
-        private String konto;
 
         private String hash;
 
@@ -77,11 +67,6 @@ public class CDBStandingOrderId {
             return this;
         }
 
-        public CDBStandingOrderBuilder withKonto(String aKonto){
-            konto = aKonto;
-            return this;
-        }
-
         public CDBStandingOrderBuilder withHash(String aHash){
             hash = aHash;
             return this;
@@ -90,10 +75,9 @@ public class CDBStandingOrderId {
 
         public CDBStandingOrderId build(){
             assertUserNameIsValid(username);
-            assertKontoIsValid(konto);
             assertHashIsValid(hash);
 
-            CDBStandingOrderId entry = new CDBStandingOrderId(username,konto,hash);
+            CDBStandingOrderId entry = new CDBStandingOrderId(username,hash);
             return entry;
         }
 
@@ -101,8 +85,7 @@ public class CDBStandingOrderId {
             String[] values = aValue.split(SEPERATOR);
             assertPrefixIsValid(values[0]);
             username = values[1];
-            konto = values[2];
-            hash = values[3];
+            hash = values[2];
             return build();
         }
 
@@ -114,12 +97,6 @@ public class CDBStandingOrderId {
 
         private void assertHashIsValid(String aHash) {
             if(aHash == null || aHash.isEmpty()){
-                throw new IllegalArgumentException();
-            }
-        }
-
-        private void assertKontoIsValid(String aKonto) {
-            if(aKonto == null || aKonto.isEmpty()){
                 throw new IllegalArgumentException();
             }
         }

@@ -13,7 +13,6 @@ public class CDBStandingOrderIdTest {
 
     private String prefix;
     private String username;
-    private String konto;
     private String hash;
 
 
@@ -30,16 +29,14 @@ public class CDBStandingOrderIdTest {
         prefix = CDBEntryId.TYP_PREFIX;
         username = "johannes-4213";
         hash = "23j2oi3k2ll";
-        konto = "k2mji122";
 
-        validateString = "standingorder:johannes-4213:k2mji122:23j2oi3k2ll";
+        validateString = "standingorder:johannes-4213:23j2oi3k2ll";
     }
 
     @Test
     public void testGenerateId(){
         String generatedId = CDBStandingOrderId.createBuilder()
                 .withUsername(username)
-                .withKonto(konto)
                 .withHash(hash)
                 .build()
                 .toString();
@@ -56,7 +53,6 @@ public class CDBStandingOrderIdTest {
         Assert.assertTrue(username.equals(cdbStandingOrderId.getUsername()));
         Assert.assertTrue(prefix.equals("entry"));
         Assert.assertTrue(hash.equals(cdbStandingOrderId.getHash()));
-        Assert.assertTrue(konto.equals(cdbStandingOrderId.getKonto()));
     }
 
 }
