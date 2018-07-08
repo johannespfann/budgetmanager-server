@@ -18,11 +18,9 @@ public class RotationEntryResourceFacade {
         rotationEntryFacade = aRotationEntryFacade;
     }
 
-    public List<RotationEntry> getRotationEntries(
-            String aOwner
-    ){
-
+    public List<RotationEntry> getRotationEntries(String aOwner){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
+        System.out.println("found userobject with name " + user.getName());
         List<RotationEntry> rotationEntries = this.rotationEntryFacade.getRotationEntries(user);
         return rotationEntries;
     }
@@ -43,7 +41,7 @@ public class RotationEntryResourceFacade {
         LogUtil.info(this.getClass(),"Hash: " + aHash);
         LogUtil.info(this.getClass(),"User: " + aOwner);
 
-        RotationEntry rotationEntry = rotationEntryFacade.getRotationEntryByHash(aHash);
+        RotationEntry rotationEntry = rotationEntryFacade.getRotationEntryByHash(user, aHash);
         LogUtil.info(this.getClass(), "asdfs");
         LogUtil.info(this.getClass(),"get entry: " + rotationEntry.getHash());
 

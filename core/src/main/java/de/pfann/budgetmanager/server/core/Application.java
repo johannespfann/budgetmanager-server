@@ -1,9 +1,8 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.facade.*;
-import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.Tag;
+import de.pfann.budgetmanager.server.common.model.*;
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
@@ -29,6 +28,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -91,8 +91,7 @@ public class Application {
         EncryptionResource encryptionResource = new EncryptionResource(encryptionResourceFacade);
 
 
-        AppUser user = createUserIfNotExist(userFacade,entryFacade);
-
+        AppUser user = createUserIfNotExist(userFacade,entryFacade, standingOrderFacade);
 
 
         final ResourceConfig rc = new ResourceConfig()
@@ -104,8 +103,7 @@ public class Application {
                 .register(entryResource)
                 .register(rotationEntryResource)
                 .register(tagStatisticResource)
-                .register(encryptionResource)
-                .register(HelloResource.class);
+                .register(encryptionResource);
 
 
         System.out.println(String.format("Jersey app started with WADL available at "
@@ -177,7 +175,7 @@ public class Application {
         }
     }
 
-    private AppUser createUserIfNotExist(AppUserFacade userFacade, EntryFacade entryFacade) {
+    private AppUser createUserIfNotExist(AppUserFacade userFacade, EntryFacade entryFacade, RotationEntryFacade aRotEntryFacade) {
         AppUser user = new AppUser();
         user.setName("johannes-1234");
         user.setPassword("key");
@@ -202,6 +200,30 @@ public class Application {
         entry.setMemo("memo");
         entry.setAmount("1234");
         entryFacade.persistEntry(entry);
+
+
+        RotationEntry rotationEntry = new RotationEntry();
+        rotationEntry.setAmount("-1314543");
+        rotationEntry.setMemo("Ein memo nur für mich");
+        rotationEntry.setHash("23j2lk4234234");
+        rotationEntry.setRotation_strategy("66122");
+
+        List<TagTemplate> tagTemplates = new LinkedList<>();
+        TagTemplate tagTemplate = new TagTemplate("luxus");
+        tagTemplates.add(tagTemplate);
+
+        LocalDateTime startTime = LocalDateTime.now();
+        LocalDateTime endTime = startTime.plusMonths(120);
+        LocalDateTime lastExecuted = startTime.plusDays(2);
+
+        rotationEntry.setTags(tagTemplates);
+        rotationEntry.setStart_at(DateUtil.asDate(startTime));
+        rotationEntry.setEnd_at(DateUtil.asDate(endTime));
+        rotationEntry.setLast_executed(DateUtil.asDate(lastExecuted));
+
+        rotationEntry.setUser(user);
+
+        aRotEntryFacade.save(rotationEntry);
 
         return user;
     }

@@ -45,14 +45,24 @@ public class CDBUserFacade implements AppUserFacade {
         konto.setOwner(cdbUser.getUsername());
 
         cdbUser.addKonto(konto);
-        String kontoDBName = CDBKontoDatabaseId.builder()
-                .withUsername(cdbUser.getUsername())
-                .withKontoHash(konto.getHash())
-                .build()
-                .toString();
 
         userDao.add(cdbUser);
-        kontoDatabaseFactory.createDBIfExists(kontoDBName);
+
+        String entryKontoName = CDBKontoDatabaseId.builder()
+                .withUsername(cdbUser.getUsername())
+                .withKontoHash(konto.getHash())
+                .withObjectTyp(CDBKonto.ENTRY_KONTO)
+                .build()
+                .toString();
+        kontoDatabaseFactory.createDBIfExists(entryKontoName);
+
+        String orderKontoName = CDBKontoDatabaseId.builder()
+                .withUsername(cdbUser.getUsername())
+                .withKontoHash(konto.getHash())
+                .withObjectTyp(CDBKonto.ENTRY_KONTO)
+                .build()
+                .toString();
+        kontoDatabaseFactory.createDBIfExists(orderKontoName);
     }
 
     @Override

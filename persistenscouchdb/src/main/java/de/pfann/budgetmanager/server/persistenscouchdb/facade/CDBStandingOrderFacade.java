@@ -8,7 +8,8 @@ import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBStandigOrderEntry;
+import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBKonto;
+import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBStandingOrder;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBTag;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBKontoDatabaseId;
@@ -34,7 +35,7 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         CDBUser cdbUser = createCDBUser(aEntry.getUser().getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
-        CDBStandigOrderEntry standigOrderEntry = new CDBStandigOrderEntry();
+        CDBStandingOrder standigOrderEntry = new CDBStandingOrder();
 
         CDBStandingOrderId standingOrderId = CDBStandingOrderId.createBuilder()
                 .withUsername(aEntry.getUser().getName())
@@ -72,7 +73,7 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
                 .withHash(aEntry.getHash())
                 .build();
 
-        CDBStandigOrderEntry standingOrder = standingOrderDao.get(standingOrderId.toString());
+        CDBStandingOrder standingOrder = standingOrderDao.get(standingOrderId.toString());
         standingOrder = updateStandingOrder(standingOrder,aEntry);
         standingOrderDao.update(standingOrder);
     }
@@ -82,11 +83,11 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         CDBUser cdbUser = createCDBUser(aUser.getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
-        List<CDBStandigOrderEntry> standigOrderEntries = standingOrderDao.getAll();
+        List<CDBStandingOrder> standigOrderEntries = standingOrderDao.getAll();
         List<RotationEntry> rotationEntries = new LinkedList<>();
 
-        for(CDBStandigOrderEntry entry : standigOrderEntries){
-            RotationEntry rotationEntry = createRotationEntry(entry);
+        for(CDBStandingOrder entry : standigOrderEntries){
+            RotationEntry rotationEntry = createRotationEntry(aUser, entry);
             rotationEntries.add(rotationEntry);
         }
 
@@ -103,20 +104,26 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
                 .withUsername(cdbUser.getUsername())
                 .withHash(aHash).build();
 
-        CDBStandigOrderEntry cdbStandigOrderEntry = standingOrderDao.get(standingOrderId.toString());
-        return createRotationEntry(cdbStandigOrderEntry);
+        CDBStandingOrder cdbStandigOrderEntry = standingOrderDao.get(standingOrderId.toString());
+        return createRotationEntry(appUser, cdbStandigOrderEntry);
     }
 
     @Override
     public void delete(RotationEntry aRotationEntry) {
+        System.out.println("delete entry");
         CDBUser cdbUser = createCDBUser(aRotationEntry.getUser().getName());
+        System.out.println("found user to delete rotationentry: " + cdbUser.getUsername());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
+
 
         CDBStandingOrderId standingOrderId = CDBStandingOrderId.createBuilder()
                 .withUsername(cdbUser.getUsername())
-                .withHash(aRotationEntry.getHash()).build();
+                .withHash(aRotationEntry.getHash())
+                .build();
 
-        CDBStandigOrderEntry cdbStandigOrderEntry = standingOrderDao.get(standingOrderId.toString());
+        System.out.println("Looking for standingOrder with id: " + standingOrderId.toString());
+        CDBStandingOrder cdbStandigOrderEntry = standingOrderDao.get(standingOrderId.toString());
+        System.out.println("Found StandingOrder with hash" + cdbStandigOrderEntry.getHash());
         standingOrderDao.remove(cdbStandigOrderEntry);
     }
 
@@ -129,7 +136,9 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         CDBKontoDatabaseId kontoDatabaseId = CDBKontoDatabaseId.builder()
                 .withUsername(cdbUser.getUsername())
                 .withKontoHash(cdbUser.getKontos().get(0).getHash())
+                .withObjectTyp(CDBKonto.ORDER_KONTO)
                 .build();
+        System.out.println("Get Konto with name: " + kontoDatabaseId.toString());
         return standingOrderDaoFactory.createDao(kontoDatabaseId.toString());
     }
 
@@ -139,12 +148,14 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         return cdbUser;
     }
 
-    private RotationEntry createRotationEntry(CDBStandigOrderEntry aStandingOrder){
+    private RotationEntry createRotationEntry(AppUser aAppUser, CDBStandingOrder aStandingOrder){
         RotationEntry rotationEntry = new RotationEntry();
         rotationEntry.setAmount(aStandingOrder.getAmount());
         rotationEntry.setHash(aStandingOrder.getHash());
         rotationEntry.setMemo(aStandingOrder.getMemo());
         rotationEntry.setRotation_strategy(aStandingOrder.getRotation_strategy());
+        aAppUser.setPassword("");
+        rotationEntry.setUser(aAppUser);
 
         List<TagTemplate> tagTemplates = new ArrayList<>();
 
@@ -159,7 +170,7 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         return rotationEntry;
     }
 
-    private CDBStandigOrderEntry updateStandingOrder(CDBStandigOrderEntry cdbStandigOrder, RotationEntry aRotationEntry){
+    private CDBStandingOrder updateStandingOrder(CDBStandingOrder cdbStandigOrder, RotationEntry aRotationEntry){
         cdbStandigOrder.setMemo(aRotationEntry.getMemo());
         cdbStandigOrder.setAmount(aRotationEntry.getAmount());
         cdbStandigOrder.setRotation_strategy(aRotationEntry.getRotation_strategy());

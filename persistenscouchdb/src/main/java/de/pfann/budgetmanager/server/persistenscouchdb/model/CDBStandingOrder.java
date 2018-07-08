@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-public class CDBStandigOrderEntry extends AbstractDocument {
+public class CDBStandingOrder extends AbstractDocument {
 
     /**
      * standingorderinfos
@@ -37,7 +37,7 @@ public class CDBStandigOrderEntry extends AbstractDocument {
 
     private List<CDBTag> tags;
 
-    public CDBStandigOrderEntry(){
+    public CDBStandingOrder(){
         // default
     }
 

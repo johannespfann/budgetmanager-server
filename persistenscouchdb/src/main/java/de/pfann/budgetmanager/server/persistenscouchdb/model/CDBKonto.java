@@ -5,17 +5,25 @@ import java.util.List;
 
 public class CDBKonto {
 
+    public static final String ENTRY_KONTO = "entries";
+    public static final String ORDER_KONTO = "standingorders";
+
     private String hash;
 
     private String name;
+
+    private String entryKonto;
+
+    private String orderKonto;
 
     private String owner;
 
     private List<String> foreignUser;
 
-
     public CDBKonto(){
         foreignUser = new ArrayList<>();
+        entryKonto = ENTRY_KONTO;
+        orderKonto = ORDER_KONTO;
     }
 
     public String getHash() {
@@ -48,5 +56,13 @@ public class CDBKonto {
 
     public void addForeignUser(String aUser){
         foreignUser.add(aUser);
+    }
+
+    public String getEntryKonto() {
+        return entryKonto;
+    }
+
+    public String getOrderKonto() {
+        return orderKonto;
     }
 }

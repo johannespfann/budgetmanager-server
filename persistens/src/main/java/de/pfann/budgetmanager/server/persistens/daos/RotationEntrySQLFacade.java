@@ -91,7 +91,7 @@ public class RotationEntrySQLFacade implements RotationEntryFacade {
     }
 
     @Override
-    public RotationEntry getRotationEntryByHash(String aHash){
+    public RotationEntry getRotationEntryByHash(AppUser aAppUser, String aHash){
         RotationEntry entry = roationEntryDao.getRotationEntryByHash(aHash);
         return entry;
     }

@@ -42,6 +42,7 @@ public class CDBEntryFacade implements EntryFacade {
         CDBKontoDatabaseId kontodbId = CDBKontoDatabaseId.builder()
                 .withKontoHash(cdbUser.getKontos().get(0).getHash())
                 .withUsername(cdbUser.getUsername())
+                .withObjectTyp(CDBKonto.ENTRY_KONTO)
                 .build();
 
         CDBEntryDao cdbEntryDao = entryDaoFactory.createDao(kontodbId.toString());
@@ -69,7 +70,9 @@ public class CDBEntryFacade implements EntryFacade {
         CDBKontoDatabaseId kontodbId = CDBKontoDatabaseId.builder()
                 .withUsername(cdbUser.getUsername())
                 .withKontoHash(konto.getHash())
+                .withObjectTyp(CDBKonto.ENTRY_KONTO)
                 .build();
+
         CDBEntryDao entryDao = entryDaoFactory.createDao(kontodbId.toString());
 
         CDBEntryId entryId = CDBEntryId.createBuilder()
@@ -93,6 +96,7 @@ public class CDBEntryFacade implements EntryFacade {
         CDBKontoDatabaseId kontodbId = CDBKontoDatabaseId.builder()
                 .withUsername(cdbUser.getUsername())
                 .withKontoHash(konto.getHash())
+                .withObjectTyp(CDBKonto.ENTRY_KONTO)
                 .build();
         CDBEntryDao entryDao = entryDaoFactory.createDao(kontodbId.toString());
 
@@ -114,6 +118,7 @@ public class CDBEntryFacade implements EntryFacade {
         CDBKontoDatabaseId kontodbId = CDBKontoDatabaseId.builder()
                 .withUsername(cdbUser.getUsername())
                 .withKontoHash(konto.getHash())
+                .withObjectTyp(CDBKonto.ENTRY_KONTO)
                 .build();
         CDBEntryDao entryDao = entryDaoFactory.createDao(kontodbId.toString());
 
@@ -139,6 +144,7 @@ public class CDBEntryFacade implements EntryFacade {
         CDBKontoDatabaseId kontodbId = CDBKontoDatabaseId.builder()
                 .withUsername(cdbUser.getUsername())
                 .withKontoHash(konto.getHash())
+                .withObjectTyp(CDBKonto.ENTRY_KONTO)
                 .build();
         CDBEntryDao entryDao = entryDaoFactory.createDao(kontodbId.toString());
 

@@ -12,7 +12,7 @@ public interface RotationEntryFacade {
 
     List<RotationEntry> getRotationEntries(AppUser aUser);
 
-    RotationEntry getRotationEntryByHash(String aHash);
+    RotationEntry getRotationEntryByHash(AppUser aAppUser, String aHash);
 
     void delete(RotationEntry aRotationEntry);
 
