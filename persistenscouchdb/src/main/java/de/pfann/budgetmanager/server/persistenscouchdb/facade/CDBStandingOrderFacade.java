@@ -4,7 +4,6 @@ import de.pfann.budgetmanager.server.common.facade.RotationEntryFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.model.TagTemplate;
-import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
@@ -16,6 +15,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBKontoDatabaseId;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBStandingOrderId;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserId;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +39,6 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         CDBStandingOrderId standingOrderId = CDBStandingOrderId.createBuilder()
                 .withUsername(aEntry.getUser().getName())
                 .withHash(aEntry.getHash())
-                .withKonto(cdbUser.getKontos().get(0).getHash())
                 .build();
 
         standigOrderEntry.setId(standingOrderId.toString());
@@ -67,6 +66,15 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
     public void update(RotationEntry aEntry) {
         CDBUser cdbUser = createCDBUser(aEntry.getUser().getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
+
+        CDBStandingOrderId standingOrderId = CDBStandingOrderId.createBuilder()
+                .withUsername(cdbUser.getUsername())
+                .withHash(aEntry.getHash())
+                .build();
+
+        CDBStandigOrderEntry standingOrder = standingOrderDao.get(standingOrderId.toString());
+        standingOrder = updateStandingOrder(standingOrder,aEntry);
+        standingOrderDao.update(standingOrder);
     }
 
     @Override
@@ -74,22 +82,42 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         CDBUser cdbUser = createCDBUser(aUser.getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
+        List<CDBStandigOrderEntry> standigOrderEntries = standingOrderDao.getAll();
+        List<RotationEntry> rotationEntries = new LinkedList<>();
 
+        for(CDBStandigOrderEntry entry : standigOrderEntries){
+            RotationEntry rotationEntry = createRotationEntry(entry);
+            rotationEntries.add(rotationEntry);
+        }
 
-        return null;
+        return rotationEntries;
     }
 
 
-
-
     @Override
-    public RotationEntry getRotationEntryByHash(String aHash) {
-        return null;
+    public RotationEntry getRotationEntryByHash(AppUser appUser, String aHash) {
+        CDBUser cdbUser = createCDBUser(appUser.getName());
+        CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
+
+        CDBStandingOrderId standingOrderId = CDBStandingOrderId.createBuilder()
+                .withUsername(cdbUser.getUsername())
+                .withHash(aHash).build();
+
+        CDBStandigOrderEntry cdbStandigOrderEntry = standingOrderDao.get(standingOrderId.toString());
+        return createRotationEntry(cdbStandigOrderEntry);
     }
 
     @Override
     public void delete(RotationEntry aRotationEntry) {
+        CDBUser cdbUser = createCDBUser(aRotationEntry.getUser().getName());
+        CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
+        CDBStandingOrderId standingOrderId = CDBStandingOrderId.createBuilder()
+                .withUsername(cdbUser.getUsername())
+                .withHash(aRotationEntry.getHash()).build();
+
+        CDBStandigOrderEntry cdbStandigOrderEntry = standingOrderDao.get(standingOrderId.toString());
+        standingOrderDao.remove(cdbStandigOrderEntry);
     }
 
     @Override
@@ -109,5 +137,44 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         CDBUser cdbUser;CDBUserId userId = CDBUserId.create(aUserName);
         cdbUser = userDao.get(userId.toString());
         return cdbUser;
+    }
+
+    private RotationEntry createRotationEntry(CDBStandigOrderEntry aStandingOrder){
+        RotationEntry rotationEntry = new RotationEntry();
+        rotationEntry.setAmount(aStandingOrder.getAmount());
+        rotationEntry.setHash(aStandingOrder.getHash());
+        rotationEntry.setMemo(aStandingOrder.getMemo());
+        rotationEntry.setRotation_strategy(aStandingOrder.getRotation_strategy());
+
+        List<TagTemplate> tagTemplates = new ArrayList<>();
+
+        for(CDBTag cdbTag : aStandingOrder.getTags()){
+            TagTemplate tag = new TagTemplate();
+            tag.setName(cdbTag.getName());
+            tagTemplates.add(tag);
+        }
+        rotationEntry.setTags(tagTemplates);
+        rotationEntry.setStart_at(aStandingOrder.getStart_at());
+        rotationEntry.setLast_executed(aStandingOrder.getLast_executed());
+        return rotationEntry;
+    }
+
+    private CDBStandigOrderEntry updateStandingOrder(CDBStandigOrderEntry cdbStandigOrder, RotationEntry aRotationEntry){
+        cdbStandigOrder.setMemo(aRotationEntry.getMemo());
+        cdbStandigOrder.setAmount(aRotationEntry.getAmount());
+        cdbStandigOrder.setRotation_strategy(aRotationEntry.getRotation_strategy());
+        cdbStandigOrder.setLast_executed(aRotationEntry.getLast_executed());
+        cdbStandigOrder.setStart_at(aRotationEntry.getStart_at());
+        cdbStandigOrder.setEnd_at(aRotationEntry.getEnd_at());
+
+        List<CDBTag> cdbTags = new LinkedList<>();
+        for(TagTemplate tagTemplate : aRotationEntry.getTags()){
+            CDBTag cdbTag = new CDBTag();
+            cdbTag.setName(tagTemplate.getName());
+            cdbTags.add(cdbTag);
+        }
+
+        cdbStandigOrder.setTags(cdbTags);
+        return cdbStandigOrder;
     }
 }
