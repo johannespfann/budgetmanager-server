@@ -213,8 +213,8 @@ public class Application {
         rotationEntry.setHash("23j2lk4234234");
         rotationEntry.setRotation_strategy("66122");
 
-        List<TagTemplate> tagTemplates = new LinkedList<>();
-        TagTemplate tagTemplate = new TagTemplate("luxus");
+        List<Tag> tagTemplates = new LinkedList<>();
+        Tag tagTemplate = new Tag("luxus");
         tagTemplates.add(tagTemplate);
 
         LocalDateTime startTime = LocalDateTime.now();

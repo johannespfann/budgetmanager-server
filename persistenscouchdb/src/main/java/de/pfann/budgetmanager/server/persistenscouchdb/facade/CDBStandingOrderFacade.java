@@ -3,7 +3,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 import de.pfann.budgetmanager.server.common.facade.RotationEntryFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
-import de.pfann.budgetmanager.server.common.model.TagTemplate;
+import de.pfann.budgetmanager.server.common.model.Tag;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
@@ -53,7 +53,7 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         standigOrderEntry.setLast_executed(aEntry.getStart_at());
 
         List<CDBTag> cdbTags = new LinkedList<>();
-        for(TagTemplate tagTemplate : aEntry.getTags()){
+        for(Tag tagTemplate : aEntry.getTags()){
             CDBTag cdbTag = new CDBTag();
             cdbTag.setName(tagTemplate.getName());
             cdbTags.add(cdbTag);
@@ -152,10 +152,10 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         aAppUser.setPassword("");
         rotationEntry.setUser(aAppUser);
 
-        List<TagTemplate> tagTemplates = new ArrayList<>();
+        List<Tag> tagTemplates = new ArrayList<>();
 
         for(CDBTag cdbTag : aStandingOrder.getTags()){
-            TagTemplate tag = new TagTemplate();
+            Tag tag = new Tag();
             tag.setName(cdbTag.getName());
             tagTemplates.add(tag);
         }
@@ -174,7 +174,7 @@ public class CDBStandingOrderFacade implements RotationEntryFacade{
         cdbStandigOrder.setEnd_at(aRotationEntry.getEnd_at());
 
         List<CDBTag> cdbTags = new LinkedList<>();
-        for(TagTemplate tagTemplate : aRotationEntry.getTags()){
+        for(Tag tagTemplate : aRotationEntry.getTags()){
             CDBTag cdbTag = new CDBTag();
             cdbTag.setName(tagTemplate.getName());
             cdbTags.add(cdbTag);

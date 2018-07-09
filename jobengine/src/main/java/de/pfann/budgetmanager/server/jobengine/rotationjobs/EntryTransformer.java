@@ -3,7 +3,6 @@ package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.model.Tag;
-import de.pfann.budgetmanager.server.common.model.TagTemplate;
 import de.pfann.budgetmanager.server.common.util.HashUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 
@@ -36,7 +35,7 @@ public class EntryTransformer {
         LogUtil.info(this.getClass(),aRotationEntry.getMemo());
 
         List<Tag> tags = new ArrayList<>();
-        for(TagTemplate tagTemplate : aRotationEntry.getTags()){
+        for(Tag tagTemplate : aRotationEntry.getTags()){
             Tag tag = new Tag();
             tag.setAppUser(aRotationEntry.getUser());
             tag.setName(tagTemplate.getName());

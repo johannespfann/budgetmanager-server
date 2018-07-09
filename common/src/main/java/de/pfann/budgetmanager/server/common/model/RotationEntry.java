@@ -47,7 +47,7 @@ public class RotationEntry  implements Serializable {
     private String memo;
 
     @OneToMany(mappedBy = "rotationEntry")
-    private List<TagTemplate> tags;
+    private List<Tag> tags;
 
 
     public RotationEntry(){
@@ -124,9 +124,9 @@ public class RotationEntry  implements Serializable {
         this.memo = memo;
     }
 
-    public List<TagTemplate> getTags() {return tags;}
+    public List<Tag> getTags() {return tags;}
 
-    public void setTags(List<TagTemplate> tags) {this.tags = tags;}
+    public void setTags(List<Tag> tags) {this.tags = tags;}
 
     public Date getLast_executed() {
         return last_executed;
