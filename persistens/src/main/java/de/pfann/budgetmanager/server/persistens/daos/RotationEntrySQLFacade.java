@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
-import de.pfann.budgetmanager.server.common.facade.RotationEntryFacade;
+import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.model.Tag;
@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class RotationEntrySQLFacade implements RotationEntryFacade {
+public class RotationEntrySQLFacade implements StandingOrderFacade {
 
     private RotationEntryDao roationEntryDao;
 

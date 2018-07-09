@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
-import de.pfann.budgetmanager.server.common.facade.RotationEntryFacade;
+import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
 import de.pfann.budgetmanager.server.common.model.Tag;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CDBStandingOrderFacade implements RotationEntryFacade{
+public class CDBStandingOrderFacade implements StandingOrderFacade {
 
     private CDBStandingOrderDaoFactory standingOrderDaoFactory;
     private CDBUserDao userDao;

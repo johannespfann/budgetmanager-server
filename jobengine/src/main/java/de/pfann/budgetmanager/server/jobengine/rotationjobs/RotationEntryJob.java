@@ -2,7 +2,7 @@ package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.facade.EntryFacade;
-import de.pfann.budgetmanager.server.common.facade.RotationEntryFacade;
+import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
@@ -23,10 +23,10 @@ public class RotationEntryJob implements Job {
 
     private AppUserFacade userFacade;
 
-    private RotationEntryFacade rotationEntryFacade;
+    private StandingOrderFacade rotationEntryFacade;
 
 
-    public RotationEntryJob(List<RotationEntryPattern> aPatterns, AppUserFacade aUserFacade, EntryFacade aEntryFacade, RotationEntryFacade aRotationEntryFacade){
+    public RotationEntryJob(List<RotationEntryPattern> aPatterns, AppUserFacade aUserFacade, EntryFacade aEntryFacade, StandingOrderFacade aRotationEntryFacade){
         patterns = aPatterns;
         entryFacade = aEntryFacade;
         userFacade = aUserFacade;

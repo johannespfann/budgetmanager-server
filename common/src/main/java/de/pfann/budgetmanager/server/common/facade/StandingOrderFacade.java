@@ -5,7 +5,7 @@ import de.pfann.budgetmanager.server.common.model.RotationEntry;
 
 import java.util.List;
 
-public interface RotationEntryFacade {
+public interface StandingOrderFacade {
     void save(RotationEntry aEntry);
 
     void update(RotationEntry aEntry);

@@ -82,7 +82,7 @@ public class Application {
 
         AppUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);
         EntryFacade entryFacade = new CDBEntryFacade(userDaoFactory,entryDaoFactory);
-        RotationEntryFacade standingOrderFacade = new CDBStandingOrderFacade(standingOrderDaoFactory,userDaoFactory);
+        StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(standingOrderDaoFactory,userDaoFactory);
         RunFacade runFacade = new CDBRunFacade(runDaoFactory);
         TagStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
 
@@ -180,7 +180,7 @@ public class Application {
         }
     }
 
-    private AppUser createUserIfNotExist(AppUserFacade userFacade, EntryFacade entryFacade, RotationEntryFacade aRotEntryFacade) {
+    private AppUser createUserIfNotExist(AppUserFacade userFacade, EntryFacade entryFacade, StandingOrderFacade aRotEntryFacade) {
         AppUser user = new AppUser();
         user.setName("johannes-1234");
         user.setPassword("key");
