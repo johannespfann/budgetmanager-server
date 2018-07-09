@@ -207,7 +207,7 @@ public class Application {
         entryFacade.persistEntry(entry);
 
 
-        RotationEntry rotationEntry = new RotationEntry();
+        StandingOrder rotationEntry = new StandingOrder();
         rotationEntry.setAmount("-1314543");
         rotationEntry.setMemo("Ein memo nur für mich");
         rotationEntry.setHash("23j2lk4234234");

@@ -2,7 +2,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
 import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Tag;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
@@ -31,7 +31,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
     }
 
     @Override
-    public void save(RotationEntry aEntry) {
+    public void save(StandingOrder aEntry) {
         CDBUser cdbUser = createCDBUser(aEntry.getUser().getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
@@ -64,7 +64,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
     }
 
     @Override
-    public void update(RotationEntry aEntry) {
+    public void update(StandingOrder aEntry) {
         CDBUser cdbUser = createCDBUser(aEntry.getUser().getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
@@ -79,15 +79,15 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
     }
 
     @Override
-    public List<RotationEntry> getRotationEntries(AppUser aUser) {
+    public List<StandingOrder> getRotationEntries(AppUser aUser) {
         CDBUser cdbUser = createCDBUser(aUser.getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
         List<CDBStandingOrder> standigOrderEntries = standingOrderDao.getAll();
-        List<RotationEntry> rotationEntries = new LinkedList<>();
+        List<StandingOrder> rotationEntries = new LinkedList<>();
 
         for(CDBStandingOrder entry : standigOrderEntries){
-            RotationEntry rotationEntry = createRotationEntry(aUser, entry);
+            StandingOrder rotationEntry = createRotationEntry(aUser, entry);
             rotationEntries.add(rotationEntry);
         }
 
@@ -96,7 +96,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
 
 
     @Override
-    public RotationEntry getRotationEntryByHash(AppUser appUser, String aHash) {
+    public StandingOrder getRotationEntryByHash(AppUser appUser, String aHash) {
         CDBUser cdbUser = createCDBUser(appUser.getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
@@ -109,7 +109,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
     }
 
     @Override
-    public void delete(RotationEntry aRotationEntry) {
+    public void delete(StandingOrder aRotationEntry) {
         CDBUser cdbUser = createCDBUser(aRotationEntry.getUser().getName());
         CDBStandingOrderDao standingOrderDao = createStandingOrderDao(cdbUser);
 
@@ -124,7 +124,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
     }
 
     @Override
-    public void validateRotationEntry(RotationEntry aRotationEntry) {
+    public void validateRotationEntry(StandingOrder aRotationEntry) {
 
     }
 
@@ -143,8 +143,8 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
         return cdbUser;
     }
 
-    private RotationEntry createRotationEntry(AppUser aAppUser, CDBStandingOrder aStandingOrder){
-        RotationEntry rotationEntry = new RotationEntry();
+    private StandingOrder createRotationEntry(AppUser aAppUser, CDBStandingOrder aStandingOrder){
+        StandingOrder rotationEntry = new StandingOrder();
         rotationEntry.setAmount(aStandingOrder.getAmount());
         rotationEntry.setHash(aStandingOrder.getHash());
         rotationEntry.setMemo(aStandingOrder.getMemo());
@@ -165,7 +165,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
         return rotationEntry;
     }
 
-    private CDBStandingOrder updateStandingOrder(CDBStandingOrder cdbStandigOrder, RotationEntry aRotationEntry){
+    private CDBStandingOrder updateStandingOrder(CDBStandingOrder cdbStandigOrder, StandingOrder aRotationEntry){
         cdbStandigOrder.setMemo(aRotationEntry.getMemo());
         cdbStandigOrder.setAmount(aRotationEntry.getAmount());
         cdbStandigOrder.setRotation_strategy(aRotationEntry.getRotation_strategy());

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class RotationEntry  implements Serializable {
+public class StandingOrder implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,12 +50,12 @@ public class RotationEntry  implements Serializable {
     private List<Tag> tags;
 
 
-    public RotationEntry(){
+    public StandingOrder(){
         tags = new ArrayList<>();
     }
 
-    public static RotationEntry generate(){
-        RotationEntry rotationEntry = new RotationEntry();
+    public static StandingOrder generate(){
+        StandingOrder rotationEntry = new StandingOrder();
         rotationEntry.setHash(HashUtil.getUniueHash());
         return rotationEntry;
     }

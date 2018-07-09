@@ -3,7 +3,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import java.util.List;
@@ -18,16 +18,16 @@ public class RotationEntryResourceFacade {
         rotationEntryFacade = aRotationEntryFacade;
     }
 
-    public List<RotationEntry> getRotationEntries(String aOwner){
+    public List<StandingOrder> getRotationEntries(String aOwner){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         System.out.println("found userobject with name " + user.getName());
-        List<RotationEntry> rotationEntries = this.rotationEntryFacade.getRotationEntries(user);
+        List<StandingOrder> rotationEntries = this.rotationEntryFacade.getRotationEntries(user);
         return rotationEntries;
     }
 
     public void addRotationEntry(
             String aOwner,
-            RotationEntry aRotationEntry){
+            StandingOrder aRotationEntry){
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         aRotationEntry.setUser(user);
         rotationEntryFacade.save(aRotationEntry);
@@ -41,7 +41,7 @@ public class RotationEntryResourceFacade {
         LogUtil.info(this.getClass(),"Hash: " + aHash);
         LogUtil.info(this.getClass(),"User: " + aOwner);
 
-        RotationEntry rotationEntry = rotationEntryFacade.getRotationEntryByHash(user, aHash);
+        StandingOrder rotationEntry = rotationEntryFacade.getRotationEntryByHash(user, aHash);
         LogUtil.info(this.getClass(), "asdfs");
         LogUtil.info(this.getClass(),"get entry: " + rotationEntry.getHash());
 
@@ -53,7 +53,7 @@ public class RotationEntryResourceFacade {
 
     public void updateRotationEntry(
             String aOwner,
-            RotationEntry aRotationEntry){
+            StandingOrder aRotationEntry){
 
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         aRotationEntry.setUser(user);

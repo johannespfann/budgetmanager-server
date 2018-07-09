@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
@@ -23,21 +23,21 @@ public class RotationEntryDao extends AbstractDao {
 
     @Override
     protected Class<?> getEntityClass() {
-        return RotationEntry.class;
+        return StandingOrder.class;
     }
 
-    public List<RotationEntry> getRotationEntries(AppUser aUser) {
+    public List<StandingOrder> getRotationEntries(AppUser aUser) {
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("user", aUser));
-        return (List<RotationEntry>) doGet(criteria);
+        return (List<StandingOrder>) doGet(criteria);
     }
 
-    public RotationEntry getRotationEntryByHash(String aHash) {
+    public StandingOrder getRotationEntryByHash(String aHash) {
         LogUtil.info(this.getClass(),"get RotationEntryByHash: " +aHash);
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("hash", aHash));
         LogUtil.info(this.getClass(),"found");
-        RotationEntry entry = (RotationEntry) doGet(criteria).get(0);
+        StandingOrder entry = (StandingOrder) doGet(criteria).get(0);
         LogUtil.info(this.getClass(),entry.getHash());
         return entry;
     }

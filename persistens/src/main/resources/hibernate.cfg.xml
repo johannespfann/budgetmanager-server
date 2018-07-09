@@ -24,7 +24,7 @@
         <mapping class="de.pfann.budgetmanager.server.common.model.Entry"/>
         <mapping class="de.pfann.budgetmanager.server.common.model.AppUser"/>
         <mapping class="de.pfann.budgetmanager.server.common.model.Tag"/>
-        <mapping class="de.pfann.budgetmanager.server.common.model.RotationEntry"/>
+        <mapping class="de.pfann.budgetmanager.server.common.model.StandingOrder"/>
         <mapping class="de.pfann.budgetmanager.server.common.model.Run"/>
         <mapping class="de.pfann.budgetmanager.server.common.model.RunInfo"/>
         <mapping class="de.pfann.budgetmanager.server.common.model.TagTemplate"/>

@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 
@@ -11,7 +11,7 @@ public class YearlyRotationPattern implements RotationEntryPattern {
     public static final String PATTERN_NBR = "5679";
 
     @Override
-    public boolean isValidPattern(RotationEntry aEntry) {
+    public boolean isValidPattern(StandingOrder aEntry) {
         String[] values = aEntry.getRotation_strategy().split(":");
 
         if (values[0] != null && values[0].equals(PATTERN_NBR)) {
@@ -22,7 +22,7 @@ public class YearlyRotationPattern implements RotationEntryPattern {
     }
 
     @Override
-    public boolean isExecutable(LocalDateTime aToday, RotationEntry aEntry) {
+    public boolean isExecutable(LocalDateTime aToday, StandingOrder aEntry) {
         LocalDateTime startTime = DateUtil.asLocalDateTime(aEntry.getStart_at());
         LocalDateTime endTime = DateUtil.asLocalDateTime(aEntry.getEnd_at());
 

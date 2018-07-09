@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Tag;
 import de.pfann.budgetmanager.server.common.util.HashUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
@@ -24,7 +24,7 @@ public class EntryTransformer {
         createdDate = aDate;
     }
 
-    public Entry createEntry(RotationEntry aRotationEntry){
+    public Entry createEntry(StandingOrder aRotationEntry){
         Entry newEntry = new Entry();
 
         newEntry.setAppUser(aRotationEntry.getUser());

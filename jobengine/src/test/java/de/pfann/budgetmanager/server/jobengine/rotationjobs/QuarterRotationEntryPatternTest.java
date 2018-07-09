@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +31,7 @@ public class QuarterRotationEntryPatternTest {
 
         LocalDateTime startTime = LocalDateTime.of(2018,6,1,4,4);
 
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(DateUtil.asDate(startTime));
         entry.setEnd_at(DateUtil.getMaximumDate());
         entry.setLast_executed(DateUtil.getMinimumDate());
@@ -49,7 +49,7 @@ public class QuarterRotationEntryPatternTest {
         LocalDateTime startTime = LocalDateTime.of(2018,3,1,4,4);
         LocalDateTime endTime = LocalDateTime.of(2018,4,1,4,4);
 
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(DateUtil.asDate(startTime));
         entry.setEnd_at(DateUtil.asDate(endTime));
         entry.setLast_executed(DateUtil.getMinimumDate());
@@ -68,7 +68,7 @@ public class QuarterRotationEntryPatternTest {
         LocalDateTime startTime = LocalDateTime.of(2018,3,1,4,4);
         LocalDateTime endTime = LocalDateTime.of(2018,7,1,4,4);
 
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(DateUtil.asDate(startTime));
         entry.setEnd_at(DateUtil.asDate(endTime));
         entry.setLast_executed(DateUtil.getMinimumDate());
@@ -87,7 +87,7 @@ public class QuarterRotationEntryPatternTest {
         LocalDateTime startTime = LocalDateTime.of(2017,7,1,4,4);
         LocalDateTime lastExecuted = LocalDateTime.of(2018,6,2,1,1);
 
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(DateUtil.asDate(startTime));
         entry.setEnd_at(DateUtil.asDate(endTime));
         entry.setLast_executed(DateUtil.asDate(lastExecuted));
@@ -106,7 +106,7 @@ public class QuarterRotationEntryPatternTest {
         LocalDateTime startTime = LocalDateTime.of(2017,4,1,4,4);
         LocalDateTime lastExecuted = LocalDateTime.of(2018,4,2,1,1);
 
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(DateUtil.asDate(startTime));
         entry.setEnd_at(DateUtil.asDate(endTime));
         entry.setLast_executed(DateUtil.asDate(lastExecuted));

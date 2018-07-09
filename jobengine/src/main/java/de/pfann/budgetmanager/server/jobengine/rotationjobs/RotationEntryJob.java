@@ -5,7 +5,7 @@ import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
@@ -54,17 +54,17 @@ public class RotationEntryJob implements Job {
 
         for(AppUser user: users){
             LogUtil.info(this.getClass(),"Execute for user: " + user.getName());
-            List<RotationEntry> rotationEntries = rotationEntryFacade.getRotationEntries(user);
+            List<StandingOrder> rotationEntries = rotationEntryFacade.getRotationEntries(user);
 
             LogUtil.info(this.getClass(),"with : " + rotationEntries.size() + " rotationentries");
 
-            for(RotationEntry rotationEntry : rotationEntries){
+            for(StandingOrder rotationEntry : rotationEntries){
                 executeRotationEntry(aRun,rotationEntry);
             }
         }
     }
 
-    private void executeRotationEntry(Run currentRun,RotationEntry rotationEntry){
+    private void executeRotationEntry(Run currentRun,StandingOrder rotationEntry){
         LogUtil.info(this.getClass(),"-----> Durchsuche  " + rotationEntry.getHash());
         for(RotationEntryPattern pattern : patterns){
 
@@ -86,7 +86,7 @@ public class RotationEntryJob implements Job {
 
     }
 
-    private boolean isExecuteable(Run currentRun, RotationEntry rotationEntry, RotationEntryPattern pattern) {
+    private boolean isExecuteable(Run currentRun, StandingOrder rotationEntry, RotationEntryPattern pattern) {
         if(!pattern.isValidPattern(rotationEntry)){
             LogUtil.info(this.getClass(),"isExecutable -> return false");
             return false;

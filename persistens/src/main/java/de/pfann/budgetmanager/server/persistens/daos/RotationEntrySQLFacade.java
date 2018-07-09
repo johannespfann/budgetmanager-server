@@ -2,7 +2,7 @@ package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Tag;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 
@@ -25,7 +25,7 @@ public class RotationEntrySQLFacade implements StandingOrderFacade {
     }
 
     @Override
-    public void save(RotationEntry aEntry){
+    public void save(StandingOrder aEntry){
 
         if(aEntry.getStart_at() == null){
             aEntry.setStart_at(DateUtil.getMinimumDate());
@@ -48,17 +48,17 @@ public class RotationEntrySQLFacade implements StandingOrderFacade {
     }
 
     @Override
-    public void update(RotationEntry aEntry){
-        RotationEntry persistedEntry = roationEntryDao.getRotationEntryByHash(aEntry.getHash());
+    public void update(StandingOrder aEntry){
+        StandingOrder persistedEntry = roationEntryDao.getRotationEntryByHash(aEntry.getHash());
 
     }
 
     @Override
-    public List<RotationEntry> getRotationEntries(AppUser aUser) {
+    public List<StandingOrder> getRotationEntries(AppUser aUser) {
 
-        List<RotationEntry> entries =  roationEntryDao.getRotationEntries(aUser);
+        List<StandingOrder> entries =  roationEntryDao.getRotationEntries(aUser);
 
-        for(RotationEntry entry : entries){
+        for(StandingOrder entry : entries){
         
         }
 
@@ -67,13 +67,13 @@ public class RotationEntrySQLFacade implements StandingOrderFacade {
     }
 
     @Override
-    public RotationEntry getRotationEntryByHash(AppUser aAppUser, String aHash){
-        RotationEntry entry = roationEntryDao.getRotationEntryByHash(aHash);
+    public StandingOrder getRotationEntryByHash(AppUser aAppUser, String aHash){
+        StandingOrder entry = roationEntryDao.getRotationEntryByHash(aHash);
         return entry;
     }
 
     @Override
-    public void delete(RotationEntry aRotationEntry){
+    public void delete(StandingOrder aRotationEntry){
         List<Tag> tags = new LinkedList<>();
 
         for(Tag tag : tags){
@@ -85,7 +85,7 @@ public class RotationEntrySQLFacade implements StandingOrderFacade {
     // TODO wie mach ich die validierungsgeschichten ll
     // Wird noch ueberlegt
     @Override
-    public void validateRotationEntry(RotationEntry aRotationEntry){
+    public void validateRotationEntry(StandingOrder aRotationEntry){
 
         // hash ist bei update dabei und bei save noch nicht ...
         aRotationEntry.getHash();

@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class MonthlyRotationEntryTest {
     @Test
     public void testTodayIsBeforStartTime(){
         // prepare
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(startDate);
         entry.setEnd_at(endTime);
         entry.setLast_executed(lastExecuted);
@@ -57,7 +57,7 @@ public class MonthlyRotationEntryTest {
     @Test
     public void testLastExecutedThisMonth(){
         // prepare
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(startDate);
         entry.setEnd_at(endTime);
         entry.setLast_executed(lastExecuted);
@@ -73,7 +73,7 @@ public class MonthlyRotationEntryTest {
     @Test
     public void testLastExecutedLastMonthSameDay(){
         // prepare
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(startDate);
         entry.setEnd_at(endTime);
         entry.setLast_executed(lastExecuted);
@@ -89,7 +89,7 @@ public class MonthlyRotationEntryTest {
 
     @Test
     public void testLastExecutedLastMonthAfterToday(){
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(startDate);
         entry.setEnd_at(endTime);
         entry.setLast_executed(lastExecuted);
@@ -109,7 +109,7 @@ public class MonthlyRotationEntryTest {
         LocalDateTime startDate = LocalDateTime.of(2017,1,1,1,1);
         LocalDateTime lastExecuted = LocalDateTime.of(2018,1,30,1,1);
 
-        RotationEntry entry = new RotationEntry();
+        StandingOrder entry = new StandingOrder();
         entry.setStart_at(DateUtil.asDate(startDate));
         entry.setEnd_at(endTime);
         entry.setLast_executed(DateUtil.asDate(lastExecuted));

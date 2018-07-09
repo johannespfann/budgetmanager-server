@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.util.RotationEntryJsonMapper;
@@ -27,7 +27,7 @@ public class RotationEntryResource {
             @PathParam("owner") String aOwner
             ){
         System.out.println("Owner is: " + aOwner);
-        List<RotationEntry> rotationEntries = rotationEntryResourceFacade.getRotationEntries(aOwner);
+        List<StandingOrder> rotationEntries = rotationEntryResourceFacade.getRotationEntries(aOwner);
         System.out.println("Get " + rotationEntries.size() + " RotationEntries!");
         String json = RotationEntryJsonMapper.convertToJson(rotationEntries);
         return json;
@@ -41,7 +41,7 @@ public class RotationEntryResource {
     public void addRotationEntry(
             @PathParam("owner") String aOwner,
             String aRotationEntry){
-        RotationEntry entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
+        StandingOrder entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
         rotationEntryResourceFacade.addRotationEntry(aOwner,entry);
     }
 
@@ -63,7 +63,7 @@ public class RotationEntryResource {
     public void updateRotationEntry(
             @PathParam("owner") String aOwner,
             String aRotationEntry){
-        RotationEntry entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
+        StandingOrder entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
         rotationEntryResourceFacade.updateRotationEntry(aOwner,entry);
     }
 }

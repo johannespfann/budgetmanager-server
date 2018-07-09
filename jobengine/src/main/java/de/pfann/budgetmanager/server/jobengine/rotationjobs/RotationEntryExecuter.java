@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
@@ -24,7 +24,7 @@ public class RotationEntryExecuter {
     }
 
 
-    private void executeRotationEntry(LocalDateTime executionDateTime, RotationEntry aRotationEntry){
+    private void executeRotationEntry(LocalDateTime executionDateTime, StandingOrder aRotationEntry){
         LogUtil.info(this.getClass(),"-----> Durchsuche  " + aRotationEntry.getHash());
         for(RotationEntryPattern pattern : patterns){
 
@@ -47,7 +47,7 @@ public class RotationEntryExecuter {
 
 
 
-    private boolean isExecuteable(LocalDateTime currentRun, RotationEntry rotationEntry, RotationEntryPattern pattern) {
+    private boolean isExecuteable(LocalDateTime currentRun, StandingOrder rotationEntry, RotationEntryPattern pattern) {
         if(!pattern.isValidPattern(rotationEntry)){
             return false;
         }

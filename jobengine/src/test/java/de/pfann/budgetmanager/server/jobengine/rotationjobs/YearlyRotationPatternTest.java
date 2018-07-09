@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
-import de.pfann.budgetmanager.server.common.model.RotationEntry;
+import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +16,7 @@ public class YearlyRotationPatternTest {
     private LocalDateTime currentDateOfRun;
     private LocalDateTime lastExecuted;
 
-    private RotationEntry rotationEntry;
+    private StandingOrder rotationEntry;
 
     // class under test
     private RotationEntryPattern rotationEntryPattern;
@@ -24,7 +24,7 @@ public class YearlyRotationPatternTest {
     @Before
     public void setUp(){
         rotationEntryPattern = new YearlyRotationPattern();
-        rotationEntry = new RotationEntry();
+        rotationEntry = new StandingOrder();
     }
 
     @Test
