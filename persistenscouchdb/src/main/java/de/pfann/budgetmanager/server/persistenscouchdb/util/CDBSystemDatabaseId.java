@@ -4,7 +4,7 @@ public class CDBSystemDatabaseId {
 
     private static final String PREFIX = "bm";
 
-    private static final String SEPARATOR = "-";
+    private static final String SEPARATOR = "_";
 
     private CDBSystemDatabaseId(){
         // default

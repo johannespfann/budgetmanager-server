@@ -3,7 +3,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.util;
 public class CDBKontoDatabaseId {
 
     public static final String APPLICATION_PREFIX = "bm";
-    public static final String SEPERATOR = "-";
+    public static final String SEPERATOR = "_";
 
 
     private String username;
@@ -87,6 +87,7 @@ public class CDBKontoDatabaseId {
             assertPrefixIsValid(values[0]);
             username = values[1];
             kontoHash = values[2];
+            typ = values[3];
             return build();
         }
 

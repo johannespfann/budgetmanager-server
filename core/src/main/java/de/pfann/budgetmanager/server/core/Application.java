@@ -3,6 +3,8 @@ package de.pfann.budgetmanager.server.core;
 import de.pfann.budgetmanager.server.common.facade.*;
 import de.pfann.budgetmanager.server.common.model.*;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
+import de.pfann.budgetmanager.server.jobengine.core.*;
+import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
@@ -32,28 +34,41 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 public class Application {
 
-    public static final String BASE_URI = "http://0.0.0.0:8090/budget/";
+    private static String serveradress_key;
+    private static String couchdbadress_key;
 
 
     public Application(){
-        // default
+        couchdbadress_key = "couchdbadress";
+        serveradress_key = "serveradress";
     }
 
     public static void main(String[] args) throws IOException {
         Application application = new Application();
-        application.start();
+
+        Properties properties = new Properties();
+        properties.setProperty(serveradress_key,"http://0.0.0.0:8090/budget/");
+        properties.setProperty(couchdbadress_key,"http://localhost:5984");
+
+        application.start(properties);
     }
 
-    public void start() throws IOException {
-        cleanDb();
+    public void start(Properties aProperties) throws IOException {
+
         /**
          * couchdb
          */
+        String serveradress = aProperties.getProperty(serveradress_key);
+        String couchdbadress = aProperties.getProperty(couchdbadress_key);
+
+        cleanDb(couchdbadress);
+
         HttpClient httpClient = new StdHttpClient.Builder()
-                .url("http://localhost:5984")
+                .url(couchdbadress)
                 .build();
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
@@ -90,9 +105,7 @@ public class Application {
         EncryptionResourceFacade encryptionResourceFacade = new EncryptionResourceFacade(userFacade);
         EncryptionResource encryptionResource = new EncryptionResource(encryptionResourceFacade);
 
-
         AppUser user = createUserIfNotExist(userFacade,entryFacade, standingOrderFacade);
-
 
         final ResourceConfig rc = new ResourceConfig()
                 .register(RequestLoggingFilter.class)
@@ -106,20 +119,6 @@ public class Application {
                 .register(encryptionResource);
 
 
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-
-
-        final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
-        System.in.read();
-
-
-
-        server.stop();
-
-        // end - Add defaultUser
-
-        /*
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
         RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
         RotationEntryPattern yearlyRotationEntryPattern = new YearlyRotationPattern();
@@ -131,9 +130,9 @@ public class Application {
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,
-                new AppUserSQLFacade(),
-                new EntrySQLFacade(),
-                new RotationEntrySQLFacade());
+                userFacade,
+                entryFacade,
+                standingOrderFacade);
 
         TimeInterval timeInterval = new HourInterval(12);
         RunProvider provider = new RunProviderImpl(timeInterval);
@@ -149,17 +148,23 @@ public class Application {
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
         scheduler.start();
-        */
 
 
+        System.out.println(String.format("Jersey app started with WADL available at "
+                + "%sapplication.wadl\nHit enter to stop it...", serveradress));
+
+
+        final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(serveradress), rc);
+        System.in.read();
+        server.stop();
 
     }
 
-    private void cleanDb() {
+    private void cleanDb(String serveradress) {
         HttpClient httpClient = null;
         try {
             httpClient = new StdHttpClient.Builder()
-                    .url("http://localhost:5984")
+                    .url(serveradress)
                     .build();
         } catch (MalformedURLException e) {
             e.printStackTrace();

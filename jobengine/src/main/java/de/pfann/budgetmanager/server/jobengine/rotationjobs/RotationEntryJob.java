@@ -1,5 +1,8 @@
 package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
+import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
+import de.pfann.budgetmanager.server.common.facade.EntryFacade;
+import de.pfann.budgetmanager.server.common.facade.RotationEntryFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.RotationEntry;
@@ -7,9 +10,6 @@ import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.jobengine.core.Job;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,14 +19,14 @@ public class RotationEntryJob implements Job {
 
     private List<RotationEntryPattern> patterns;
 
-    private EntrySQLFacade entryFacade;
+    private EntryFacade entryFacade;
 
-    private AppUserSQLFacade userFacade;
+    private AppUserFacade userFacade;
 
-    private RotationEntrySQLFacade rotationEntryFacade;
+    private RotationEntryFacade rotationEntryFacade;
 
 
-    public RotationEntryJob(List<RotationEntryPattern> aPatterns, AppUserSQLFacade aUserFacade, EntrySQLFacade aEntryFacade, RotationEntrySQLFacade aRotationEntryFacade){
+    public RotationEntryJob(List<RotationEntryPattern> aPatterns, AppUserFacade aUserFacade, EntryFacade aEntryFacade, RotationEntryFacade aRotationEntryFacade){
         patterns = aPatterns;
         entryFacade = aEntryFacade;
         userFacade = aUserFacade;
