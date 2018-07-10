@@ -4,18 +4,23 @@ import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.budgetmanager.server.jobengine.rotationjobs.RotationEntryExecuter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RotationEntryResourceFacade {
 
     private AppUserFacade userFacade;
     private StandingOrderFacade rotationEntryFacade;
+    private RotationEntryExecuter rotationEntryExecuter;
 
-    public RotationEntryResourceFacade(AppUserFacade aAppUserFacade, StandingOrderFacade aRotationEntryFacade){
+    public RotationEntryResourceFacade(AppUserFacade aAppUserFacade, StandingOrderFacade aRotationEntryFacade, RotationEntryExecuter aExecutor){
         userFacade = aAppUserFacade;
         rotationEntryFacade = aRotationEntryFacade;
+        rotationEntryExecuter = aExecutor;
     }
 
     public List<StandingOrder> getRotationEntries(String aOwner){
@@ -31,6 +36,9 @@ public class RotationEntryResourceFacade {
         AppUser user = userFacade.getUserByNameOrEmail(aOwner);
         aRotationEntry.setUser(user);
         rotationEntryFacade.save(aRotationEntry);
+        StandingOrder standingOrder = rotationEntryFacade.getRotationEntryByHash(user,aRotationEntry.getHash());
+
+        rotationEntryExecuter.executeRotationEntry(LocalDateTime.now(),standingOrder);
     }
 
     public void deleteRotationEntry(

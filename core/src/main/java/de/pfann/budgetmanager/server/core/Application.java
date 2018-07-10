@@ -87,6 +87,17 @@ public class Application {
         RunFacade runFacade = new CDBRunFacade(runDaoFactory);
         TagStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
 
+        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
+        RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
+        RotationEntryPattern yearlyRotationEntryPattern = new YearlyRotationPattern();
+
+        List<RotationEntryPattern> patternList = new LinkedList<>();
+        patternList.add(monthlyRotationEntry);
+        patternList.add(quarterRotationEntryPattern);
+        patternList.add(yearlyRotationEntryPattern);
+
+        RotationEntryExecuter rotationEntryExecuter = new RotationEntryExecuter(patternList,standingOrderFacade,entryFacade);
+
 
         /**
          * resources
@@ -98,7 +109,7 @@ public class Application {
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(userFacade,entryFacade);
         EntryResource entryResource = new EntryResource(entryResourceFacade);
 
-        RotationEntryResourceFacade rotationEntryResourceFacade = new RotationEntryResourceFacade(userFacade,standingOrderFacade);
+        RotationEntryResourceFacade rotationEntryResourceFacade = new RotationEntryResourceFacade(userFacade,standingOrderFacade, rotationEntryExecuter);
         RotationEntryResource rotationEntryResource = new RotationEntryResource(rotationEntryResourceFacade);
 
         TagStatisticResourceFacade tagStatisticResourceFacade = new TagStatisticResourceFacade(statisticFacade,userFacade);
@@ -126,14 +137,7 @@ public class Application {
                 .register(tagStatisticResource)
                 .register(encryptionResource);
 
-        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
-        RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
-        RotationEntryPattern yearlyRotationEntryPattern = new YearlyRotationPattern();
 
-        List<RotationEntryPattern> patternList = new LinkedList<>();
-        patternList.add(monthlyRotationEntry);
-        patternList.add(quarterRotationEntryPattern);
-        patternList.add(yearlyRotationEntryPattern);
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,

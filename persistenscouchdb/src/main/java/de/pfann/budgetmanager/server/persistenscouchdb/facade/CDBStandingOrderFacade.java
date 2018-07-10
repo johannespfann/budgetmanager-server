@@ -4,6 +4,7 @@ import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Tag;
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
@@ -17,6 +18,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBStandingOrderId;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserId;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,7 +52,8 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
         standigOrderEntry.setKonto(cdbUser.getKontos().get(0).getHash());
         standigOrderEntry.setUsername(cdbUser.getUsername());
         standigOrderEntry.setStart_at(aEntry.getStart_at());
-        standigOrderEntry.setLast_executed(aEntry.getStart_at());
+        standigOrderEntry.setLast_executed(DateUtil.getMinimumDate());
+        standigOrderEntry.setEnd_at(DateUtil.getMaximumDate());
 
         List<CDBTag> cdbTags = new LinkedList<>();
         for(Tag tagTemplate : aEntry.getTags()){
@@ -162,6 +165,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
         rotationEntry.setTags(tagTemplates);
         rotationEntry.setStart_at(aStandingOrder.getStart_at());
         rotationEntry.setLast_executed(aStandingOrder.getLast_executed());
+        rotationEntry.setEnd_at(aStandingOrder.getEnd_at());
         return rotationEntry;
     }
 

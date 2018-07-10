@@ -12,12 +12,17 @@ public class MonthlyRotationPattern implements RotationEntryPattern {
 
     @Override
     public boolean isValidPattern(StandingOrder aEntry) {
+        System.out.println("strategy: " + aEntry.getRotation_strategy());
         String[] values = aEntry.getRotation_strategy().split(":");
 
+        System.out.println("value of values: " + values[0]);
+        System.out.println("values: " + values.length);
         if (values[0] != null && values[0].equals(PATTERN_NBR)) {
+            System.out.println("return true");
             return true;
         }
 
+        System.out.println("return false");
         return false;
     }
 
