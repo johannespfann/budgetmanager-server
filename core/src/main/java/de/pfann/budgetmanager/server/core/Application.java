@@ -17,6 +17,7 @@ import de.pfann.budgetmanager.server.restservices.resources.core.RequestBasicAut
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestLoggingFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.ResponseLoggingFilter;
 import de.pfann.budgetmanager.server.restservices.resources.email.EmailService;
+import de.pfann.budgetmanager.server.restservices.resources.login.AuthenticationManager;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
@@ -90,7 +91,8 @@ public class Application {
         /**
          * resources
          */
-        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,new EmailService());
+        AuthenticationManager authenticationManager = new AuthenticationManager(userFacade);
+        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,new EmailService(),authenticationManager);
         UserResource userResource = new UserResource(userResourceFacade);
 
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(userFacade,entryFacade);
@@ -107,17 +109,22 @@ public class Application {
 
         AppUser user = createUserIfNotExist(userFacade,entryFacade, standingOrderFacade);
 
+        /**
+         * authantication
+         */
+
+        RequestBasicAuthenticationFilter requestBasicAuthenticationFilter = new RequestBasicAuthenticationFilter(authenticationManager);
+
         final ResourceConfig rc = new ResourceConfig()
                 .register(RequestLoggingFilter.class)
                 .register(ResponseLoggingFilter.class)
                 .register(CrossOriginFilterImpl.class)
-                .register(RequestBasicAuthenticationFilter.class)
+                .register(requestBasicAuthenticationFilter)
                 .register(userResource)
                 .register(entryResource)
                 .register(rotationEntryResource)
                 .register(tagStatisticResource)
                 .register(encryptionResource);
-
 
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
         RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
@@ -149,15 +156,12 @@ public class Application {
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
         scheduler.start();
 
-
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", serveradress));
-
 
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(serveradress), rc);
         System.in.read();
         server.stop();
-
     }
 
     private void cleanDb(String serveradress) {

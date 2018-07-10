@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +18,7 @@ public class EncryptionResource   {
 
     @GET
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/isencrypted")
     public boolean isEncrypted(@PathParam("owner") String aOwner){
@@ -25,6 +27,7 @@ public class EncryptionResource   {
 
     @GET
     @Logged
+    @Secured
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/getencrypttext")
@@ -36,6 +39,7 @@ public class EncryptionResource   {
 
     @POST
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/setencrypttext")
     public void setEncryptText(@PathParam("owner") String aOwner, String aBody){

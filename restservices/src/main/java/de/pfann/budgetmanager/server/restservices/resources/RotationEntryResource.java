@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
 import de.pfann.budgetmanager.server.restservices.resources.util.RotationEntryJsonMapper;
 
 import javax.ws.rs.*;
@@ -20,6 +21,7 @@ public class RotationEntryResource {
 
     @GET
     @Logged
+    @Secured
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
@@ -35,6 +37,7 @@ public class RotationEntryResource {
 
     @POST
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/add")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -47,6 +50,7 @@ public class RotationEntryResource {
 
     @DELETE
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/delete/{hash}")
     public void deleteRotationEntry(
@@ -57,6 +61,7 @@ public class RotationEntryResource {
 
     @PATCH
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/update")
     @Consumes(MediaType.APPLICATION_JSON)

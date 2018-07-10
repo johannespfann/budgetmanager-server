@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
 import de.pfann.budgetmanager.server.restservices.resources.util.EntryJsonMapper;
 
 import javax.ws.rs.*;
@@ -22,6 +23,7 @@ public class EntryResource {
 
     @GET
     @Logged
+    @Secured
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
@@ -34,6 +36,7 @@ public class EntryResource {
 
     @POST
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/add")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -46,6 +49,7 @@ public class EntryResource {
 
     @PATCH
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/update")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -59,6 +63,7 @@ public class EntryResource {
 
     @DELETE
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/delete/{hash}")
     public void deleteEntry(

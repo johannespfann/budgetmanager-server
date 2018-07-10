@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 import de.pfann.budgetmanager.server.common.model.TagStatistic;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
 import de.pfann.budgetmanager.server.restservices.resources.util.TagStatisticJsonMapper;
 
 import javax.ws.rs.*;
@@ -21,6 +22,7 @@ public class TagStatisticResource {
 
     @GET
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -32,6 +34,7 @@ public class TagStatisticResource {
 
     @POST
     @Logged
+    @Secured
     @CrossOriginFilter
     @Path("owner/{owner}/persist")
     @Consumes(MediaType.APPLICATION_JSON)

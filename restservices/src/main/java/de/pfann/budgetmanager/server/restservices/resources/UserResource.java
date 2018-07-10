@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
@@ -33,7 +34,7 @@ public class UserResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String login(
             @PathParam("accessor") String aAccessor,
-            @HeaderParam("Authorization") String authorizationValue) {
+            @HeaderParam("Authorization") String authorizationValue) throws JsonProcessingException {
         return userResourceFacade.login(aAccessor,authorizationValue);
     }
 

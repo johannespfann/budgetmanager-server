@@ -1,5 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
@@ -8,12 +10,16 @@ import de.pfann.budgetmanager.server.restservices.resources.login.*;
 
 public class UserResourceFacade {
 
+    private ObjectMapper objectMapper;
     private AppUserFacade userFacade;
     private EmailService emailService;
+    private AuthenticationManager authenticationManager;
 
-    public UserResourceFacade(AppUserFacade aAppUserFacade, EmailService aEmailService){
+    public UserResourceFacade(AppUserFacade aAppUserFacade, EmailService aEmailService, AuthenticationManager aAuthManager){
         userFacade = aAppUserFacade;
         emailService = aEmailService;
+        authenticationManager = aAuthManager;
+        objectMapper = new ObjectMapper();
     }
 
     public void logout(String aUser, String aToken){
@@ -28,7 +34,7 @@ public class UserResourceFacade {
         }
     }
 
-    public String login(String aUser, String aAuthorizationValue){
+    public String login(String aUser, String aAuthorizationValue) throws JsonProcessingException {
         try{
             LogUtil.info(this.getClass(),"Authorization: " + aAuthorizationValue);
             AppUser user = userFacade.getUserByNameOrEmail(aUser);
@@ -60,10 +66,12 @@ public class UserResourceFacade {
                 throw new SecurityException();
             }
 
-            String JSON = "{\"accesstoken\" : \"" + LoginUtil.getAccessTocken() +"\"," +
+            String token = authenticationManager.generateToken(user.getName());
+
+            System.out.println("preparedValue: " + token);
+            String JSON = "{\"accesstoken\" : \"" + token +"\"," +
                     "\"username\" : \"" + user.getName() +"\"," +
                     "\"email\" : \"" + user.getEmail() +"\" }";
-            LogUtil.info(this.getClass(),"Return JSON " + JSON);
             return JSON;
         }catch (Exception exception){
             exception.printStackTrace();
