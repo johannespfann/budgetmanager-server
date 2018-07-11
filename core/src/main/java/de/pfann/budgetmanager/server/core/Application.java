@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.core;
 
+import de.pfann.budgetmanager.server.common.configuration.ConfigurationProvider;
 import de.pfann.budgetmanager.server.common.facade.*;
 import de.pfann.budgetmanager.server.common.model.*;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
@@ -16,7 +17,7 @@ import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilt
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestBasicAuthenticationFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestLoggingFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.ResponseLoggingFilter;
-import de.pfann.budgetmanager.server.restservices.resources.email.EmailService;
+import de.pfann.budgetmanager.server.common.email.EmailService;
 import de.pfann.budgetmanager.server.restservices.resources.login.AuthenticationManager;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
@@ -32,28 +33,41 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class Application {
 
-    private static String serveradress_key;
-    private static String couchdbadress_key;
+    public final static String KEY_SERVER_ADRESS = "server.adress";
+    public final static String KEY_SERVER_PORT = "server.port";
+    public final static String KEY_SERVER_BASE_PATH = "server.basepath";
+
+    public final static String KEY_COUCHDB_HOST = "couchdb.host";
+    public final static String KEY_COUCHDB_PORT = "couchdb.port";
+
+    public static final String KEY_MAIL_SMTP_AUTH = "mail.smtp.auth";
+    public static final String KEY_MAIL_SMTP_STARTTL_ENABLE = "mail.smtp.starttls.enable";
+    public static final String KEY_MAIL_SMTP_HOST = "mail.smtp.host";
+    public static final String KEY_MAIL_SMTP_PORT = "mail.smtp.port";
+    public static final String KEY_MAIL_EMAIL = "mail.email";
+    public static final String KEY_MAIL_PASSWORD = "mail.pw";
 
 
     public Application(){
-        couchdbadress_key = "couchdbadress";
-        serveradress_key = "serveradress";
+        //
     }
 
     public static void main(String[] args) throws IOException {
         Application application = new Application();
 
-        Properties properties = new Properties();
-        properties.setProperty(serveradress_key,"http://0.0.0.0:8090/budget/");
-        properties.setProperty(couchdbadress_key,"http://localhost:5984");
+        ConfigurationProvider configurationProvider = new ConfigurationProvider("budgetmanager.properties");
+
+
+        Properties properties = configurationProvider.getProperties();
+        Set<String> propertyList = properties.stringPropertyNames();
+
+        for(String key : propertyList){
+            System.out.println(key +" : " + properties.getProperty(key));
+        }
 
         application.start(properties);
     }
@@ -63,8 +77,22 @@ public class Application {
         /**
          * couchdb
          */
-        String serveradress = aProperties.getProperty(serveradress_key);
-        String couchdbadress = aProperties.getProperty(couchdbadress_key);
+        String serveradress = getServerAdress(aProperties);
+        String couchdbadress = getCouchDBAdress(aProperties);
+        String mailSmtpHost = aProperties.getProperty(KEY_MAIL_SMTP_HOST);
+        String mailSmtpAuth = aProperties.getProperty(KEY_MAIL_SMTP_AUTH);
+        String mailSmtpStartTlsEnable = aProperties.getProperty(KEY_MAIL_SMTP_STARTTL_ENABLE);
+        String mailSmtpPort = aProperties.getProperty(KEY_MAIL_SMTP_PORT);
+        String senderEmail = aProperties.getProperty(KEY_MAIL_EMAIL);
+        String senderPassword = aProperties.getProperty(KEY_MAIL_PASSWORD);
+
+        EmailService emailService = new EmailService(
+                mailSmtpHost,
+                mailSmtpAuth,
+                mailSmtpStartTlsEnable,
+                mailSmtpPort,
+                senderEmail,
+                senderPassword);
 
         cleanDb(couchdbadress);
 
@@ -103,7 +131,7 @@ public class Application {
          * resources
          */
         AuthenticationManager authenticationManager = new AuthenticationManager(userFacade);
-        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,new EmailService(),authenticationManager);
+        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,emailService,authenticationManager);
         UserResource userResource = new UserResource(userResourceFacade);
 
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(userFacade,entryFacade);
@@ -166,6 +194,27 @@ public class Application {
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(serveradress), rc);
         System.in.read();
         server.stop();
+    }
+
+    private String getCouchDBAdress(Properties aProperties) {
+        return new StringBuilder()
+                    .append(aProperties.getProperty(KEY_COUCHDB_HOST))
+                    .append(":")
+                    .append(aProperties.getProperty(KEY_COUCHDB_PORT))
+                    .toString();
+    }
+
+    private String getServerAdress(Properties aProperties) {
+        String serveradress;
+        serveradress= new StringBuilder()
+                .append(aProperties.getProperty(KEY_SERVER_ADRESS))
+                .append(":")
+                .append(aProperties.getProperty(KEY_SERVER_PORT))
+                .append("/")
+                .append(aProperties.getProperty(KEY_SERVER_BASE_PATH))
+                .append("/")
+                .toString();
+        return serveradress;
     }
 
     private void cleanDb(String serveradress) {
