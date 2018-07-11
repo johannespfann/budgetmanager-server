@@ -55,20 +55,13 @@ public class RotationEntryExecuter {
 
 
     private boolean isExecuteable(LocalDateTime currentRun, StandingOrder rotationEntry, RotationEntryPattern pattern) {
-        System.out.println("in isExecutable");
-        System.out.println("starttime      : " + rotationEntry.getStart_at());
-        System.out.println("lastexecutable :" + rotationEntry.getLast_executed());
-        System.out.println("endtime        : " + rotationEntry.getEnd_at());
         if(!pattern.isValidPattern(rotationEntry)){
-            System.out.println("was not valid pattern");
             return false;
         }
 
         if(pattern.isExecutable(currentRun,rotationEntry)){
-            System.out.println("pattern was valid");
             return true;
         }
-        System.out.println("return false  because ?");
         return false;
     }
 

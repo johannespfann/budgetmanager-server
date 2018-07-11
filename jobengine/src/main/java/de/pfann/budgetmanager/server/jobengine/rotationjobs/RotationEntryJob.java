@@ -80,7 +80,7 @@ public class RotationEntryJob implements Job {
                         .createEntry(rotationEntry);
                 entryFacade.persistEntry(entry);
                 rotationEntry.setLast_executed(executionDate);
-                rotationEntryFacade.save(rotationEntry);
+                rotationEntryFacade.update(rotationEntry);
             }
         }
 

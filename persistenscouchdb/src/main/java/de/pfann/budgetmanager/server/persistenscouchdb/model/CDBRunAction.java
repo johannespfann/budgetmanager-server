@@ -13,6 +13,10 @@ public class CDBRunAction {
 
     private Date endtime;
 
+    public CDBRunAction(){
+        // default
+    }
+
     public CDBRunAction(String aActionName, String aState, Date aStartTime, Date aEndTime){
         state = aState;
         actionname = aActionName;

@@ -13,6 +13,11 @@ public class CDBRun extends AbstractDocument {
 
     private List<CDBRunAction> runactions;
 
+    public CDBRun(){
+        // default
+        runactions = new LinkedList<>();
+    }
+
     public CDBRun(Date aExecutedAd){
         executedAt = aExecutedAd;
         runactions = new LinkedList<>();

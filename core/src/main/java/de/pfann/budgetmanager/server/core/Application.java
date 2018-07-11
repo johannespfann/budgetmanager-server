@@ -173,7 +173,7 @@ public class Application {
                 entryFacade,
                 standingOrderFacade);
 
-        TimeInterval timeInterval = new HourInterval(12);
+        TimeInterval timeInterval = new MinuteInterval(1);
         RunProvider provider = new RunProviderImpl(timeInterval);
 
         List<JobRunner> jobRunners = new LinkedList<>();
@@ -182,8 +182,8 @@ public class Application {
 
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-        ExecutionTime startTime = new OneOClockAM();
-        TimeInterval timeInterval1 = new Daily();
+        ExecutionTime startTime = new SecStartTime(5);
+        TimeInterval timeInterval1 = new MinuteInterval(5);
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
         scheduler.start();

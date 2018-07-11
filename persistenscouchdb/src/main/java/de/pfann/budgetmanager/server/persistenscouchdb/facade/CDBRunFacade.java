@@ -48,6 +48,9 @@ public class CDBRunFacade implements RunFacade {
     public Run getLastRun() {
         // TODO geht besser
         List<Run> runs = getAllRuns();
+        if(runs.size() == 0){
+            return null;
+        }
         return runs.get(runs.size()-1);
     }
 
