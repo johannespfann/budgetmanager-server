@@ -9,17 +9,27 @@ import java.util.Properties;
 
 public class EmailService {
 
+    /**
+     *  PropertyKEYS
+     */
+
     private static final String MAIL_SMTP_HOST = "mail.smtp.host";
     private static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
     private static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
     private static final String MAIL_SMTP_PORT = "mail.smtp.port";
     private static final String SMTP_PROTOCOL = "smtp";
+
+    /**
+     *  members
+     */
+
     private String smtpHost;
     private String smtpAuth;
     private String smtpStartTls;
     private String smtpPort;
     private String email;
     private String password;
+
 
     public EmailService(String aSmtpHost, String aSmtpAuth, String aSmtpStartTls, String aSmtpPort, String aEmail, String aPassword){
         smtpHost = aSmtpHost;
@@ -30,7 +40,7 @@ public class EmailService {
         password = aPassword;
     }
 
-    public void sendActivationEmail(String aReceiverEmail,String aSubject, String aContent) {
+    public void sendEmail(String aReceiverEmail, String aSubject, String aContent) {
 
         Properties props = new Properties();
         props.setProperty(MAIL_SMTP_HOST, smtpHost );

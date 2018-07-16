@@ -11,7 +11,7 @@ public class LoginUtil {
      * Create a random integer
      * @return integer as string
      */
-    public static String getActivationCode(){
+    public static String generateActivationCode(){
         return String.valueOf(new Random().nextInt(99999 - 10000));
     }
 

@@ -32,11 +32,11 @@ public class CDBUserFacade implements AppUserFacade {
         CDBUserId userId = CDBUserId.create(aUser.getName());
 
         cdbUser.setId(userId.toString());
-        cdbUser.activate();
+        cdbUser.deactivate();
         cdbUser.addEmail(aUser.getEmail());
         cdbUser.setCreatedAt(DateUtil.asDate(LocalDateTime.now()));
         cdbUser.setUsername(aUser.getName());
-        cdbUser.setEncryptionText(aUser.getEncryptionText());
+        cdbUser.setEncryptionText("");
         cdbUser.setPassword(aUser.getPassword());
 
         CDBKonto konto = new CDBKonto();

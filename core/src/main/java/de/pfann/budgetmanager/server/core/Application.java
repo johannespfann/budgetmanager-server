@@ -18,6 +18,7 @@ import de.pfann.budgetmanager.server.restservices.resources.core.RequestBasicAut
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestLoggingFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.ResponseLoggingFilter;
 import de.pfann.budgetmanager.server.common.email.EmailService;
+import de.pfann.budgetmanager.server.restservices.resources.login.ActivationPool;
 import de.pfann.budgetmanager.server.restservices.resources.login.AuthenticationManager;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
@@ -40,10 +41,8 @@ public class Application {
     public final static String KEY_SERVER_ADRESS = "server.adress";
     public final static String KEY_SERVER_PORT = "server.port";
     public final static String KEY_SERVER_BASE_PATH = "server.basepath";
-
     public final static String KEY_COUCHDB_HOST = "couchdb.host";
     public final static String KEY_COUCHDB_PORT = "couchdb.port";
-
     public static final String KEY_MAIL_SMTP_AUTH = "mail.smtp.auth";
     public static final String KEY_MAIL_SMTP_STARTTL_ENABLE = "mail.smtp.starttls.enable";
     public static final String KEY_MAIL_SMTP_HOST = "mail.smtp.host";
@@ -58,10 +57,7 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
         Application application = new Application();
-
         ConfigurationProvider configurationProvider = new ConfigurationProvider("budgetmanager.properties");
-
-
         Properties properties = configurationProvider.getProperties();
         Set<String> propertyList = properties.stringPropertyNames();
 
@@ -126,12 +122,12 @@ public class Application {
 
         RotationEntryExecuter rotationEntryExecuter = new RotationEntryExecuter(patternList,standingOrderFacade,entryFacade);
 
-
+        ActivationPool activationPool = new ActivationPool();
         /**
          * resources
          */
         AuthenticationManager authenticationManager = new AuthenticationManager(userFacade);
-        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,emailService,authenticationManager);
+        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,emailService,authenticationManager, activationPool);
         UserResource userResource = new UserResource(userResourceFacade);
 
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(userFacade,entryFacade);
@@ -146,7 +142,6 @@ public class Application {
         EncryptionResourceFacade encryptionResourceFacade = new EncryptionResourceFacade(userFacade);
         EncryptionResource encryptionResource = new EncryptionResource(encryptionResourceFacade);
 
-        AppUser user = createUserIfNotExist(userFacade,entryFacade, standingOrderFacade);
 
         /**
          * authantication
@@ -164,8 +159,6 @@ public class Application {
                 .register(rotationEntryResource)
                 .register(tagStatisticResource)
                 .register(encryptionResource);
-
-
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,
@@ -237,56 +230,4 @@ public class Application {
         }
     }
 
-    private AppUser createUserIfNotExist(AppUserFacade userFacade, EntryFacade entryFacade, StandingOrderFacade aRotEntryFacade) {
-        AppUser user = new AppUser();
-        user.setName("johannes-1234");
-        user.setPassword("key");
-        user.setEncrypted(true);
-        user.setEncryptionText("Das ist der Text");
-        user.setEmail("jopfann@gmail.com");
-
-        userFacade.createNewUser(user);
-
-
-        Entry entry = new Entry();
-        entry.setAppUser(user);
-
-        List<Tag> tags = new LinkedList<>();
-        Tag tag1 = new Tag("luxus");
-        Tag tag2 = new Tag("fixkosten");
-        tags.add(tag1);
-        tags.add(tag2);
-        entry.setTags(tags);
-        entry.setCreated_at(new Date());
-        entry.setHash("asdfasdf");
-        entry.setMemo("memo");
-        entry.setAmount("1234");
-        entryFacade.persistEntry(entry);
-
-
-        StandingOrder rotationEntry = new StandingOrder();
-        rotationEntry.setAmount("-1314543");
-        rotationEntry.setMemo("Ein memo nur für mich");
-        rotationEntry.setHash("23j2lk4234234");
-        rotationEntry.setRotation_strategy("66122");
-
-        List<Tag> tagTemplates = new LinkedList<>();
-        Tag tagTemplate = new Tag("luxus");
-        tagTemplates.add(tagTemplate);
-
-        LocalDateTime startTime = LocalDateTime.now();
-        LocalDateTime endTime = startTime.plusMonths(120);
-        LocalDateTime lastExecuted = startTime.plusDays(2);
-
-        rotationEntry.setTags(tagTemplates);
-        rotationEntry.setStart_at(DateUtil.asDate(startTime));
-        rotationEntry.setEnd_at(DateUtil.asDate(endTime));
-        rotationEntry.setLast_executed(DateUtil.asDate(lastExecuted));
-
-        rotationEntry.setUser(user);
-
-        aRotEntryFacade.save(rotationEntry);
-
-        return user;
-    }
 }

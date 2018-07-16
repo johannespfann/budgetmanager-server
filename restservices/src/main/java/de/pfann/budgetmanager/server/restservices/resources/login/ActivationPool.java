@@ -7,40 +7,34 @@ import java.util.List;
 // TODO implement singleton threatsafe
 public class ActivationPool {
 
-    private static ActivationPool instance;
-
     // TODO Not threatsafe
     private List<ActivationTicket> ticketPool;
 
-    private ActivationPool(){
+    public ActivationPool(){
         ticketPool = new ArrayList<>();
     }
 
-    public static ActivationPool create(){
-        if(instance == null){
-            instance = new ActivationPool();
-        }
-        return instance;
-    }
-
     public boolean codeExists(String aCode){
+        System.out.println("-> All entries of pool!");
+        showPool();
         for(ActivationTicket ticket : ticketPool){
-            if( ticket.equals(aCode)){
+            if( ticket.getActivationCode().equals(aCode)){
+                System.out.println("compare ticket.code: " + ticket.getActivationCode() + " and incomming code: " + aCode)  ;
                 return true;
             }
         }
         return false;
     }
 
-    public ActivationTicket getActivationTicket(String aCode) throws ActivationTicketNotFoundException{
-        // TODO delete showPool() + Method
+
+    public ActivationTicket getActivationTicket(String aCode){
         showPool();
         for(ActivationTicket ticket : ticketPool){
             if( ticket.getActivationCode().equals(aCode)){
                 return ticket;
             }
         }
-        throw new ActivationTicketNotFoundException("Could not found Ticket with Code: " + aCode);
+        return null;
     }
 
     public void addActivationTicket(String aUsername, String aEmail, String aCode) throws ActivationCodeAlreadyExistsException{

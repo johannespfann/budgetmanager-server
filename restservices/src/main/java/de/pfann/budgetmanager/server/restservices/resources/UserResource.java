@@ -42,11 +42,12 @@ public class UserResource {
     @Logged
     @CrossOriginFilter
     @Path("register/{username}/email/{email}")
-    public void register(
+    public String register(
             @PathParam("username") String aUsername,
             @PathParam("email") String aEmail,
             String aBody) {
-        userResourceFacade.register(aUsername,aEmail,getPassword(aBody));
+        String newUsername = userResourceFacade.register(aUsername,aEmail,getPassword(aBody));
+        return "{\"name\" : \"" + newUsername + "\"}";
     }
 
     @POST
@@ -67,6 +68,7 @@ public class UserResource {
     public void activateUser(
             @PathParam("username") String aUsername,
             String aBody) {
+        System.out.println("Found " + aBody);
         userResourceFacade.activeUser(aUsername,getActivationCode(aBody));
     }
 

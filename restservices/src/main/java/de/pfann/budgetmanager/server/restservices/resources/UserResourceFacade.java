@@ -6,6 +6,7 @@ import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.common.email.EmailService;
+import de.pfann.budgetmanager.server.restservices.resources.email.ActivationEmailGenerator;
 import de.pfann.budgetmanager.server.restservices.resources.login.*;
 
 public class UserResourceFacade {
@@ -14,12 +15,15 @@ public class UserResourceFacade {
     private AppUserFacade userFacade;
     private EmailService emailService;
     private AuthenticationManager authenticationManager;
+    private ActivationPool activationPool;
 
-    public UserResourceFacade(AppUserFacade aAppUserFacade, EmailService aEmailService, AuthenticationManager aAuthManager){
+
+    public UserResourceFacade(AppUserFacade aAppUserFacade, EmailService aEmailService, AuthenticationManager aAuthManager, ActivationPool aActivationPool){
         userFacade = aAppUserFacade;
         emailService = aEmailService;
         authenticationManager = aAuthManager;
         objectMapper = new ObjectMapper();
+        activationPool = aActivationPool;
     }
 
     public void logout(String aUser, String aToken){
@@ -79,37 +83,38 @@ public class UserResourceFacade {
         }
     }
 
-    public void register(String aUsername, String aEmail, String Password) {
-        try{
-            AppUser user = new AppUser();
-            user.setName(LoginUtil.getUserNameWithUnique(aUsername));
-            user.setEmail(aEmail);
-            user.setPassword(Password);
+    public String register(String aUsername, String aEmail, String Password) {
+        AppUser user = new AppUser();
+        user.setName(LoginUtil.getUserNameWithUnique(aUsername));
+        user.setEmail(aEmail);
+        user.setPassword(Password);
 
+        try{
             userFacade.createNewUser(user);
 
-            String activationCode = LoginUtil.getActivationCode();
+            String activationCode = LoginUtil.generateActivationCode();
 
             try {
-                ActivationPool.create().addActivationTicket(user.getName(),aEmail,activationCode);
+                activationPool.addActivationTicket(user.getName(),aEmail,activationCode);
+                ActivationEmailGenerator generator = new ActivationEmailGenerator(user.getName(),aEmail,activationCode);
+                emailService.sendEmail(aEmail,generator.getSubject(),generator.getContent());
+
             } catch (ActivationCodeAlreadyExistsException e) {
                 e.printStackTrace();
             }
-
-            emailService.sendActivationEmail(user.getName(),aEmail,activationCode);
         }catch (Exception exception){
             exception.printStackTrace();
             throw exception;
         }
+        return user.getName();
     }
 
     public void resendEmail(String aUsername, String aEmail){
         try {
-            String activationCode = LoginUtil.getActivationCode();
-
-            ActivationPool.create().addActivationTicket(aUsername, aEmail, activationCode);
-
-            emailService.sendActivationEmail(aUsername, aEmail, activationCode);
+            String activationCode = LoginUtil.generateActivationCode();
+            activationPool.addActivationTicket(aUsername, aEmail, activationCode);
+            ActivationEmailGenerator generator = new ActivationEmailGenerator(aUsername,aEmail,activationCode);
+            emailService.sendEmail(aEmail,generator.getSubject(),generator.getSubject());
         }catch (ActivationCodeAlreadyExistsException activCodeException){
             activCodeException.printStackTrace();
         }catch (Exception exception){
@@ -120,14 +125,10 @@ public class UserResourceFacade {
 
     public void activeUser(String aUsername, String aActivationCode){
         try{
-            ActivationTicket ticket;
-
-            try {
-                ticket = ActivationPool.create().getActivationTicket(aActivationCode);
-            } catch (ActivationTicketNotFoundException e) {
-                e.printStackTrace();
-                return;
+            if(!activationPool.codeExists(aActivationCode)) {
+                throw new IllegalArgumentException("Code does not exists!");
             }
+            ActivationTicket ticket = activationPool.getActivationTicket(aActivationCode);
 
             if(aUsername.equals(ticket.getUsername())) {
                 AppUser appUser = userFacade.getUserByNameOrEmail(aUsername);
