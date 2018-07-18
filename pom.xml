@@ -17,6 +17,7 @@
     <module>deployment</module>
     <module>jobengine</module>
     <module>persistenscouchdb</module>
+      <module>dataprovider</module>
   </modules>
 
   <dependencyManagement>

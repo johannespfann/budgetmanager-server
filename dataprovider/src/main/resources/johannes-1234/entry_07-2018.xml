@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entries>
+    <entry>
+        <amount>24352</amount>
+        <memo>memo 1</memo>
+        <day>4</day>
+        <tags>
+            <tag>nichts</tag>
+            <tag>luxus</tag>
+        </tags>
+    </entry>
+    <entry>
+        <amount>-234</amount>
+        <memo>memo 2</memo>
+        <day>5</day>
+        <tags>
+            <tag>super</tag>
+            <tag>oderschlecht</tag>
+        </tags>
+    </entry>
+    <entry>
+        <amount>234</amount>
+        <memo>memo 4</memo>
+        <day>2</day>
+        <tags>
+            <tag>super</tag>
+            <tag>test</tag>
+        </tags>
+    </entry>
+    <entry>
+        <amount>-86</amount>
+        <memo>memo 8</memo>
+        <day>7</day>
+        <tags>
+            <tag>super</tag>
+            <tag>luxus</tag>
+        </tags>
+    </entry>
+</entries>

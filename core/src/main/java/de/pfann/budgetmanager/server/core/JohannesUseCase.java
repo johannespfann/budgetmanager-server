@@ -5,14 +5,6 @@ import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.StandingOrder;
-import de.pfann.budgetmanager.server.common.model.Tag;
-import de.pfann.budgetmanager.server.common.util.DateUtil;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 public class JohannesUseCase extends AbstractUseCase {
 
@@ -24,7 +16,7 @@ public class JohannesUseCase extends AbstractUseCase {
     @Override
     public AppUser createUser() {
         AppUser user = new AppUser();
-        user.setName("johannes-1234");
+        user.setName("src/main/resources/johannes-1234");
         user.setPassword("key");
         user.setEncrypted(false);
         user.setEncryptionText("");
