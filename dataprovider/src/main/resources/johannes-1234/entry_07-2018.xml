@@ -22,10 +22,6 @@
         <amount>234</amount>
         <memo>memo 4</memo>
         <day>2</day>
-        <tags>
-            <tag>super</tag>
-            <tag>test</tag>
-        </tags>
     </entry>
     <entry>
         <amount>-86</amount>

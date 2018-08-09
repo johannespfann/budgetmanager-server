@@ -31,22 +31,16 @@ public class RotationEntryExecuter {
         for(RotationEntryPattern pattern : patterns){
 
             LogUtil.info(this.getClass(),"with Pattern " + pattern.getClass());
-            System.out.println("try to get into if");
             if(isExecuteable(executionDateTime, aRotationEntry, pattern)) {
                 LocalDateTime currentDate = executionDateTime;
-                System.out.println("try to get starttime " + aRotationEntry.getStart_at());
                 LocalDateTime startDate = DateUtil.asLocalDateTime(aRotationEntry.getStart_at());
                 Date executionDate = DateUtil.asDate(pattern.getExecutionDate(startDate, currentDate));
-                System.out.println("try to generate entry");
                 Entry entry = EntryTransformer.builder()
                         .forDate(executionDate)
                         .build()
                         .createEntry(aRotationEntry);
-                System.out.println("try to persist entry");
                 entryFacade.persistEntry(entry);
-                System.out.println("try to set currentdate");
                 aRotationEntry.setLast_executed(executionDate);
-                System.out.println("try to update rotationentry");
                 rotationEntryFacade.update(aRotationEntry);
             }
         }

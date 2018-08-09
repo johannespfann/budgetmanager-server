@@ -1,9 +1,8 @@
 package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.configuration.ConfigurationProvider;
+import de.pfann.budgetmanager.server.common.email.EmailService;
 import de.pfann.budgetmanager.server.common.facade.*;
-import de.pfann.budgetmanager.server.common.model.*;
-import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.jobengine.core.*;
 import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
@@ -17,7 +16,6 @@ import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilt
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestBasicAuthenticationFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestLoggingFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.ResponseLoggingFilter;
-import de.pfann.budgetmanager.server.common.email.EmailService;
 import de.pfann.budgetmanager.server.restservices.resources.login.ActivationPool;
 import de.pfann.budgetmanager.server.restservices.resources.login.AuthenticationManager;
 import org.ektorp.CouchDbInstance;
@@ -31,10 +29,11 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 public class Application {
 
@@ -43,6 +42,9 @@ public class Application {
     public final static String KEY_SERVER_BASE_PATH = "server.basepath";
     public final static String KEY_COUCHDB_HOST = "couchdb.host";
     public final static String KEY_COUCHDB_PORT = "couchdb.port";
+    public final static String KEY_COUCHDB_PW = "couchdb.pw";
+    public final static String KEY_COUCHDB_USER = "couchdb.user";
+
     public static final String KEY_MAIL_SMTP_AUTH = "mail.smtp.auth";
     public static final String KEY_MAIL_SMTP_STARTTL_ENABLE = "mail.smtp.starttls.enable";
     public static final String KEY_MAIL_SMTP_HOST = "mail.smtp.host";
@@ -75,6 +77,9 @@ public class Application {
          */
         String serveradress = getServerAdress(aProperties);
         String couchdbadress = getCouchDBAdress(aProperties);
+        String couchdbPw = aProperties.getProperty(KEY_COUCHDB_PW);
+        String couchdbUser = aProperties.getProperty(KEY_COUCHDB_USER);
+
         String mailSmtpHost = aProperties.getProperty(KEY_MAIL_SMTP_HOST);
         String mailSmtpAuth = aProperties.getProperty(KEY_MAIL_SMTP_AUTH);
         String mailSmtpStartTlsEnable = aProperties.getProperty(KEY_MAIL_SMTP_STARTTL_ENABLE);
@@ -90,11 +95,17 @@ public class Application {
                 senderEmail,
                 senderPassword);
 
-        cleanDb(couchdbadress);
+        StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
+        httpClientBuilder.url(couchdbadress);
 
-        HttpClient httpClient = new StdHttpClient.Builder()
-                .url(couchdbadress)
-                .build();
+        if(foundCouchDbCredentials(aProperties)) {
+            httpClientBuilder
+                    .username(couchdbUser)
+                    .password(couchdbPw);
+        }
+
+        HttpClient httpClient = httpClientBuilder.build();
+
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
         CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,objectMapperFactory);
@@ -166,7 +177,7 @@ public class Application {
                 entryFacade,
                 standingOrderFacade);
 
-        TimeInterval timeInterval = new MinuteInterval(1);
+        TimeInterval timeInterval = new HourInterval(24);
         RunProvider provider = new RunProviderImpl(timeInterval);
 
         List<JobRunner> jobRunners = new LinkedList<>();
@@ -175,8 +186,8 @@ public class Application {
 
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-        ExecutionTime startTime = new SecStartTime(5);
-        TimeInterval timeInterval1 = new MinuteInterval(5);
+        ExecutionTime startTime = new OneOClockAM();
+        TimeInterval timeInterval1 = new Daily();
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
         scheduler.start();
@@ -187,6 +198,21 @@ public class Application {
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(serveradress), rc);
         System.in.read();
         server.stop();
+    }
+
+    private boolean foundCouchDbCredentials(Properties aProperties) {
+        String couchdbPw = aProperties.getProperty(KEY_COUCHDB_PW);
+        String couchdbUser = aProperties.getProperty(KEY_COUCHDB_USER);
+
+        if(couchdbPw == null || couchdbPw.isEmpty()){
+            return false;
+        }
+
+        if(couchdbUser == null || couchdbUser.isEmpty()){
+            return  false;
+        }
+
+        return true;
     }
 
     private String getCouchDBAdress(Properties aProperties) {
@@ -210,22 +236,34 @@ public class Application {
         return serveradress;
     }
 
-    private void cleanDb(String serveradress) {
-        HttpClient httpClient = null;
-        try {
-            httpClient = new StdHttpClient.Builder()
-                    .url(serveradress)
-                    .build();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
+    private void cleanDb(HttpClient httpClient) {
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
 
         List<String> dbs = dbInstance.getAllDatabases();
 
         for(String db : dbs){
-            System.out.println(db);
+
+            if(db.equals("_replicator")){
+                System.out.println("was replicator");
+                continue;
+            }
+
+            if(db.equals("_users")){
+                System.out.println("was users");
+                continue;
+            }
+
+            if(db.equals("_nodes")){
+                System.out.println("was nodes");
+                continue;
+            }
+
+            if(db.equals("_dbs")){
+                System.out.println("was dbs");
+                continue;
+            }
+
+            System.out.println("Deleting " + db);
             dbInstance.deleteDatabase(db);
         }
     }

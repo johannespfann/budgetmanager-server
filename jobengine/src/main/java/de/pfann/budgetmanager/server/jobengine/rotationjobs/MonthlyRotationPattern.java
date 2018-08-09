@@ -12,17 +12,13 @@ public class MonthlyRotationPattern implements RotationEntryPattern {
 
     @Override
     public boolean isValidPattern(StandingOrder aEntry) {
-        System.out.println("strategy: " + aEntry.getRotation_strategy());
         String[] values = aEntry.getRotation_strategy().split(":");
 
-        System.out.println("value of values: " + values[0]);
-        System.out.println("values: " + values.length);
         if (values[0] != null && values[0].equals(PATTERN_NBR)) {
             System.out.println("return true");
             return true;
         }
 
-        System.out.println("return false");
         return false;
     }
 
@@ -38,44 +34,31 @@ public class MonthlyRotationPattern implements RotationEntryPattern {
 
         // vor der Startzeit -> false
         if(aToday.isBefore(startTime)){
-            LogUtil.debug(this.getClass(),"CurrentTime " + aToday + " is before startTime " + startTime + " -> return false");
             return false;
         }
 
         // nach der Endzeit -> false
 
         if(aToday.isAfter(endTime)){
-            LogUtil.debug(this.getClass(),"CurrentTime " + aToday + " is after endTime " + endTime + " -> return false");
             return false;
         }
 
         // vor der executionTimeOfCurrentMonth -> false
 
         if(aToday.isBefore(executionTimeForCurrentMonth)){
-            LogUtil.debug(this.getClass(),"CurrentTime " + aToday + " is before executionTimeOfCurrentMonth " + executionTimeForCurrentMonth + " -> return false");
             return false;
         }
 
         // wurde bereits ausgeführt -> false
 
         if(isAlreadyExecuted(lastExecuted,aToday)){
-            LogUtil.debug(this.getClass(), "Was already executed for this month: LastExecuted: " + lastExecuted + " CurrentTime: " + aToday);
             return false;
         }
 
         // ist nach der executionTime && und wurde noch nicht ausgeführt -> true
         if(aToday.isAfter(executionTimeForCurrentMonth)){
-            LogUtil.debug(this.getClass(), "CurrentTime " + aToday + " is after executionTimeOfCurrentMonth " + executionTimeForCurrentMonth + " and lastExecuted is " + lastExecuted + " - return true");
             return true;
         }
-
-        // default -> false
-        LogUtil.debug(this.getClass(),"default -> return false ");
-        LogUtil.debug(this.getClass(),"CurrentTime             : " + aToday);
-        LogUtil.debug(this.getClass(),"starTime                : " + startTime);
-        LogUtil.debug(this.getClass(),"endTime                 : " + endTime);
-        LogUtil.debug(this.getClass(),"LastExecuted            : " + lastExecuted);
-        LogUtil.debug(this.getClass(),"ExecutionTimeOfThisMonth: " + executionTimeForCurrentMonth);
 
         return false;
     }

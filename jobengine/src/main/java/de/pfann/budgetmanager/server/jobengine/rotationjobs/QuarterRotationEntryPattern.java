@@ -40,42 +40,29 @@ public class QuarterRotationEntryPattern implements RotationEntryPattern {
 
         // ist vor startzeit
         if(currentDate.isBefore(startTime)){
-            LogUtil.debug(this.getClass(),"Vor Startzeit -> false");
             return false;
         }
 
         // ist abgelaufen
         if(currentDate.isAfter(endTime)){
-            LogUtil.debug(this.getClass(),"Ist abgelaufen -> false");
             return false;
         }
 
 
         // ist vor der ausführungszeit
         if(currentDate.isBefore(executionTimeOfCurrentQuartal)){
-            LogUtil.debug(this.getClass(),"Aktuelle zeit ist vor der Ausführungszeit -> false");
             return false;
         }
 
         // wurde bereits in diesem Quartal ausgeführt
         if(isAlreadyExecutedInThisQuartal(lastExecuted,currentDate)){
-            LogUtil.debug(this.getClass(),"wurde in diesem quartal bereits ausgeführt -> false");
             return false;
         }
 
         if(currentDate.isAfter(executionTimeOfCurrentQuartal)){
-            LogUtil.debug(this.getClass(),"wurde in diesem quartal noch nicht ausgeführt -> true");
             return true;
         }
 
-
-        LogUtil.debug(this.getClass(),"Now                            : " + currentDate);
-        LogUtil.debug(this.getClass(),"StartTime                      : " + startTime);
-        LogUtil.debug(this.getClass(),"EndTime                        : " + endTime);
-        LogUtil.debug(this.getClass(),"LastExe                        : " + lastExecuted);
-        LogUtil.debug(this.getClass(),"ExecutionTimeOfCurrentQuartal  : " + executionTimeOfCurrentQuartal);
-
-        LogUtil.info(this.getClass(),"default -> false");
         return false;
     }
 

@@ -21,22 +21,16 @@ public class RequestBasicAuthenticationFilter implements ContainerRequestFilter 
 
     @Override
     public void filter(ContainerRequestContext aContainerRequestContext) throws AuthenticationException, IOException  {
-        System.out.println("filter secured");
         String authValue = aContainerRequestContext.getHeaderString("Authorization");
-        System.out.println(authValue);
         String[] splittedValue = authValue.split(AUTH_VALUE_SEPERATOR);
 
         String aUsername = splittedValue[0];
         String token = splittedValue[1];
 
 
-        System.out.println("name   " + aUsername);
-        System.out.println("token  " + token);
         if(!authenticationManager.isValidToken(aUsername,token)){
-            System.out.println("was not ok");
             throw new AuthenticationException();
         }
-        System.out.println("was ok!");
     }
 
 }

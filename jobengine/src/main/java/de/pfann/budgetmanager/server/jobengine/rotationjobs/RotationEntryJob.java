@@ -68,7 +68,7 @@ public class RotationEntryJob implements Job {
         LogUtil.info(this.getClass(),"-----> Durchsuche  " + rotationEntry.getHash());
         for(RotationEntryPattern pattern : patterns){
 
-            LogUtil.info(this.getClass(),"with Pattern " + pattern.getClass());
+            LogUtil.info(this.getClass(),"with Pattern " + pattern.getClass().getSimpleName());
             if(isExecuteable(currentRun, rotationEntry, pattern)) {
                 LocalDateTime currentDate = currentRun.getExecuted_at();
                 LocalDateTime startDate = DateUtil.asLocalDateTime(rotationEntry.getStart_at());
@@ -81,6 +81,7 @@ public class RotationEntryJob implements Job {
                 entryFacade.persistEntry(entry);
                 rotationEntry.setLast_executed(executionDate);
                 rotationEntryFacade.update(rotationEntry);
+                LogUtil.info(this.getClass(),"Persist new entry + " + entry.getHash());
             }
         }
 
@@ -88,7 +89,6 @@ public class RotationEntryJob implements Job {
 
     private boolean isExecuteable(Run currentRun, StandingOrder rotationEntry, RotationEntryPattern pattern) {
         if(!pattern.isValidPattern(rotationEntry)){
-            LogUtil.info(this.getClass(),"isExecutable -> return false");
             return false;
         }
 
@@ -96,10 +96,9 @@ public class RotationEntryJob implements Job {
             LogUtil.info(this.getClass(),"isExecutable -> return true");
            return true;
         }
-        LogUtil.info(this.getClass(),"isExecutable -> return false");
+
         return false;
     }
-
 
     @Override
     public void postExecution(Run aRun) {

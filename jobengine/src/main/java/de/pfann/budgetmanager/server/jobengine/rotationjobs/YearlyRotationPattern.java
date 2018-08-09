@@ -35,22 +35,18 @@ public class YearlyRotationPattern implements RotationEntryPattern {
 
         // vor der startzeit
         if(aToday.isBefore(startTime)){
-            LogUtil.debug(this.getClass(),"CurrentTime " + aToday + " is before startTime " + startTime + " -> return false");
             return false;
         }
         // nach der endzeit
         if(aToday.isAfter(endTime)){
-            LogUtil.debug(this.getClass(),"CurrentTime " + aToday + " is after endTime " + endTime + " -> return false");
             return false;
         }
         // vor der executionTimeOfCurrentYear
         if(aToday.isBefore(executionTimeForCurrentYear)){
-            LogUtil.debug(this.getClass(),"CurrentTime " + aToday + " is before executionTimeOfCurrentYear " + executionTimeForCurrentYear + " -> return false");
             return false;
         }
         // wurde bereits ausgeführt
         if(isAlreadyExecuted(lastExecuted,aToday)){
-            LogUtil.debug(this.getClass(), "Was already executed for this year: LastExecuted: " + lastExecuted + " CurrentTime: " + aToday);
             return false;
         }
         // ist nach der executiontime
@@ -59,13 +55,6 @@ public class YearlyRotationPattern implements RotationEntryPattern {
             return true;
         }
 
-        // default -> false
-        LogUtil.debug(this.getClass(),"default -> return false ");
-        LogUtil.debug(this.getClass(),"CurrentTime             : " + aToday);
-        LogUtil.debug(this.getClass(),"starTime                : " + startTime);
-        LogUtil.debug(this.getClass(),"endTime                 : " + endTime);
-        LogUtil.debug(this.getClass(),"LastExecuted            : " + lastExecuted);
-        LogUtil.debug(this.getClass(),"ExecutionTimeOfThisYear : " + executionTimeForCurrentYear);
         return false;
     }
 

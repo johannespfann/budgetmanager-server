@@ -28,10 +28,6 @@ public class CrossOriginFilterImpl implements ContainerResponseFilter {
         aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
         aResponseCxt.getHeaders().add(ACCESS_CONTROL_ALLOW_METHODS,"PATCH, GET, POST, PUT, DELETE, OPTIONS, HEAD");
 
-        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_METHODS + "  : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_METHODS));
-        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_ORIGIN + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_ORIGIN));
-        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_CREDENTIALS + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_CREDENTIALS));
-        //LogUtil.info(this.getClass(), " - " +  ACCESS_CONTROL_ALLOW_HEADERS + " : " + aResponseCxt.getHeaderString(ACCESS_CONTROL_ALLOW_HEADERS));
     }
 
 

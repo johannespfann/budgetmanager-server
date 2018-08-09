@@ -24,10 +24,8 @@ public class AuthenticationManager {
         // entschlüssel token
         String dencryptedToken = EncryptUtil.decrypt(aToken, key);
         // map json zu object
-        System.out.println("decrypt: " + dencryptedToken);
         ObjectMapper objectMapper = new ObjectMapper();
         AuthToken authToken = objectMapper.readValue(dencryptedToken,AuthToken.class);
-        System.out.println(authToken.toString());
         // validate token
         if(!aAppUser.equals(authToken.getUsername())){
             System.out.println("username was not valid " + aAppUser);
@@ -54,7 +52,6 @@ public class AuthenticationManager {
         String generatedToken = null;
         try {
             generatedToken = objectMapper.writeValueAsString(authToken);
-            System.out.println(generatedToken);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

@@ -68,7 +68,6 @@ public class UserResource {
     public void activateUser(
             @PathParam("username") String aUsername,
             String aBody) {
-        System.out.println("Found " + aBody);
         userResourceFacade.activeUser(aUsername,getActivationCode(aBody));
     }
 

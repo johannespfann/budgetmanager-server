@@ -28,9 +28,7 @@ public class RotationEntryResource {
     public String getRotationEntries(
             @PathParam("owner") String aOwner
             ){
-        System.out.println("Owner is: " + aOwner);
         List<StandingOrder> rotationEntries = rotationEntryResourceFacade.getRotationEntries(aOwner);
-        System.out.println("Get " + rotationEntries.size() + " RotationEntries!");
         String json = RotationEntryJsonMapper.convertToJson(rotationEntries);
         return json;
     }

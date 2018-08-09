@@ -36,7 +36,6 @@ public class EncryptionResourceFacade {
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
 
-            LogUtil.info(this.getClass(),"Set text: " + aBody);
             user.setEncryptionText(aBody);
             user.setEncrypted(true);
 

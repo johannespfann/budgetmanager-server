@@ -30,7 +30,7 @@ public class UserResourceFacade {
         try{
 
             AppUser user = userFacade.getUserByNameOrEmail(aUser);
-            AccessPool.getInstance().unregister(user, aToken);
+            //AccessPool.getInstance().unregister(user, aToken);
 
         }catch (Exception exception){
             exception.printStackTrace();
@@ -72,7 +72,6 @@ public class UserResourceFacade {
 
             String token = authenticationManager.generateToken(user.getName());
 
-            System.out.println("preparedValue: " + token);
             String JSON = "{\"accesstoken\" : \"" + token +"\"," +
                     "\"username\" : \"" + user.getName() +"\"," +
                     "\"email\" : \"" + user.getEmail() +"\" }";

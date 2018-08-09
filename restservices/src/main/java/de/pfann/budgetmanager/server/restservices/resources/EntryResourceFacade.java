@@ -21,10 +21,7 @@ public class EntryResourceFacade {
     public List<Entry> getEntries(String aOwner){
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-            System.out.println("found user with name: " + user.getName());
             List<Entry> entries = entryFacade.getEntries(user);
-
-            System.out.println("found entries: " + entries.size());
             return entries;
         }catch (Exception e){
             e.printStackTrace();
