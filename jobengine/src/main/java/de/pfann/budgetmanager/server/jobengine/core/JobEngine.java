@@ -72,15 +72,17 @@ public class JobEngine {
             LogUtil.info(this.getClass(),e.getMessage());
             runInfo.stop(JOB_STATUS_FAILD);
             LogUtil.error(this.getClass(), "failed job: " + aJobRunner.getJob().getIdentifier());
+        } finally {
+
+            LogUtil.info(this.getClass(), "finished jobRunners and persist run " + aRun.getExecuted_at());
+            LogUtil.info(this.getClass(),"RunInfo Start : " + runInfo.getStart_at());
+            LogUtil.info(this.getClass(),"RunInfo End   : " + runInfo.getEnd_at());
+            LogUtil.info(this.getClass(),"RunInfo Ident : " + runInfo.getIdentifier());
+
+            runFacade.persist(aRun);
+            runFacade.persist(runInfo);
         }
 
-        LogUtil.info(this.getClass(), "finished jobRunners and persist run " + aRun.getExecuted_at());
-        LogUtil.info(this.getClass(),"RunInfo Start : " + runInfo.getStart_at());
-        LogUtil.info(this.getClass(),"RunInfo End   : " + runInfo.getEnd_at());
-        LogUtil.info(this.getClass(),"RunInfo Ident : " + runInfo.getIdentifier());
-
-        runFacade.persist(aRun);
-        runFacade.persist(runInfo);
     }
 
 }
