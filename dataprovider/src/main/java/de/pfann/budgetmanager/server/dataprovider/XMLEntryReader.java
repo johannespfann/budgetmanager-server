@@ -25,23 +25,20 @@ public class XMLEntryReader {
 
 
 
-    public List<Entry> getEntries(String aPath) throws ParserConfigurationException, IOException, SAXException {
+    public List<Entry> getEntries(File aFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
-        File file = new File(aPath);
-        String filenameWithDocTyp = file.getName();
+        String filenameWithDocTyp = aFile.getName();
         String filename = filenameWithDocTyp.substring(0,filenameWithDocTyp.length()-4);
         String filenameDate =  filename.substring(6);
         String[] dateValues = filenameDate.split("-");
 
-        Document document = builder.parse( new File(aPath) );
+        Document document = builder.parse(aFile);
 
-
-        String username = file.getAbsoluteFile().getParentFile().getName();
+        String username = aFile.getAbsoluteFile().getParentFile().getName();
         int month = Integer.valueOf(dateValues[0]);
         int year = Integer.valueOf(dateValues[1]);
-
 
         AppUser user = new AppUser();
         user.setName(username);
@@ -83,7 +80,7 @@ public class XMLEntryReader {
                         for(int t = 0; t < tagNodeList.getLength(); t++){
 
                             if(tagNodeList.item(t).getNodeName() == "tag"){
-                                Tag tag = new Tag(tagNodeList.item(t).getNodeName());
+                                Tag tag = new Tag(tagNodeList.item(t).getTextContent());
                                 tags.add(tag);
                             }
                         }
@@ -100,11 +97,4 @@ public class XMLEntryReader {
 
         return entries;
     }
-
-
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        XMLEntryReader reader = new XMLEntryReader();
-        reader.getEntries("C:\\Users\\Johannes\\projects\\budgetmanager-server\\dataprovider\\src\\main\\resources\\johannes-1234\\entry_07-2018.xml");
-    }
-
 }

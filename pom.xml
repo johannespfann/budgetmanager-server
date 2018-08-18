@@ -17,7 +17,7 @@
     <module>deployment</module>
     <module>jobengine</module>
     <module>persistenscouchdb</module>
-      <module>dataprovider</module>
+    <module>dataprovider</module>
   </modules>
 
   <dependencyManagement>
@@ -26,6 +26,12 @@
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>core</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>de.pfann.budgetmanager.server</groupId>
+        <artifactId>dataprovider</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
 

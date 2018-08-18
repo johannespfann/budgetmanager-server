@@ -36,7 +36,6 @@ public class JobScheduler extends TimerTask {
         LogUtil.info(this.getClass(),"");
         LogUtil.info(this.getClass(),"");
         jobEngine.start();
-
     }
 
 }

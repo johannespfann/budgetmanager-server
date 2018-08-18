@@ -2,5 +2,6 @@
     <emails>
         <email>jopf88@googlemail.com</email>
     </emails>
-    <password></password>
+    <password>qwertz</password>
+    <encryptionText>Das ist der Text</encryptionText>
 </user>

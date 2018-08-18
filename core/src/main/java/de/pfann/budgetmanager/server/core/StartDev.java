@@ -1,99 +1,111 @@
 package de.pfann.budgetmanager.server.core;
 
-import de.pfann.budgetmanager.server.jobengine.core.*;
-import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
-import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
+import de.pfann.budgetmanager.server.common.configuration.ConfigurationProvider;
+import de.pfann.budgetmanager.server.common.facade.*;
+import de.pfann.budgetmanager.server.dataprovider.XMLTestDataManager;
+import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.facade.*;
+import org.ektorp.CouchDbInstance;
+import org.ektorp.http.HttpClient;
+import org.ektorp.http.StdHttpClient;
+import org.ektorp.impl.ObjectMapperFactory;
+import org.ektorp.impl.StdCouchDbInstance;
+import org.ektorp.impl.StdObjectMapperFactory;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.URI;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Properties;
+import java.util.Set;
 
-/**
- * Hello world!
- *
- */
+
 public class StartDev
 {
-    //public static final String BASE_URI = "http://localhost:8081/budget/";
-    public static final String BASE_URI = "http://0.0.0.0:8081/budget/";
-    //public static final String BASE_URI = "http://192.168.2.103:8081/budget/";
 
-    /**
-     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
-     * @return Grizzly HTTP server.
-     */
-    public static HttpServer startServer() {
-        // create a resource config that scans for JAX-RS resources and providers
-        // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("de.pfann.budgetmanager.server.restservices.resources");
+    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+        Application application = new Application();
 
-        // create and start a new instance of grizzly http server
-        // exposing the Jersey application at BASE_URI
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
+        ConfigurationProvider configurationProvider = new ConfigurationProvider("budgetmanager.properties");
+        Properties properties = configurationProvider.getProperties();
+        Set<String> propertyList = properties.stringPropertyNames();
+
+        for(String key : propertyList){
+            System.out.println(key +" : " + properties.getProperty(key));
+        }
+
+        String couchdbadress = getCouchDBAdress(properties);
+
+        StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
+        httpClientBuilder.url(couchdbadress);
+
+
+        HttpClient httpClient = httpClientBuilder.build();
+        cleanDb(httpClient);
+
+
+        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
+        ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,objectMapperFactory);
+
+        CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
+        CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);
+        CDBEntryDaoFactory entryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactory);
+        CDBStandingOrderDaoFactory standingOrderDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactory);
+        CDBRunDoaFactory runDaoFactory = new CDBRunDoaFactory(couchDbConnectorFactory);
+
+        AppUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);
+        EntryFacade entryFacade = new CDBEntryFacade(userDaoFactory,entryDaoFactory);
+        StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(standingOrderDaoFactory,userDaoFactory);
+
+        XMLTestDataManager testDataManager = new XMLTestDataManager(standingOrderFacade,entryFacade,userFacade);
+        testDataManager.persistTestData("C:\\Users\\Johannes\\projects\\budgetmanager-server\\dataprovider\\src\\main\\resources\\");
+
+        application.start(properties);
     }
 
-    /**
-     * Main method.
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
+    private static String getCouchDBAdress(Properties aProperties) {
+        return new StringBuilder()
+                .append(aProperties.getProperty(Application.KEY_COUCHDB_HOST))
+                .append(":")
+                .append(aProperties.getProperty(Application.KEY_COUCHDB_PORT))
+                .toString();
+    }
 
-        final HttpServer server = startServer();
+    private static void cleanDb(HttpClient httpClient) {
+        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
 
-        /*
-        LocalDate firstDayOfYear2018 =  LocalDate.now().with(firstDayOfYear());
-        Run lastRun = new Run(firstDayOfYear2018);
-        RunDao.create().save(lastRun);
-        */
-        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+        List<String> dbs = dbInstance.getAllDatabases();
 
+        for(String db : dbs){
 
-        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
-        RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
-        RotationEntryPattern yearlyRotationEntryPattern = new YearlyRotationPattern();
+            if(db.equals("_replicator")){
+                System.out.println("was replicator");
+                continue;
+            }
 
-        List<RotationEntryPattern> patternList = new LinkedList<>();
-        patternList.add(monthlyRotationEntry);
-        patternList.add(quarterRotationEntryPattern);
-        patternList.add(yearlyRotationEntryPattern);
+            if(db.equals("_users")){
+                System.out.println("was users");
+                continue;
+            }
 
-        Job rotationEntryJob = new RotationEntryJob(
-                patternList,
-                new AppUserSQLFacade(),
-                new EntrySQLFacade(),
-                new RotationEntrySQLFacade());
+            if(db.equals("_nodes")){
+                System.out.println("was nodes");
+                continue;
+            }
 
+            if(db.equals("_dbs")){
+                System.out.println("was dbs");
+                continue;
+            }
 
-        TimeInterval timeInterval = new MinuteInterval(1);
-        RunProvider provider = new RunProviderImpl(timeInterval);
-
-        List<JobRunner> jobRunners = new LinkedList<>();
-        JobRunner jobRunner = new JobRunner(rotationEntryJob);
-        jobRunners.add(jobRunner);
-
-        RunSQLFacade runFacade = new RunSQLFacade();
-        JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
-
-        ExecutionTime startTime = new SecStartTime(1);
-        TimeInterval timeInterval1 = new MinuteInterval(180);
-
-        JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
-        scheduler.start();
-
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        System.in.read();
-        server.stop();
+            System.out.println("Deleting " + db);
+            dbInstance.deleteDatabase(db);
+        }
     }
 
 

@@ -24,8 +24,6 @@ public class RunProviderImpl implements RunProvider {
         LogUtil.info(this.getClass()," TimeOfLastRun    :  " + timeOfLastRun);
         LogUtil.info(this.getClass()," TimeOfCurrentRun :  " + timeOfCurrentRun);
 
-
-
         long durationInMilli = ChronoUnit.MILLIS.between(timeOfLastRun,timeOfCurrentRun);
 
         long amount = durationInMilli / timeInterval.getTimePerMilliSecond();

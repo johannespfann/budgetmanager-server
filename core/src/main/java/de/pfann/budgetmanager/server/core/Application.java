@@ -186,7 +186,7 @@ public class Application {
 
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-        ExecutionTime startTime = new OneOClockAM();
+        ExecutionTime startTime = new ThreeOClockAM();
         TimeInterval timeInterval1 = new Daily();
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
@@ -234,38 +234,6 @@ public class Application {
                 .append("/")
                 .toString();
         return serveradress;
-    }
-
-    private void cleanDb(HttpClient httpClient) {
-        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
-
-        List<String> dbs = dbInstance.getAllDatabases();
-
-        for(String db : dbs){
-
-            if(db.equals("_replicator")){
-                System.out.println("was replicator");
-                continue;
-            }
-
-            if(db.equals("_users")){
-                System.out.println("was users");
-                continue;
-            }
-
-            if(db.equals("_nodes")){
-                System.out.println("was nodes");
-                continue;
-            }
-
-            if(db.equals("_dbs")){
-                System.out.println("was dbs");
-                continue;
-            }
-
-            System.out.println("Deleting " + db);
-            dbInstance.deleteDatabase(db);
-        }
     }
 
 }

@@ -102,6 +102,12 @@ public class Tag implements Serializable {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 
     @Override
     public boolean equals(Object obj) {

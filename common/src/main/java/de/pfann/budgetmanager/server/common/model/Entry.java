@@ -122,4 +122,16 @@ public class Entry  implements Serializable {
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
+
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "hash='" + hash + '\'' +
+                ", appUser=" + appUser.getName() +
+                ", tags=" + tags +
+                ", amount='" + amount + '\'' +
+                ", created_at=" + created_at +
+                ", memo='" + memo + '\'' +
+                '}';
+    }
 }

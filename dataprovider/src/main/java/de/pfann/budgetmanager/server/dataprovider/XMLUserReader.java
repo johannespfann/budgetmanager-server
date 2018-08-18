@@ -2,6 +2,8 @@ package de.pfann.budgetmanager.server.dataprovider;
 
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -12,25 +14,55 @@ import java.io.IOException;
 
 public class XMLUserReader {
 
-    public AppUser getUser(String aPath) throws ParserConfigurationException, IOException, SAXException {
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-
-        File file = new File(aPath);
-        String filenameWithDocTyp = file.getName();
-
-        System.out.println(filenameWithDocTyp);
-
-        Document document = builder.parse( new File(aPath) );
-
-        AppUser appUser = new AppUser();
-
-        return appUser;
-    }
-
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
         XMLUserReader userReader = new XMLUserReader();
-        userReader.getUser("C:\\Users\\Johannes\\projects\\budgetmanager-server\\dataprovider\\src\\main\\resources\\johannes-1234\\user.xml");
+        File file = new File("C:\\Users\\Johannes\\projects\\budgetmanager-server\\dataprovider\\src\\main\\resources\\johannes-1234\\user.xml");
+        userReader.getUser(file, "johannes-1234");
+    }
+
+    public AppUser getUser(File aFile, String aName){
+        System.out.println("XMLReader: " + aFile.getName());
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = null;
+        try {
+            builder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        Document document = null;
+        try {
+            document = builder.parse(aFile);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AppUser appUser = new AppUser();
+        Node rootNode = document.getFirstChild();
+        NodeList nodeList = rootNode.getChildNodes();
+
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            System.out.println(node.getNodeName());
+
+            if (node.getNodeName() == "password") {
+                appUser.setPassword(node.getTextContent());
+            }
+
+            if (node.getNodeName() == "encryptionText") {
+                appUser.setEncryptionText(node.getTextContent());
+            }
+
+            if (node.getNodeName() == "emails") {
+                NodeList tagNodeList = node.getChildNodes();
+                for (int t = 0; t < tagNodeList.getLength(); t++) {
+                    if (tagNodeList.item(t).getNodeName() == "email") {
+                        appUser.setEmail(tagNodeList.item(t).getTextContent());
+                    }
+                }
+            }
+        }
+        return appUser;
     }
 }

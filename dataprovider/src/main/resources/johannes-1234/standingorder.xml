@@ -1,7 +1,39 @@
 <standingorders>
     <standingorder>
-    <amount>Tove</amount>
-    <memo>Jani</memo>
-    <day>Reminder</day>
+        <rotation_strategy>66122</rotation_strategy>
+        <start_at>2018-07-20T19:33:23.508</start_at>
+        <end_at>2090-08-13T19:33:23.508</end_at>
+        <last_executed>1000-01-01T19:33:23.508</last_executed>
+        <amount>2000</amount>
+        <memo>Monatsgehalt</memo>
+        <tags>
+            <tag>datev</tag>
+            <tag>gehalt</tag>
+        </tags>
+    </standingorder>
+    <standingorder>
+        <rotation_strategy>36133</rotation_strategy>
+        <start_at>2018-04-15T19:33:23.508</start_at>
+        <end_at>2090-08-13T19:33:23.508</end_at>
+        <last_executed>1000-01-01T19:33:23.508</last_executed>
+        <amount>-56.50</amount>
+        <memo>GEZ</memo>
+        <tags>
+            <tag>medien</tag>
+            <tag>unterhaltung</tag>
+            <tag>fixkosten</tag>
+        </tags>
+    </standingorder>
+    <standingorder>
+        <rotation_strategy>5679</rotation_strategy>
+        <start_at>2018-04-15T19:33:23.508</start_at>
+        <end_at>2090-08-13T19:33:23.508</end_at>
+        <last_executed>1000-01-01T19:33:23.508</last_executed>
+        <amount>-70.50</amount>
+        <memo>Haftpflicht</memo>
+        <tags>
+            <tag>versicherung</tag>
+            <tag>fixkosten</tag>
+        </tags>
     </standingorder>
 </standingorders>

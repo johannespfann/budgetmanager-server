@@ -6,6 +6,7 @@ import de.pfann.budgetmanager.server.common.model.RunInfo;
 import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JobEngine {
@@ -33,11 +34,14 @@ public class JobEngine {
         }
 
         Run lastRun = runFacade.getLastRun();
-        Run currentRun = new Run();
 
-        List<Run> runs = runProvider.prepareRuns(lastRun.getExecuted_at(),currentRun.getExecuted_at());
+        List<Run> runs = runProvider.prepareRuns(lastRun.getExecuted_at(), LocalDateTime.now());
 
         for(Run run : runs){
+
+            LogUtil.info(this.getClass(), "Persist new run : " + run.getExecuted_at());
+
+            runFacade.persist(run);
 
             for (JobRunner job : jobRunners) {
 
@@ -49,6 +53,8 @@ public class JobEngine {
 
     private void startFirstTime(){
         Run run = new Run();
+        LogUtil.info(this.getClass(), "Persist new run : " + run.getExecuted_at());
+        runFacade.persist(run);
 
         for (JobRunner job : jobRunners) {
             executeJob(run, job);
@@ -79,7 +85,6 @@ public class JobEngine {
             LogUtil.info(this.getClass(),"RunInfo End   : " + runInfo.getEnd_at());
             LogUtil.info(this.getClass(),"RunInfo Ident : " + runInfo.getIdentifier());
 
-            runFacade.persist(aRun);
             runFacade.persist(runInfo);
         }
 
