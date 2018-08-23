@@ -12,7 +12,7 @@ public class CDBKontoDatabaseIdTest {
      * values for id
      */
 
-    private String prefix;
+
     private String username;
     private String konto;
     private String typ;
@@ -27,7 +27,6 @@ public class CDBKontoDatabaseIdTest {
 
     @Before
     public void setUp(){
-        prefix = CDBKontoDatabaseId.APPLICATION_PREFIX;
         username = "johannes-4213";
         konto = "d5n32";
         typ = CDBKonto.ENTRY_KONTO;
@@ -57,7 +56,6 @@ public class CDBKontoDatabaseIdTest {
         System.out.println(entryId.toString());
         // validate
         Assert.assertTrue(username.equals(entryId.getUsername()));
-        Assert.assertTrue(prefix.equals(prefix));
         Assert.assertTrue(konto.equals(entryId.getKontoHash()));
     }
 }

@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.configuration.ConfigurationProvider;
 import de.pfann.budgetmanager.server.common.facade.*;
+import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.dataprovider.XMLTestDataManager;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
@@ -19,6 +20,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -30,7 +32,7 @@ public class StartDev
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         Application application = new Application();
 
-        ConfigurationProvider configurationProvider = new ConfigurationProvider("budgetmanager.properties");
+        ConfigurationProvider configurationProvider = new ConfigurationProvider("dev-budgetmanager.properties");
         Properties properties = configurationProvider.getProperties();
         Set<String> propertyList = properties.stringPropertyNames();
 
@@ -39,18 +41,19 @@ public class StartDev
         }
 
         String couchdbadress = getCouchDBAdress(properties);
+        String couchDbPrefix = properties.getProperty(Application.KEY_COUCHDB_PREFIX);
 
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
         httpClientBuilder.url(couchdbadress);
 
 
         HttpClient httpClient = httpClientBuilder.build();
-        cleanDb(httpClient);
+        cleanDb(httpClient, couchDbPrefix);
 
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
-        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,objectMapperFactory);
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,couchDbPrefix,objectMapperFactory);
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);
@@ -65,6 +68,10 @@ public class StartDev
         XMLTestDataManager testDataManager = new XMLTestDataManager(standingOrderFacade,entryFacade,userFacade);
         testDataManager.persistTestData("C:\\Users\\Johannes\\projects\\budgetmanager-server\\dataprovider\\src\\main\\resources\\");
 
+        Run run = new Run(LocalDateTime.of(2018,06,01,3,0,0));
+        RunFacade runFacade = new CDBRunFacade(runDaoFactory);
+        runFacade.persist(run);
+
         application.start(properties);
     }
 
@@ -76,35 +83,23 @@ public class StartDev
                 .toString();
     }
 
-    private static void cleanDb(HttpClient httpClient) {
+    private static void cleanDb(HttpClient httpClient,String aPrefix) {
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
 
         List<String> dbs = dbInstance.getAllDatabases();
 
         for(String db : dbs){
 
-            if(db.equals("_replicator")){
-                System.out.println("was replicator");
-                continue;
+            String[] parts = db.split("_");
+
+            String prefix = parts[0];
+
+            if(prefix.equals(aPrefix)){
+                System.out.println("Delete: " + db);
+                dbInstance.deleteDatabase(db);
+
             }
 
-            if(db.equals("_users")){
-                System.out.println("was users");
-                continue;
-            }
-
-            if(db.equals("_nodes")){
-                System.out.println("was nodes");
-                continue;
-            }
-
-            if(db.equals("_dbs")){
-                System.out.println("was dbs");
-                continue;
-            }
-
-            System.out.println("Deleting " + db);
-            dbInstance.deleteDatabase(db);
         }
     }
 

@@ -44,7 +44,7 @@ public class CDBUserFacadeTest {
                 .build();
         dbInstance = new StdCouchDbInstance(httpClient);
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
-        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance, objectMapperFactory);
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance, "test_bm", objectMapperFactory);
         CDBUserDaoFactory factory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDBFactory = new CDBKontoDatabaseFacade(couchDbConnectorFactory, dbInstance);
         userFacade = new CDBUserFacade(factory, kontoDBFactory);

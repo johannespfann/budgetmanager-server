@@ -55,10 +55,6 @@ public class FileWriter {
         System.out.println(json);
 
 
-
-
     }
-
-
 
 }

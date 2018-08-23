@@ -44,6 +44,7 @@ public class Application {
     public final static String KEY_COUCHDB_PORT = "couchdb.port";
     public final static String KEY_COUCHDB_PW = "couchdb.pw";
     public final static String KEY_COUCHDB_USER = "couchdb.user";
+    public final static String KEY_COUCHDB_PREFIX = "couchdb.prefix";
 
     public static final String KEY_MAIL_SMTP_AUTH = "mail.smtp.auth";
     public static final String KEY_MAIL_SMTP_STARTTL_ENABLE = "mail.smtp.starttls.enable";
@@ -86,6 +87,7 @@ public class Application {
         String mailSmtpPort = aProperties.getProperty(KEY_MAIL_SMTP_PORT);
         String senderEmail = aProperties.getProperty(KEY_MAIL_EMAIL);
         String senderPassword = aProperties.getProperty(KEY_MAIL_PASSWORD);
+        String couchdbprefix = aProperties.getProperty(KEY_COUCHDB_PREFIX);
 
         EmailService emailService = new EmailService(
                 mailSmtpHost,
@@ -108,7 +110,7 @@ public class Application {
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
-        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,objectMapperFactory);
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,couchdbprefix,objectMapperFactory);
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);
@@ -177,7 +179,7 @@ public class Application {
                 entryFacade,
                 standingOrderFacade);
 
-        TimeInterval timeInterval = new HourInterval(24);
+        TimeInterval timeInterval = new Daily();
         RunProvider provider = new RunProviderImpl(timeInterval);
 
         List<JobRunner> jobRunners = new LinkedList<>();
@@ -186,7 +188,7 @@ public class Application {
 
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-        ExecutionTime startTime = new ThreeOClockAM();
+        ExecutionTime startTime = new SecStartTime(5);
         TimeInterval timeInterval1 = new Daily();
 
         JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
