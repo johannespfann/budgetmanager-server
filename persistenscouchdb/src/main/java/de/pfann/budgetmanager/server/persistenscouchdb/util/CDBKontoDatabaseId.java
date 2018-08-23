@@ -2,9 +2,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.util;
 
 public class CDBKontoDatabaseId {
 
-    public static final String APPLICATION_PREFIX = "bm";
     public static final String SEPERATOR = "_";
-
 
     private String username;
     private String typ;
@@ -18,7 +16,7 @@ public class CDBKontoDatabaseId {
     }
 
     public String toString(){
-        return APPLICATION_PREFIX + SEPERATOR + username + SEPERATOR + kontoHash + SEPERATOR + typ;
+        return username + SEPERATOR + kontoHash + SEPERATOR + typ;
     }
 
     public static CDBKontoDatabaseIdBuilder builder(){
@@ -76,25 +74,12 @@ public class CDBKontoDatabaseId {
             return new CDBKontoDatabaseId(username, kontoHash, typ);
         }
 
-        private void assertObjectTypIsValid(String aTyp) {
-            if(aTyp == null || aTyp.isEmpty()){
-                throw new IllegalArgumentException();
-            }
-        }
-
         public CDBKontoDatabaseId build(String value){
             String[] values = value.split(SEPERATOR);
-            assertPrefixIsValid(values[0]);
             username = values[1];
             kontoHash = values[2];
             typ = values[3];
             return build();
-        }
-
-        private void assertPrefixIsValid(String aPrefix) {
-            if(aPrefix == null || aPrefix.isEmpty() || !aPrefix.equals(APPLICATION_PREFIX)){
-                throw new IllegalArgumentException();
-            }
         }
 
         private void assertDatabaseNameIsValid(String aDatabasename) {
@@ -105,6 +90,18 @@ public class CDBKontoDatabaseId {
 
         private void assertUsernameIsValid(String aUsername) {
             if(username == null || username.isEmpty()){
+                throw new IllegalArgumentException();
+            }
+        }
+
+        private void assertApplicationPrefix(String aApplicationPrefix) {
+            if(aApplicationPrefix == null || aApplicationPrefix.isEmpty()){
+                throw new IllegalArgumentException();
+            }
+        }
+
+        private void assertObjectTypIsValid(String aTyp) {
+            if(aTyp == null || aTyp.isEmpty()){
                 throw new IllegalArgumentException();
             }
         }

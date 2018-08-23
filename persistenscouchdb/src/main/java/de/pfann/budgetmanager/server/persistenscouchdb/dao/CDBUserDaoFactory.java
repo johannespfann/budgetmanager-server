@@ -11,6 +11,6 @@ public class CDBUserDaoFactory {
     }
 
     public CDBUserDao createDao(){
-        return new CDBUserDao(couchDbConnectorFactory.createCouchDbConnector("bm_user"));
+        return new CDBUserDao(couchDbConnectorFactory.createCouchDbConnector("user"));
     }
 }

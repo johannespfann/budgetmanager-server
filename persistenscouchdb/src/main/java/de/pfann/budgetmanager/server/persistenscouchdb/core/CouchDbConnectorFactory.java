@@ -8,15 +8,17 @@ import org.ektorp.impl.StdCouchDbConnector;
 public class CouchDbConnectorFactory {
 
     private CouchDbInstance couchDbInstance;
+    private String applicationPrefix;
     private ObjectMapperFactory objectMapperFactory;
 
-    public CouchDbConnectorFactory(CouchDbInstance aCouchInstance, ObjectMapperFactory aObjectMapperFactory){
+    public CouchDbConnectorFactory(CouchDbInstance aCouchInstance, String aApplicationPrefix,ObjectMapperFactory aObjectMapperFactory){
         couchDbInstance = aCouchInstance;
         objectMapperFactory = aObjectMapperFactory;
+        applicationPrefix = aApplicationPrefix;
     }
 
     public CouchDbConnector createCouchDbConnector(String aDbName){
-        return new StdCouchDbConnector(aDbName,couchDbInstance, objectMapperFactory);
+        return new StdCouchDbConnector(applicationPrefix + "_" + aDbName,couchDbInstance, objectMapperFactory);
     }
 
 }
