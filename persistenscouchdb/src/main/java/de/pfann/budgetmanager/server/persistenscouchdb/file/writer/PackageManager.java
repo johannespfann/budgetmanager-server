@@ -1,0 +1,66 @@
+package de.pfann.budgetmanager.server.persistenscouchdb.file.writer;
+
+import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.common.util.DateUtil;
+
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+
+public class PackageManager {
+
+    private List<EntryPackage> entryPackages;
+
+    public PackageManager(){
+        entryPackages = new LinkedList<>();
+    }
+
+    public void add(Entry aEntry){
+        LocalDateTime localDateTime = DateUtil.asLocalDateTime(aEntry.getCreated_at());
+
+        EntryPackage entryPackage;
+
+        if(!packageExists(localDateTime)){
+            LocalDateTime newLocalDateTime = LocalDateTime.of(
+                    localDateTime.getYear(),
+                    localDateTime.getMonth().getValue(),
+                    localDateTime.getDayOfMonth(),0,0,0);
+
+            entryPackage = new EntryPackage(newLocalDateTime);
+            entryPackages.add(entryPackage);
+        }
+        else {
+            entryPackage = getEntryPackage(localDateTime);
+        }
+
+        entryPackage.add(aEntry);
+    }
+
+    public List<EntryPackage> getEntryPackages(){
+        return entryPackages;
+    }
+
+    private EntryPackage getEntryPackage(LocalDateTime aLocalDateTime) {
+
+        for(EntryPackage entryPackage : entryPackages){
+            if(entryPackage.getLocalDateTime().getYear() == aLocalDateTime.getYear() && entryPackage.getLocalDateTime().getMonth().getValue() == aLocalDateTime.getMonth().getValue()){
+                return entryPackage;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean packageExists(LocalDateTime aLocalDateTime) {
+
+        for(EntryPackage entryPackage : entryPackages){
+            if(entryPackage.getLocalDateTime().getYear() == aLocalDateTime.getYear() && entryPackage.getLocalDateTime().getMonth().getValue() == aLocalDateTime.getMonth().getValue()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+}

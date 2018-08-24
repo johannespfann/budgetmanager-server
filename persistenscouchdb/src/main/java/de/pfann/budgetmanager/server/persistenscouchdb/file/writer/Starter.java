@@ -54,9 +54,9 @@ couchdb.user:
         RunFacade runFacade = new CDBRunFacade(runDaoFactory);
         TagStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
 
-        FileWriter writer = new FileWriter(userFacade,entryFacade,standingOrderFacade, statisticFacade);
+        JSONFileWriter writer = new JSONFileWriter(userFacade,entryFacade,standingOrderFacade, statisticFacade);
 
-        writer.writeUserDataToFile("johannes-1234", "");
+        writer.writeUserDataToFile("johannes-1234", "C:\\Users\\Johannes\\Desktop\\output\\");
 
 
     }
