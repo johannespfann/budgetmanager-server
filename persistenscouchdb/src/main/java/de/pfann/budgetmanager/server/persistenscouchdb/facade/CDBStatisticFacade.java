@@ -76,4 +76,18 @@ public class CDBStatisticFacade implements TagStatisticFacade {
         userDao.update(cdbUser);
     }
 
+    public List<CDBTagStatistic> getStatistics(CDBUser aUser) {
+        CDBUserId userId = CDBUserId.create(aUser.getUsername());
+        CDBUser cdbUser = userDao.get(userId.toString());
+        return cdbUser.getTagStatistics();
+    }
+
+    public void persistStatisitc(List<CDBTagStatistic> aStatistics, CDBUser aUser) {
+        CDBUserId userId = CDBUserId.create(aUser.getUsername());
+        CDBUser cdbUser = userDao.get(userId.toString());
+
+        cdbUser.setTagStatistics(aStatistics);
+        userDao.update(cdbUser);
+    }
+
 }
