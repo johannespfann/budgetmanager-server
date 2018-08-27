@@ -1,6 +1,7 @@
-package de.pfann.budgetmanager.server.persistenscouchdb.file.writer;
+package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
 import de.pfann.budgetmanager.server.common.facade.*;
+import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
@@ -15,8 +16,10 @@ import org.ektorp.impl.StdCouchDbInstance;
 import org.ektorp.impl.StdObjectMapperFactory;
 
 import java.net.MalformedURLException;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Starter {
+public class StartFileWriter {
 
     /*
 server.adress: http://0.0.0.0
@@ -33,31 +36,39 @@ couchdb.user:
      */
 
     public static void main(String[] args) throws MalformedURLException {
+        // StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
+        // httpClientBuilder.url("http://pfann.org:5984");
+
+        // HttpClient httpClient = httpClientBuilder.build();
+        // HttpClient httpClient = httpClientBuilder.build();
+
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
-        httpClientBuilder.url("http://localhost:5984");
+        httpClientBuilder.url("http://pfann.org:5984")
+                .username("admin")
+                .password("5kassandra5");
 
-        HttpClient httpClient = httpClientBuilder.build();
-
-        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
+        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClientBuilder.build());
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
-        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,"dev-bm",objectMapperFactory);
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,"bm",objectMapperFactory);
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);
         CDBEntryDaoFactory entryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactory);
         CDBStandingOrderDaoFactory standingOrderDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactory);
-        CDBRunDoaFactory runDaoFactory = new CDBRunDoaFactory(couchDbConnectorFactory);
 
         AppUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);
         EntryFacade entryFacade = new CDBEntryFacade(userDaoFactory,entryDaoFactory);
         StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(standingOrderDaoFactory,userDaoFactory);
-        RunFacade runFacade = new CDBRunFacade(runDaoFactory);
-        TagStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
+        CDBStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
 
         JSONFileWriter writer = new JSONFileWriter(userFacade,entryFacade,standingOrderFacade, statisticFacade);
 
-        writer.writeUserDataToFile("johannes-1234", "C:\\Users\\Johannes\\Desktop\\output\\");
+        List<AppUser> users = new LinkedList<>();
+        users = userFacade.getAllUser();
 
+        for(AppUser user : users) {
+            writer.writeUserdataToFile(user.getName(), "C:\\Users\\Johannes\\Desktop\\output\\");
+        }
 
     }
 

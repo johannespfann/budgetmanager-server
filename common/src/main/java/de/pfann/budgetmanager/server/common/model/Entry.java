@@ -127,7 +127,6 @@ public class Entry  implements Serializable {
     public String toString() {
         return "Entry{" +
                 "hash='" + hash + '\'' +
-                ", appUser=" + appUser.getName() +
                 ", tags=" + tags +
                 ", amount='" + amount + '\'' +
                 ", created_at=" + created_at +

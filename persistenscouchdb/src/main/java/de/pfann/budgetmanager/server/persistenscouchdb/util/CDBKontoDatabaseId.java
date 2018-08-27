@@ -76,9 +76,9 @@ public class CDBKontoDatabaseId {
 
         public CDBKontoDatabaseId build(String value){
             String[] values = value.split(SEPERATOR);
-            username = values[1];
-            kontoHash = values[2];
-            typ = values[3];
+            username = values[0];
+            kontoHash = values[1];
+            typ = values[2];
             return build();
         }
 

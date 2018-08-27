@@ -31,7 +31,7 @@ public class CDBKontoDatabaseIdTest {
         konto = "d5n32";
         typ = CDBKonto.ENTRY_KONTO;
 
-        validateString = "bm_johannes-4213_d5n32_" + CDBKonto.ENTRY_KONTO;
+        validateString = "johannes-4213_d5n32_" + CDBKonto.ENTRY_KONTO;
     }
 
     @Test
@@ -53,7 +53,6 @@ public class CDBKontoDatabaseIdTest {
         // exucute
         System.out.println();
         CDBKontoDatabaseId entryId = CDBKontoDatabaseId.builder().build(validateString);
-        System.out.println(entryId.toString());
         // validate
         Assert.assertTrue(username.equals(entryId.getUsername()));
         Assert.assertTrue(konto.equals(entryId.getKontoHash()));

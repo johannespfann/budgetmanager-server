@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.persistenscouchdb.file.writer;
+package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.util.DateUtil;

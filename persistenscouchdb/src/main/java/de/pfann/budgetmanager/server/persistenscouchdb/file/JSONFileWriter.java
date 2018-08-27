@@ -1,14 +1,16 @@
-package de.pfann.budgetmanager.server.persistenscouchdb.file.writer;
+package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
-import de.pfann.budgetmanager.server.common.facade.TagStatisticFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
+import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBStatisticFacade;
+import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBTagStatistic;
+import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -19,25 +21,34 @@ public class JSONFileWriter {
     private AppUserFacade userFacade;
     private EntryFacade entryFacade;
     private StandingOrderFacade standingOrderFacade;
-    private TagStatisticFacade tagStatisticFacade;
+    private CDBStatisticFacade tagStatisticFacade;
 
     public JSONFileWriter(AppUserFacade aUserFacade,
                           EntryFacade aEntryFacade,
                           StandingOrderFacade aStandingOrderFacade,
-                          TagStatisticFacade aStatisticFacade){
+                          CDBStatisticFacade aStatisticFacade){
         userFacade = aUserFacade;
         entryFacade = aEntryFacade;
         standingOrderFacade = aStandingOrderFacade;
         tagStatisticFacade = aStatisticFacade;
     }
 
-    public void writeUserDataToFile(String aUserName, String aOutputDirektory){
+    public void writeUserdataToFile(String aUserName, String aOutputDirektory){
         AppUser user = userFacade.getUserByNameOrEmail(aUserName);
+        CDBUser cdbUser = new CDBUser();
+
+        cdbUser.setUsername(user.getName());
+        cdbUser.setPassword(user.getPassword());
+        cdbUser.setEncryptionText(user.getEncryptionText());
+        cdbUser.addEmail(user.getEmail());
+
+        if(user.isActivated()){
+            cdbUser.activate();
+        }
 
         // Get all StandingOrder of specific user
         List<StandingOrder> standingOrders = new LinkedList<>();
         standingOrders = standingOrderFacade.getRotationEntries(user);
-
 
         // Convert StandingOrders to JSON-String
         ObjectMapper objectMapper = new ObjectMapper();
@@ -77,7 +88,7 @@ public class JSONFileWriter {
         // create files for each package of entries
         for(EntryPackage singlePackage : entryPackages){
             System.out.println("Create new File with " + singlePackage.getEntries().size() + " entries");
-            String fileName = "entry- " + singlePackage.getLocalDateTime().getYear() + "-" + singlePackage.getLocalDateTime().getMonth().getValue() +".json";
+            String fileName = "entry-" + singlePackage.getLocalDateTime().getYear() + "-" + singlePackage.getLocalDateTime().getMonth().getValue() +".json";
             String entryJson = "";
 
             try {
@@ -88,6 +99,20 @@ public class JSONFileWriter {
 
             FileUtil.createFile(directoryPath + "\\" + fileName,entryJson);
         }
+
+        // save statistics
+        List<CDBTagStatistic> statistics = tagStatisticFacade.getStatistics(cdbUser);
+        System.out.println("Statistics: " + statistics.size());
+        cdbUser.setTagStatistics(statistics);
+        // create json of user
+        String userJson = "";
+        try {
+            userJson = objectMapper.writeValueAsString(cdbUser);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        FileUtil.createFile(directoryPath + "\\user.json", userJson);
 
     }
 

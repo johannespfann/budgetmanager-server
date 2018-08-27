@@ -48,7 +48,7 @@ public class StartDev
 
 
         HttpClient httpClient = httpClientBuilder.build();
-        cleanDb(httpClient, couchDbPrefix);
+        //cleanDb(httpClient, couchDbPrefix);
 
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
@@ -83,25 +83,7 @@ public class StartDev
                 .toString();
     }
 
-    private static void cleanDb(HttpClient httpClient,String aPrefix) {
-        CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
 
-        List<String> dbs = dbInstance.getAllDatabases();
-
-        for(String db : dbs){
-
-            String[] parts = db.split("_");
-
-            String prefix = parts[0];
-
-            if(prefix.equals(aPrefix)){
-                System.out.println("Delete: " + db);
-                dbInstance.deleteDatabase(db);
-
-            }
-
-        }
-    }
 
 
 }

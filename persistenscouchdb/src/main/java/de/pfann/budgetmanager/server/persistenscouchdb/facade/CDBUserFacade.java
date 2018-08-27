@@ -14,6 +14,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserTransformer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CDBUserFacade implements AppUserFacade {
@@ -114,6 +115,22 @@ public class CDBUserFacade implements AppUserFacade {
         CDBUserId userId = CDBUserId.create(aAppUser.getName());
         CDBUser cdbUser = userDao.get(userId.toString());
         cdbUser = CDBUserTransformer.updateCDBUser(aAppUser,cdbUser);
+        userDao.update(cdbUser);
+    }
+
+    public void updateUser(CDBUser aUser) {
+        CDBUserId userId = CDBUserId.create(aUser.getUsername());
+        CDBUser cdbUser = userDao.get(userId.toString());
+        System.out.println("User" + cdbUser);
+        cdbUser.setUsername(aUser.getUsername());
+        cdbUser.setPassword(aUser.getPassword());
+        cdbUser.setTagStatistics(aUser.getTagStatistics());
+        cdbUser.setEncryptionText(aUser.getEncryptiontext());
+
+        if(aUser.isActivated()){
+            cdbUser.activate();
+        }
+
         userDao.update(cdbUser);
     }
 
