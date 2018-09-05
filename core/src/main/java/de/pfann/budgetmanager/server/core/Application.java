@@ -3,6 +3,7 @@ package de.pfann.budgetmanager.server.core;
 import de.pfann.budgetmanager.server.common.configuration.ConfigurationProvider;
 import de.pfann.budgetmanager.server.common.email.EmailService;
 import de.pfann.budgetmanager.server.common.facade.*;
+import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.jobengine.core.*;
 import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
@@ -30,6 +31,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -179,8 +181,8 @@ public class Application {
                 entryFacade,
                 standingOrderFacade);
 
-        TimeInterval timeInterval = new Daily();
-        RunProvider provider = new RunProviderImpl(timeInterval);
+        TimeInterval timeIntervalOfRuns = new HourInterval(12);
+        RunProvider provider = new RunProviderImpl(timeIntervalOfRuns);
 
         List<JobRunner> jobRunners = new LinkedList<>();
         JobRunner jobRunner = new JobRunner(rotationEntryJob);
@@ -188,11 +190,14 @@ public class Application {
 
         JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
 
-        ExecutionTime startTime = new SecStartTime(5);
-        TimeInterval timeInterval1 = new Daily();
+        ExecutionTime startTime = new SecStartTime(10);
+        TimeInterval timeIntervalOfScheduler = new HourInterval(2);
 
-        JobScheduler scheduler = new JobScheduler(startTime,timeInterval1,jobEngine);
+        JobScheduler scheduler = new JobScheduler(startTime,timeIntervalOfScheduler,jobEngine);
         scheduler.start();
+
+        System.out.println("Current time of server     : " + LocalDateTime.now());
+        System.out.println("Current time of application: " + DateUtil.getCurrentTimeOfBERLIN());
 
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", serveradress));

@@ -15,6 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
+
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>core</artifactId>
@@ -53,7 +54,7 @@
                                 <configuration>
                                     <serverId>pfann-org-server</serverId>
                                     <fromFile>${project.build.directory}/${project.build.finalName}-dist.zip</fromFile>
-                                    <url>scp://pfann.org:/home/johannes/applications</url>
+                                    <url>scp://h2799032.stratoserver.net:/home/budgetmanager/</url>
                                 </configuration>
                             </execution>
 
@@ -65,9 +66,9 @@
                                 </goals>
                                 <configuration>
                                     <serverId>pfann-org-server</serverId>
-                                    <url>scp://pfann.org:/home/johannes/</url>
+                                    <url>scp://h2799032.stratoserver.net:/home/budgetmanager</url>
                                     <commands>
-                                        <command>unzip -o applications/budgetmanager-dist.zip -d applications</command>
+                                        <command>unzip -o budgetmanager-dist.zip</command>
                                     </commands>
                                 </configuration>
                             </execution>

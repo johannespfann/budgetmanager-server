@@ -3,7 +3,8 @@ package de.pfann.budgetmanager.server.persistens.daos;
 import de.pfann.budgetmanager.server.common.facade.TagStatisticFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.TagStatistic;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.server.logging.core.LogUtil;
+
 
 import java.util.List;
 

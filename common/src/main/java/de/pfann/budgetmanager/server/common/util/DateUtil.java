@@ -41,6 +41,14 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    public static LocalDateTime getCurrentTimeOfBERLIN(){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZoneId zoneId = ZoneId.of("Europe/Berlin");
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zoneId);
+        return zonedDateTime.toLocalDateTime();
+    }
+
+
     /**
      * Return the time in milli between to LocalTimes.
      * If first time is after second time the duration is

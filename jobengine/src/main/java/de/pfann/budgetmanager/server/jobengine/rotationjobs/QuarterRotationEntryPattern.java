@@ -2,7 +2,6 @@ package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import java.time.LocalDateTime;
 
@@ -34,9 +33,6 @@ public class QuarterRotationEntryPattern implements RotationEntryPattern {
         LocalDateTime endTime = DateUtil.asLocalDateTime(aEntry.getEnd_at());
         LocalDateTime lastExecuted = DateUtil.asLocalDateTime(aEntry.getLast_executed());
         LocalDateTime executionTimeOfCurrentQuartal = getExecutionDateOfCurrentQuartal(startTime,aCurrentDate);
-
-
-
 
         // ist vor startzeit
         if(currentDate.isBefore(startTime)){

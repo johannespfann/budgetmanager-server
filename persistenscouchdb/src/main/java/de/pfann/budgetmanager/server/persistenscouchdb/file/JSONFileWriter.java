@@ -65,7 +65,7 @@ public class JSONFileWriter {
         File directory =  new File(directoryPath);
         boolean fileCreated = directory.mkdirs();
 
-        System.out.println(fileCreated);
+        System.out.println("Directory was created: " + fileCreated);
 
         // write all standingorders to file
         FileUtil.createFile(directoryPath + "\\standingorder.json", json);

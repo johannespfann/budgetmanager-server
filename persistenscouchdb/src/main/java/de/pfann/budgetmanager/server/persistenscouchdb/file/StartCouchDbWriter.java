@@ -22,19 +22,37 @@ import java.util.List;
 
 public class StartCouchDbWriter {
 
+    /**
+     StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
+     httpClientBuilder
+     .url("http://h2799032.stratoserver.net/couchdb")
+     //.url("http://pfann.org:5984")
+     .username("admin")
+     .password("5kassandra5");
+     HttpClient httpClient = httpClientBuilder.build();
+     */
+
+    /**
+     StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
+     httpClientBuilder.url("http://localhost:5984");
+     HttpClient httpClient = httpClientBuilder.build();
+     */
 
     public static void main(String[] args) throws MalformedURLException {
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
-        httpClientBuilder.url("http://localhost:5984");
-
+        httpClientBuilder
+                .url("http://h2799032.stratoserver.net:81")
+                //.url("http://pfann.org:5984")
+                .username("admin")
+                .password("5kassandra5");
         HttpClient httpClient = httpClientBuilder.build();
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
-        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,"copy-bm",objectMapperFactory);
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,"bm",objectMapperFactory);
         CouchDBUtil couchDBUtil = new CouchDBUtil(httpClient);
 
-        couchDBUtil.deleteDatabases("copy-bm");
+        couchDBUtil.deleteDatabases("bm");
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);

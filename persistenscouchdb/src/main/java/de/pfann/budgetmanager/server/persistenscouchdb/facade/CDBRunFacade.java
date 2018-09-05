@@ -9,6 +9,8 @@ import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBRun;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBRunAction;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBRunId;
+import de.pfann.server.logging.core.LogUtil;
+import de.pfann.server.logging.core.RunLog;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +28,10 @@ public class CDBRunFacade implements RunFacade {
         String runId = CDBRunId.createId(aRun.getExecuted_at());
         CDBRun run = new CDBRun(DateUtil.asDate(aRun.getExecuted_at()));
         run.setId(runId);
+
+        RunLog.info(this.getClass(),"[Persist new Run]   : " + aRun.getExecuted_at());
+        RunLog.info(this.getClass(),"- IncomingTime    : " + aRun.getExecuted_at());
+        RunLog.info(this.getClass(),"- TransformedTime : " + run.getExecutedAt() + " with id: " + run.getId());
         cdbRunDao.add(run);
     }
 
@@ -56,7 +62,9 @@ public class CDBRunFacade implements RunFacade {
 
     @Override
     public List<Run> getAllRuns() {
+        RunLog.info(this.getClass(),"Get all runs");
         List<CDBRun> runs = cdbRunDao.getAll();
+        RunLog.info(this.getClass(),"Found " + runs.size() + " runs");
         List<Run> runList = new LinkedList<>();
 
         for(CDBRun run : runs){

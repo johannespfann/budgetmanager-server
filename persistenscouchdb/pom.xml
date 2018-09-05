@@ -16,6 +16,11 @@
 
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
+            <artifactId>logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>common</artifactId>
         </dependency>
 

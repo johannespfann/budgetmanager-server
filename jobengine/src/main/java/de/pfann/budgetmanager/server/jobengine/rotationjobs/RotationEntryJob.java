@@ -8,8 +8,8 @@ import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
 import de.pfann.budgetmanager.server.jobengine.core.Job;
+import de.pfann.server.logging.core.RunLog;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -40,9 +40,9 @@ public class RotationEntryJob implements Job {
 
     @Override
     public void preExecution(Run aRun) {
-        LogUtil.info(this.getClass(),"[Start Run]");
-        LogUtil.info(this.getClass(),"Jobname: " + getIdentifier());
-        LogUtil.info(this.getClass(),"with " + patterns.size() + " pattern");
+        RunLog.info(this.getClass(),"[Start Run]");
+        RunLog.info(this.getClass(),"Jobname: " + getIdentifier());
+        RunLog.info(this.getClass(),"with " + patterns.size() + " pattern");
     }
 
     @Override
@@ -50,13 +50,13 @@ public class RotationEntryJob implements Job {
 
         List<AppUser> users = userFacade.getAllUser();
 
-        LogUtil.info(this.getClass(),"RotationJobs are for " + users.size() + " users");
+        RunLog.info(this.getClass(),"RotationJobs are for " + users.size() + " users");
 
         for(AppUser user: users){
-            LogUtil.info(this.getClass(),"Execute for user: " + user.getName());
+            RunLog.info(this.getClass(),"Execute for user: " + user.getName());
             List<StandingOrder> rotationEntries = rotationEntryFacade.getRotationEntries(user);
 
-            LogUtil.info(this.getClass(),"with : " + rotationEntries.size() + " rotationentries");
+            RunLog.info(this.getClass(),"with : " + rotationEntries.size() + " rotationentries");
 
             for(StandingOrder rotationEntry : rotationEntries){
                 executeRotationEntry(aRun,rotationEntry);
@@ -65,10 +65,10 @@ public class RotationEntryJob implements Job {
     }
 
     private void executeRotationEntry(Run currentRun,StandingOrder rotationEntry){
-        LogUtil.info(this.getClass(),"-----> Durchsuche  " + rotationEntry.getHash());
+        RunLog.info(this.getClass(),"-----> Durchsuche  " + rotationEntry.getHash());
         for(RotationEntryPattern pattern : patterns){
 
-            LogUtil.info(this.getClass(),"with Pattern " + pattern.getClass().getSimpleName());
+            RunLog.info(this.getClass(),"with Pattern " + pattern.getClass().getSimpleName());
             if(isExecuteable(currentRun, rotationEntry, pattern)) {
                 LocalDateTime currentDate = currentRun.getExecuted_at();
                 LocalDateTime startDate = DateUtil.asLocalDateTime(rotationEntry.getStart_at());
@@ -81,7 +81,7 @@ public class RotationEntryJob implements Job {
                 entryFacade.persistEntry(entry);
                 rotationEntry.setLast_executed(executionDate);
                 rotationEntryFacade.update(rotationEntry);
-                LogUtil.info(this.getClass(),"Persist new entry + " + entry.getHash());
+                RunLog.info(this.getClass(),"Persist new entry + " + entry.getHash());
             }
         }
 
@@ -93,7 +93,7 @@ public class RotationEntryJob implements Job {
         }
 
         if(pattern.isExecutable(currentRun.getExecuted_at(),rotationEntry)){
-            LogUtil.info(this.getClass(),"isExecutable -> return true");
+            RunLog.info(this.getClass(),"isExecutable -> return true");
            return true;
         }
 
@@ -102,6 +102,6 @@ public class RotationEntryJob implements Job {
 
     @Override
     public void postExecution(Run aRun) {
-        LogUtil.info(this.getClass(),"[Stop  Run]");
+        RunLog.info(this.getClass(),"[Stop  Run]");
     }
 }

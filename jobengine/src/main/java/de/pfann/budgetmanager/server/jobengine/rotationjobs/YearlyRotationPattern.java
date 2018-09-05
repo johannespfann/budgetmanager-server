@@ -2,7 +2,7 @@ package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+
 
 import java.time.LocalDateTime;
 
@@ -51,7 +51,6 @@ public class YearlyRotationPattern implements RotationEntryPattern {
         }
         // ist nach der executiontime
         if(aToday.isAfter(executionTimeForCurrentYear)){
-            LogUtil.debug(this.getClass(), "CurrentTime " + aToday + " is after executionTimeOfCurrentYear " + executionTimeForCurrentYear + " and lastExecuted is " + lastExecuted + " - return true");
             return true;
         }
 

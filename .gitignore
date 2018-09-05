@@ -4,3 +4,5 @@ target
 budgetmanager.properties
 dev-budgetmanager.properties
 *.properties
+
+log/

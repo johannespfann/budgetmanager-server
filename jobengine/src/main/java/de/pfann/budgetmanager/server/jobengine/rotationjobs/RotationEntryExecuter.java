@@ -5,9 +5,7 @@ import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
-import de.pfann.budgetmanager.server.persistens.daos.EntrySQLFacade;
-import de.pfann.budgetmanager.server.persistens.daos.RotationEntrySQLFacade;
+import de.pfann.server.logging.core.RunLog;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -25,12 +23,11 @@ public class RotationEntryExecuter {
         entryFacade = aEntryFacade;
     }
 
-
     public void executeRotationEntry(LocalDateTime executionDateTime, StandingOrder aRotationEntry){
-        LogUtil.info(this.getClass(),"-----> Durchsuche  " + aRotationEntry.getHash());
+        RunLog.info(this.getClass(),"-----> Durchsuche  " + aRotationEntry.getHash());
         for(RotationEntryPattern pattern : patterns){
 
-            LogUtil.info(this.getClass(),"with Pattern " + pattern.getClass());
+            RunLog.info(this.getClass(),"with Pattern " + pattern.getClass());
             if(isExecuteable(executionDateTime, aRotationEntry, pattern)) {
                 LocalDateTime currentDate = executionDateTime;
                 LocalDateTime startDate = DateUtil.asLocalDateTime(aRotationEntry.getStart_at());
@@ -45,8 +42,6 @@ public class RotationEntryExecuter {
             }
         }
     }
-
-
 
     private boolean isExecuteable(LocalDateTime currentRun, StandingOrder rotationEntry, RotationEntryPattern pattern) {
         if(!pattern.isValidPattern(rotationEntry)){

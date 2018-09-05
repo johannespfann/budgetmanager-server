@@ -2,7 +2,8 @@ package de.pfann.budgetmanager.server.jobengine.core;
 
 import de.pfann.budgetmanager.server.common.model.Run;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.server.logging.core.LogUtil;
+import de.pfann.server.logging.core.RunLog;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -20,9 +21,9 @@ public class RunProviderImpl implements RunProvider {
     @Override
     public List<Run> prepareRuns(LocalDateTime timeOfLastRun, LocalDateTime timeOfCurrentRun) {
 
-        LogUtil.info(this.getClass(),"Prepare runs for ");
-        LogUtil.info(this.getClass()," TimeOfLastRun    :  " + timeOfLastRun);
-        LogUtil.info(this.getClass()," TimeOfCurrentRun :  " + timeOfCurrentRun);
+        RunLog.info(this.getClass(),"Prepare runs for ");
+        RunLog.info(this.getClass()," TimeOfLastRun    :  " + timeOfLastRun);
+        RunLog.info(this.getClass()," TimeOfCurrentRun :  " + timeOfCurrentRun);
 
         long durationInMilli = ChronoUnit.MILLIS.between(timeOfLastRun,timeOfCurrentRun);
 
@@ -37,13 +38,11 @@ public class RunProviderImpl implements RunProvider {
             runs.add(run);
         }
 
-        LogUtil.info(this.getClass()," Duraten in Milli  :  " + durationInMilli);
-        LogUtil.info(this.getClass()," interval in Milli :  " + timeInterval.getTimePerMilliSecond());
-
-        LogUtil.info(this.getClass()," Duraten in min  :  " + DateUtil.convertMilliSecondsToMinutes(durationInMilli));
-        LogUtil.info(this.getClass()," interval in min :  " + DateUtil.convertMilliSecondsToMinutes(timeInterval.getTimePerMilliSecond()));
-
-        LogUtil.info(this.getClass(),"dedected " + runs.size() + " runs");
+        RunLog.info(this.getClass()," Duraten in Milli  :  " + durationInMilli);
+        RunLog.info(this.getClass()," interval in Milli :  " + timeInterval.getTimePerMilliSecond());
+        RunLog.info(this.getClass()," Duraten in min  :  " + DateUtil.convertMilliSecondsToMinutes(durationInMilli));
+        RunLog.info(this.getClass()," interval in min :  " + DateUtil.convertMilliSecondsToMinutes(timeInterval.getTimePerMilliSecond()));
+        RunLog.info(this.getClass(),"dedected " + runs.size() + " runs");
         return runs;
 
     }

@@ -2,10 +2,11 @@ package de.pfann.budgetmanager.server.persistens.daos;
 
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+
 import de.pfann.budgetmanager.server.persistens.core.AbstractDao;
 import de.pfann.budgetmanager.server.persistens.core.DbReader;
 import de.pfann.budgetmanager.server.persistens.core.DbWriter;
+import de.pfann.server.logging.core.LogUtil;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 

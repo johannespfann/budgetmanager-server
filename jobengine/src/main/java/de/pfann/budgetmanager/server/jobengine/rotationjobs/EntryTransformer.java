@@ -4,7 +4,8 @@ import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Tag;
 import de.pfann.budgetmanager.server.common.util.HashUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.server.logging.core.LogUtil;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,9 +31,7 @@ public class EntryTransformer {
         newEntry.setAppUser(aRotationEntry.getUser());
         newEntry.setAmount(aRotationEntry.getAmount());
         newEntry.setHash(HashUtil.getUniueHash());
-        LogUtil.info(this.getClass(),newEntry.getHash());
         newEntry.setMemo(aRotationEntry.getMemo());
-        LogUtil.info(this.getClass(),aRotationEntry.getMemo());
 
         List<Tag> tags = new ArrayList<>();
         for(Tag tagTemplate : aRotationEntry.getTags()){

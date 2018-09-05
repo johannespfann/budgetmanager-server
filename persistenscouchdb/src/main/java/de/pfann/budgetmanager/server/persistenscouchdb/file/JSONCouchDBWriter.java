@@ -81,6 +81,7 @@ public class JSONCouchDBWriter {
             System.out.println(standingOrder.toString());
             standingOrder.setUser(appUser);
             standingOrderFacade.save(standingOrder);
+            standingOrderFacade.update(standingOrder);
         }
 
         List<String> entryNames = getAllEntryFiles(aDirectory);

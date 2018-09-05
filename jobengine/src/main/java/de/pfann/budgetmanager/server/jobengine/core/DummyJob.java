@@ -1,7 +1,8 @@
 package de.pfann.budgetmanager.server.jobengine.core;
 
 import de.pfann.budgetmanager.server.common.model.Run;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.server.logging.core.LogUtil;
+
 
 public class DummyJob implements Job{
     @Override

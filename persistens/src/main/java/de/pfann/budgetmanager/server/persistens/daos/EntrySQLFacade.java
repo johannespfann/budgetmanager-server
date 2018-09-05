@@ -4,7 +4,8 @@ import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.Tag;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+
+import de.pfann.server.logging.core.LogUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;

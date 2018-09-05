@@ -2,7 +2,6 @@ package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +14,6 @@ public class MonthlyRotationPattern implements RotationEntryPattern {
         String[] values = aEntry.getRotation_strategy().split(":");
 
         if (values[0] != null && values[0].equals(PATTERN_NBR)) {
-            System.out.println("return true");
             return true;
         }
 

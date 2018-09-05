@@ -1,7 +1,9 @@
 package de.pfann.budgetmanager.server.jobengine.core;
 
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+import de.pfann.server.logging.core.LogUtil;
+import de.pfann.server.logging.core.RunLog;
+
 
 import java.time.LocalTime;
 import java.util.Timer;
@@ -20,11 +22,11 @@ public class JobScheduler extends TimerTask {
     }
 
     public void start(){
-        LogUtil.info(this.getClass(),"[Start JobEngine] with");
-        LogUtil.info(this.getClass(),"   StartTimer at       : " + LocalTime.now());
-        LogUtil.info(this.getClass(),"   with first Start at : " + startTime.getExecutionTime());
-        LogUtil.info(this.getClass(),"   Interval            : " + DateUtil.convertMilliSecondsToHours(timeInterval.getTimePerMilliSecond()) + " h");
-        LogUtil.info(this.getClass(),"                       : " + DateUtil.convertMilliSecondsToMinutes(timeInterval.getTimePerMilliSecond()) + " min");
+        RunLog.info(this.getClass(),"[Start JobEngine] with");
+        RunLog.info(this.getClass(),"   StartTimer at       : " + LocalTime.now());
+        RunLog.info(this.getClass(),"   with first Start at : " + startTime.getExecutionTime());
+        RunLog.info(this.getClass(),"   Interval            : " + DateUtil.convertMilliSecondsToHours(timeInterval.getTimePerMilliSecond()) + " h");
+        RunLog.info(this.getClass(),"                       : " + DateUtil.convertMilliSecondsToMinutes(timeInterval.getTimePerMilliSecond()) + " min");
         Timer timer = new Timer();
         long delay = DateUtil.getMilliSecToNextDayTime(LocalTime.now(),startTime.getExecutionTime());
         timer.schedule(this, delay, timeInterval.getTimePerMilliSecond());
@@ -32,9 +34,7 @@ public class JobScheduler extends TimerTask {
 
     @Override
     public void run() {
-        LogUtil.info(this.getClass(),"############## - >Invoke start of jobengine at time: " + LocalTime.now());
-        LogUtil.info(this.getClass(),"");
-        LogUtil.info(this.getClass(),"");
+        RunLog.info(this.getClass(),"############## - >Invoke start of jobengine at time: " + LocalTime.now());
         jobEngine.start();
     }
 

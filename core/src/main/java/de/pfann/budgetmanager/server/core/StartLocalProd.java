@@ -2,10 +2,11 @@ package de.pfann.budgetmanager.server.core;
 
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Run;
-import de.pfann.budgetmanager.server.common.util.LogUtil;
+
 import de.pfann.budgetmanager.server.persistens.core.SessionDistributor;
 import de.pfann.budgetmanager.server.persistens.daos.AppUserSQLFacade;
 import de.pfann.budgetmanager.server.persistens.daos.RunSQLFacade;
+import de.pfann.server.logging.core.LogUtil;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
