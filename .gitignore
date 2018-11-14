@@ -3,4 +3,3 @@ target
 *.iml
 budgetmanager.properties
 dev-budgetmanager.properties
-*.properties
