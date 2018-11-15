@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
@@ -59,6 +60,14 @@ public class UserResource {
             @PathParam("email") String aEmail,
             String aBody){
         userResourceFacade.resendEmail(aUsername,aEmail);
+    }
+
+    @GET
+    @Logged
+    @CrossOriginFilter
+    @Path("info/{username}")
+    public AppUser getUserInfomation(@PathParam("username") String aUsername){
+        return userResourceFacade.getUserInfomation(aUsername);
     }
 
     @POST

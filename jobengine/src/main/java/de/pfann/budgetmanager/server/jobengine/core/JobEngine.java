@@ -36,7 +36,7 @@ public class JobEngine {
         Run lastRun = runFacade.getLastRun();
         RunLog.info(this.getClass(),"Found last run: " + lastRun.getExecuted_at());
         List<Run> runs = runProvider.prepareRuns(lastRun.getExecuted_at(), LocalDateTime.now());
-        RunLog.info(this.getClass(),"Encoutered " + runs.size() + " runs!");
+        RunLog.info(this.getClass(),"Calculated " + runs.size() + " runs!");
 
         for(Run run : runs){
 

@@ -35,7 +35,7 @@ public class RunLog {
             fileHandler.setFormatter(new RunLogFormatter());
             consoleHandler = new ConsoleHandler();
             consoleHandler.setLevel(Level.ALL);
-            consoleHandler.setFormatter(new SimpleFormatter());
+            consoleHandler.setFormatter(new RunLogFormatter());
         } catch (IOException e) {
             e.printStackTrace();
         }

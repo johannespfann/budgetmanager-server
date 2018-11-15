@@ -12,6 +12,8 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBRunId;
 import de.pfann.server.logging.core.LogUtil;
 import de.pfann.server.logging.core.RunLog;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,7 +59,20 @@ public class CDBRunFacade implements RunFacade {
         if(runs.size() == 0){
             return null;
         }
-        return runs.get(runs.size()-1);
+        Run run = findYoungestRun(runs);
+
+        return run;
+    }
+
+    private Run findYoungestRun(List<Run> aRuns) {
+        LocalDateTime youngestTime = DateUtil.asLocalDateTime(DateUtil.getMinimumDate());
+        Run youngestRun = new Run(youngestTime);
+        for(Run run : aRuns){
+            if(youngestRun.getExecuted_at().isBefore(run.getExecuted_at())){
+                youngestRun = run;
+            }
+        }
+        return youngestRun;
     }
 
     @Override

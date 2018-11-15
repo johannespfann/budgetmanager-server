@@ -141,5 +141,11 @@ public class UserResourceFacade {
         }
     }
 
+    public AppUser getUserInfomation(final String aUsername){
+        AppUser appUser  = userFacade.getUserByNameOrEmail(aUsername);
+        appUser.setPassword("");
+        return appUser;
+    }
+
 
 }

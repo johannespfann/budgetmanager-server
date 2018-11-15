@@ -10,25 +10,24 @@ import java.util.logging.LogRecord;
 public class RunLogFormatter extends Formatter {
 
     public RunLogFormatter(){
-
+        // default
     }
 
     @Override
     public String format(LogRecord record) {
-
-
-
         LocalDateTime localDateTime = DateUtil.asLocalDateTime(new Date(record.getMillis()));
-
         StringBuilder stringBuilder = new StringBuilder()
                 .append("["+ record.getThreadID() +"]")
                 .append(" ")
-                .append("[ "+ localDateTime.getYear() + ":" + localDateTime.getMonth().getValue() + ":" + localDateTime.getDayOfMonth()+" ]")
+                .append("[ ")
+                .append(localDateTime.getYear() + "-" + localDateTime.getMonth().getValue() + "-" + localDateTime.getDayOfMonth())
+                .append(" ")
+                .append(localDateTime.getHour() + ":" +localDateTime.getMinute() + ":" + localDateTime.getSecond())
+                .append(" ]")
                 .append(" - ")
                 .append(record.getSourceClassName())
                 .append(" - ")
                 .append(record.getMessage());
-
         return stringBuilder.toString() + "\n";
     }
 }
