@@ -35,6 +35,10 @@ couchdb.pw:
 couchdb.user:
      */
 
+    // http://h2799032.stratoserver.net:81
+
+    // http://pfann.org:5984
+
     public static void main(String[] args) throws MalformedURLException {
         // StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
         // httpClientBuilder.url("http://pfann.org:5984");
@@ -43,7 +47,7 @@ couchdb.user:
         // HttpClient httpClient = httpClientBuilder.build();
 
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
-        httpClientBuilder.url("http://pfann.org:5984")
+        httpClientBuilder.url("http://h2799032.stratoserver.net:81")
                 .username("admin")
                 .password("5kassandra5");
 
@@ -67,7 +71,7 @@ couchdb.user:
         users = userFacade.getAllUser();
 
         for(AppUser user : users) {
-            writer.writeUserdataToFile(user.getName(), "C:\\Users\\Johannes\\Desktop\\output\\");
+            writer.writeUserdataToFile(user.getName(), "C:\\Users\\jopf8\\OneDrive\\Desktop\\output\\");
         }
 
     }

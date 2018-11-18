@@ -6,6 +6,7 @@ import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
+import de.pfann.budgetmanager.server.restservices.resources.util.UserJsonMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -64,10 +65,14 @@ public class UserResource {
 
     @GET
     @Logged
+    @Secured
     @CrossOriginFilter
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("info/{username}")
-    public AppUser getUserInfomation(@PathParam("username") String aUsername){
-        return userResourceFacade.getUserInfomation(aUsername);
+    public String getUserInfomation(@PathParam("username") String aUsername){
+        AppUser user =  userResourceFacade.getUserInfomation(aUsername);
+        return UserJsonMapper.convertToJson(user);
+
     }
 
     @POST

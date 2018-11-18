@@ -157,6 +157,8 @@ public class Application {
         EncryptionResourceFacade encryptionResourceFacade = new EncryptionResourceFacade(userFacade);
         EncryptionResource encryptionResource = new EncryptionResource(encryptionResourceFacade);
 
+        ContactResourceFacade contactResourceFacade = new ContactResourceFacade(emailService);
+        ContactResource contactResource = new ContactResource(contactResourceFacade);
 
         /**
          * authantication
@@ -173,7 +175,8 @@ public class Application {
                 .register(entryResource)
                 .register(rotationEntryResource)
                 .register(tagStatisticResource)
-                .register(encryptionResource);
+                .register(encryptionResource)
+                .register(contactResource);
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,

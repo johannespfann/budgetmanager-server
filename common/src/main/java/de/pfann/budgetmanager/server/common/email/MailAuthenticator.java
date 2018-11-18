@@ -8,7 +8,7 @@ public class MailAuthenticator extends Authenticator {
     private final String password;
     private final String user;
 
-    public MailAuthenticator(String aUser, String aPassword) {
+    protected MailAuthenticator(String aUser, String aPassword) {
         user = aUser;
         password = aPassword;
     }

@@ -41,10 +41,10 @@ public class StartCouchDbWriter {
     public static void main(String[] args) throws MalformedURLException {
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
         httpClientBuilder
-                .url("http://h2799032.stratoserver.net:81")
+                .url("http://localhost:5984");
                 //.url("http://pfann.org:5984")
-                .username("admin")
-                .password("5kassandra5");
+                //.username("admin")
+                //.password("5kassandra5");
         HttpClient httpClient = httpClientBuilder.build();
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
@@ -52,7 +52,7 @@ public class StartCouchDbWriter {
         CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,"bm",objectMapperFactory);
         CouchDBUtil couchDBUtil = new CouchDBUtil(httpClient);
 
-        couchDBUtil.deleteDatabases("bm");
+        //couchDBUtil.deleteDatabases("bm");
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);
@@ -68,7 +68,7 @@ public class StartCouchDbWriter {
 
 
         // File directory = new File("C:\\Users\\Johannes\\Desktop\\output"  + "\\johannes-1234");
-        File inputDirectory = new File("C:\\Users\\Johannes\\Desktop\\output");
+        File inputDirectory = new File("C:\\Users\\jopf8\\OneDrive\\Desktop\\output");
 
         File[] childs = inputDirectory.listFiles();
         List<String> users = new LinkedList<>();
