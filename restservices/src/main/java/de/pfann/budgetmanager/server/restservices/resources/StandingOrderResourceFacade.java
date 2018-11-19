@@ -9,13 +9,13 @@ import de.pfann.budgetmanager.server.jobengine.rotationjobs.RotationEntryExecute
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class RotationEntryResourceFacade {
+public class StandingOrderResourceFacade {
 
     private AppUserFacade userFacade;
     private StandingOrderFacade rotationEntryFacade;
     private RotationEntryExecuter rotationEntryExecuter;
 
-    public RotationEntryResourceFacade(AppUserFacade aAppUserFacade, StandingOrderFacade aRotationEntryFacade, RotationEntryExecuter aExecutor){
+    public StandingOrderResourceFacade(AppUserFacade aAppUserFacade, StandingOrderFacade aRotationEntryFacade, RotationEntryExecuter aExecutor){
         userFacade = aAppUserFacade;
         rotationEntryFacade = aRotationEntryFacade;
         rotationEntryExecuter = aExecutor;

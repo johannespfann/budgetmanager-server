@@ -11,12 +11,12 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("jobs/")
-public class RotationEntryResource {
+public class StandingOrderResource {
 
-    private RotationEntryResourceFacade rotationEntryResourceFacade;
+    private StandingOrderResourceFacade standingOrderResourceFacade;
 
-    public RotationEntryResource(RotationEntryResourceFacade aRotationEntryResourceFacade){
-        rotationEntryResourceFacade = aRotationEntryResourceFacade;
+    public StandingOrderResource(StandingOrderResourceFacade aStandingOrderResourceFacade){
+        standingOrderResourceFacade = aStandingOrderResourceFacade;
     }
 
     @GET
@@ -28,7 +28,7 @@ public class RotationEntryResource {
     public String getRotationEntries(
             @PathParam("owner") String aOwner
             ){
-        List<StandingOrder> rotationEntries = rotationEntryResourceFacade.getRotationEntries(aOwner);
+        List<StandingOrder> rotationEntries = standingOrderResourceFacade.getRotationEntries(aOwner);
         String json = RotationEntryJsonMapper.convertToJson(rotationEntries);
         return json;
     }
@@ -43,7 +43,7 @@ public class RotationEntryResource {
             @PathParam("owner") String aOwner,
             String aRotationEntry){
         StandingOrder entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
-        rotationEntryResourceFacade.addRotationEntry(aOwner,entry);
+        standingOrderResourceFacade.addRotationEntry(aOwner,entry);
     }
 
     @DELETE
@@ -54,7 +54,7 @@ public class RotationEntryResource {
     public void deleteRotationEntry(
             @PathParam("owner") String aOwner,
             @PathParam("hash") String aHash){
-        rotationEntryResourceFacade.deleteRotationEntry(aOwner,aHash);
+        standingOrderResourceFacade.deleteRotationEntry(aOwner,aHash);
     }
 
     @PATCH
@@ -67,6 +67,6 @@ public class RotationEntryResource {
             @PathParam("owner") String aOwner,
             String aRotationEntry){
         StandingOrder entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
-        rotationEntryResourceFacade.updateRotationEntry(aOwner,entry);
+        standingOrderResourceFacade.updateRotationEntry(aOwner,entry);
     }
 }

@@ -148,8 +148,8 @@ public class Application {
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(userFacade,entryFacade);
         EntryResource entryResource = new EntryResource(entryResourceFacade);
 
-        RotationEntryResourceFacade rotationEntryResourceFacade = new RotationEntryResourceFacade(userFacade,standingOrderFacade, rotationEntryExecuter);
-        RotationEntryResource rotationEntryResource = new RotationEntryResource(rotationEntryResourceFacade);
+        StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(userFacade,standingOrderFacade, rotationEntryExecuter);
+        StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);
 
         TagStatisticResourceFacade tagStatisticResourceFacade = new TagStatisticResourceFacade(statisticFacade,userFacade);
         TagStatisticResource tagStatisticResource = new TagStatisticResource(tagStatisticResourceFacade);
@@ -173,7 +173,7 @@ public class Application {
                 .register(requestBasicAuthenticationFilter)
                 .register(userResource)
                 .register(entryResource)
-                .register(rotationEntryResource)
+                .register(standingOrderResource)
                 .register(tagStatisticResource)
                 .register(encryptionResource)
                 .register(contactResource);
