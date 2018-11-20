@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.util.EmailValidator;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,16 +22,10 @@ public class ContactResource {
     @Path("send")
     public void sendContactMessage(String aBody){
         final ContactMessage contactMessage = ContactMessageMapper.convertToContectMessage(aBody);
-        assertEmail(contactMessage.getEmail());
+        EmailValidator.assertEmailIsValid(contactMessage.getEmail());
         assertMessage(contactMessage.getName());
         assertName(contactMessage.getMessage());
         contactResourceFacade.sendEmail(contactMessage.getEmail(),contactMessage.getName(),contactMessage.getMessage());
-    }
-
-    private void assertEmail(String aEmail) {
-        if(aEmail == null || aEmail.isEmpty() || !emailIsValid(aEmail)){
-            throw new IllegalArgumentException("Falsches Argument fuer Email: " + aEmail);
-        }
     }
 
     private void assertName(String aName) {
@@ -43,11 +38,6 @@ public class ContactResource {
         if(aMessage == null || aMessage.isEmpty()){
             throw new IllegalArgumentException("Falsches Argument fuer Nachricht: " + aMessage);
         }
-    }
-
-    private boolean emailIsValid(String aEmail) {
-        // TODO
-        return true;
     }
 
 }
