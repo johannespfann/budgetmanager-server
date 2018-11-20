@@ -2,6 +2,7 @@ package de.pfann.budgetmanager.server.restservices.resources;
 
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
+import de.pfann.budgetmanager.server.restservices.resources.filter.ValidateContactRequest;
 import de.pfann.budgetmanager.server.restservices.resources.util.EmailValidator;
 
 import javax.ws.rs.POST;
@@ -19,6 +20,7 @@ public class ContactResource {
     @POST
     @Logged
     @CrossOriginFilter
+    @ValidateContactRequest
     @Path("send")
     public void sendContactMessage(String aBody){
         final ContactMessage contactMessage = ContactMessageMapper.convertToContectMessage(aBody);
