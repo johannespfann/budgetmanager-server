@@ -26,11 +26,18 @@ import static org.mockito.Mockito.mock;
 
 public class ContactResourceIT {
 
-
-
     private EmailService emailService;
     private String serveradress = "http://localhost:8890/budget";
     private HttpServer server;
+
+    @BeforeClass
+    public static void setUpTestEnv() {
+        RestAssured.port = Integer.valueOf(8890);
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.basePath = "/budget/contact";
+        RestAssured.filters(new io.restassured.filter.log.RequestLoggingFilter(),
+                            new io.restassured.filter.log.ResponseLoggingFilter());
+    }
 
     @Before
     public void setUp(){
@@ -61,7 +68,12 @@ public class ContactResourceIT {
         String bodyJson = jsonMapper.writeValueAsString(message);
 
         // validate
-        given().contentType("application/json").when().body(bodyJson).post("http://localhost:8890/budget/contact/send").then().statusCode(204);
+        given()
+                .contentType("application/json")
+        .when().body(bodyJson)
+                .post("/send")
+        .then()
+                .statusCode(204);
     }
 
     @Test
@@ -72,7 +84,7 @@ public class ContactResourceIT {
         String bodyJson = jsonMapper.writeValueAsString(message);
 
         // validate
-        given().contentType("application/json").when().body(bodyJson).post("http://localhost:8890/budget/contact/send").then().statusCode(500);
+        given().contentType("application/json").when().body(bodyJson).post("/send").then().statusCode(500);
     }
 
     @Test
@@ -83,7 +95,7 @@ public class ContactResourceIT {
         String bodyJson = jsonMapper.writeValueAsString(message);
 
         // validate
-        given().contentType("application/json").when().body(bodyJson).post("http://localhost:8890/budget/contact/send").then().statusCode(500);
+        given().contentType("application/json").when().body(bodyJson).post("/send").then().statusCode(500);
     }
 
     @Test
@@ -94,12 +106,11 @@ public class ContactResourceIT {
         String bodyJson = jsonMapper.writeValueAsString(message);
 
         // validate
-        given().contentType("application/json").when().body(bodyJson).post("http://localhost:8890/budget/contact/send").then().statusCode(500);
+        given().contentType("application/json").when().body(bodyJson).post("/send").then().statusCode(500);
     }
 
     @After
     public void clean() {
-        //System.out.println("Clean after class");
         server.stop();
     }
 

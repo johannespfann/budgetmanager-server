@@ -13,11 +13,6 @@ public class ContactResourceFacade {
     }
 
     public void sendEmail(String aSenderEmail, String aSenderName, String aTextmessage) {
-        LogUtil.info(this.getClass(), "Send Email: ");
-        LogUtil.info(this.getClass(), "- from: " + aSenderName);
-        LogUtil.info(this.getClass(), "      : " + aSenderEmail);
-        LogUtil.info(this.getClass(), "- text: " + aTextmessage);
-
         ContactEmailGenerator emailGenerator = new ContactEmailGenerator(aSenderEmail,aSenderName,aTextmessage);
         emailService.sendEmail("pfann.development@gmail.com",emailGenerator.getSubject(),emailGenerator.getContent());
     }

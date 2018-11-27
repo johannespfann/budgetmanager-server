@@ -41,5 +41,4 @@ public class ContactResource {
             throw new IllegalArgumentException("Falsches Argument fuer Nachricht: " + aMessage);
         }
     }
-
 }
