@@ -1,11 +1,10 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
+import de.pfann.budgetmanager.server.restservices.resources.filter.ValidateContactRequest;
 import de.pfann.budgetmanager.server.restservices.resources.util.EntryJsonMapper;
 
 import javax.ws.rs.*;

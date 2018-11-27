@@ -17,6 +17,7 @@ import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilt
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestBasicAuthenticationFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.RequestLoggingFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.ResponseLoggingFilter;
+import de.pfann.budgetmanager.server.restservices.resources.filter.ContactValidatRequestFilter;
 import de.pfann.budgetmanager.server.restservices.resources.login.ActivationPool;
 import de.pfann.budgetmanager.server.restservices.resources.login.AuthenticationManager;
 import org.ektorp.CouchDbInstance;
@@ -170,6 +171,7 @@ public class Application {
                 .register(RequestLoggingFilter.class)
                 .register(ResponseLoggingFilter.class)
                 .register(CrossOriginFilterImpl.class)
+                .register(ContactValidatRequestFilter.class)
                 .register(requestBasicAuthenticationFilter)
                 .register(userResource)
                 .register(entryResource)

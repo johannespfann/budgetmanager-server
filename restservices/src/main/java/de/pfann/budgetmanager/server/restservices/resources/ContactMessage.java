@@ -12,6 +12,12 @@ public class ContactMessage {
         // default
     }
 
+    public ContactMessage(String aName, String aEmail, String aMessage){
+        name = aName;
+        email = aEmail;
+        message = aMessage;
+    }
+
     public String getName() {
         return name;
     }
