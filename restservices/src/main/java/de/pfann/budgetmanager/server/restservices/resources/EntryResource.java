@@ -4,7 +4,6 @@ import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
-import de.pfann.budgetmanager.server.restservices.resources.filter.ValidateContactRequest;
 import de.pfann.budgetmanager.server.restservices.resources.util.EntryJsonMapper;
 
 import javax.ws.rs.*;
@@ -28,6 +27,7 @@ public class EntryResource {
     @Path("owner/{owner}/all")
     public String getEntries(
             @PathParam("owner") String aOwner){
+        System.out.println("hallo2");
         List<Entry> entries = entryResourceFacade.getEntries(aOwner);
         return EntryJsonMapper.convertToJson(entries);
     }

@@ -52,7 +52,7 @@ public class StartCouchDbWriter {
         CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,"bm",objectMapperFactory);
         CouchDBUtil couchDBUtil = new CouchDBUtil(httpClient);
 
-        //couchDBUtil.deleteDatabases("bm");
+        couchDBUtil.deleteDatabases("bm");
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
         CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);

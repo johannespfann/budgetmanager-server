@@ -17,12 +17,22 @@ public class CDBEntry extends AbstractDocument{
 
     private Date created_at;
 
+    private String currency;
 
     private String memo;
 
     private String amount;
 
     private List<CDBTag> tags;
+
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     public String getHash() {
         return hash;

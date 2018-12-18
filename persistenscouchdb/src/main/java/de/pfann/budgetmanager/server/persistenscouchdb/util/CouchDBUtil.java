@@ -2,8 +2,10 @@ package de.pfann.budgetmanager.server.persistenscouchdb.util;
 
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
+import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
+import java.net.MalformedURLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +15,20 @@ public class CouchDBUtil {
 
     public CouchDBUtil(HttpClient aHttpClient) {
         couchDbInstance = new StdCouchDbInstance(aHttpClient);
+    }
+
+
+    public static void main(String[] args) throws MalformedURLException {
+        StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
+        httpClientBuilder
+                .url("http://localhost:5984");
+        //.url("http://pfann.org:5984")
+        //.username("admin")
+        //.password("5kassandra5");
+        HttpClient httpClient = httpClientBuilder.build();
+        CouchDBUtil util = new CouchDBUtil(httpClient);
+        util.printDatabases();
+        util.deleteDatabases("bm");
     }
 
     public List<String> getDatabases(String aPrefix){
