@@ -47,6 +47,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
         standigOrderEntry.setId(standingOrderId.toString());
         standigOrderEntry.setAmount(aEntry.getAmount());
         standigOrderEntry.setHash(aEntry.getHash());
+        standigOrderEntry.setCurrency(aEntry.getCurrency());
         standigOrderEntry.setMemo(aEntry.getMemo());
         standigOrderEntry.setRotation_strategy(aEntry.getRotation_strategy());
         standigOrderEntry.setKonto(cdbUser.getKontos().get(0).getHash());
@@ -90,6 +91,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
         List<StandingOrder> rotationEntries = new LinkedList<>();
 
         for(CDBStandingOrder entry : standigOrderEntries){
+
             StandingOrder rotationEntry = createRotationEntry(aUser, entry);
             rotationEntries.add(rotationEntry);
         }
@@ -149,6 +151,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
     private StandingOrder createRotationEntry(AppUser aAppUser, CDBStandingOrder aStandingOrder){
         StandingOrder rotationEntry = new StandingOrder();
         rotationEntry.setAmount(aStandingOrder.getAmount());
+        rotationEntry.setCurrency(aStandingOrder.getCurrency());
         rotationEntry.setHash(aStandingOrder.getHash());
         rotationEntry.setMemo(aStandingOrder.getMemo());
         rotationEntry.setRotation_strategy(aStandingOrder.getRotation_strategy());
@@ -172,6 +175,7 @@ public class CDBStandingOrderFacade implements StandingOrderFacade {
     private CDBStandingOrder updateStandingOrder(CDBStandingOrder cdbStandigOrder, StandingOrder aRotationEntry){
         cdbStandigOrder.setMemo(aRotationEntry.getMemo());
         cdbStandigOrder.setAmount(aRotationEntry.getAmount());
+        cdbStandigOrder.setCurrency(aRotationEntry.getCurrency());
         cdbStandigOrder.setRotation_strategy(aRotationEntry.getRotation_strategy());
         cdbStandigOrder.setLast_executed(aRotationEntry.getLast_executed());
         cdbStandigOrder.setStart_at(aRotationEntry.getStart_at());

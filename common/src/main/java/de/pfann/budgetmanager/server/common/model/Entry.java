@@ -35,6 +35,8 @@ public class Entry  implements Serializable {
     @Type(type="text")
     private String amount;
 
+    private String currency;
+
     private Date created_at;
 
     @Type(type="text")
@@ -53,6 +55,7 @@ public class Entry  implements Serializable {
         entry.memo = aEntry.memo;
         entry.created_at = aEntry.created_at;
         entry.tags = aEntry.tags;
+        entry.currency = aEntry.currency;
     }
 
     public long getId() {
@@ -60,6 +63,11 @@ public class Entry  implements Serializable {
     }
 
 // getter
+
+
+    public String getCurrency() {
+        return currency;
+    }
 
     public List<Tag> getTags() {
         return tags;
@@ -86,6 +94,10 @@ public class Entry  implements Serializable {
     }
 
     // setter
+
+    public void setCurrency(String aCurrency) {
+        currency = aCurrency;
+    }
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;

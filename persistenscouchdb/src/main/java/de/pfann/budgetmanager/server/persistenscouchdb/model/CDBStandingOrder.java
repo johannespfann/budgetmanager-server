@@ -35,10 +35,20 @@ public class CDBStandingOrder extends AbstractDocument {
 
     private String amount;
 
+    private String currency;
+
     private List<CDBTag> tags;
 
     public CDBStandingOrder(){
         // default
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getHash() {

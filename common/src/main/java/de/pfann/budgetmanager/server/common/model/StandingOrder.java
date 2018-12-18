@@ -43,8 +43,11 @@ public class StandingOrder implements Serializable {
     @Type(type="text")
     private String amount;
 
+    private String currency;
+
     @Type(type="text")
     private String memo;
+
 
     @OneToMany(mappedBy = "rotationEntry")
     private List<Tag> tags;
@@ -58,6 +61,14 @@ public class StandingOrder implements Serializable {
         StandingOrder rotationEntry = new StandingOrder();
         rotationEntry.setHash(HashUtil.getUniueHash());
         return rotationEntry;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public long getId() {

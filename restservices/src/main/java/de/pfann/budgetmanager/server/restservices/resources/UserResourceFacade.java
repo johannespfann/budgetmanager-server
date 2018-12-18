@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.email.EmailService;
+import de.pfann.budgetmanager.server.common.util.LoginUtil;
 import de.pfann.budgetmanager.server.restservices.resources.email.ActivationEmailGenerator;
 import de.pfann.budgetmanager.server.restservices.resources.login.*;
 import de.pfann.server.logging.core.LogUtil;

@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.restservices.resources.login;
+package de.pfann.budgetmanager.server.common.util;
 
 import java.util.Random;
 

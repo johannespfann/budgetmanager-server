@@ -2,7 +2,6 @@ package de.pfann.budgetmanager.server.persistenscouchdb.model;
 
 import de.pfann.budgetmanager.server.persistenscouchdb.core.AbstractDocument;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

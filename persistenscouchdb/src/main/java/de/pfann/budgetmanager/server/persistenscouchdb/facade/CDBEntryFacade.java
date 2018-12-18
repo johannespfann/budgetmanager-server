@@ -51,9 +51,7 @@ public class CDBEntryFacade implements EntryFacade {
         List<Entry> entries = new ArrayList<>();
 
         for(CDBEntry cdbEntry : cdbEntries) {
-            System.out.println("Get entries: " + cdbEntry.getHash());
-            cdbEntry.setCurrency("EUR");
-            cdbEntryDao.update(cdbEntry);
+
             Entry entry = CDBEntryTransformer.createEntry(cdbEntry);
             entries.add(entry);
         }

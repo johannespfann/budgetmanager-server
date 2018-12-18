@@ -30,6 +30,7 @@ public class StandingOrderResource {
             ){
         List<StandingOrder> rotationEntries = standingOrderResourceFacade.getRotationEntries(aOwner);
         String json = RotationEntryJsonMapper.convertToJson(rotationEntries);
+        System.out.println("StandingOrders:  " + json);
         return json;
     }
 

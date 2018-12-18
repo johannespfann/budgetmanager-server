@@ -27,9 +27,9 @@ public class EntryResource {
     @Path("owner/{owner}/all")
     public String getEntries(
             @PathParam("owner") String aOwner){
-        System.out.println("hallo2");
         List<Entry> entries = entryResourceFacade.getEntries(aOwner);
-        return EntryJsonMapper.convertToJson(entries);
+        String json = EntryJsonMapper.convertToJson(entries);
+        return json;
     }
 
     @POST
