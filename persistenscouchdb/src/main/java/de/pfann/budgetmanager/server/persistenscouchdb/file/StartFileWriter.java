@@ -71,7 +71,7 @@ couchdb.user:
         users = userFacade.getAllUser();
 
         for(AppUser user : users) {
-            writer.writeUserdataToFile(user.getName(), "C:\\Users\\jopf8\\OneDrive\\Desktop\\output\\");
+            writer.writeUserdataToFile(user.getName(), "C:\\Users\\jopf8\\Desktop\\save_19_12_2018_v2\\");
         }
 
     }

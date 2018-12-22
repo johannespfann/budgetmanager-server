@@ -48,10 +48,8 @@ public class StandingOrder implements Serializable {
     @Type(type="text")
     private String memo;
 
-
     @OneToMany(mappedBy = "rotationEntry")
     private List<Tag> tags;
-
 
     public StandingOrder(){
         tags = new ArrayList<>();

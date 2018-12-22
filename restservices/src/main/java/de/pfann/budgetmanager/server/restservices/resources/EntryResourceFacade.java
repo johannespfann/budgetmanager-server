@@ -19,7 +19,6 @@ public class EntryResourceFacade {
     }
 
     public List<Entry> getEntries(String aOwner){
-        System.out.println("Hallo");
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
             List<Entry> entries = entryFacade.getEntries(user);
