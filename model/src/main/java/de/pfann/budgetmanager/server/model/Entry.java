@@ -2,7 +2,7 @@ package de.pfann.budgetmanager.server.model;
 
 import java.util.Date;
 
-public class Entry {
+public class Entry extends AbstractDocument  {
 
     /**
      * header attribures

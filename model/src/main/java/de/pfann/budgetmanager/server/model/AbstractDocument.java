@@ -1,4 +1,4 @@
-package de.pfann.budgetmanager.server.persistenscouchdb.core;
+package de.pfann.budgetmanager.server.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

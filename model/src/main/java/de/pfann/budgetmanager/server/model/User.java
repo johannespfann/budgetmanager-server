@@ -1,13 +1,12 @@
 package de.pfann.budgetmanager.server.model;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class User {
+public class User extends AbstractDocument {
 
-    private String username;
+    private String name;
 
     private String password;
 
@@ -31,7 +30,7 @@ public class User {
     }
 
     public User(String aUsername, String aPassword, boolean aIsActivated, List<String> aEmails, Date aCreatedAt, Statistic aStatistics, List<Konto> aKontos, List<Konto> aForeignKonto) {
-        username = aUsername;
+        name = aUsername;
         password = aPassword;
         activated = aIsActivated;
         emails = aEmails;
@@ -45,8 +44,8 @@ public class User {
      * getter
      */
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
     public String getPassword() {
@@ -75,5 +74,41 @@ public class User {
 
     public List<Konto> getForeignKontos() {
         return foreignKontos;
+    }
+
+    /**
+     * setter
+     */
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void activate() {
+        this.activated = true;
+    }
+
+    public void setEmails(List<String> emails) {
+        this.emails = emails;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setStatistic(Statistic statistic) {
+        this.statistic = statistic;
+    }
+
+    public void setKontos(List<Konto> kontos) {
+        this.kontos = kontos;
+    }
+
+    public void setForeignKontos(List<Konto> foreignKontos) {
+        this.foreignKontos = foreignKontos;
     }
 }

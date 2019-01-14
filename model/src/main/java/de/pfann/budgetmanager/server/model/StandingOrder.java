@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.model;
 
-public class StandingOrder {
+public class StandingOrder extends AbstractDocument {
 
     /**
      * standingorder header
