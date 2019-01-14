@@ -10,8 +10,8 @@ public class UserDaoFactory {
         couchDbConnectorFactory = aConnectorFactory;
     }
 
-    public CDBUserDao createDao(){
-        return new CDBUserDao(couchDbConnectorFactory.createCouchDbConnector("user"));
+    public UserDao createDao(){
+        return new UserDao(couchDbConnectorFactory.createCouchDbConnector("user"));
     }
 
 }
