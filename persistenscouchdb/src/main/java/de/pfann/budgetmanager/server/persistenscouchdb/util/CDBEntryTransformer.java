@@ -41,6 +41,7 @@ public class CDBEntryTransformer {
         aCDBEntry.setAmount(aEntry.getAmount());
         aCDBEntry.setCurrency(aEntry.getCurrency());
         aCDBEntry.setCreated_at(aEntry.getCreated_at());
+        aCDBEntry.setData("");
 
         List<CDBTag> cdbTags = new LinkedList<>();
 

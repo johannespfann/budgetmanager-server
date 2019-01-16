@@ -40,6 +40,9 @@ public class User extends AbstractDocument {
         foreignKontos = aForeignKonto;
     }
 
+
+
+
     /**
      * getter
      */
@@ -80,6 +83,10 @@ public class User extends AbstractDocument {
      * setter
      */
 
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -90,6 +97,10 @@ public class User extends AbstractDocument {
 
     public void activate() {
         this.activated = true;
+    }
+
+    public void deactivate() {
+        this.activated = false;
     }
 
     public void setEmails(List<String> emails) {

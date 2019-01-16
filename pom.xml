@@ -19,10 +19,17 @@
     <module>persistenscouchdb</module>
     <module>dataprovider</module>
     <module>logging</module>
+    <module>model</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
+
+      <dependency>
+        <groupId>de.pfann.budgetmanager.server</groupId>
+        <artifactId>model</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
 
       <dependency>
         <groupId>io.rest-assured</groupId>

@@ -2,28 +2,26 @@ package de.pfann.budgetmanager.server.restservices.resources.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.pfann.budgetmanager.server.model.User;
+import de.pfann.budgetmanager.server.common.model.AppUser;
 
 import java.io.IOException;
 import java.util.List;
 
-public class UserJsonMapper {
+public class AppUserJsonMapper {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String convertToJson(User aUser){
+    public static String convertToJson(AppUser aAppUser){
         try {
-            return objectMapper.writeValueAsString(aUser);
+            return objectMapper.writeValueAsString(aAppUser);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return "{}";
     }
 
-    public static String convertToJson(List<User> aAppUser){
+    public static String convertToJson(List<AppUser> aAppUser){
         try {
-
-
             return objectMapper.writeValueAsString(aAppUser);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -31,9 +29,9 @@ public class UserJsonMapper {
         return "[]";
     }
 
-    public static User convertToEntry(String aValue){
+    public static AppUser convertToEntry(String aValue){
         try {
-            return objectMapper.readValue(aValue,User.class);
+            return objectMapper.readValue(aValue,AppUser.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

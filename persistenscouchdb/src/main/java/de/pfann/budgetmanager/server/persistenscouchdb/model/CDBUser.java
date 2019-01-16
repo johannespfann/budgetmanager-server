@@ -1,9 +1,8 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.pfann.budgetmanager.server.persistenscouchdb.core.AbstractDocument;
+import de.pfann.budgetmanager.server.model.AbstractDocument;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,10 +17,7 @@ public class CDBUser extends AbstractDocument {
 
     private List<String> emails;
 
-
     private String encryptiontext;
-
-
 
     private Date createdAt;
 

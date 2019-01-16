@@ -7,16 +7,11 @@ import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.jobengine.core.*;
 import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBRunDoaFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.facade.*;
+import de.pfann.budgetmanager.server.persistenscouchdb.util.CouchDBUtil;
 import de.pfann.budgetmanager.server.restservices.resources.*;
-import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilterImpl;
-import de.pfann.budgetmanager.server.restservices.resources.core.RequestBasicAuthenticationFilter;
-import de.pfann.budgetmanager.server.restservices.resources.core.RequestLoggingFilter;
-import de.pfann.budgetmanager.server.restservices.resources.core.ResponseLoggingFilter;
+import de.pfann.budgetmanager.server.restservices.resources.core.*;
 import de.pfann.budgetmanager.server.restservices.resources.filter.ContactValidatRequestFilter;
 import de.pfann.budgetmanager.server.restservices.resources.login.ActivationPool;
 import de.pfann.budgetmanager.server.restservices.resources.login.AuthenticationManager;
@@ -110,8 +105,8 @@ public class Application {
         }
 
         HttpClient httpClient = httpClientBuilder.build();
-
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
+
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
         CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,couchdbprefix,objectMapperFactory);
 
@@ -127,6 +122,24 @@ public class Application {
         RunFacade runFacade = new CDBRunFacade(runDaoFactory);
         TagStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
 
+
+        /**
+         * couchdbfacade v2
+         */
+
+        String couchdbPrefixV2 = "bmv2";
+        CouchDBUtil couchDBUtil = new CouchDBUtil(httpClient);
+        couchDBUtil.deleteDatabases(couchdbPrefixV2);
+
+
+        CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbPrefixV2,objectMapperFactory);
+        UserDaoFactory userDaoFactoryV2 = new UserDaoFactory(couchDbConnectorFactoryV2);
+
+
+        /**
+         * rotationpattern
+         */
+
         RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
         RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
         RotationEntryPattern yearlyRotationEntryPattern = new YearlyRotationPattern();
@@ -139,9 +152,11 @@ public class Application {
         RotationEntryExecuter rotationEntryExecuter = new RotationEntryExecuter(patternList,standingOrderFacade,entryFacade);
 
         ActivationPool activationPool = new ActivationPool();
+
         /**
          * resources
          */
+
         AuthenticationManager authenticationManager = new AuthenticationManager(userFacade);
         UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,emailService,authenticationManager, activationPool);
         UserResource userResource = new UserResource(userResourceFacade);
@@ -162,6 +177,15 @@ public class Application {
         ContactResource contactResource = new ContactResource(contactResourceFacade);
 
         /**
+         * resources v2
+         */
+
+        UserFacade userFacadeV2 = new UserFacadeImpl(userDaoFactoryV2);
+        V2UserResourceFacade v2UserResourceFacade = new V2UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
+        V2UserResource userV2Resource = new V2UserResource(v2UserResourceFacade);
+
+
+        /**
          * authantication
          */
 
@@ -178,7 +202,14 @@ public class Application {
                 .register(standingOrderResource)
                 .register(tagStatisticResource)
                 .register(encryptionResource)
-                .register(contactResource);
+                .register(contactResource)
+                .register(EmailDublicatedExceptionMapper.class)
+
+                /**
+                 * new resources -> v2
+                 */
+
+                .register(userV2Resource);
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,

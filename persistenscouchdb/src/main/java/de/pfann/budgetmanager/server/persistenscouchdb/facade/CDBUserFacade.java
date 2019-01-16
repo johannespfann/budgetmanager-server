@@ -14,7 +14,6 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserTransformer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CDBUserFacade implements AppUserFacade {

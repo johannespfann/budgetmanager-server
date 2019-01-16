@@ -16,6 +16,8 @@ public interface UserFacade {
 
     User getUserByNameOrEmail(String aIdentifier);
 
+    boolean isEmailAlreadyExists(String aEmail);
+
     void updateUser(User aAppUser);
 
     List<User> getAllUser();

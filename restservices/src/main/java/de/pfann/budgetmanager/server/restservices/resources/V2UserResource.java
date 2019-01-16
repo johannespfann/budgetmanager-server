@@ -1,22 +1,21 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import de.pfann.budgetmanager.server.common.model.AppUser;
+import de.pfann.budgetmanager.server.model.User;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
-import de.pfann.budgetmanager.server.restservices.resources.util.AppUserJsonMapper;
+import de.pfann.budgetmanager.server.restservices.resources.util.UserJsonMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("user/")
-public class UserResource {
+@Path("v2/user/")
+public class V2UserResource {
 
-    private UserResourceFacade userResourceFacade;
+    private V2UserResourceFacade userResourceFacade;
 
-    public UserResource(UserResourceFacade aUserResourceFacade){
+    public V2UserResource(V2UserResourceFacade aUserResourceFacade){
         userResourceFacade = aUserResourceFacade;
     }
 
@@ -70,8 +69,8 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("info/{username}")
     public String getUserInfomation(@PathParam("username") String aUsername){
-        AppUser user =  userResourceFacade.getUserInfomation(aUsername);
-        return AppUserJsonMapper.convertToJson(user);
+        User user =  userResourceFacade.getUserInfomation(aUsername);
+        return UserJsonMapper.convertToJson(user);
 
     }
 
@@ -96,5 +95,6 @@ public class UserResource {
     private String getAccessCode(String aBody) {
         return aBody;
     }
+
 
 }

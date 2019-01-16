@@ -12,7 +12,7 @@
 
 ######## login
 2) registrieren 
-- bekommt user mit email, username und pw 
+- bekommt user mit email, name und pw 
 - user wird gespeichert 
 - token wird angelegt  
 - email wird wird token versendet 
@@ -41,7 +41,7 @@
 - user wird gelöscht
 
 6) resend email for activation 
-- email username und password müssen nochmal versendet werden 
+- email name und password müssen nochmal versendet werden 
 - token wird neu registriert mit der "email" die aktuell angekommen ist
 
 ####### category

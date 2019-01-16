@@ -20,15 +20,15 @@ public class AuthenticationManager {
         appUserFacader = aAppUserFacade;
     }
 
-    public boolean isValidToken(String aAppUser, String aToken) throws IOException {
+    public boolean isValidToken(String aIdentifier, String aToken) throws IOException {
         // entschlüssel token
         String dencryptedToken = EncryptUtil.decrypt(aToken, key);
         // map json zu object
         ObjectMapper objectMapper = new ObjectMapper();
         AuthToken authToken = objectMapper.readValue(dencryptedToken,AuthToken.class);
         // validate token
-        if(!aAppUser.equals(authToken.getUsername())){
-            System.out.println("username was not valid " + aAppUser);
+        if(!aIdentifier.equals(authToken.getUsername())){
+            System.out.println("username was not valid " + aIdentifier);
             return false;
         }
         LocalDateTime today = LocalDateTime.now();

@@ -1,20 +1,26 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.model;
 
-import de.pfann.budgetmanager.server.persistenscouchdb.core.AbstractDocument;
+import de.pfann.budgetmanager.server.model.AbstractDocument;
 
 import java.util.Date;
 import java.util.List;
 
 public class CDBEntry extends AbstractDocument{
 
+    /**
+     * header attribures
+     */
 
     private String hash;
 
     private String username;
 
-    private String konto;
-
     private Date created_at;
+
+
+    /**
+     * data attributes
+     */
 
     private String currency;
 
@@ -24,6 +30,16 @@ public class CDBEntry extends AbstractDocument{
 
     private List<CDBTag> tags;
 
+    private String data;
+
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 
     public String getCurrency() {
         return currency;
@@ -47,14 +63,6 @@ public class CDBEntry extends AbstractDocument{
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getKonto() {
-        return konto;
-    }
-
-    public void setKonto(String konto) {
-        this.konto = konto;
     }
 
     public Date getCreated_at() {
