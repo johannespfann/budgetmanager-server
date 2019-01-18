@@ -19,9 +19,9 @@ import java.util.List;
 public class CDBUserFacade implements AppUserFacade {
 
     private CDBUserDao userDao;
-    private CDBKontoDatabaseFacade kontoDatabaseFactory;
+    private CDBKontoDatabaseCreator kontoDatabaseFactory;
 
-    public CDBUserFacade(CDBUserDaoFactory aUserDaoFactory, CDBKontoDatabaseFacade aKontoDatabaseFactory){
+    public CDBUserFacade(CDBUserDaoFactory aUserDaoFactory, CDBKontoDatabaseCreator aKontoDatabaseFactory){
         userDao = aUserDaoFactory.createDao();
         kontoDatabaseFactory = aKontoDatabaseFactory;
     }

@@ -1,16 +1,15 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 
-public class CDBKontoDatabaseFacade {
+public class CDBKontoDatabaseCreator {
 
     private CouchDbConnectorFactory factory;
     private CouchDbInstance instance;
 
-    public CDBKontoDatabaseFacade(CouchDbConnectorFactory aFactory, CouchDbInstance aInstance){
+    public CDBKontoDatabaseCreator(CouchDbConnectorFactory aFactory, CouchDbInstance aInstance){
         factory = aFactory;
         instance = aInstance;
     }

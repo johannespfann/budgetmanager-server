@@ -9,7 +9,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFact
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBEntryFacade;
-import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBKontoDatabaseFacade;
+import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBKontoDatabaseCreator;
 import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBUserFacade;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CouchDBUtil;
 import org.ektorp.CouchDbInstance;
@@ -21,7 +21,6 @@ import org.ektorp.impl.StdObjectMapperFactory;
 
 import java.net.MalformedURLException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CouchDBTest {
@@ -49,7 +48,7 @@ public class CouchDBTest {
         CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance, DB_NAME_PREFIX,objectMapperFactory);
 
         CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
-        CDBKontoDatabaseFacade kontoDatabaseFacade = new CDBKontoDatabaseFacade(couchDbConnectorFactory,dbInstance);
+        CDBKontoDatabaseCreator kontoDatabaseFacade = new CDBKontoDatabaseCreator(couchDbConnectorFactory,dbInstance);
         CDBEntryDaoFactory entryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactory);
 
         CDBUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);

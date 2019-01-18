@@ -18,9 +18,9 @@ public class User extends AbstractDocument {
 
     private Statistic statistic;
 
-    private List<Konto> kontos;
+    private List<Account> kontos;
 
-    private List<Konto> foreignKontos;
+    private List<Account> foreignKontos;
 
 
     public User() {
@@ -29,7 +29,7 @@ public class User extends AbstractDocument {
         emails = new LinkedList<>();
     }
 
-    public User(String aUsername, String aPassword, boolean aIsActivated, List<String> aEmails, Date aCreatedAt, Statistic aStatistics, List<Konto> aKontos, List<Konto> aForeignKonto) {
+    public User(String aUsername, String aPassword, boolean aIsActivated, List<String> aEmails, Date aCreatedAt, Statistic aStatistics, List<Account> aKontos, List<Account> aForeignKonto) {
         name = aUsername;
         password = aPassword;
         activated = aIsActivated;
@@ -71,11 +71,11 @@ public class User extends AbstractDocument {
         return statistic;
     }
 
-    public List<Konto> getKontos() {
+    public List<Account> getKontos() {
         return kontos;
     }
 
-    public List<Konto> getForeignKontos() {
+    public List<Account> getForeignKontos() {
         return foreignKontos;
     }
 
@@ -115,11 +115,11 @@ public class User extends AbstractDocument {
         this.statistic = statistic;
     }
 
-    public void setKontos(List<Konto> kontos) {
+    public void setKontos(List<Account> kontos) {
         this.kontos = kontos;
     }
 
-    public void setForeignKontos(List<Konto> foreignKontos) {
+    public void setForeignKontos(List<Account> foreignKontos) {
         this.foreignKontos = foreignKontos;
     }
 }
