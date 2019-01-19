@@ -1,7 +1,5 @@
 package de.pfann.budgetmanager.server.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,19 +12,12 @@ public class Account {
 
     private String name;
 
-    @JsonProperty("entry_account")
     private String entryAccount;
 
-    @JsonProperty("standingorder_account")
     private String standingOrderAccount;
 
-    @JsonProperty("is_encrypted")
-    private boolean isEncrypted;
+    private boolean activated;
 
-    @JsonProperty("is_activated")
-    private boolean isActivated;
-
-    @JsonProperty("encryption_text")
     private String encryptionText;
 
     private String owner;
@@ -38,8 +29,10 @@ public class Account {
      */
 
     public Account() {
-        isActivated = true;
+        activated = true;
         members = new LinkedList<>();
+        entryAccount = ENTRY_KONTO;
+        standingOrderAccount = ORDER_KONTO;
     }
 
     public Account(String aHash, String aName, String aEntryKnto, String aOrderKonto, boolean aIsEncrypted, String aEncryptionText, String aOwner, List<String> aForeignUser) {
@@ -47,20 +40,17 @@ public class Account {
         name = aName;
         entryAccount = aEntryKnto;
         standingOrderAccount = aOrderKonto;
-        isEncrypted = aIsEncrypted;
         encryptionText = aEncryptionText;
         owner = aOwner;
         members = aForeignUser;
     }
-
-
 
     /**
      * getter
      */
 
     public boolean isActivated() {
-        return isActivated;
+        return activated;
     }
 
     public String getHash() {
@@ -79,10 +69,6 @@ public class Account {
         return standingOrderAccount;
     }
 
-    public boolean isEncrypted() {
-        return isEncrypted;
-    }
-
     public String getEncryptionText() {
         return encryptionText;
     }
@@ -95,12 +81,11 @@ public class Account {
         return members;
     }
 
-
     public void activate() {
-        isActivated = true;
+        activated = true;
     }
 
     public void deactivate() {
-        isActivated = false;
+        activated = false;
     }
 }

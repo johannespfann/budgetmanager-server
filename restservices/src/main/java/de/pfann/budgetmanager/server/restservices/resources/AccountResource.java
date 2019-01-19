@@ -7,10 +7,7 @@ import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
 import de.pfann.budgetmanager.server.restservices.resources.util.AccountMapper;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -35,5 +32,17 @@ public class AccountResource {
         String result = AccountMapper.convertToJson(kontos);
         System.out.println("Result of Call: " + result);
         return result;
+    }
+
+    @POST
+    @Logged
+    @Secured
+    @CrossOriginFilter
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("owner/{owner}/add")
+    public void addAccount(@PathParam("owner") String aOwner, String aBody) {
+        System.out.println("Get AddAccount: " + aOwner + " with " + aBody);
+        Account account = AccountMapper.convertToAccount(aBody);
+        accountResourceFacade.addAccount(aOwner, account);
     }
 }

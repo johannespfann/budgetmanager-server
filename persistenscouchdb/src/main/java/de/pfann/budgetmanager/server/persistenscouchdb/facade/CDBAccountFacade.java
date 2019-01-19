@@ -32,6 +32,13 @@ public class CDBAccountFacade implements AccountFacade {
         return kontos;
     }
 
+    @Override
+    public void addAccount(String aOwner, Account aAccount) {
+        User user = createUser(aOwner);
+        user.getKontos().add(aAccount);
+        userDao.update(user);
+    }
+
 
     private User createUser(String aUserName) {
         CDBUserId userId = CDBUserId.create(aUserName);

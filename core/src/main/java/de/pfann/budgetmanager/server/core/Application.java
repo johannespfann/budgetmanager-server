@@ -180,12 +180,13 @@ public class Application {
          * resources v2
          */
         UserDao userDao = userDaoFactoryV2.createDao();
+
         UserFacade userFacadeV2 = new UserFacadeImpl(userDaoFactoryV2);
         V2UserResourceFacade v2UserResourceFacade = new V2UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
         V2UserResource userV2Resource = new V2UserResource(v2UserResourceFacade);
 
         AccountFacade accountFacade = new CDBAccountFacade(userDao);
-        AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade);
+        AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade,userFacadeV2);
         AccountResource accountResource = new AccountResource(accountResouceFacade);
 
 
