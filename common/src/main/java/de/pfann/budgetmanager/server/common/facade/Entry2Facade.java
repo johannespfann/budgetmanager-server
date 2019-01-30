@@ -1,5 +1,6 @@
 package de.pfann.budgetmanager.server.common.facade;
 
+import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.User;
 import de.pfann.budgetmanager.server.model.Entry;
 
@@ -7,14 +8,14 @@ import java.util.List;
 
 public interface Entry2Facade {
 
-    void save(Entry aEntry);
+    void save(Account aAccount, Entry aEntry);
 
-    void delete(User aAppuser, Entry aEntry);
+    void delete(Account aAccount, String aHash);
 
-    void update(Entry aEntry);
+    void update(Account aAccount, Entry aEntry);
 
-    List<Entry> getEntries(User aUser);
+    List<Entry> getEntries(Account aAccount);
 
-    Entry getEntry(User aUser, String aHash);
+    Entry getEntry(Account aAccount, String aHash);
 
 }
