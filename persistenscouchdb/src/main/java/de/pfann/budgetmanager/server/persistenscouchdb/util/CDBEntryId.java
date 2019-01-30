@@ -11,13 +11,7 @@ public class CDBEntryId {
 
     private String username;
 
-    private String konto;
-
     private String hash;
-
-    private int year;
-
-    private int month;
 
     private CDBEntryId(){
         // default
@@ -44,6 +38,7 @@ public class CDBEntryId {
     }
 
 
+    // TODO delete getter
     /**
      * getter
      */
@@ -69,13 +64,7 @@ public class CDBEntryId {
 
         private String username;
 
-        private String konto;
-
         private String hash;
-
-        private int year;
-
-        private int month;
 
         private CDBEntryIdBuilder(){
             // default
@@ -93,7 +82,6 @@ public class CDBEntryId {
         }
 
         public CDBEntryId build(){
-
             assertUserNameIsValid(username);
             assertHashIsValid(hash);
 
@@ -115,13 +103,11 @@ public class CDBEntryId {
             }
         }
 
-
         private void assertHashIsValid(String aHash) {
             if(aHash == null || aHash.isEmpty()){
                 throw new IllegalArgumentException();
             }
         }
-
 
         private void assertUserNameIsValid(String aUsername) {
             if(aUsername == null || aUsername.isEmpty()){
