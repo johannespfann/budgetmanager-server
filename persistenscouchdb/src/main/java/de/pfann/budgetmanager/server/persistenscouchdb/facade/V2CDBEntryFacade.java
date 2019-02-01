@@ -57,9 +57,11 @@ public class V2CDBEntryFacade implements Entry2Facade {
 
     @Override
     public List<Entry> getEntries(Account aAccount) {
-        System.out.println("getentries from account " + aAccount.toString());
+        System.out.println("get entries from account " + aAccount.toString());
         V2CDBEntryDao entryDao = getEntryDao(aAccount);
-        return entryDao.getAll();
+        List<Entry> entries =  entryDao.getAll();
+        System.out.println("Found entries: " + entries.size());
+        return entries;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class CDBAccountFacade implements AccountFacade {
     @Override
     public List<Account> getKontos(String aIdentifier) {
         List<Account> kontos = new LinkedList<>();
-        User user = createUser(aIdentifier);
+        User user = findUser(aIdentifier);
 
         List<Account> ownKontos = user.getKontos();
         List<Account> foreignKontos = user.getForeignKontos();
@@ -33,14 +33,67 @@ public class CDBAccountFacade implements AccountFacade {
     }
 
     @Override
+    public Account getAccount(String aUsername, String aAccountHash) {
+        List<Account> kontos = new LinkedList<>();
+        User user = findUser(aUsername);
+
+        for(Account account : user.getKontos()) {
+            if(account.getHash().equals(aAccountHash)){
+                return account;
+            }
+        }
+
+        throw new NoAccountFoundException();
+    }
+
+    @Override
     public void addAccount(String aOwner, Account aAccount) {
-        User user = createUser(aOwner);
+        User user = findUser(aOwner);
         user.getKontos().add(aAccount);
         userDao.update(user);
     }
 
+    @Override
+    public void deleteAccount(String aOwner, String aAccountHash) {
+        User user = findUser(aOwner);
 
-    private User createUser(String aUserName) {
+        List<Account> accounts = user.getKontos();
+
+        if(accountExists(accounts,aAccountHash)){
+            accounts.remove(getAccountByHash(accounts,aAccountHash));
+            // TODO delete Account in foreign user
+
+            user.setKontos(accounts);
+            userDao.update(user);
+
+            return;
+        }
+
+        throw new RuntimeException("Cannot delete Account");
+    }
+
+
+    private boolean accountExists(List<Account> aAccounts, String aAccountHash) {
+        for(Account account : aAccounts) {
+            if(account.getHash().equals(aAccountHash)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Account getAccountByHash(List<Account> aAccounts, String aAccountHash) {
+        for(Account account : aAccounts) {
+            if(account.getHash().equals(aAccountHash)){
+                return account;
+            }
+        }
+        throw new RuntimeException("Dont found account with hash:" + aAccountHash);
+    }
+
+
+
+    private User findUser(String aUserName) {
         CDBUserId userId = CDBUserId.create(aUserName);
         User user = userDao.get(userId.toString());
         return user;

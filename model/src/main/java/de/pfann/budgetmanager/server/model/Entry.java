@@ -25,6 +25,10 @@ public class Entry extends AbstractDocument  {
      * constructor
      */
 
+    public Entry() {
+        // default
+    }
+
     public Entry(String aHash, String aUsername, Date aCreatedAd, String aData) {
         hash = aHash;
         username = aUsername;

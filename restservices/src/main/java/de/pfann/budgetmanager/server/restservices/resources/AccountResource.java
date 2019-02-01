@@ -45,4 +45,16 @@ public class AccountResource {
         Account account = AccountMapper.convertToAccount(aBody);
         accountResourceFacade.addAccount(aOwner, account);
     }
+
+    @DELETE
+    @Logged
+    @Secured
+    @CrossOriginFilter
+    @Path("owner/{owner}/delete/{hash}")
+    public void deleteAccount(
+            @PathParam("owner") String aOwner,
+            @PathParam("hash") String aAccountHash) {
+        System.out.println("Delete Account: " + aOwner + " with " + aAccountHash);
+        accountResourceFacade.deleteAccount(aOwner, aAccountHash);
+    }
 }

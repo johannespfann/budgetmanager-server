@@ -20,8 +20,12 @@ public class AccountResourceFacade {
         return accountFacade.getKontos(aIdentifier);
     }
 
-
     public void addAccount(String aOwner, Account aAccount) {
         accountFacade.addAccount(aOwner, aAccount);
     }
+
+    public void deleteAccount(String aOwner, String aAccountHash) {
+        accountFacade.deleteAccount(aOwner,aAccountHash);
+    }
+
 }

@@ -20,7 +20,12 @@ public class StandingOrder extends AbstractDocument {
      * constructor
      */
 
-    private StandingOrder(String aHash, String aUsername, String aData) {
+
+    public StandingOrder() {
+        // default
+    }
+
+    public StandingOrder(String aHash, String aUsername, String aData) {
         hash = aHash;
         username = aUsername;
         data = aData;

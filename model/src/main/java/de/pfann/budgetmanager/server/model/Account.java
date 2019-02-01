@@ -10,6 +10,8 @@ public class Account {
 
     private String hash;
 
+    private String owner;
+
     private String name;
 
     private String entryAccount;
@@ -20,9 +22,11 @@ public class Account {
 
     private String encryptionText;
 
-    private String owner;
-
     private List<String> members;
+
+    private String statistics;
+
+    private String rules;
 
     /**
      * constructors
@@ -87,5 +91,13 @@ public class Account {
 
     public void deactivate() {
         activated = false;
+    }
+
+    public String getStatistics() {
+        return statistics;
+    }
+
+    public String getRules() {
+        return rules;
     }
 }

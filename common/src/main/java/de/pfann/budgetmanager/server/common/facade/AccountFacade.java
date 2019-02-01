@@ -9,5 +9,9 @@ public interface AccountFacade {
 
     List<Account> getKontos(String aUsername);
 
+    Account getAccount(String aUsername, String aAccountHash);
+
     void addAccount(String aOwner, Account aAccount);
+
+    void deleteAccount(String aOwner, String aAccountHash);
 }

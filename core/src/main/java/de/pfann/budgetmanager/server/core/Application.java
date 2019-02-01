@@ -134,6 +134,8 @@ public class Application {
 
         CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbPrefixV2,objectMapperFactory);
         UserDaoFactory userDaoFactoryV2 = new UserDaoFactory(couchDbConnectorFactoryV2);
+        V2CDBEntryDaoFactory v2EntryDaoFactory = new V2CDBEntryDaoFactory(couchDbConnectorFactoryV2);
+
 
 
         /**
@@ -183,11 +185,15 @@ public class Application {
 
         UserFacade userFacadeV2 = new UserFacadeImpl(userDaoFactoryV2);
         V2UserResourceFacade v2UserResourceFacade = new V2UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
-        V2UserResource userV2Resource = new V2UserResource(v2UserResourceFacade);
+        V2UserResource v2userResource = new V2UserResource(v2UserResourceFacade);
 
         AccountFacade accountFacade = new CDBAccountFacade(userDao);
         AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade,userFacadeV2);
         AccountResource accountResource = new AccountResource(accountResouceFacade);
+
+        Entry2Facade entry2Facade = new V2CDBEntryFacade(userDao,v2EntryDaoFactory);
+        V2EntryResourceFacade v2EntryResourceFacade = new V2EntryResourceFacade(accountFacade,entry2Facade);
+        V2EntryResource v2EntryResource = new V2EntryResource(v2EntryResourceFacade);
 
 
         /**
@@ -214,8 +220,8 @@ public class Application {
                 /**
                  * new resources -> v2
                  */
-
-                .register(userV2Resource);
+                .register(v2EntryResource)
+                .register(v2userResource);
 
         Job rotationEntryJob = new RotationEntryJob(
                 patternList,
