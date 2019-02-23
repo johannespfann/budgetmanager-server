@@ -21,7 +21,6 @@ public class EntryResource {
 
     @GET
     @Logged
-    @Secured
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")

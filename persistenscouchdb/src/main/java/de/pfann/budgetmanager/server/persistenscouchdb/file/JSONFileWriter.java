@@ -100,7 +100,7 @@ public class JSONFileWriter {
             FileUtil.createFile(directoryPath + "\\" + fileName,entryJson);
         }
 
-        // save statistics
+        // persist statistics
         List<CDBTagStatistic> statistics = tagStatisticFacade.getStatistics(cdbUser);
         System.out.println("Statistics: " + statistics.size());
         cdbUser.setTagStatistics(statistics);

@@ -60,4 +60,16 @@ public class V2EntryResourceFacade {
     }
 
 
+    public void addEntries(String aOwner, String aAccountHash, List<Entry> aEntries) {
+        try{
+            Account account = accountFacade.getAccount(aOwner, aAccountHash);
+
+            for(Entry entry: aEntries) {
+                entryFacade.save(account, entry);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

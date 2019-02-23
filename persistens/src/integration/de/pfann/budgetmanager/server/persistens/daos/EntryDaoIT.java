@@ -49,7 +49,7 @@ public class EntryDaoIT {
         userDao = AppUserDao.create();
         entryDao = EntryDao.create();
 
-        // Create and save Users
+        // Create and persist Users
         firstUser = new AppUser();
         firstUser.setName(NAME);
         firstUser.setEmail(EMAIL);

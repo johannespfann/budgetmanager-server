@@ -85,7 +85,6 @@ public class QuarterRotationEntryPattern implements RotationEntryPattern {
         return getExecutionDateOfCurrentQuartal(aStartTime,aTimeOfCurrentRun);
     }
 
-
     private LocalDateTime getExecutionDateOfCurrentQuartal(LocalDateTime aSartTime, LocalDateTime aCurrentDate){
         LocalDateTime executionDateOfCurrentQuartal;
 

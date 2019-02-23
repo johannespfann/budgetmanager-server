@@ -18,7 +18,6 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBStandingOrderId;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserId;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -56,4 +56,14 @@ public class Entry extends AbstractDocument  {
         return data;
     }
 
+
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "hash='" + hash + '\'' +
+                ", username='" + username + '\'' +
+                ", createdAt=" + createdAt +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }

@@ -87,7 +87,7 @@ public class RotationEntrySQLFacade implements StandingOrderFacade {
     @Override
     public void validateRotationEntry(StandingOrder aRotationEntry){
 
-        // hash ist bei update dabei und bei save noch nicht ...
+        // hash ist bei update dabei und bei persist noch nicht ...
         aRotationEntry.getHash();
 
         // Entry

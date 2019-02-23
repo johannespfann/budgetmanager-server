@@ -134,7 +134,7 @@ public class Application {
 
         CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbPrefixV2,objectMapperFactory);
         UserDaoFactory userDaoFactoryV2 = new UserDaoFactory(couchDbConnectorFactoryV2);
-        V2CDBEntryDaoFactory v2EntryDaoFactory = new V2CDBEntryDaoFactory(couchDbConnectorFactoryV2);
+
 
 
 
@@ -183,7 +183,7 @@ public class Application {
          */
         UserDao userDao = userDaoFactoryV2.createDao();
 
-        UserFacade userFacadeV2 = new UserFacadeImpl(userDaoFactoryV2);
+        UserFacade userFacadeV2 = new V2CDBUserFacade(userDaoFactoryV2);
         V2UserResourceFacade v2UserResourceFacade = new V2UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
         V2UserResource v2userResource = new V2UserResource(v2UserResourceFacade);
 
@@ -191,10 +191,15 @@ public class Application {
         AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade,userFacadeV2);
         AccountResource accountResource = new AccountResource(accountResouceFacade);
 
-        Entry2Facade entry2Facade = new V2CDBEntryFacade(userDao,v2EntryDaoFactory);
+        V2CDBEntryDaoFactory v2EntryDaoFactory = new V2CDBEntryDaoFactory(couchDbConnectorFactoryV2);
+        Entry2Facade entry2Facade = new V2CDBEntryFacade(v2EntryDaoFactory);
         V2EntryResourceFacade v2EntryResourceFacade = new V2EntryResourceFacade(accountFacade,entry2Facade);
         V2EntryResource v2EntryResource = new V2EntryResource(v2EntryResourceFacade);
 
+        V2CDBStandingOrderDaoFactory v2StandingDaoFactory = new V2CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);
+        StandingOrder2Facade standingOrder2Facade = new V2CDBStandingOrderFacade(v2StandingDaoFactory);
+        V2StandingOrderResourceFacade v2StandingOrderResourceFacade = new V2StandingOrderResourceFacade(accountFacade,standingOrder2Facade);
+        V2StandingOrderResource v2StandingOrderResource = new V2StandingOrderResource(v2StandingOrderResourceFacade);
 
         /**
          * authantication
@@ -214,12 +219,13 @@ public class Application {
                 .register(tagStatisticResource)
                 .register(encryptionResource)
                 .register(contactResource)
-                .register(accountResource)
                 .register(EmailDublicatedExceptionMapper.class)
 
                 /**
                  * new resources -> v2
                  */
+                .register(accountResource)
+                .register(v2StandingOrderResource)
                 .register(v2EntryResource)
                 .register(v2userResource);
 
@@ -242,7 +248,7 @@ public class Application {
         TimeInterval timeIntervalOfScheduler = new HourInterval(2);
 
         JobScheduler scheduler = new JobScheduler(startTime,timeIntervalOfScheduler,jobEngine);
-        scheduler.start();
+        //scheduler.start();
 
         System.out.println("Current time of server     : " + LocalDateTime.now());
         System.out.println("Current time of application: " + DateUtil.getCurrentTimeOfBERLIN());

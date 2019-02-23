@@ -21,7 +21,6 @@ public class StandingOrderResource {
 
     @GET
     @Logged
-    @Secured
     @CrossOriginFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("owner/{owner}/all")
@@ -45,6 +44,7 @@ public class StandingOrderResource {
         StandingOrder entry = RotationEntryJsonMapper.convertToEntry(aRotationEntry);
         standingOrderResourceFacade.addRotationEntry(aOwner,entry);
     }
+
 
     @DELETE
     @Logged

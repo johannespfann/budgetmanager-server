@@ -100,4 +100,16 @@ public class Account {
     public String getRules() {
         return rules;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "hash='" + hash + '\'' +
+                ", owner='" + owner + '\'' +
+                ", name='" + name + '\'' +
+                ", entryAccount='" + entryAccount + '\'' +
+                ", standingOrderAccount='" + standingOrderAccount + '\'' +
+                ", encryptionText='" + encryptionText + '\'' +
+                '}';
+    }
 }

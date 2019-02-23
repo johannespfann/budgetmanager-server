@@ -39,6 +39,24 @@ public class V2EntryResource {
     @Logged
     @Secured
     @CrossOriginFilter
+    @Path("owner/{owner}/account/{account}/add/list")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addEntries(
+            @PathParam("owner") String aOwner,
+            @PathParam("account") String aAccountHash,
+            String aBody) {
+
+        System.out.println("Owner: " + aOwner);
+        System.out.println("AccountHash: " + aAccountHash);
+        System.out.println("Body: " + aBody);
+        List<Entry> entries = V2EntryJsonMapper.convertToEntries(aBody);
+        entryResourceFacade.addEntries(aOwner, aAccountHash, entries);
+    }
+
+    @POST
+    @Logged
+    @Secured
+    @CrossOriginFilter
     @Path("owner/{owner}/account/{account}/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public void addEntry(

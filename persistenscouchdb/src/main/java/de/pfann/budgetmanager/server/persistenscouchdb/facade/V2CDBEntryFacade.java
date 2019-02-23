@@ -3,7 +3,6 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 import de.pfann.budgetmanager.server.common.facade.Entry2Facade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.Entry;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.UserDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.V2CDBEntryDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.V2CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBKonto;
@@ -14,18 +13,19 @@ import java.util.List;
 
 public class V2CDBEntryFacade implements Entry2Facade {
 
-
-    private UserDao userDao;
     private V2CDBEntryDaoFactory entryDaoFactory;
 
-    public V2CDBEntryFacade(UserDao aUserDao, V2CDBEntryDaoFactory aEntryDaoFactory) {
-        userDao = aUserDao;
+    public V2CDBEntryFacade(V2CDBEntryDaoFactory aEntryDaoFactory) {
         entryDaoFactory = aEntryDaoFactory;
     }
 
     @Override
     public void save(Account aAccount, Entry aEntry) {
         V2CDBEntryDao entryDao = getEntryDao(aAccount);
+
+        System.out.println("account: " + aAccount);
+        System.out.println("entry: " + aEntry);
+
         CDBEntryId entryId = CDBEntryId.createBuilder()
                 .withHash(aEntry.getHash())
                 .withUsername(aAccount.getOwner())
@@ -48,7 +48,11 @@ public class V2CDBEntryFacade implements Entry2Facade {
         V2CDBEntryDao entryDao = getEntryDao(aAccount);
 
         Entry entry = getEntry(aAccount,aEntry.getHash());
-        Entry updatedEntry = new Entry(aEntry.getHash(),aEntry.getUsername(),aEntry.getCreatedAt(), aEntry.getData());
+        Entry updatedEntry = new Entry(
+                aEntry.getHash(),
+                aEntry.getUsername(),
+                aEntry.getCreatedAt(),
+                aEntry.getData());
         updatedEntry.setId(entry.getId());
         updatedEntry.setRev(entry.getRev());
 

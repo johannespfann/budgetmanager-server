@@ -68,7 +68,7 @@ public class StartCouchDbWriter {
 
 
         // File directory = new File("C:\\Users\\Johannes\\Desktop\\output"  + "\\johannes-1234");
-        File inputDirectory = new File("C:\\Users\\jopf8\\OneDrive\\Desktop\\output");
+        File inputDirectory = new File("C:\\Users\\jopf8\\OneDrive\\Desktop\\save_23_02_2019\\");
 
         File[] childs = inputDirectory.listFiles();
         List<String> users = new LinkedList<>();

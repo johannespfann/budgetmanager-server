@@ -78,6 +78,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>de.pfann.budgetmanager.server</groupId>
+            <artifactId>persistenscouchdb</artifactId>
+        </dependency>
+
     </dependencies>
 
 
