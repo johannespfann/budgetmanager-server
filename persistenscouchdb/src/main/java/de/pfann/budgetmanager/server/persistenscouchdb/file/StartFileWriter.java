@@ -46,8 +46,8 @@ couchdb.user:
 
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
         httpClientBuilder.url("http://h2799032.stratoserver.net:81")
-                .username("admin")
-                .password("5kassandra5");
+                .username("")
+                .password("");
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClientBuilder.build());
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();

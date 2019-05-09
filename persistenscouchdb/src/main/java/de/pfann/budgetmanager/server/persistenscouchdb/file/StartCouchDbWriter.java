@@ -27,8 +27,8 @@ public class StartCouchDbWriter {
      httpClientBuilder
      .url("http://h2799032.stratoserver.net/couchdb")
      //.url("http://pfann.org:5984")
-     .username("admin")
-     .password("5kassandra5");
+     .username("")
+     .password("");
      HttpClient httpClient = httpClientBuilder.build();
      */
 
@@ -43,8 +43,8 @@ public class StartCouchDbWriter {
         httpClientBuilder
                 .url("http://localhost:5984");
                 //.url("http://pfann.org:5984")
-                //.username("admin")
-                //.password("5kassandra5");
+                //.username("")
+                //.password("");
         HttpClient httpClient = httpClientBuilder.build();
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);

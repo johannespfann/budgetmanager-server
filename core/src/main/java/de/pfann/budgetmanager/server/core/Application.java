@@ -127,7 +127,7 @@ public class Application {
          * couchdbfacade v2
          */
 
-        String couchdbPrefixV2 = "bmv2";
+        String couchdbPrefixV2 = "cashtrack";
         CouchDBUtil couchDBUtil = new CouchDBUtil(httpClient);
         //couchDBUtil.deleteDatabases(couchdbPrefixV2);
 
