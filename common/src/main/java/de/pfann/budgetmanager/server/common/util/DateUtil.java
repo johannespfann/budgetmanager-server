@@ -26,19 +26,19 @@ public class DateUtil {
     }
 
     public static Date firstDayOfYear(int aYear){
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR,aYear);
-        cal.set(Calendar.MONTH,Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH,1);
-        return cal.getTime();
+        Calendar calender = Calendar.getInstance();
+        calender.set(Calendar.YEAR,aYear);
+        calender.set(Calendar.MONTH,Calendar.JANUARY);
+        calender.set(Calendar.DAY_OF_MONTH,1);
+        return calender.getTime();
     }
 
     public static Date getDateOfYYMMDD(int aYear, int aMonth, int aDay){
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR,aYear);
-        cal.set(Calendar.MONTH,aMonth);
-        cal.set(Calendar.DAY_OF_MONTH,aDay);
-        return cal.getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,aYear);
+        calendar.set(Calendar.MONTH,aMonth);
+        calendar.set(Calendar.DAY_OF_MONTH,aDay);
+        return calendar.getTime();
     }
 
     public static LocalDateTime getCurrentTimeOfBERLIN(){
