@@ -13,5 +13,4 @@ public class CDBEntryDaoFactory {
     public CDBEntryDao createDao(String aName){
         return new CDBEntryDao(couchDbConnectorFactory.createCouchDbConnector(aName));
     }
-
 }

@@ -117,7 +117,7 @@ public class Application {
 
 
         CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbPrefixV2,objectMapperFactory);
-        UserDaoFactory userDaoFactoryV2 = new UserDaoFactory(couchDbConnectorFactoryV2);
+        CDBUserDaoFactory CDBUserDaoFactoryV2 = new CDBUserDaoFactory(couchDbConnectorFactoryV2);
 
         /**
          * resources
@@ -130,23 +130,23 @@ public class Application {
         /**
          * resources v2
          */
-        UserDao userDao = userDaoFactoryV2.createDao();
+        CDBUserDao CDBUserDao = CDBUserDaoFactoryV2.createDao();
 
         ActivationPool activationPool = new ActivationPool();
-        UserFacade userFacadeV2 = new V2CDBUserFacade(userDaoFactoryV2);
+        UserFacade userFacadeV2 = new V2CDBUserFacade(CDBUserDaoFactoryV2);
         UserResourceFacade userResourceFacade = new UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
         UserResource userResource = new UserResource(userResourceFacade);
 
-        AccountFacade accountFacade = new CDBAccountFacade(userDao);
+        AccountFacade accountFacade = new CDBAccountFacade(CDBUserDao);
         AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade,userFacadeV2);
         AccountResource accountResource = new AccountResource(accountResouceFacade);
 
-        V2CDBEntryDaoFactory v2EntryDaoFactory = new V2CDBEntryDaoFactory(couchDbConnectorFactoryV2);
+        CDBEntryDaoFactory v2EntryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactoryV2);
         EntryFacade entryFacade = new V2CDBEntryFacade(v2EntryDaoFactory);
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(accountFacade, entryFacade);
         EntryResource entryResource = new EntryResource(entryResourceFacade);
 
-        V2CDBStandingOrderDaoFactory v2StandingDaoFactory = new V2CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);
+        CDBStandingOrderDaoFactory v2StandingDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);
         StandingOrderFacade standingOrderFacade = new V2CDBStandingOrderFacade(v2StandingDaoFactory);
         StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(accountFacade, standingOrderFacade);
         StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);

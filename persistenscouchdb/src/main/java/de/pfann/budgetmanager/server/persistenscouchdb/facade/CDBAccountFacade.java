@@ -3,7 +3,7 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 import de.pfann.budgetmanager.server.common.facade.AccountFacade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.User;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.UserDao;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserId;
 
 import java.util.LinkedList;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class CDBAccountFacade implements AccountFacade {
 
-    private UserDao userDao;
+    private CDBUserDao CDBUserDao;
 
-    public CDBAccountFacade(UserDao aUserDao) {
-        userDao = aUserDao;
+    public CDBAccountFacade(CDBUserDao aCDBUserDao) {
+        CDBUserDao = aCDBUserDao;
     }
 
 
@@ -50,7 +50,7 @@ public class CDBAccountFacade implements AccountFacade {
     public void addAccount(String aOwner, Account aAccount) {
         User user = findUser(aOwner);
         user.getKontos().add(aAccount);
-        userDao.update(user);
+        CDBUserDao.update(user);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class CDBAccountFacade implements AccountFacade {
             // TODO delete Account in foreign user
 
             user.setKontos(accounts);
-            userDao.update(user);
+            CDBUserDao.update(user);
 
             return;
         }
@@ -95,7 +95,7 @@ public class CDBAccountFacade implements AccountFacade {
 
     private User findUser(String aUserName) {
         CDBUserId userId = CDBUserId.create(aUserName);
-        User user = userDao.get(userId.toString());
+        User user = CDBUserDao.get(userId.toString());
         return user;
     }
 }

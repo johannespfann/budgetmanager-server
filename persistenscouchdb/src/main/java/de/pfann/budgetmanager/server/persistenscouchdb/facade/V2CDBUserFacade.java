@@ -3,8 +3,8 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 import de.pfann.budgetmanager.server.common.facade.UserFacade;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.model.User;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.UserDao;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.UserDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserId;
 
 import java.time.LocalDateTime;
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class V2CDBUserFacade implements UserFacade {
 
-    private UserDao userDao;
+    private CDBUserDao CDBUserDao;
 
-    public V2CDBUserFacade(UserDaoFactory aUserDaoFactory) {
-        userDao = aUserDaoFactory.createDao();
+    public V2CDBUserFacade(CDBUserDaoFactory aCDBUserDaoFactory) {
+        CDBUserDao = aCDBUserDaoFactory.createDao();
     }
 
     @Override
@@ -31,32 +31,32 @@ public class V2CDBUserFacade implements UserFacade {
         user.setCreatedAt(DateUtil.asDate(LocalDateTime.now()));
         user.setPassword(aUser.getPassword());
 
-        userDao.add(user);
+        CDBUserDao.add(user);
     }
 
     @Override
     public void activateUser(User aUser) {
         System.out.println("activateUser in V2CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
-        User user = userDao.get(userId.toString());
+        User user = CDBUserDao.get(userId.toString());
         user.activate();
-        userDao.update(user);
+        CDBUserDao.update(user);
     }
 
     @Override
     public void deactivateUser(User aUser) {
         System.out.println("deactivateUser in V2CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
-        User user = userDao.get(userId.toString());
+        User user = CDBUserDao.get(userId.toString());
         user.deactivate();
-        userDao.update(user);
+        CDBUserDao.update(user);
     }
 
     @Override
     public void deleteUser(User aUser) {
         System.out.println("deleteUser in V2CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
-        User user = userDao.get(userId.toString());
+        User user = CDBUserDao.get(userId.toString());
 
         // TODO Get all kontos und lösche
 
@@ -66,7 +66,7 @@ public class V2CDBUserFacade implements UserFacade {
 
     @Override
     public boolean isEmailAlreadyExists(String aEmail) {
-        List<User> users = userDao.getAll();
+        List<User> users = CDBUserDao.getAll();
 
         for(User user : users) {
             if(foundEmail(aEmail,user)){
@@ -81,7 +81,7 @@ public class V2CDBUserFacade implements UserFacade {
     public void updateUser(User aUser) {
         System.out.println("update User in V2CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
-        User newUser = userDao.get(userId.toString());
+        User newUser = CDBUserDao.get(userId.toString());
 
         newUser.setName(aUser.getName());
         newUser.setPassword(aUser.getPassword());
@@ -92,12 +92,12 @@ public class V2CDBUserFacade implements UserFacade {
         newUser.setEmails(newUser.getEmails());
         newUser.setActivated(aUser.isActivated());
 
-        userDao.update(newUser);
+        CDBUserDao.update(newUser);
     }
 
     @Override
     public List<User> getAllUser() {
-        return userDao.getAll();
+        return CDBUserDao.getAll();
     }
 
     @Override
@@ -107,14 +107,14 @@ public class V2CDBUserFacade implements UserFacade {
 
         if(user == null) {
             CDBUserId userId = CDBUserId.create(aIdentifier);
-            user = userDao.get(userId.toString());
+            user = CDBUserDao.get(userId.toString());
         }
 
         return user;
     }
 
     private User getUserByEmail(String aIdentifier) {
-        List<User> users = userDao.getAll();
+        List<User> users = CDBUserDao.getAll();
 
         for(User user : users) {
 

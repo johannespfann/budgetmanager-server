@@ -3,8 +3,8 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.Entry;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.V2CDBEntryDao;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.V2CDBEntryDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDao;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBKonto;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBEntryId;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBKontoDatabaseId;
@@ -13,15 +13,15 @@ import java.util.List;
 
 public class V2CDBEntryFacade implements EntryFacade {
 
-    private V2CDBEntryDaoFactory entryDaoFactory;
+    private CDBEntryDaoFactory entryDaoFactory;
 
-    public V2CDBEntryFacade(V2CDBEntryDaoFactory aEntryDaoFactory) {
+    public V2CDBEntryFacade(CDBEntryDaoFactory aEntryDaoFactory) {
         entryDaoFactory = aEntryDaoFactory;
     }
 
     @Override
     public void save(Account aAccount, Entry aEntry) {
-        V2CDBEntryDao entryDao = getEntryDao(aAccount);
+        CDBEntryDao entryDao = getEntryDao(aAccount);
 
         System.out.println("account: " + aAccount);
         System.out.println("entry: " + aEntry);
@@ -37,7 +37,7 @@ public class V2CDBEntryFacade implements EntryFacade {
 
     @Override
     public void delete(Account aAccount, String aHash) {
-        V2CDBEntryDao entryDao = getEntryDao(aAccount);
+        CDBEntryDao entryDao = getEntryDao(aAccount);
         Entry entry = getEntry(aAccount,aHash);
         entryDao.remove(entry);
     }
@@ -45,7 +45,7 @@ public class V2CDBEntryFacade implements EntryFacade {
     @Override
     public void update(Account aAccount, Entry aEntry) {
         System.out.println("update entry: " + aEntry.toString());
-        V2CDBEntryDao entryDao = getEntryDao(aAccount);
+        CDBEntryDao entryDao = getEntryDao(aAccount);
 
         Entry entry = getEntry(aAccount,aEntry.getHash());
         Entry updatedEntry = new Entry(
@@ -62,7 +62,7 @@ public class V2CDBEntryFacade implements EntryFacade {
     @Override
     public List<Entry> getEntries(Account aAccount) {
         System.out.println("get entries from account " + aAccount.toString());
-        V2CDBEntryDao entryDao = getEntryDao(aAccount);
+        CDBEntryDao entryDao = getEntryDao(aAccount);
         List<Entry> entries =  entryDao.getAll();
         System.out.println("Found entries: " + entries.size());
         return entries;
@@ -70,7 +70,7 @@ public class V2CDBEntryFacade implements EntryFacade {
 
     @Override
     public Entry getEntry(Account aAccount, String aHash) {
-        V2CDBEntryDao entryDao = getEntryDao(aAccount);
+        CDBEntryDao entryDao = getEntryDao(aAccount);
         CDBEntryId entryId = CDBEntryId.createBuilder()
                 .withHash(aHash)
                 .withUsername(aAccount.getOwner())
@@ -79,7 +79,7 @@ public class V2CDBEntryFacade implements EntryFacade {
     }
 
 
-    private V2CDBEntryDao getEntryDao(Account aAccount) {
+    private CDBEntryDao getEntryDao(Account aAccount) {
         CDBKontoDatabaseId kontodbId = CDBKontoDatabaseId.builder()
                 .withKontoHash(aAccount.getHash())
                 .withUsername(aAccount.getOwner())

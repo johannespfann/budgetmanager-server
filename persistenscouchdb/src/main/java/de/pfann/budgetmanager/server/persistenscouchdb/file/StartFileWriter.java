@@ -1,22 +1,5 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
-import de.pfann.budgetmanager.server.common.facade.*;
-import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.facade.*;
-import org.ektorp.CouchDbInstance;
-import org.ektorp.http.StdHttpClient;
-import org.ektorp.impl.ObjectMapperFactory;
-import org.ektorp.impl.StdCouchDbInstance;
-import org.ektorp.impl.StdObjectMapperFactory;
-
-import java.net.MalformedURLException;
-import java.util.LinkedList;
-import java.util.List;
-
 public class StartFileWriter {
 
     /*
