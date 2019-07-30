@@ -15,7 +15,6 @@
     <module>persistens</module>
     <module>common</module>
     <module>deployment</module>
-    <module>jobengine</module>
     <module>persistenscouchdb</module>
     <module>logging</module>
     <module>model</module>
