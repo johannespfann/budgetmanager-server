@@ -37,6 +37,7 @@ public class StartCouchDbWriter {
      HttpClient httpClient = httpClientBuilder.build();
      */
 
+    /*
     public static void main(String[] args) throws MalformedURLException {
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
         httpClientBuilder
@@ -86,6 +87,6 @@ public class StartCouchDbWriter {
 
 
     }
-
+    */
 
 }

@@ -37,6 +37,7 @@ couchdb.user:
 
     // http://pfann.org:5984
 
+    /*
     public static void main(String[] args) throws MalformedURLException {
         // StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
         // httpClientBuilder.url("http://pfann.org:5984");
@@ -73,5 +74,6 @@ couchdb.user:
         }
 
     }
+    */
 
 }

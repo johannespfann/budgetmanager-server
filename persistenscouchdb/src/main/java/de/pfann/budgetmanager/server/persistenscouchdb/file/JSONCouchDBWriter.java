@@ -17,6 +17,7 @@ import java.util.List;
 
 public class JSONCouchDBWriter {
 
+    /*
     private CDBUserFacade userFacade;
     private EntryFacade entryFacade;
     private StandingOrderFacade standingOrderFacade;
@@ -33,10 +34,6 @@ public class JSONCouchDBWriter {
         tagStatisticFacade = aStatisticFacade;
     }
 
-    /**
-     * Expected the folder for a specific user
-     * @param aDirectory
-     */
     public void writeUserdataToCouchDb(File aDirectory){
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -121,5 +118,7 @@ public class JSONCouchDBWriter {
 
         return fileNames;
     }
+
+    */
 
 }

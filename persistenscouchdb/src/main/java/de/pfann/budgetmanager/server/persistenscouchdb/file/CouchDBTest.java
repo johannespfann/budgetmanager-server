@@ -26,7 +26,7 @@ import java.util.List;
 public class CouchDBTest {
 
     private static final String DB_NAME_PREFIX = "test";
-
+/*
     public static void main(String[] args) throws MalformedURLException {
 
         StdHttpClient.Builder httpClientBuilder = new StdHttpClient.Builder();
@@ -104,4 +104,5 @@ public class CouchDBTest {
         appUser.setEncryptionText("neuer bester Text");
         return appUser;
     }
+    */
 }

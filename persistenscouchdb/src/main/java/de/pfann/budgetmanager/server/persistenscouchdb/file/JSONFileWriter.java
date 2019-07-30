@@ -17,6 +17,7 @@ import java.util.List;
 
 public class JSONFileWriter {
 
+    /*
     private AppUserFacade userFacade;
     private EntryFacade entryFacade;
     private StandingOrderFacade standingOrderFacade;
@@ -114,5 +115,6 @@ public class JSONFileWriter {
         FileUtil.createFile(directoryPath + "\\user.json", userJson);
 
     }
+    */
 
 }
