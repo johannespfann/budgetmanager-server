@@ -6,7 +6,7 @@ import de.pfann.budgetmanager.server.model.Entry;
 
 import java.util.List;
 
-public interface Entry2Facade {
+public interface EntryFacade {
 
     void save(Account aAccount, Entry aEntry);
 

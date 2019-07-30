@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
 import de.pfann.budgetmanager.server.common.facade.AccountFacade;
-import de.pfann.budgetmanager.server.common.facade.Entry2Facade;
+import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.Entry;
 
@@ -10,9 +10,9 @@ import java.util.List;
 public class V2EntryResourceFacade {
 
     private AccountFacade accountFacade;
-    private Entry2Facade entryFacade;
+    private EntryFacade entryFacade;
 
-    public V2EntryResourceFacade(AccountFacade aAccountFacade, Entry2Facade aEntryFacade){
+    public V2EntryResourceFacade(AccountFacade aAccountFacade, EntryFacade aEntryFacade){
         accountFacade = aAccountFacade;
         entryFacade = aEntryFacade;
     }

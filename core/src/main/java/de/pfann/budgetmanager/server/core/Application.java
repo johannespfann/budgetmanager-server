@@ -26,8 +26,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -144,8 +142,8 @@ public class Application {
         AccountResource accountResource = new AccountResource(accountResouceFacade);
 
         V2CDBEntryDaoFactory v2EntryDaoFactory = new V2CDBEntryDaoFactory(couchDbConnectorFactoryV2);
-        Entry2Facade entry2Facade = new V2CDBEntryFacade(v2EntryDaoFactory);
-        V2EntryResourceFacade v2EntryResourceFacade = new V2EntryResourceFacade(accountFacade,entry2Facade);
+        EntryFacade entryFacade = new V2CDBEntryFacade(v2EntryDaoFactory);
+        V2EntryResourceFacade v2EntryResourceFacade = new V2EntryResourceFacade(accountFacade, entryFacade);
         V2EntryResource v2EntryResource = new V2EntryResource(v2EntryResourceFacade);
 
         V2CDBStandingOrderDaoFactory v2StandingDaoFactory = new V2CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);

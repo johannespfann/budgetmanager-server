@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
-import de.pfann.budgetmanager.server.common.facade.Entry2Facade;
+import de.pfann.budgetmanager.server.common.facade.EntryFacade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.V2CDBEntryDao;
@@ -11,7 +11,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBKontoDatabaseId;
 
 import java.util.List;
 
-public class V2CDBEntryFacade implements Entry2Facade {
+public class V2CDBEntryFacade implements EntryFacade {
 
     private V2CDBEntryDaoFactory entryDaoFactory;
 
