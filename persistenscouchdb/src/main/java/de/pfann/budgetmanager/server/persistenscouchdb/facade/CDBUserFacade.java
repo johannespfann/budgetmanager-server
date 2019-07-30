@@ -10,11 +10,11 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBUserId;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class V2CDBUserFacade implements UserFacade {
+public class CDBUserFacade implements UserFacade {
 
     private CDBUserDao CDBUserDao;
 
-    public V2CDBUserFacade(CDBUserDaoFactory aCDBUserDaoFactory) {
+    public CDBUserFacade(CDBUserDaoFactory aCDBUserDaoFactory) {
         CDBUserDao = aCDBUserDaoFactory.createDao();
     }
 
@@ -36,7 +36,7 @@ public class V2CDBUserFacade implements UserFacade {
 
     @Override
     public void activateUser(User aUser) {
-        System.out.println("activateUser in V2CDBUserFacade");
+        System.out.println("activateUser in CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
         User user = CDBUserDao.get(userId.toString());
         user.activate();
@@ -45,7 +45,7 @@ public class V2CDBUserFacade implements UserFacade {
 
     @Override
     public void deactivateUser(User aUser) {
-        System.out.println("deactivateUser in V2CDBUserFacade");
+        System.out.println("deactivateUser in CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
         User user = CDBUserDao.get(userId.toString());
         user.deactivate();
@@ -54,7 +54,7 @@ public class V2CDBUserFacade implements UserFacade {
 
     @Override
     public void deleteUser(User aUser) {
-        System.out.println("deleteUser in V2CDBUserFacade");
+        System.out.println("deleteUser in CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
         User user = CDBUserDao.get(userId.toString());
 
@@ -79,7 +79,7 @@ public class V2CDBUserFacade implements UserFacade {
 
     @Override
     public void updateUser(User aUser) {
-        System.out.println("update User in V2CDBUserFacade");
+        System.out.println("update User in CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
         User newUser = CDBUserDao.get(userId.toString());
 
@@ -102,7 +102,7 @@ public class V2CDBUserFacade implements UserFacade {
 
     @Override
     public User getUserByNameOrEmail(String aIdentifier) {
-        System.out.println("getNameByNameOrEmail in V2CDBUserFacade");
+        System.out.println("getNameByNameOrEmail in CDBUserFacade");
         User user = getUserByEmail(aIdentifier);
 
         if(user == null) {

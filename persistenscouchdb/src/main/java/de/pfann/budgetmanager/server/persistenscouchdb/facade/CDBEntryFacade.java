@@ -11,11 +11,11 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBKontoDatabaseId;
 
 import java.util.List;
 
-public class V2CDBEntryFacade implements EntryFacade {
+public class CDBEntryFacade implements EntryFacade {
 
     private CDBEntryDaoFactory entryDaoFactory;
 
-    public V2CDBEntryFacade(CDBEntryDaoFactory aEntryDaoFactory) {
+    public CDBEntryFacade(CDBEntryDaoFactory aEntryDaoFactory) {
         entryDaoFactory = aEntryDaoFactory;
     }
 

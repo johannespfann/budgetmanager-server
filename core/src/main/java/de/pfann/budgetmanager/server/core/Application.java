@@ -133,7 +133,7 @@ public class Application {
         CDBUserDao CDBUserDao = CDBUserDaoFactoryV2.createDao();
 
         ActivationPool activationPool = new ActivationPool();
-        UserFacade userFacadeV2 = new V2CDBUserFacade(CDBUserDaoFactoryV2);
+        UserFacade userFacadeV2 = new CDBUserFacade(CDBUserDaoFactoryV2);
         UserResourceFacade userResourceFacade = new UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
         UserResource userResource = new UserResource(userResourceFacade);
 
@@ -142,12 +142,12 @@ public class Application {
         AccountResource accountResource = new AccountResource(accountResouceFacade);
 
         CDBEntryDaoFactory v2EntryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactoryV2);
-        EntryFacade entryFacade = new V2CDBEntryFacade(v2EntryDaoFactory);
+        EntryFacade entryFacade = new CDBEntryFacade(v2EntryDaoFactory);
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(accountFacade, entryFacade);
         EntryResource entryResource = new EntryResource(entryResourceFacade);
 
         CDBStandingOrderDaoFactory v2StandingDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);
-        StandingOrderFacade standingOrderFacade = new V2CDBStandingOrderFacade(v2StandingDaoFactory);
+        StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(v2StandingDaoFactory);
         StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(accountFacade, standingOrderFacade);
         StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);
 

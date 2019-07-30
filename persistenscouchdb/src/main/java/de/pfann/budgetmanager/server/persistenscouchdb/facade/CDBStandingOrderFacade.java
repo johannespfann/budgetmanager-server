@@ -11,11 +11,11 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBStandingOrderId;
 
 import java.util.List;
 
-public class V2CDBStandingOrderFacade implements StandingOrderFacade {
+public class CDBStandingOrderFacade implements StandingOrderFacade {
 
     private CDBStandingOrderDaoFactory standingOrderFactory;
 
-    public V2CDBStandingOrderFacade(final CDBStandingOrderDaoFactory aFactory) {
+    public CDBStandingOrderFacade(final CDBStandingOrderDaoFactory aFactory) {
         standingOrderFactory = aFactory;
     }
 
