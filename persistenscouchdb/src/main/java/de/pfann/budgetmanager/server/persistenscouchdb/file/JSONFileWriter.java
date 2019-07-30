@@ -1,20 +1,5 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
-import de.pfann.budgetmanager.server.common.facade.EntryFacade;
-import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.StandingOrder;
-import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBStatisticFacade;
-import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBTagStatistic;
-import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
-
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-
 public class JSONFileWriter {
 
     /*
