@@ -4,8 +4,6 @@ import de.pfann.budgetmanager.server.common.configuration.ConfigurationProvider;
 import de.pfann.budgetmanager.server.common.email.EmailService;
 import de.pfann.budgetmanager.server.common.facade.*;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
-import de.pfann.budgetmanager.server.jobengine.core.*;
-import de.pfann.budgetmanager.server.jobengine.rotationjobs.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.facade.*;
@@ -108,19 +106,7 @@ public class Application {
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
 
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
-        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance,couchdbprefix,objectMapperFactory);
 
-        CDBUserDaoFactory userDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
-        CDBKontoDatabaseCreator kontoDatabaseFacade = new CDBKontoDatabaseCreator(couchDbConnectorFactory,dbInstance);
-        CDBEntryDaoFactory entryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactory);
-        CDBStandingOrderDaoFactory standingOrderDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactory);
-        CDBRunDoaFactory runDaoFactory = new CDBRunDoaFactory(couchDbConnectorFactory);
-
-        AppUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);
-        EntryFacade entryFacade = new CDBEntryFacade(userDaoFactory,entryDaoFactory);
-
-        RunFacade runFacade = new CDBRunFacade(runDaoFactory);
-        TagStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
 
 
         /**
@@ -135,42 +121,11 @@ public class Application {
         CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbPrefixV2,objectMapperFactory);
         UserDaoFactory userDaoFactoryV2 = new UserDaoFactory(couchDbConnectorFactoryV2);
 
-
-
-
-        /**
-         * rotationpattern
-         */
-
-        RotationEntryPattern monthlyRotationEntry = new MonthlyRotationPattern();
-        RotationEntryPattern quarterRotationEntryPattern = new QuarterRotationEntryPattern();
-        RotationEntryPattern yearlyRotationEntryPattern = new YearlyRotationPattern();
-
-        List<RotationEntryPattern> patternList = new LinkedList<>();
-        patternList.add(monthlyRotationEntry);
-        patternList.add(quarterRotationEntryPattern);
-        patternList.add(yearlyRotationEntryPattern);
-
-        RotationEntryExecuter rotationEntryExecuter = new RotationEntryExecuter(patternList,null,entryFacade);
-
-        ActivationPool activationPool = new ActivationPool();
-
         /**
          * resources
          */
 
-        AuthenticationManager authenticationManager = new AuthenticationManager(userFacade);
-        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,emailService,authenticationManager, activationPool);
-        UserResource userResource = new UserResource(userResourceFacade);
-
-
-
-        TagStatisticResourceFacade tagStatisticResourceFacade = new TagStatisticResourceFacade(statisticFacade,userFacade);
-        TagStatisticResource tagStatisticResource = new TagStatisticResource(tagStatisticResourceFacade);
-
-        EncryptionResourceFacade encryptionResourceFacade = new EncryptionResourceFacade(userFacade);
-        EncryptionResource encryptionResource = new EncryptionResource(encryptionResourceFacade);
-
+        AuthenticationManager authenticationManager = new AuthenticationManager();
         ContactResourceFacade contactResourceFacade = new ContactResourceFacade(emailService);
         ContactResource contactResource = new ContactResource(contactResourceFacade);
 
@@ -179,6 +134,7 @@ public class Application {
          */
         UserDao userDao = userDaoFactoryV2.createDao();
 
+        ActivationPool activationPool = new ActivationPool();
         UserFacade userFacadeV2 = new V2CDBUserFacade(userDaoFactoryV2);
         V2UserResourceFacade v2UserResourceFacade = new V2UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
         V2UserResource v2userResource = new V2UserResource(v2UserResourceFacade);
@@ -209,9 +165,6 @@ public class Application {
                 .register(CrossOriginFilterImpl.class)
                 .register(ContactValidatRequestFilter.class)
                 .register(requestBasicAuthenticationFilter)
-                .register(userResource)
-                .register(tagStatisticResource)
-                .register(encryptionResource)
                 .register(contactResource)
                 .register(EmailDublicatedExceptionMapper.class)
 
@@ -223,26 +176,6 @@ public class Application {
                 .register(v2EntryResource)
                 .register(v2userResource);
 
-        Job rotationEntryJob = new RotationEntryJob(
-                patternList,
-                userFacade,
-                entryFacade,
-                null);
-
-        TimeInterval timeIntervalOfRuns = new HourInterval(12);
-        RunProvider provider = new RunProviderImpl(timeIntervalOfRuns);
-
-        List<JobRunner> jobRunners = new LinkedList<>();
-        JobRunner jobRunner = new JobRunner(rotationEntryJob);
-        jobRunners.add(jobRunner);
-
-        JobEngine jobEngine = new JobEngine(runFacade,provider, jobRunners);
-
-        ExecutionTime startTime = new SecStartTime(10);
-        TimeInterval timeIntervalOfScheduler = new HourInterval(2);
-
-        JobScheduler scheduler = new JobScheduler(startTime,timeIntervalOfScheduler,jobEngine);
-        //scheduler.start();
 
         System.out.println("Current time of server     : " + LocalDateTime.now());
         System.out.println("Current time of application: " + DateUtil.getCurrentTimeOfBERLIN());

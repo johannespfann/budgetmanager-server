@@ -29,22 +29,12 @@
 
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
-            <artifactId>dataprovider</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>restservices</artifactId>
         </dependency>
 
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>de.pfann.budgetmanager.server</groupId>
-            <artifactId>jobengine</artifactId>
         </dependency>
 
         <dependency>
@@ -70,6 +60,7 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>persistenscouchdb</artifactId>

@@ -14,10 +14,9 @@ import java.util.Date;
 public class AuthenticationManager {
 
     private String key = "key";
-    private AppUserFacade appUserFacader;
 
-    public AuthenticationManager(AppUserFacade aAppUserFacade){
-        appUserFacader = aAppUserFacade;
+    public AuthenticationManager( ){
+
     }
 
     public boolean isValidToken(String aIdentifier, String aToken) throws IOException {

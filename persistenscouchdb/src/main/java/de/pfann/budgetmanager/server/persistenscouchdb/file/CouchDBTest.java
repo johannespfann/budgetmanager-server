@@ -1,28 +1,5 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
-import de.pfann.budgetmanager.server.common.facade.EntryFacade;
-import de.pfann.budgetmanager.server.common.model.AppUser;
-import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.Tag;
-import de.pfann.budgetmanager.server.common.util.LoginUtil;
-import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBEntryFacade;
-import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBKontoDatabaseCreator;
-import de.pfann.budgetmanager.server.persistenscouchdb.facade.CDBUserFacade;
-import de.pfann.budgetmanager.server.persistenscouchdb.util.CouchDBUtil;
-import org.ektorp.CouchDbInstance;
-import org.ektorp.http.HttpClient;
-import org.ektorp.http.StdHttpClient;
-import org.ektorp.impl.ObjectMapperFactory;
-import org.ektorp.impl.StdCouchDbInstance;
-import org.ektorp.impl.StdObjectMapperFactory;
-
-import java.net.MalformedURLException;
-import java.util.Date;
-import java.util.List;
-
 public class CouchDBTest {
 
     private static final String DB_NAME_PREFIX = "test";
