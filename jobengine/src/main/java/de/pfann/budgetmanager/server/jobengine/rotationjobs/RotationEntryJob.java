@@ -2,7 +2,6 @@ package de.pfann.budgetmanager.server.jobengine.rotationjobs;
 
 import de.pfann.budgetmanager.server.common.facade.AppUserFacade;
 import de.pfann.budgetmanager.server.common.facade.EntryFacade;
-import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.Entry;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;

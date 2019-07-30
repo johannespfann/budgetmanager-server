@@ -65,7 +65,6 @@ public class StartLocalProd {
         LogUtil.info(StartLocalProd.class," ");
 
 
-
         RunSQLFacade runFacade = new RunSQLFacade();
 
         List<Run> runs = runFacade.getAllRuns();

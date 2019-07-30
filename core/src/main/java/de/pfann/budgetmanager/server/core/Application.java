@@ -118,7 +118,7 @@ public class Application {
 
         AppUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);
         EntryFacade entryFacade = new CDBEntryFacade(userDaoFactory,entryDaoFactory);
-        StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(standingOrderDaoFactory,userDaoFactory);
+
         RunFacade runFacade = new CDBRunFacade(runDaoFactory);
         TagStatisticFacade statisticFacade = new CDBStatisticFacade(userDaoFactory);
 
@@ -151,7 +151,7 @@ public class Application {
         patternList.add(quarterRotationEntryPattern);
         patternList.add(yearlyRotationEntryPattern);
 
-        RotationEntryExecuter rotationEntryExecuter = new RotationEntryExecuter(patternList,standingOrderFacade,entryFacade);
+        RotationEntryExecuter rotationEntryExecuter = new RotationEntryExecuter(patternList,null,entryFacade);
 
         ActivationPool activationPool = new ActivationPool();
 
@@ -166,7 +166,7 @@ public class Application {
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(userFacade,entryFacade);
         EntryResource entryResource = new EntryResource(entryResourceFacade);
 
-        StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(userFacade,standingOrderFacade, rotationEntryExecuter);
+        StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(userFacade,null, rotationEntryExecuter);
         StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);
 
         TagStatisticResourceFacade tagStatisticResourceFacade = new TagStatisticResourceFacade(statisticFacade,userFacade);
@@ -233,7 +233,7 @@ public class Application {
                 patternList,
                 userFacade,
                 entryFacade,
-                standingOrderFacade);
+                null);
 
         TimeInterval timeIntervalOfRuns = new HourInterval(12);
         RunProvider provider = new RunProviderImpl(timeIntervalOfRuns);

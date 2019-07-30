@@ -60,10 +60,7 @@ public class StartDev
 
         AppUserFacade userFacade = new CDBUserFacade(userDaoFactory, kontoDatabaseFacade);
         EntryFacade entryFacade = new CDBEntryFacade(userDaoFactory,entryDaoFactory);
-        StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(standingOrderDaoFactory,userDaoFactory);
 
-        XMLTestDataManager testDataManager = new XMLTestDataManager(standingOrderFacade,entryFacade,userFacade);
-        testDataManager.persistTestData("C:\\Users\\jopf8\\projects\\budgetmanager-server\\dataprovider\\src\\main\\resources");
 
         Run run = new Run(LocalDateTime.of(2018,06,01,3,0,0));
         RunFacade runFacade = new CDBRunFacade(runDaoFactory);

@@ -44,7 +44,6 @@ public class EntryResourceFacade {
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
             aEntry.setAppUser(user);
-
             entryFacade.update(aEntry);
         }catch (Exception e){
             e.printStackTrace();
@@ -55,7 +54,6 @@ public class EntryResourceFacade {
     public void deleteEntry(String aOwner, String aHash){
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-            // TODO compare owner and entry-user
             Entry entry = entryFacade.getEntry(user, aHash);
             entryFacade.deleteEntry(user, entry);
         }catch (Exception e){

@@ -1,6 +1,5 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
-import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.common.model.StandingOrder;
 import de.pfann.budgetmanager.server.common.model.Tag;

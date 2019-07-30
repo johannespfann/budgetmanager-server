@@ -1,7 +1,6 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
 import de.pfann.budgetmanager.server.common.facade.EntryFacade;
-import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;

@@ -35,10 +35,8 @@ public class EncryptionResourceFacade {
     public void setEncryptionText(String aOwner, String aBody){
         try{
             AppUser user = userFacade.getUserByNameOrEmail(aOwner);
-
             user.setEncryptionText(aBody);
             user.setEncrypted(true);
-
             userFacade.updateUser(user);
         }catch (Exception e){
             e.printStackTrace();
