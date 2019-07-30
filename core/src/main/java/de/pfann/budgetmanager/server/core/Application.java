@@ -163,11 +163,7 @@ public class Application {
         UserResourceFacade userResourceFacade = new UserResourceFacade(userFacade,emailService,authenticationManager, activationPool);
         UserResource userResource = new UserResource(userResourceFacade);
 
-        EntryResourceFacade entryResourceFacade = new EntryResourceFacade(userFacade,entryFacade);
-        EntryResource entryResource = new EntryResource(entryResourceFacade);
 
-        StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(userFacade,null, rotationEntryExecuter);
-        StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);
 
         TagStatisticResourceFacade tagStatisticResourceFacade = new TagStatisticResourceFacade(statisticFacade,userFacade);
         TagStatisticResource tagStatisticResource = new TagStatisticResource(tagStatisticResourceFacade);
@@ -214,8 +210,6 @@ public class Application {
                 .register(ContactValidatRequestFilter.class)
                 .register(requestBasicAuthenticationFilter)
                 .register(userResource)
-                .register(entryResource)
-                .register(standingOrderResource)
                 .register(tagStatisticResource)
                 .register(encryptionResource)
                 .register(contactResource)

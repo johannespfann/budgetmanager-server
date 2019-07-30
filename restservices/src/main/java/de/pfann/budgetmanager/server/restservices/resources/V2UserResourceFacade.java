@@ -33,10 +33,7 @@ public class V2UserResourceFacade {
 
     public void logout(String aUser, String aToken){
         try{
-
             User user = userFacade.getUserByNameOrEmail(aUser);
-            //AccessPool.getInstance().unregister(user, aToken);
-
         }catch (Exception exception){
             exception.printStackTrace();
             throw exception;

@@ -28,8 +28,6 @@ public class V2EntryResource {
     public String getEntries(
             @PathParam("owner") String aOwner,
             @PathParam("account") String aAccountHash) {
-        System.out.println("Owner: " + aOwner);
-        System.out.println("AccountHash: " + aAccountHash);
         List<Entry> entries = entryResourceFacade.getEntries(aOwner, aAccountHash);
         String json = V2EntryJsonMapper.convertToJson(entries);
         return json;

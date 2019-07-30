@@ -61,11 +61,9 @@ public class V2StandingOrderResourceFacade {
     public void addRotationEntries(String aOwner, String aAccountHash, List<StandingOrder> aEntries) {
         try {
             Account account = accountFacade.getAccount(aOwner,aAccountHash);
-
             for(StandingOrder entry : aEntries) {
                 standingOrderFacade.persist(account,entry);
             }
-
         } catch (Exception e){
         e.printStackTrace();
         throw e;
