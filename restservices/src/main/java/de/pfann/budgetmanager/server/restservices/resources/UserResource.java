@@ -10,7 +10,7 @@ import de.pfann.budgetmanager.server.restservices.resources.util.UserJsonMapper;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("v2/user/")
+@Path("user/")
 public class UserResource {
 
     private UserResourceFacade userResourceFacade;
