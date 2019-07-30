@@ -11,11 +11,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("v2/user/")
-public class V2UserResource {
+public class UserResource {
 
-    private V2UserResourceFacade userResourceFacade;
+    private UserResourceFacade userResourceFacade;
 
-    public V2UserResource(V2UserResourceFacade aUserResourceFacade){
+    public UserResource(UserResourceFacade aUserResourceFacade){
         userResourceFacade = aUserResourceFacade;
     }
 

@@ -16,7 +16,7 @@ import de.pfann.server.logging.core.LogUtil;
 import java.util.LinkedList;
 import java.util.List;
 
-public class V2UserResourceFacade {
+public class UserResourceFacade {
 
     private UserFacade userFacade;
     private EmailService emailService;
@@ -24,7 +24,7 @@ public class V2UserResourceFacade {
     private ActivationPool activationPool;
 
 
-    public V2UserResourceFacade(UserFacade aUserFacade, EmailService aEmailService, AuthenticationManager aAuthManager, ActivationPool aActivationPool){
+    public UserResourceFacade(UserFacade aUserFacade, EmailService aEmailService, AuthenticationManager aAuthManager, ActivationPool aActivationPool){
         userFacade = aUserFacade;
         emailService = aEmailService;
         authenticationManager = aAuthManager;

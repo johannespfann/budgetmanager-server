@@ -8,12 +8,12 @@ import de.pfann.budgetmanager.server.model.StandingOrder;
 
 import java.util.List;
 
-public class V2StandingOrderResourceFacade {
+public class StandingOrderResourceFacade {
 
     private StandingOrderFacade standingOrderFacade;
     private AccountFacade accountFacade;
 
-    public V2StandingOrderResourceFacade(AccountFacade aAccountFacade, StandingOrderFacade aStandingOrderFacade) {
+    public StandingOrderResourceFacade(AccountFacade aAccountFacade, StandingOrderFacade aStandingOrderFacade) {
         standingOrderFacade = aStandingOrderFacade;
         accountFacade = aAccountFacade;
     }

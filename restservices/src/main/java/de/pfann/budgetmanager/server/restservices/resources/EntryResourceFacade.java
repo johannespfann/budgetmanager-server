@@ -7,12 +7,12 @@ import de.pfann.budgetmanager.server.model.Entry;
 
 import java.util.List;
 
-public class V2EntryResourceFacade {
+public class EntryResourceFacade {
 
     private AccountFacade accountFacade;
     private EntryFacade entryFacade;
 
-    public V2EntryResourceFacade(AccountFacade aAccountFacade, EntryFacade aEntryFacade){
+    public EntryResourceFacade(AccountFacade aAccountFacade, EntryFacade aEntryFacade){
         accountFacade = aAccountFacade;
         entryFacade = aEntryFacade;
     }

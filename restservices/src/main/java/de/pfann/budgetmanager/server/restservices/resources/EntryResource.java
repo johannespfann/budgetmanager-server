@@ -11,12 +11,12 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("entries/")
-public class V2EntryResource {
+public class EntryResource {
 
 
-    private V2EntryResourceFacade entryResourceFacade;
+    private EntryResourceFacade entryResourceFacade;
 
-    public V2EntryResource(V2EntryResourceFacade aEntryResourceFacade) {
+    public EntryResource(EntryResourceFacade aEntryResourceFacade) {
         entryResourceFacade = aEntryResourceFacade;
     }
 

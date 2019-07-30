@@ -134,8 +134,8 @@ public class Application {
 
         ActivationPool activationPool = new ActivationPool();
         UserFacade userFacadeV2 = new V2CDBUserFacade(userDaoFactoryV2);
-        V2UserResourceFacade v2UserResourceFacade = new V2UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
-        V2UserResource v2userResource = new V2UserResource(v2UserResourceFacade);
+        UserResourceFacade userResourceFacade = new UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
+        UserResource userResource = new UserResource(userResourceFacade);
 
         AccountFacade accountFacade = new CDBAccountFacade(userDao);
         AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade,userFacadeV2);
@@ -143,13 +143,13 @@ public class Application {
 
         V2CDBEntryDaoFactory v2EntryDaoFactory = new V2CDBEntryDaoFactory(couchDbConnectorFactoryV2);
         EntryFacade entryFacade = new V2CDBEntryFacade(v2EntryDaoFactory);
-        V2EntryResourceFacade v2EntryResourceFacade = new V2EntryResourceFacade(accountFacade, entryFacade);
-        V2EntryResource v2EntryResource = new V2EntryResource(v2EntryResourceFacade);
+        EntryResourceFacade entryResourceFacade = new EntryResourceFacade(accountFacade, entryFacade);
+        EntryResource entryResource = new EntryResource(entryResourceFacade);
 
         V2CDBStandingOrderDaoFactory v2StandingDaoFactory = new V2CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);
         StandingOrderFacade standingOrderFacade = new V2CDBStandingOrderFacade(v2StandingDaoFactory);
-        V2StandingOrderResourceFacade v2StandingOrderResourceFacade = new V2StandingOrderResourceFacade(accountFacade, standingOrderFacade);
-        V2StandingOrderResource v2StandingOrderResource = new V2StandingOrderResource(v2StandingOrderResourceFacade);
+        StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(accountFacade, standingOrderFacade);
+        StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);
 
         /**
          * authantication
@@ -170,9 +170,9 @@ public class Application {
                  * new resources -> v2
                  */
                 .register(accountResource)
-                .register(v2StandingOrderResource)
-                .register(v2EntryResource)
-                .register(v2userResource);
+                .register(standingOrderResource)
+                .register(entryResource)
+                .register(userResource);
 
 
         System.out.println("Current time of server     : " + LocalDateTime.now());

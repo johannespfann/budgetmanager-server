@@ -11,11 +11,11 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("jobs/")
-public class V2StandingOrderResource {
+public class StandingOrderResource {
 
-    private V2StandingOrderResourceFacade facade;
+    private StandingOrderResourceFacade facade;
 
-    public V2StandingOrderResource(V2StandingOrderResourceFacade aFacade) {
+    public StandingOrderResource(StandingOrderResourceFacade aFacade) {
         facade = aFacade;
     }
 
