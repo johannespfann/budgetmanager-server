@@ -4,7 +4,7 @@ import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.restservices.resources.core.CrossOriginFilter;
 import de.pfann.budgetmanager.server.restservices.resources.core.Logged;
 import de.pfann.budgetmanager.server.restservices.resources.core.Secured;
-import de.pfann.budgetmanager.server.restservices.resources.util.V2EntryJsonMapper;
+import de.pfann.budgetmanager.server.restservices.resources.util.EntryJsonMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -29,7 +29,7 @@ public class EntryResource {
             @PathParam("owner") String aOwner,
             @PathParam("account") String aAccountHash) {
         List<Entry> entries = entryResourceFacade.getEntries(aOwner, aAccountHash);
-        String json = V2EntryJsonMapper.convertToJson(entries);
+        String json = EntryJsonMapper.convertToJson(entries);
         return json;
     }
 
@@ -47,7 +47,7 @@ public class EntryResource {
         System.out.println("Owner: " + aOwner);
         System.out.println("AccountHash: " + aAccountHash);
         System.out.println("Body: " + aBody);
-        List<Entry> entries = V2EntryJsonMapper.convertToEntries(aBody);
+        List<Entry> entries = EntryJsonMapper.convertToEntries(aBody);
         entryResourceFacade.addEntries(aOwner, aAccountHash, entries);
     }
 
@@ -65,7 +65,7 @@ public class EntryResource {
         System.out.println("Owner: " + aOwner);
         System.out.println("AccountHash: " + aAccountHash);
         System.out.println("Body: " + aBody);
-        Entry entry = V2EntryJsonMapper.convertToEntry(aBody);
+        Entry entry = EntryJsonMapper.convertToEntry(aBody);
         entryResourceFacade.addEntry(aOwner, aAccountHash, entry);
     }
 
@@ -79,7 +79,7 @@ public class EntryResource {
             @PathParam("owner") String aOwner,
             @PathParam("account") String aAccountHash,
             String aEntry) {
-        Entry entry = V2EntryJsonMapper.convertToEntry(aEntry);
+        Entry entry = EntryJsonMapper.convertToEntry(aEntry);
         entryResourceFacade.updateEntry(aOwner, aAccountHash, entry);
     }
 

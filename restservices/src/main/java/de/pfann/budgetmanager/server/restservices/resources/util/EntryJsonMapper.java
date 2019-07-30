@@ -3,8 +3,7 @@ package de.pfann.budgetmanager.server.restservices.resources.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.pfann.budgetmanager.server.common.model.Entry;
-import de.pfann.budgetmanager.server.common.model.TagStatistic;
+import de.pfann.budgetmanager.server.model.Entry;
 
 import java.io.IOException;
 import java.util.LinkedList;
