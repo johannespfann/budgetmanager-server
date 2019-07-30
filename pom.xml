@@ -12,7 +12,7 @@
   <modules>
     <module>core</module>
     <module>restservices</module>
-    <module>persistens</module>
+
     <module>common</module>
     <module>deployment</module>
     <module>persistenscouchdb</module>
