@@ -147,8 +147,8 @@ public class Application {
         V2EntryResource v2EntryResource = new V2EntryResource(v2EntryResourceFacade);
 
         V2CDBStandingOrderDaoFactory v2StandingDaoFactory = new V2CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);
-        StandingOrder2Facade standingOrder2Facade = new V2CDBStandingOrderFacade(v2StandingDaoFactory);
-        V2StandingOrderResourceFacade v2StandingOrderResourceFacade = new V2StandingOrderResourceFacade(accountFacade,standingOrder2Facade);
+        StandingOrderFacade standingOrderFacade = new V2CDBStandingOrderFacade(v2StandingDaoFactory);
+        V2StandingOrderResourceFacade v2StandingOrderResourceFacade = new V2StandingOrderResourceFacade(accountFacade, standingOrderFacade);
         V2StandingOrderResource v2StandingOrderResource = new V2StandingOrderResource(v2StandingOrderResourceFacade);
 
         /**

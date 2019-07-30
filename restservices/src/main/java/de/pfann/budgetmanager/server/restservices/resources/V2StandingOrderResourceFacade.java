@@ -1,7 +1,7 @@
 package de.pfann.budgetmanager.server.restservices.resources;
 
 import de.pfann.budgetmanager.server.common.facade.AccountFacade;
-import de.pfann.budgetmanager.server.common.facade.StandingOrder2Facade;
+import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.StandingOrder;
 
@@ -10,10 +10,10 @@ import java.util.List;
 
 public class V2StandingOrderResourceFacade {
 
-    private StandingOrder2Facade standingOrderFacade;
+    private StandingOrderFacade standingOrderFacade;
     private AccountFacade accountFacade;
 
-    public V2StandingOrderResourceFacade(AccountFacade aAccountFacade, StandingOrder2Facade aStandingOrderFacade) {
+    public V2StandingOrderResourceFacade(AccountFacade aAccountFacade, StandingOrderFacade aStandingOrderFacade) {
         standingOrderFacade = aStandingOrderFacade;
         accountFacade = aAccountFacade;
     }

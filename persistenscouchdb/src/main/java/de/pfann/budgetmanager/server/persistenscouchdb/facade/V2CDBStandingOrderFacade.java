@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
-import de.pfann.budgetmanager.server.common.facade.StandingOrder2Facade;
+import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.StandingOrder;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.V2CDBStandingOrderDao;
@@ -11,7 +11,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBStandingOrderId;
 
 import java.util.List;
 
-public class V2CDBStandingOrderFacade implements StandingOrder2Facade {
+public class V2CDBStandingOrderFacade implements StandingOrderFacade {
 
     private V2CDBStandingOrderDaoFactory standingOrderFactory;
 

@@ -5,7 +5,7 @@ import de.pfann.budgetmanager.server.model.StandingOrder;
 
 import java.util.List;
 
-public interface StandingOrder2Facade {
+public interface StandingOrderFacade {
 
     void persist(Account aAccount, StandingOrder aStandingOrder);
 
