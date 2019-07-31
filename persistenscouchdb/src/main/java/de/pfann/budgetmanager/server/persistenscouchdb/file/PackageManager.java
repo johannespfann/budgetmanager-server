@@ -15,6 +15,14 @@ public class PackageManager {
         entryPackages = new LinkedList<>();
     }
 
+
+    public void add(List<Entry> entries) {
+        for(Entry entry : entries){
+            add(entry);
+        }
+    }
+
+
     public void add(Entry aEntry){
         LocalDateTime localDateTime = DateUtil.asLocalDateTime(aEntry.getCreated_at());
 
