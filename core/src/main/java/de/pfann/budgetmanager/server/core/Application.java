@@ -105,8 +105,6 @@ public class Application {
 
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
 
-
-
         /**
          * couchdbfacade v2
          */
@@ -130,6 +128,7 @@ public class Application {
         /**
          * resources v2
          */
+
         CDBUserDao CDBUserDao = CDBUserDaoFactoryV2.createDao();
 
         ActivationPool activationPool = new ActivationPool();

@@ -34,15 +34,12 @@ public class CDBAccountFacade implements AccountFacade {
 
     @Override
     public Account getAccount(String aUsername, String aAccountHash) {
-        List<Account> kontos = new LinkedList<>();
         User user = findUser(aUsername);
-
         for(Account account : user.getKontos()) {
             if(account.getHash().equals(aAccountHash)){
                 return account;
             }
         }
-
         throw new NoAccountFoundException();
     }
 
