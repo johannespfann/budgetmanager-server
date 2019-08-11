@@ -1,6 +1,6 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
-import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.model.Entry;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;

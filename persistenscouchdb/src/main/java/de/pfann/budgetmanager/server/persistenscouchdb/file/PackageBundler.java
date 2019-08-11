@@ -1,20 +1,19 @@
 package de.pfann.budgetmanager.server.persistenscouchdb.file;
 
-import de.pfann.budgetmanager.server.common.model.Entry;
+import de.pfann.budgetmanager.server.model.Entry;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PackageManager {
+public class PackageBundler {
 
     private List<EntryPackage> entryPackages;
 
-    public PackageManager(){
+    public PackageBundler(){
         entryPackages = new LinkedList<>();
     }
-
 
     public void add(List<Entry> entries) {
         for(Entry entry : entries){
@@ -22,9 +21,8 @@ public class PackageManager {
         }
     }
 
-
     public void add(Entry aEntry){
-        LocalDateTime localDateTime = DateUtil.asLocalDateTime(aEntry.getCreated_at());
+        LocalDateTime localDateTime = DateUtil.asLocalDateTime(aEntry.getCreatedAt());
 
         EntryPackage entryPackage;
 
