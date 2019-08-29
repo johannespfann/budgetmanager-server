@@ -1,6 +1,5 @@
 package de.pfann.server.logging.core;
 
-import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.server.logging.formatter.RunLogFormatter;
 
 import java.io.File;
