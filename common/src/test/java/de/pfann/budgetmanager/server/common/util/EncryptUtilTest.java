@@ -1,13 +1,7 @@
 package de.pfann.budgetmanager.server.common.util;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.security.Key;
-import java.util.Date;
 
 public class EncryptUtilTest {
 
@@ -22,8 +16,7 @@ public class EncryptUtilTest {
         // execute
         String value = EncryptUtil.encrypt( text.trim(),key);
         String result = EncryptUtil.decrypt(value,key);
-        System.out.println("value " + value);
-        System.out.println("result: " + result);
+
 
         // validate
         Assert.assertEquals(text,result);
