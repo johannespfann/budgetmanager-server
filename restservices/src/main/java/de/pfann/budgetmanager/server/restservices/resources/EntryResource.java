@@ -43,10 +43,6 @@ public class EntryResource {
             @PathParam("owner") String aOwner,
             @PathParam("account") String aAccountHash,
             String aBody) {
-
-        System.out.println("Owner: " + aOwner);
-        System.out.println("AccountHash: " + aAccountHash);
-        System.out.println("Body: " + aBody);
         List<Entry> entries = EntryJsonMapper.convertToEntries(aBody);
         entryResourceFacade.addEntries(aOwner, aAccountHash, entries);
     }
@@ -61,10 +57,6 @@ public class EntryResource {
             @PathParam("owner") String aOwner,
             @PathParam("account") String aAccountHash,
             String aBody) {
-
-        System.out.println("Owner: " + aOwner);
-        System.out.println("AccountHash: " + aAccountHash);
-        System.out.println("Body: " + aBody);
         Entry entry = EntryJsonMapper.convertToEntry(aBody);
         entryResourceFacade.addEntry(aOwner, aAccountHash, entry);
     }
