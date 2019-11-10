@@ -22,18 +22,12 @@ public class CDBEntryFacade implements EntryFacade {
     @Override
     public void save(Account aAccount, Entry aEntry) {
         CDBEntryDao entryDao = getEntryDao(aAccount);
-
-        System.out.println("account: " + aAccount);
-        System.out.println("entry: " + aEntry);
-
         CDBEntryId entryId = CDBEntryId.createBuilder()
                 .withHash(aEntry.getHash())
                 .withUsername(aAccount.getOwner())
                 .build();
 
         aEntry.setId(entryId.toString());
-
-        System.out.println(aEntry.getId());
         entryDao.add(aEntry);
     }
 
@@ -46,7 +40,6 @@ public class CDBEntryFacade implements EntryFacade {
 
     @Override
     public void update(Account aAccount, Entry aEntry) {
-        System.out.println("update entry: " + aEntry.toString());
         CDBEntryDao entryDao = getEntryDao(aAccount);
 
         Entry entry = getEntry(aAccount,aEntry.getHash());
@@ -63,10 +56,8 @@ public class CDBEntryFacade implements EntryFacade {
 
     @Override
     public List<Entry> getEntries(Account aAccount) {
-        System.out.println("get entries from account " + aAccount.toString());
         CDBEntryDao entryDao = getEntryDao(aAccount);
         List<Entry> entries =  entryDao.getAll();
-        System.out.println("Found entries: " + entries.size());
         return entries;
     }
 
