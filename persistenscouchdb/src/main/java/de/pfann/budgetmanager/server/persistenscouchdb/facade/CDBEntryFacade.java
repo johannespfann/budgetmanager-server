@@ -58,6 +58,7 @@ public class CDBEntryFacade implements EntryFacade {
     public List<Entry> getEntries(Account aAccount) {
         CDBEntryDao entryDao = getEntryDao(aAccount);
         List<Entry> entries =  entryDao.getAll();
+        System.out.println("All entries: " + entries.size());
         return entries;
     }
 

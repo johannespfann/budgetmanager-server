@@ -33,6 +33,19 @@ public class EntryResource {
         return json;
     }
 
+    @GET
+    @Logged
+    @CrossOriginFilter
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("owner/{owner}/account/{account}/lasthalfyear")
+    public String getLastYearEntries(
+            @PathParam("owner") String aOwner,
+            @PathParam("account") String aAccountHash) {
+        List<Entry> entries = entryResourceFacade.getLastSixMonthEntries(aOwner, aAccountHash);
+        String json = EntryJsonMapper.convertToJson(entries);
+        return json;
+    }
+
     @POST
     @Logged
     @Secured
