@@ -17,7 +17,6 @@ public class CDBAccountFacade implements AccountFacade {
         CDBUserDao = aCDBUserDao;
     }
 
-
     @Override
     public List<Account> getKontos(String aIdentifier) {
         List<Account> kontos = new LinkedList<>();
@@ -43,6 +42,7 @@ public class CDBAccountFacade implements AccountFacade {
         throw new NoAccountFoundException();
     }
 
+    // TODO add user should get valid object
     @Override
     public void addAccount(String aOwner, Account aAccount) {
         User user = findUser(aOwner);
@@ -50,6 +50,8 @@ public class CDBAccountFacade implements AccountFacade {
         CDBUserDao.update(user);
     }
 
+
+    // TODO delete user should get valid object
     @Override
     public void deleteAccount(String aOwner, String aAccountHash) {
         User user = findUser(aOwner);
@@ -69,7 +71,6 @@ public class CDBAccountFacade implements AccountFacade {
         throw new RuntimeException("Cannot delete Account");
     }
 
-
     private boolean accountExists(List<Account> aAccounts, String aAccountHash) {
         for(Account account : aAccounts) {
             if(account.getHash().equals(aAccountHash)){
@@ -87,8 +88,6 @@ public class CDBAccountFacade implements AccountFacade {
         }
         throw new RuntimeException("Dont found account with hash:" + aAccountHash);
     }
-
-
 
     private User findUser(String aUserName) {
         CDBUserId userId = CDBUserId.create(aUserName);

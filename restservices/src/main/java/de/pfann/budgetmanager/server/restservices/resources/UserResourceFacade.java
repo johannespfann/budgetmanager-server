@@ -42,12 +42,7 @@ public class UserResourceFacade {
 
     public String login(String aIdentifier, String aAuthorizationValue) throws JsonProcessingException {
         try{
-            LogUtil.info(this.getClass(),"Authorization: " + aAuthorizationValue);
             User user = userFacade.getUserByNameOrEmail(aIdentifier);
-            LogUtil.info(this.getClass(),"Found user: " + user.getName());
-
-            LogUtil.info(this.getClass(),"user    : " + LoginUtil.extractUser(aAuthorizationValue));
-            LogUtil.info(this.getClass(),"password: " + LoginUtil.extractPassword(aAuthorizationValue));
 
             String username = LoginUtil.extractUser(aAuthorizationValue);
             String password = LoginUtil.extractPassword(aAuthorizationValue);
@@ -101,7 +96,6 @@ public class UserResourceFacade {
     }
 
     public String register(String aUsername, String aEmail, String Password) {
-        System.out.println("register");
         String validUsername = aUsername.trim().toLowerCase();
 
         List<String> emails = new LinkedList<>();
@@ -135,7 +129,6 @@ public class UserResourceFacade {
     }
 
     public void resendEmail(String aUsername, String aEmail){
-        System.out.println("resend email");
 
         try {
             String activationCode = LoginUtil.generateActivationCode();
@@ -151,7 +144,6 @@ public class UserResourceFacade {
     }
 
     public void activeUser(String aUsername, String aActivationCode){
-        System.out.println("activateUser");
         try{
             if(!activationPool.codeExists(aActivationCode)) {
                 throw new IllegalArgumentException("Code does not exists!");
@@ -160,7 +152,6 @@ public class UserResourceFacade {
 
             if(aUsername.equals(ticket.getUsername())) {
                 User user = userFacade.getUserByNameOrEmail(aUsername);
-                System.out.println("got user by name");
                 List<String> emails = new LinkedList<>();
                 emails.add(ticket.getEmail());
 
@@ -180,12 +171,10 @@ public class UserResourceFacade {
         return user;
     }
 
-
     private void validateEmail(String aEmail) {
         if(userFacade.isEmailAlreadyExists(aEmail)) {
             throw new EmailDuplicatedException("Email " + aEmail + " already exists!");
         }
     }
-
 
 }

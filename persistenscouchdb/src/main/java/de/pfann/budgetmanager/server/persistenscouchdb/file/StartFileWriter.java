@@ -49,8 +49,8 @@ public class StartFileWriter {
         System.out.println(host);
         System.out.println(username);
         System.out.println(password);
-
         System.out.println(fileOutputDirectory);
+
         httpClientBuilder.url(url)
                 .username(username)
                 .password(password);
@@ -76,7 +76,7 @@ public class StartFileWriter {
         String basePath = fileOutputDirectory;
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        String baseDirectoryName = localDateTime.getDayOfMonth() + "_" + localDateTime.getMonth().getValue() + "_" + localDateTime.getYear() + "_output\\";
+        String baseDirectoryName = localDateTime.getDayOfMonth() + "_" + localDateTime.getMonth().getValue() + "_" + localDateTime.getYear() + "_output/";
 
         String outputDirectoryPath = basePath + baseDirectoryName;
         FileUtil.createDirectory(outputDirectoryPath);
@@ -97,7 +97,7 @@ public class StartFileWriter {
              * create directory of user
              */
 
-            String userDirectory = outputDirectoryPath  + user.getName() + "\\";
+            String userDirectory = outputDirectoryPath  + user.getName() + "/";
             FileUtil.createDirectory(userDirectory);
 
             /**
@@ -108,6 +108,9 @@ public class StartFileWriter {
             System.out.println("Create user-directory: " + userDirectory);
             FileUtil.createFile(userDirectory + "user.json", userInput);
 
+
+
+
             for (Account account : user.getKontos()) {
 
                 System.out.println("###" + account.getName());
@@ -116,7 +119,7 @@ public class StartFileWriter {
                  * create account directory
                  */
 
-                String accountDirectory = userDirectory + account.getName() + "\\";
+                String accountDirectory = userDirectory + account.getName() + "/";
                 FileUtil.createDirectory(accountDirectory);
 
                 /**
@@ -148,7 +151,7 @@ public class StartFileWriter {
                 for (EntryPackage singlePackage : entryPackages) {
                     String fileName = "entry-" + singlePackage.getLocalDateTime().getYear() + "-" + singlePackage.getLocalDateTime().getMonth().getValue() + ".json";
                     String entryJson = gson.toJson(singlePackage.getEntries());
-                    FileUtil.createFile(accountDirectory + "\\" + fileName, entryJson);
+                    FileUtil.createFile(accountDirectory + "/" + fileName, entryJson);
                 }
             }
         }

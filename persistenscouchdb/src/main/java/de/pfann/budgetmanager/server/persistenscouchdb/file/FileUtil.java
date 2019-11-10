@@ -12,7 +12,6 @@ public class FileUtil {
         directory.mkdirs();
     }
 
-
     public static void createFile(String aFileName, String aInput){
         File standingOrderFile = new File(aFileName);
         try {
@@ -25,7 +24,6 @@ public class FileUtil {
             e.printStackTrace();
         }
     }
-
 
     public static String readContent(File aFile){
         String content = "";
@@ -59,6 +57,4 @@ public class FileUtil {
         }
         return files;
     }
-
-
 }

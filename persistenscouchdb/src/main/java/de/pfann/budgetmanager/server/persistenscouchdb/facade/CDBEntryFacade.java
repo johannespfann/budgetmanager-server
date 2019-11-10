@@ -32,6 +32,8 @@ public class CDBEntryFacade implements EntryFacade {
                 .build();
 
         aEntry.setId(entryId.toString());
+
+        System.out.println(aEntry.getId());
         entryDao.add(aEntry);
     }
 

@@ -41,8 +41,6 @@ public class ContactResourceIT {
 
     @Before
     public void setUp(){
-        System.out.println("Setup before class");
-        // prepare emailservice
         emailService = mock(EmailService.class);
         doNothing().when(emailService).sendEmail(any(),any(),any());
         ContactResourceFacade contactResourceFacade = new ContactResourceFacade(emailService);

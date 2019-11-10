@@ -70,6 +70,7 @@ public class Application {
         /**
          * couchdb
          */
+
         String serveradress = getServerAdress(aProperties);
         String couchdbadress = getCouchDBAdress(aProperties);
         String couchdbPw = aProperties.getProperty(KEY_COUCHDB_PW);
@@ -106,15 +107,12 @@ public class Application {
         ObjectMapperFactory objectMapperFactory = new StdObjectMapperFactory();
 
         /**
-         * couchdbfacade v2
+         * couchdbfacade
          */
 
-        String couchdbPrefixV2 = "cashtrack";
         CouchDBUtil couchDBUtil = new CouchDBUtil(httpClient);
-        //couchDBUtil.deleteDatabases(couchdbPrefixV2);
 
-
-        CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbPrefixV2,objectMapperFactory);
+        CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbprefix,objectMapperFactory);
         CDBUserDaoFactory CDBUserDaoFactoryV2 = new CDBUserDaoFactory(couchDbConnectorFactoryV2);
 
         /**
@@ -126,7 +124,7 @@ public class Application {
         ContactResource contactResource = new ContactResource(contactResourceFacade);
 
         /**
-         * resources v2
+         * resources
          */
 
         CDBUserDao CDBUserDao = CDBUserDaoFactoryV2.createDao();
@@ -161,13 +159,9 @@ public class Application {
                 .register(ResponseLoggingFilter.class)
                 .register(CrossOriginFilterImpl.class)
                 .register(ContactValidatRequestFilter.class)
+                .register(EmailDublicatedExceptionMapper.class)
                 .register(requestBasicAuthenticationFilter)
                 .register(contactResource)
-                .register(EmailDublicatedExceptionMapper.class)
-
-                /**
-                 * new resources -> v2
-                 */
                 .register(accountResource)
                 .register(standingOrderResource)
                 .register(entryResource)

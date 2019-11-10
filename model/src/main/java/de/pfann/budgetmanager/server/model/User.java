@@ -122,4 +122,23 @@ public class User extends AbstractDocument {
     public void setForeignKontos(List<Account> foreignKontos) {
         this.foreignKontos = foreignKontos;
     }
+
+
+    /**
+     * helper
+     */
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", activated=" + activated +
+                ", emails=" + emails +
+                ", createdAt=" + createdAt +
+                ", statistic=" + statistic +
+                ", kontos=" + kontos +
+                ", foreignKontos=" + foreignKontos +
+                '}';
+    }
 }
