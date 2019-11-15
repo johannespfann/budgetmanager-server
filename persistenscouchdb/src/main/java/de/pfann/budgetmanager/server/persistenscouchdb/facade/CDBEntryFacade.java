@@ -8,6 +8,7 @@ import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBKonto;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBEntryId;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CDBKontoDatabaseId;
+import org.ektorp.support.CouchDbRepositorySupport;
 
 import java.util.List;
 
