@@ -16,32 +16,29 @@ public class User extends AbstractDocument {
 
     private Date createdAt;
 
-    private Statistic statistic;
-
     private List<Account> kontos;
 
     private List<Account> foreignKontos;
 
-
-    public User() {
+    private User(String aId, String aRev) {
+        id = aId;
+        rev = aRev;
         kontos = new LinkedList<>();
         foreignKontos = new LinkedList<>();
         emails = new LinkedList<>();
     }
 
-    public User(String aUsername, String aPassword, boolean aIsActivated, List<String> aEmails, Date aCreatedAt, Statistic aStatistics, List<Account> aKontos, List<Account> aForeignKonto) {
+    private User(String aId, String aRev, String aUsername, String aPassword, boolean aIsActivated, List<String> aEmails, Date aCreatedAt, List<Account> aKontos, List<Account> aForeignKonto) {
+        id = aId;
+        rev = aRev;
         name = aUsername;
         password = aPassword;
         activated = aIsActivated;
         emails = aEmails;
         createdAt = aCreatedAt;
-        statistic = aStatistics;
         kontos = aKontos;
         foreignKontos = aForeignKonto;
     }
-
-
-
 
     /**
      * getter
@@ -67,10 +64,6 @@ public class User extends AbstractDocument {
         return createdAt;
     }
 
-    public Statistic getStatistic() {
-        return statistic;
-    }
-
     public List<Account> getKontos() {
         return kontos;
     }
@@ -79,50 +72,13 @@ public class User extends AbstractDocument {
         return foreignKontos;
     }
 
-    /**
-     * setter
-     */
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public static UserBuilder create(String aId) {
+        return new UserBuilder(aId);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static UserBuilder createWithCopy(User aUser) {
+        return new UserBuilder(aUser);
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void activate() {
-        this.activated = true;
-    }
-
-    public void deactivate() {
-        this.activated = false;
-    }
-
-    public void setEmails(List<String> emails) {
-        this.emails = emails;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setStatistic(Statistic statistic) {
-        this.statistic = statistic;
-    }
-
-    public void setKontos(List<Account> kontos) {
-        this.kontos = kontos;
-    }
-
-    public void setForeignKontos(List<Account> foreignKontos) {
-        this.foreignKontos = foreignKontos;
-    }
-
 
     /**
      * helper
@@ -136,9 +92,87 @@ public class User extends AbstractDocument {
                 ", activated=" + activated +
                 ", emails=" + emails +
                 ", createdAt=" + createdAt +
-                ", statistic=" + statistic +
                 ", kontos=" + kontos +
                 ", foreignKontos=" + foreignKontos +
                 '}';
+    }
+
+    private static class UserBuilder {
+
+        private String id;
+
+        private String rev;
+
+        private String name;
+
+        private String password;
+
+        private boolean activated;
+
+        private List<String> emails;
+
+        private Date createdAt;
+
+        private List<Account> kontos;
+
+        private List<Account> foreignKontos;
+
+        public UserBuilder(String aId) {
+            id = aId;
+            emails = new LinkedList<>();
+            kontos = new LinkedList<>();
+            foreignKontos = new LinkedList<>();
+        }
+
+        public UserBuilder(User aUser) {
+            id = aUser.id;
+            rev = aUser.rev;
+            name = aUser.name;
+            password = aUser.password;
+            activated = aUser.activated;
+            emails = aUser.emails;
+            createdAt = aUser.createdAt;
+            kontos = new LinkedList<>(aUser.kontos);
+            foreignKontos = new LinkedList<>(aUser.foreignKontos);
+        }
+
+        public UserBuilder withName(String value) {
+            name = value;
+            return this;
+        }
+
+        public UserBuilder withPassword(String value) {
+            password = value;
+            return this;
+        }
+
+        public UserBuilder withActivated(boolean value) {
+            activated = value;
+            return this;
+        }
+
+        public UserBuilder withEmails(List<String> value) {
+            emails = new LinkedList<>(value);
+            return this;
+        }
+
+        public UserBuilder withCreatedAt(Date value) {
+            createdAt = value;
+            return this;
+        }
+
+        public UserBuilder withKontos(List<Account> value) {
+            kontos = new LinkedList<>(value);
+            return this;
+        }
+
+        public UserBuilder withForeignKontos(List<Account> value) {
+            foreignKontos = new LinkedList<>(value);
+            return this;
+        }
+
+        public User build() {
+            return new User(id, rev, name, password, activated, emails, createdAt, kontos, foreignKontos);
+        }
     }
 }

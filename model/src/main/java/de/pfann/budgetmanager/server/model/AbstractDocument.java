@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AbstractDocument {
 
     @JsonProperty("_id")
-    private String id;
+    protected String id;
 
     @JsonProperty("_rev")
-    private String rev;
+    protected String rev;
 
     public AbstractDocument() {
 
@@ -18,15 +18,9 @@ public class AbstractDocument {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getRev() {
         return rev;
     }
 
-    public void setRev(String rev) {
-        this.rev = rev;
-    }
+
 }

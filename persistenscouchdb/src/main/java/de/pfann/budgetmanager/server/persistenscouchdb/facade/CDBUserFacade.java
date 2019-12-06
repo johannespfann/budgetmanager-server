@@ -23,13 +23,17 @@ public class CDBUserFacade implements UserFacade {
         User user = new User();
         CDBUserId userId = CDBUserId.create(aUser.getName());
 
-        user.setId(userId.toString());
-        user.deactivate();
-
-        user.setName(aUser.getName());
-        user.setEmails(aUser.getEmails());
-        user.setCreatedAt(DateUtil.asDate(LocalDateTime.now()));
-        user.setPassword(aUser.getPassword());
+        /**
+         *         user.setId(userId.toString());
+         *         user.deactivate();
+         *
+         *         user.setName(aUser.getName());
+         *         user.setEmails(aUser.getEmails());
+         *         user.setCreatedAt(DateUtil.asDate(LocalDateTime.now()));
+         *         user.setPassword(aUser.getPassword());
+         *
+         */
+        User user = User.create().
 
         CDBUserDao.add(user);
     }
@@ -85,7 +89,6 @@ public class CDBUserFacade implements UserFacade {
 
         newUser.setName(aUser.getName());
         newUser.setPassword(aUser.getPassword());
-        newUser.setStatistic(aUser.getStatistic());
         newUser.setCreatedAt(aUser.getCreatedAt());
         newUser.setKontos(aUser.getKontos());
         newUser.setForeignKontos(aUser.getForeignKontos());

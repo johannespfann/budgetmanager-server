@@ -2,7 +2,6 @@ package de.pfann.budgetmanager.server.persistenscouchdb.facade;
 
 import de.pfann.budgetmanager.server.common.model.AppUser;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.model.CDBUser;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;

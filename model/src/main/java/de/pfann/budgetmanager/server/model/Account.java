@@ -24,9 +24,7 @@ public class Account {
 
     private List<String> members;
 
-    private String statistics;
-
-    private String rules;
+    private List<TagRule> tagrules;
 
     /**
      * constructors
@@ -35,11 +33,12 @@ public class Account {
     public Account() {
         activated = true;
         members = new LinkedList<>();
+        tagrules = new LinkedList<>();
         entryAccount = ENTRY_KONTO;
         standingOrderAccount = ORDER_KONTO;
     }
 
-    public Account(String aHash, String aName, String aEntryKnto, String aOrderKonto, boolean aIsEncrypted, String aEncryptionText, String aOwner, List<String> aForeignUser) {
+    public Account(String aHash, String aName, String aEntryKnto, String aOrderKonto, boolean aIsEncrypted, String aEncryptionText, String aOwner, List<String> aForeignUser, List<TagRule> aTagRules) {
         hash = aHash;
         name = aName;
         entryAccount = aEntryKnto;
@@ -47,6 +46,7 @@ public class Account {
         encryptionText = aEncryptionText;
         owner = aOwner;
         members = aForeignUser;
+        tagrules = aTagRules;
     }
 
     /**
@@ -93,13 +93,19 @@ public class Account {
         activated = false;
     }
 
-    public String getStatistics() {
-        return statistics;
+    public List<TagRule> getTagrules() {
+        return tagrules;
     }
 
-    public String getRules() {
-        return rules;
+
+    public static AccountBuilder create() {
+        return new AccountBuilder();
     }
+
+    public static AccountBuilder copyAccount(Account aAccount) {
+        return new AccountBuilder(aAccount);
+    }
+
 
     @Override
     public String toString() {
@@ -112,4 +118,101 @@ public class Account {
                 ", encryptionText='" + encryptionText + '\'' +
                 '}';
     }
+
+
+    public static class AccountBuilder {
+
+
+        private String hash;
+
+        private String owner;
+
+        private String name;
+
+        private String entryAccount;
+
+        private String standingOrderAccount;
+
+        private boolean activated;
+
+        private String encryptionText;
+
+        private List<String> members;
+
+        private List<TagRule> tagrules;
+
+
+        public AccountBuilder() {
+            members = new LinkedList<>();
+            tagrules = new LinkedList<>();
+        }
+
+
+        public AccountBuilder(Account aAccount) {
+            hash = aAccount.hash;
+            owner = aAccount.owner;
+            name = aAccount.name;
+            entryAccount = aAccount.entryAccount;
+            standingOrderAccount = aAccount.standingOrderAccount;
+            activated = aAccount.isActivated();
+            encryptionText = aAccount.encryptionText;
+            members = new LinkedList<>(aAccount.members);
+            tagrules = new LinkedList<>(aAccount.tagrules);
+        }
+
+
+        public AccountBuilder withHash(String aValue) {
+            hash = aValue;
+            return this;
+        }
+
+        public AccountBuilder withOwner(String aValue) {
+            owner = aValue;
+            return this;
+        }
+
+        public AccountBuilder withName(String aValue) {
+            name = aValue;
+            return this;
+        }
+
+        public AccountBuilder withEntryAccount(String aValue) {
+            entryAccount = aValue;
+            return this;
+        }
+
+        public AccountBuilder withStandingOrderAccount(String aValue) {
+            standingOrderAccount = aValue;
+            return this;
+        }
+
+        public AccountBuilder withActivated(boolean aValue) {
+            activated = aValue;
+            return this;
+        }
+
+        public AccountBuilder withMemebers(List<String> aValues) {
+            members = new LinkedList<>(aValues);
+            return this;
+        }
+
+        public AccountBuilder withTagRules(List<TagRule> aValues) {
+            tagrules = new LinkedList<>(aValues);
+            return this;
+        }
+
+        public Account build() {
+            return new Account(hash,
+                    name,
+                    entryAccount,
+                    standingOrderAccount,
+                    activated,
+                    encryptionText,
+                    owner,
+                    members,
+                    tagrules);
+        }
+
+    }
+
 }

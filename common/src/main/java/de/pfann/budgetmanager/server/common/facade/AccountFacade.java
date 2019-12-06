@@ -14,4 +14,5 @@ public interface AccountFacade {
     void addAccount(String aOwner, Account aAccount);
 
     void deleteAccount(String aOwner, String aAccountHash);
+
 }
