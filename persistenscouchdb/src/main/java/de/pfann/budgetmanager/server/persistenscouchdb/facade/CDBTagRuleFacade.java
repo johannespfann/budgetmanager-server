@@ -38,6 +38,9 @@ public class CDBTagRuleFacade implements TagRuleFacade {
 
         for(Account account : user.getKontos()) {
             if(account.getHash().equals(aAccountHash)){
+
+                checkIfTagRuleAlreadyExists(aTagRule, account.getTagrules());
+
                 account.getTagrules().add(aTagRule);
             }
         }
@@ -45,11 +48,10 @@ public class CDBTagRuleFacade implements TagRuleFacade {
         CDBUserDao.update(user);
     }
 
-    private boolean tagRuleAlreadyExists(List<TagRule> tagrules, TagRule aTagRule) {
-        return tagrules.stream()
-                .filter( tagRule -> aTagRule.getWhenTag().trim().equals(tagRule.getWhenTag().trim()))
-                .findAny()
-                .isPresent();
+    private void checkIfTagRuleAlreadyExists(TagRule aTagRule, List<TagRule> aTagrules) {
+        if (aTagrules.stream().anyMatch(tagRule -> aTagRule.getWhenTag().equals(tagRule.getWhenTag()))) {
+            throw new IllegalArgumentException("duplicated whentags found");
+        }
     }
 
     @Override
@@ -61,55 +63,24 @@ public class CDBTagRuleFacade implements TagRuleFacade {
             throw new RuntimeException("No account found - can not delete tagrule");
         }
 
-
         List<TagRule> newTagRules = getAccountByHash(accounts, aAccountHash)
                 .getTagrules()
                 .stream()
-                .filter( tagRule -> {
-                    if(!tagRule.getWhenTag().trim().equals(aWhenTagName.trim())){
-                        return true;
-                    }
-                    return false;
-                })
+                .filter(tagRule -> !tagRule.getWhenTag().trim().equals(aWhenTagName.trim()))
                 .collect(Collectors.toList());
 
-
-
-        System.out.println("all tagrules without deleted ones: " + newTagRules);
-
         Account oldAccount = getAccountByHash(accounts, aAccountHash);
-
-        System.out.println("Old Account " + oldAccount);
-
-        System.out.println("Delete tagRules: " + aWhenTagName);
         Account newAccount = Account.copyAccount(oldAccount)
                 .withTagRules(newTagRules)
                 .build();
 
-        System.out.println("Added new array of tags: " + newTagRules);
-
-        System.out.println("New Account " + newAccount);
-
-        System.out.println(aAccountHash);
-
         List<Account> otherAccounts = user.getKontos()
                 .stream()
-                .filter( acc -> {
-                    System.out.println("Compare: " + acc.getHash());
-                    System.out.println("with   : " + aAccountHash);
-                    return !(acc.getHash().equals(aAccountHash));
-                })
+                .filter(acc -> !(acc.getHash().equals(aAccountHash)))
                 .collect(Collectors.toList());
 
-        System.out.println("After filtering");
-        System.out.println(otherAccounts);
-
         otherAccounts.add(newAccount);
-
-        System.out.println(otherAccounts);
-
         user.setKontos(otherAccounts);
-
 
         CDBUserDao.update(user);
 
