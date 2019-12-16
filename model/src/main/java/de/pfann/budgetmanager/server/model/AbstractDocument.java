@@ -22,5 +22,11 @@ public class AbstractDocument {
         return rev;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public void setRev(String rev) {
+        this.rev = rev;
+    }
 }

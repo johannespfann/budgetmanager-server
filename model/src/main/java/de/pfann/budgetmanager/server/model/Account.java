@@ -38,7 +38,7 @@ public class Account {
         standingOrderAccount = ORDER_KONTO;
     }
 
-    public Account(String aHash, String aName, String aEntryKnto, String aOrderKonto, boolean aIsEncrypted, String aEncryptionText, String aOwner, List<String> aForeignUser, List<TagRule> aTagRules) {
+    public Account(String aHash, String aName, String aEntryKnto, String aOrderKonto, boolean aIsActivated, String aEncryptionText, String aOwner, List<String> aForeignUser, List<TagRule> aTagRules) {
         hash = aHash;
         name = aName;
         entryAccount = aEntryKnto;
@@ -47,6 +47,7 @@ public class Account {
         owner = aOwner;
         members = aForeignUser;
         tagrules = aTagRules;
+        activated = aIsActivated;
     }
 
     /**
@@ -115,10 +116,12 @@ public class Account {
                 ", name='" + name + '\'' +
                 ", entryAccount='" + entryAccount + '\'' +
                 ", standingOrderAccount='" + standingOrderAccount + '\'' +
+                ", activated=" + activated +
                 ", encryptionText='" + encryptionText + '\'' +
+                ", members=" + members +
+                ", tagrules=" + tagrules +
                 '}';
     }
-
 
     public static class AccountBuilder {
 

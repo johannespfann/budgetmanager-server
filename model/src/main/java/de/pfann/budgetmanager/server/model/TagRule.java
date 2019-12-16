@@ -15,7 +15,7 @@ public class TagRule {
 
     public TagRule(String whenTag, List<String> thenTags) {
         this.whenTag = whenTag;
-        this.thenTags = new LinkedList<>();
+        this.thenTags = thenTags;
     }
 
     public String getWhenTag() {
@@ -24,5 +24,51 @@ public class TagRule {
 
     public List<String> getThenTags() {
         return thenTags;
+    }
+
+    public static TagRuleBuilder createAndCopy(TagRule aTagRule) {
+        return new TagRuleBuilder(aTagRule);
+    }
+
+    public static TagRuleBuilder create() {
+        return new TagRuleBuilder();
+    }
+
+    @Override
+    public String toString() {
+        return "TagRule{" +
+                "whenTag='" + whenTag + '\'' +
+                ", thenTags=" + thenTags +
+                '}';
+    }
+
+    public static class TagRuleBuilder {
+
+        private String whenTag;
+
+        private List<String> thenTags;
+
+        public TagRuleBuilder() {
+            thenTags = new LinkedList<>();
+        }
+
+        public TagRuleBuilder(TagRule aTagRule) {
+            whenTag = aTagRule.whenTag;
+            thenTags = aTagRule.thenTags;
+        }
+
+        public TagRuleBuilder withWhenTag(String aWhenTag) {
+            whenTag = aWhenTag;
+            return this;
+        }
+
+        public TagRuleBuilder withThenTag(String aThenTag) {
+            thenTags.add(aThenTag);
+            return this;
+        }
+
+        public TagRule build() {
+            return new TagRule(whenTag,thenTags);
+        }
     }
 }
