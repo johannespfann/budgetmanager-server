@@ -45,20 +45,6 @@ public class TagRuleResource {
         tagRuleResourceFacade.saveTagRule(aOwner,aAccountHash,tagRule);
     }
 
-    @PATCH
-    @Logged
-    @CrossOriginFilter
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("owner/{owner}/account/{account}/update")
-    public void updateTagRule(
-            @PathParam("owner") String aOwner,
-            @PathParam("account") String aAccountHash,
-            String aTagRule) {
-        TagRule tagRule = TagRuleJsonMapper.convertToTagRule(aTagRule);
-        tagRuleResourceFacade.updateTagRule(aOwner,aAccountHash,tagRule);
-
-    }
-
     @DELETE
     @Logged
     @CrossOriginFilter
