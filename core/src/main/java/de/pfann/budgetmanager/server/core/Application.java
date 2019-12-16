@@ -5,7 +5,10 @@ import de.pfann.budgetmanager.server.common.email.EmailService;
 import de.pfann.budgetmanager.server.common.facade.*;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
-import de.pfann.budgetmanager.server.persistenscouchdb.dao.*;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDao;
+import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBUserDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.facade.*;
 import de.pfann.budgetmanager.server.persistenscouchdb.util.CouchDBUtil;
 import de.pfann.budgetmanager.server.restservices.resources.*;
@@ -127,14 +130,14 @@ public class Application {
          * resources
          */
 
-        CDBUserDao CDBUserDao = CDBUserDaoFactoryV2.createDao();
+        CDBUserDao userDao = CDBUserDaoFactoryV2.createDao();
 
         ActivationPool activationPool = new ActivationPool();
         UserFacade userFacadeV2 = new CDBUserFacade(CDBUserDaoFactoryV2);
         UserResourceFacade userResourceFacade = new UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
         UserResource userResource = new UserResource(userResourceFacade);
 
-        AccountFacade accountFacade = new CDBAccountFacade(CDBUserDao);
+        AccountFacade accountFacade = new CDBAccountFacade(userDao);
         AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade,userFacadeV2);
         AccountResource accountResource = new AccountResource(accountResouceFacade);
 
@@ -147,6 +150,10 @@ public class Application {
         StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(v2StandingDaoFactory);
         StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(accountFacade, standingOrderFacade);
         StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);
+
+        TagRuleFacade tagRuleFacade = new CDBTagRuleFacade(userDao);
+        TagRuleResourceFacade tagRuleResourceFacade = new TagRuleResourceFacade(tagRuleFacade);
+        TagRuleResource tagRuleResource = new TagRuleResource(tagRuleResourceFacade);
 
         /**
          * authantication
@@ -163,6 +170,7 @@ public class Application {
                 .register(requestBasicAuthenticationFilter)
                 .register(contactResource)
                 .register(accountResource)
+                .register(tagRuleResource)
                 .register(standingOrderResource)
                 .register(entryResource)
                 .register(userResource);
