@@ -38,12 +38,6 @@ public class CDBTagRuleFacade implements TagRuleFacade {
 
         for(Account account : user.getKontos()) {
             if(account.getHash().equals(aAccountHash)){
-
-                if(tagRuleAlreadyExists(account.getTagrules(), aTagRule)){
-                    System.out.println("tagrule was duplicated");
-                    return;
-                }
-
                 account.getTagrules().add(aTagRule);
             }
         }
