@@ -20,20 +20,17 @@ public class CDBUserFacade implements UserFacade {
 
     @Override
     public void createNewUser(User aUser) {
-        User user = new User();
+
         CDBUserId userId = CDBUserId.create(aUser.getName());
 
-        /**
-         *         user.setId(userId.toString());
-         *         user.deactivate();
-         *
-         *         user.setName(aUser.getName());
-         *         user.setEmails(aUser.getEmails());
-         *         user.setCreatedAt(DateUtil.asDate(LocalDateTime.now()));
-         *         user.setPassword(aUser.getPassword());
-         *
-         */
-        User user = User.create().
+        User user = new User();
+        user.setId(userId.toString());
+        user.deactivate();
+
+        user.setName(aUser.getName());
+        user.setEmails(aUser.getEmails());
+        user.setCreatedAt(DateUtil.asDate(LocalDateTime.now()));
+        user.setPassword(aUser.getPassword());
 
         CDBUserDao.add(user);
     }
@@ -107,26 +104,21 @@ public class CDBUserFacade implements UserFacade {
     public User getUserByNameOrEmail(String aIdentifier) {
         System.out.println("getNameByNameOrEmail in CDBUserFacade");
         User user = getUserByEmail(aIdentifier);
-
         if(user == null) {
             CDBUserId userId = CDBUserId.create(aIdentifier);
             user = CDBUserDao.get(userId.toString());
         }
-
         return user;
     }
 
     private User getUserByEmail(String aIdentifier) {
         List<User> users = CDBUserDao.getAll();
-
         for(User user : users) {
 
             if (foundEmail(aIdentifier, user)){
                 return user;
             }
-
         }
-
         return null;
     }
 

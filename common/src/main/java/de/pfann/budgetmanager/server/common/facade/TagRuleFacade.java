@@ -12,6 +12,5 @@ public interface TagRuleFacade {
 
     void deleteTagRule(String aOwner, String aAccountHash, String aThenTagName);
 
-    void updateTagRule(String aOwner, String aAccountHash, TagRule aTagRule);
 
 }
