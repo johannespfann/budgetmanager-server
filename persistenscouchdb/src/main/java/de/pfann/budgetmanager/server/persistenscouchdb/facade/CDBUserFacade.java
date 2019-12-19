@@ -80,7 +80,6 @@ public class CDBUserFacade implements UserFacade {
 
     @Override
     public void updateUser(User aUser) {
-        System.out.println("update User in CDBUserFacade");
         CDBUserId userId = CDBUserId.create(aUser.getName());
         User newUser = CDBUserDao.get(userId.toString());
 
@@ -103,6 +102,7 @@ public class CDBUserFacade implements UserFacade {
     @Override
     public User getUserByNameOrEmail(String aIdentifier) {
         System.out.println("getNameByNameOrEmail in CDBUserFacade");
+
         User user = getUserByEmail(aIdentifier);
         if(user == null) {
             CDBUserId userId = CDBUserId.create(aIdentifier);
@@ -112,9 +112,10 @@ public class CDBUserFacade implements UserFacade {
     }
 
     private User getUserByEmail(String aIdentifier) {
+        System.out.println("get all by " + aIdentifier);
         List<User> users = CDBUserDao.getAll();
-        for(User user : users) {
 
+        for(User user : users) {
             if (foundEmail(aIdentifier, user)){
                 return user;
             }
