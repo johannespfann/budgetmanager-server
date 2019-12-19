@@ -26,8 +26,8 @@ public class User extends AbstractDocument {
         emails = new LinkedList<>();
     }
 
-    public User(String aUsername, String aPassword, boolean aIsActivated, List<String> aEmails, Date aCreatedAt, List<Account> aKontos, List<Account> aForeignKonto) {
-        name = aUsername;
+    public User(String aName, String aPassword, boolean aIsActivated, List<String> aEmails, Date aCreatedAt, List<Account> aKontos, List<Account> aForeignKonto) {
+        name = aName;
         password = aPassword;
         activated = aIsActivated;
         emails = aEmails;
@@ -124,5 +124,4 @@ public class User extends AbstractDocument {
                 ", foreignKontos=" + foreignKontos +
                 '}';
     }
-
 }
