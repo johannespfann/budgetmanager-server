@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class CDBStandingOrder extends AbstractDocument {
 
@@ -16,25 +17,27 @@ public class CDBStandingOrder extends AbstractDocument {
      * standingorder data
      */
 
-    private Date startAt;
+    private Date start_at;
 
-    private Date endAt;
+    private Date end_at;
 
     private Date last_executed;
 
     private Date last_modified;
 
+    private String rotation_strategy;
+
     /**
      * generate content
      */
 
-    private Double amount;
+    private double amount;
 
     private String currency;
 
     private String memo;
 
-    private String[] tags;
+    private List<String> tags;
 
     /**
      * constructor
@@ -55,12 +58,12 @@ public class CDBStandingOrder extends AbstractDocument {
         return username;
     }
 
-    public Date getStartAt() {
-        return startAt;
+    public Date getStart_at() {
+        return start_at;
     }
 
-    public Date getEndAt() {
-        return endAt;
+    public Date getEnd_at() {
+        return end_at;
     }
 
     public Date getLast_executed() {
@@ -83,8 +86,12 @@ public class CDBStandingOrder extends AbstractDocument {
         return memo;
     }
 
-    public String[] getTags() {
+    public List<String> getTags() {
         return tags;
+    }
+
+    public String getRotation_strategy() {
+        return rotation_strategy;
     }
 
     /**
@@ -95,16 +102,20 @@ public class CDBStandingOrder extends AbstractDocument {
         this.hash = hash;
     }
 
+    public void setRotation_strategy(String rotation_strategy) {
+        this.rotation_strategy = rotation_strategy;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setStartAt(Date startAt) {
-        this.startAt = startAt;
+    public void setStart_at(Date start_at) {
+        this.start_at = start_at;
     }
 
-    public void setEndAt(Date endAt) {
-        this.endAt = endAt;
+    public void setEnd_at(Date end_at) {
+        this.end_at = end_at;
     }
 
     public void setLast_executed(Date last_executed) {
@@ -115,7 +126,7 @@ public class CDBStandingOrder extends AbstractDocument {
         this.last_modified = last_modified;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -127,8 +138,9 @@ public class CDBStandingOrder extends AbstractDocument {
         this.memo = memo;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
 
 }

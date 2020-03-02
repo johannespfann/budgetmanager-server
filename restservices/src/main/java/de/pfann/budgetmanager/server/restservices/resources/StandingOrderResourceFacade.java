@@ -5,7 +5,6 @@ import de.pfann.budgetmanager.server.common.facade.StandingOrderFacade;
 import de.pfann.budgetmanager.server.model.Account;
 import de.pfann.budgetmanager.server.model.StandingOrder;
 
-
 import java.util.List;
 
 public class StandingOrderResourceFacade {
@@ -67,6 +66,6 @@ public class StandingOrderResourceFacade {
         } catch (Exception e){
         e.printStackTrace();
         throw e;
-    }
+        }
     }
 }

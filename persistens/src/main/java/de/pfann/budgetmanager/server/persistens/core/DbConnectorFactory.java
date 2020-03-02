@@ -5,13 +5,13 @@ import org.ektorp.CouchDbInstance;
 import org.ektorp.impl.ObjectMapperFactory;
 import org.ektorp.impl.StdCouchDbConnector;
 
-public class CouchDbConnectorFactory {
+public class DbConnectorFactory {
 
     private CouchDbInstance couchDbInstance;
     private String applicationPrefix;
     private ObjectMapperFactory objectMapperFactory;
 
-    public CouchDbConnectorFactory(CouchDbInstance aCouchInstance, String aApplicationPrefix, ObjectMapperFactory aObjectMapperFactory) {
+    public DbConnectorFactory(CouchDbInstance aCouchInstance, String aApplicationPrefix, ObjectMapperFactory aObjectMapperFactory) {
         couchDbInstance = aCouchInstance;
         objectMapperFactory = aObjectMapperFactory;
         applicationPrefix = aApplicationPrefix;

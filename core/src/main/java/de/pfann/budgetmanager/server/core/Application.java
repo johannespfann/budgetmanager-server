@@ -4,6 +4,11 @@ import de.pfann.budgetmanager.server.common.configuration.ConfigurationProvider;
 import de.pfann.budgetmanager.server.common.email.EmailService;
 import de.pfann.budgetmanager.server.common.facade.*;
 import de.pfann.budgetmanager.server.common.util.DateUtil;
+import de.pfann.budgetmanager.server.persistens.core.DbConnectorFactory;
+import de.pfann.budgetmanager.server.persistens.dao.DBEntryDaoFactory;
+import de.pfann.budgetmanager.server.persistens.dao.DBStandingOrderDaoFactory;
+import de.pfann.budgetmanager.server.persistens.facade.DBEntryFacade;
+import de.pfann.budgetmanager.server.persistens.facade.DBStandingOrderFacade;
 import de.pfann.budgetmanager.server.persistenscouchdb.core.CouchDbConnectorFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBEntryDaoFactory;
 import de.pfann.budgetmanager.server.persistenscouchdb.dao.CDBStandingOrderDaoFactory;
@@ -57,7 +62,7 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
         Application application = new Application();
-        ConfigurationProvider configurationProvider = new ConfigurationProvider("budgetmanager.properties");
+        ConfigurationProvider configurationProvider = new ConfigurationProvider("applications.properties");
         Properties properties = configurationProvider.getProperties();
         Set<String> propertyList = properties.stringPropertyNames();
 
@@ -115,8 +120,9 @@ public class Application {
 
         CouchDBUtil couchDBUtil = new CouchDBUtil(httpClient);
 
-        CouchDbConnectorFactory couchDbConnectorFactoryV2 = new CouchDbConnectorFactory(dbInstance,couchdbprefix,objectMapperFactory);
-        CDBUserDaoFactory CDBUserDaoFactoryV2 = new CDBUserDaoFactory(couchDbConnectorFactoryV2);
+
+        CouchDbConnectorFactory couchDbConnectorFactory = new CouchDbConnectorFactory(dbInstance, couchdbprefix, objectMapperFactory);
+        CDBUserDaoFactory CDBUserDaoFactory = new CDBUserDaoFactory(couchDbConnectorFactory);
 
         /**
          * resources
@@ -130,10 +136,10 @@ public class Application {
          * resources
          */
 
-        CDBUserDao userDao = CDBUserDaoFactoryV2.createDao();
+        CDBUserDao userDao = CDBUserDaoFactory.createDao();
 
         ActivationPool activationPool = new ActivationPool();
-        UserFacade userFacadeV2 = new CDBUserFacade(CDBUserDaoFactoryV2);
+        UserFacade userFacadeV2 = new CDBUserFacade(CDBUserDaoFactory);
         UserResourceFacade userResourceFacade = new UserResourceFacade(userFacadeV2,emailService,authenticationManager,activationPool);
         UserResource userResource = new UserResource(userResourceFacade);
 
@@ -141,12 +147,12 @@ public class Application {
         AccountResourceFacade accountResouceFacade = new AccountResourceFacade(accountFacade,userFacadeV2);
         AccountResource accountResource = new AccountResource(accountResouceFacade);
 
-        CDBEntryDaoFactory v2EntryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactoryV2);
+        CDBEntryDaoFactory v2EntryDaoFactory = new CDBEntryDaoFactory(couchDbConnectorFactory);
         EntryFacade entryFacade = new CDBEntryFacade(v2EntryDaoFactory);
         EntryResourceFacade entryResourceFacade = new EntryResourceFacade(accountFacade, entryFacade);
         EntryResource entryResource = new EntryResource(entryResourceFacade);
 
-        CDBStandingOrderDaoFactory v2StandingDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactoryV2);
+        CDBStandingOrderDaoFactory v2StandingDaoFactory = new CDBStandingOrderDaoFactory(couchDbConnectorFactory);
         StandingOrderFacade standingOrderFacade = new CDBStandingOrderFacade(v2StandingDaoFactory);
         StandingOrderResourceFacade standingOrderResourceFacade = new StandingOrderResourceFacade(accountFacade, standingOrderFacade);
         StandingOrderResource standingOrderResource = new StandingOrderResource(standingOrderResourceFacade);
@@ -154,6 +160,20 @@ public class Application {
         TagRuleFacade tagRuleFacade = new CDBTagRuleFacade(userDao);
         TagRuleResourceFacade tagRuleResourceFacade = new TagRuleResourceFacade(tagRuleFacade);
         TagRuleResource tagRuleResource = new TagRuleResource(tagRuleResourceFacade);
+
+
+        /**
+         * coppy resource
+         */
+
+        DbConnectorFactory copyCouchDbConnectorFactory = new DbConnectorFactory(dbInstance, "copy_" + couchdbprefix, objectMapperFactory);
+        DBStandingOrderDaoFactory copyStandingOrderDaoFactory = new DBStandingOrderDaoFactory(copyCouchDbConnectorFactory);
+        DBStandingOrderFacade copyStandingOrderFacade = new DBStandingOrderFacade(copyStandingOrderDaoFactory);
+        DBEntryDaoFactory copyEntryDaoFactor = new DBEntryDaoFactory(copyCouchDbConnectorFactory);
+        DBEntryFacade copyEntryFacade = new DBEntryFacade(copyEntryDaoFactor);
+
+        CopyRepositoryResourceFacade copyResouceFacade = new CopyRepositoryResourceFacade(accountFacade, copyEntryFacade, copyStandingOrderFacade);
+        CopyRepositoryResource copyRepositoryResource = new CopyRepositoryResource(copyResouceFacade);
 
         /**
          * authantication
@@ -173,7 +193,9 @@ public class Application {
                 .register(tagRuleResource)
                 .register(standingOrderResource)
                 .register(entryResource)
-                .register(userResource);
+                .register(userResource)
+                .register(new HealthResource())
+                .register(copyRepositoryResource);
 
 
         System.out.println("Current time of server     : " + LocalDateTime.now());

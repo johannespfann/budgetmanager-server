@@ -16,6 +16,7 @@
     <module>common</module>
     <module>deployment</module>
     <module>persistenscouchdb</module>
+    <module>persistens</module>
     <module>logging</module>
     <module>model</module>
     <module>backup-api</module>
@@ -96,6 +97,12 @@
       <dependency>
         <groupId>de.pfann.budgetmanager.server</groupId>
         <artifactId>persistenscouchdb</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>de.pfann.budgetmanager.server</groupId>
+        <artifactId>persistens</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
 

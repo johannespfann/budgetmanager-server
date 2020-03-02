@@ -29,6 +29,11 @@
 
         <dependency>
             <groupId>de.pfann.budgetmanager.server</groupId>
+            <artifactId>persistens</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.pfann.budgetmanager.server</groupId>
             <artifactId>restservices</artifactId>
         </dependency>
 

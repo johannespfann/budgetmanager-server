@@ -1,6 +1,7 @@
 package de.pfann.budgetmanager.server.persistens.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class CDBEntry extends AbstractDocument {
 
@@ -14,20 +15,20 @@ public class CDBEntry extends AbstractDocument {
 
     private String username;
 
-    private Date createdAt;
+    private Date created_At;
 
 
     /**
      * body attributes
      */
 
-    private Double amount;
+    private double amount;
 
     private String currency;
 
     private String memo;
 
-    private String[] tags;
+    private List<String> tags;
 
 
     public CDBEntry() {
@@ -47,11 +48,11 @@ public class CDBEntry extends AbstractDocument {
         return username;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getCreated_At() {
+        return created_At;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -63,7 +64,7 @@ public class CDBEntry extends AbstractDocument {
         return memo;
     }
 
-    public String[] getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
@@ -79,8 +80,8 @@ public class CDBEntry extends AbstractDocument {
         this.username = username;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated_At(Date created_At) {
+        this.created_At = created_At;
     }
 
     public void setAmount(Double amount) {
@@ -95,7 +96,7 @@ public class CDBEntry extends AbstractDocument {
         this.memo = memo;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 }

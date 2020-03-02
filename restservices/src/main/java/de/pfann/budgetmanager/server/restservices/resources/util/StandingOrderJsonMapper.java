@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.model.StandingOrder;
+import de.pfann.budgetmanager.server.model.V2StandingOrder;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -49,4 +50,13 @@ public class StandingOrderJsonMapper {
         return new LinkedList<StandingOrder>();
     }
 
+    public static List<V2StandingOrder> convertToV2Entries(String aRotationEntries) {
+        try {
+            return objectMapper.readValue(aRotationEntries, new TypeReference<List<V2StandingOrder>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new LinkedList<V2StandingOrder>();
+    }
 }

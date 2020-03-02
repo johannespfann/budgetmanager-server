@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pfann.budgetmanager.server.model.Entry;
+import de.pfann.budgetmanager.server.model.V2Entry;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -49,4 +50,13 @@ public class EntryJsonMapper {
         return new LinkedList<Entry>();
     }
 
+    public static List<V2Entry> convertToV2Entries(String aValue) {
+        try {
+            return objectMapper.readValue(aValue, new TypeReference<List<V2Entry>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new LinkedList<V2Entry>();
+    }
 }
