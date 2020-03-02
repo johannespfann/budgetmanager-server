@@ -19,7 +19,6 @@
     <module>persistens</module>
     <module>logging</module>
     <module>model</module>
-    <module>backup-api</module>
   </modules>
 
   <dependencyManagement>
