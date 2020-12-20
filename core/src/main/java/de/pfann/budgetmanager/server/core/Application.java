@@ -176,6 +176,12 @@ public class Application {
         CopyRepositoryResource copyRepositoryResource = new CopyRepositoryResource(copyResouceFacade);
 
         /**
+         * admin resourcde
+         */
+        AdminResourceFacade adminResourceFacade = new AdminResourceFacade(userFacadeV2, accountFacade, entryFacade, standingOrderFacade);
+        AdminResource adminResource = new AdminResource(adminResourceFacade);
+
+        /**
          * authantication
          */
 
@@ -188,6 +194,7 @@ public class Application {
                 .register(ContactValidatRequestFilter.class)
                 .register(EmailDublicatedExceptionMapper.class)
                 .register(requestBasicAuthenticationFilter)
+                .register(adminResource)
                 .register(contactResource)
                 .register(accountResource)
                 .register(tagRuleResource)
@@ -196,7 +203,6 @@ public class Application {
                 .register(userResource)
                 .register(new HealthResource())
                 .register(copyRepositoryResource);
-
 
         System.out.println("Current time of server     : " + LocalDateTime.now());
         System.out.println("Current time of application: " + DateUtil.getCurrentTimeOfBERLIN());

@@ -38,7 +38,7 @@ public class StartCouchDbWriter {
     public static void main(String[] args) throws MalformedURLException {
         Gson json = new Gson();
 
-        ConfigurationProvider configurationProvider = new ConfigurationProvider("cdbwriter.properties");
+        ConfigurationProvider configurationProvider = new ConfigurationProvider("cdbwriter_local.properties");
         Properties properties = configurationProvider.getProperties();
 
         String couchPrefix = properties.getProperty("couchdb.prefix");

@@ -8,6 +8,7 @@
         <file>
             <source>src/assembly/start.bat</source>
             <outputDirectory>/</outputDirectory>
+            <fileMode>755</fileMode>
         </file>
     </files>
     <fileSets>
@@ -15,7 +16,7 @@
             <directory>${project.build.directory}</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>*.jar</include>
+                <include>${project.finaln}.jar</include>
             </includes>
         </fileSet>
     </fileSets>
