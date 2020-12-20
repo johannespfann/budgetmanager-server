@@ -9,6 +9,12 @@ cdbreader.properties
 filereader.properties
 filewriter.properties
 
+cdbwriter_local.properties
+cdbreader_local.properties
+
+filereader_local.properties
+filewriter_local.properties
+
 jobengine/log/
 log/
 
